@@ -14,17 +14,15 @@ export default function CustomerSignup() {
       email,
       password,
       options: {
-        data: {
-          role: 'customer',
-        },
-        emailRedirectTo: `${location.origin}/customer/auth/login`
+        data: { role: 'customer' },
+        emailRedirectTo: `${location.origin}/customer/auth/login`,
       },
     });
 
     if (error) {
       alert(error.message);
     } else {
-      alert('Registrazione effettuata! Controlla la tua email per confermare l\'account.');
+      alert('Registrazione effettuata! Conferma la tua email per poter accedere.');
       router.push('/customer/auth/login');
     }
   };

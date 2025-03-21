@@ -14,17 +14,15 @@ export default function ManagerSignup() {
       email,
       password,
       options: {
-        data: {
-          role: 'manager',
-        },
-        emailRedirectTo: `${location.origin}/manager/auth/login`
+        data: { role: 'manager' },
+        emailRedirectTo: `${location.origin}/manager/auth/login`,
       },
     });
 
     if (error) {
       alert(error.message);
     } else {
-      alert('Registrazione effettuata! Controlla la tua email per confermare l\'account.');
+      alert('Registrazione effettuata! Conferma la tua email per poter accedere.');
       router.push('/manager/auth/login');
     }
   };

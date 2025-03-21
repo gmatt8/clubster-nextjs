@@ -14,29 +14,30 @@ export default function ManagerLogin() {
 
     if (error) {
       alert(error.message);
-    } else {
-      if (!data.user.email_confirmed_at) {
-        alert('Conferma prima il tuo account dalla tua email.');
-        await supabase.auth.signOut();
-        return;
-      }
-
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('role')
-        .eq('id', data.user.id)
-        .single();
-
-      if (profile.role !== 'manager') {
-        alert('Questo account non è manager.');
-        await supabase.auth.signOut();
-        router.push('/customer/auth/login');
-        return;
-      }
-
-      alert('Login effettuato!');
-      router.push('/');
+      return;
     }
+
+    if (!data.user.email_confirmed_at) {
+      alert('Conferma prima il tuo account dalla tua email.');
+      await supabase.auth.signOut();
+      return;
+    }
+
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', data.user.id)
+      .single();
+
+    if (!profile || profile.role !== 'manager') {
+      alert('Account non autorizzato.');
+      await supabase.auth.signOut();
+      router.push('/manager/auth/login');
+      return;
+    }
+
+    alert('Login effettuato!');
+    router.push('/');
   };
 
   return (
