@@ -18,30 +18,22 @@ export default function ManagerLogin() {
     }
 
     if (!data.user.email_confirmed_at) {
-      alert('Conferma prima il tuo account dalla tua email.');
+      alert('Email non verificata.');
       await supabase.auth.signOut();
       return;
     }
 
-    const { data: profile } = await supabase
+    const { data: profile, error: profileError } = await supabase
       .from('profiles')
       .select('role')
       .eq('id', data.user.id)
       .single();
 
-    if (!profile || profile.role !== 'manager') {
-      alert('Account non autorizzato.');
+    if (profileError || !profile || profile.role !== 'manager') {
+      alert('Non autorizzato.');
       await supabase.auth.signOut();
-      router.push('/manager/auth/login');
       return;
     }
-
-    // IMPOSTA IL COOKIE DELLA SESSIONE (SOLUZIONE DEFINITIVA)
-    await fetch('/api/auth/set-cookie', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ event: 'SIGNED_IN', session: data.session }),
-    });
 
     router.push('/manager/dashboard');
   };
