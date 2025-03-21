@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { supabase } from '../../lib/supabaseClient';
 import Router from 'next/router';
 
-export default function CustomerLogin() {
+export default function ManagerLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -24,18 +24,18 @@ export default function CustomerLogin() {
       setError(profileError.message);
       return;
     }
-    // Verifica che l'utente sia un customer
-    if (profile.role !== 'customer') {
+    // Verifica che l'utente sia un manager
+    if (profile.role !== 'manager') {
       setError('Accesso non autorizzato tramite questo form');
       await supabase.auth.signOut();
       return;
     }
-    Router.push('/dashboard/customer');
+    Router.push('/dashboard/manager');
   }
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center">
-      <h1 className="text-2xl mb-4">Login Customer</h1>
+      <h1 className="text-2xl mb-4">Login Manager</h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
           type="email"
@@ -53,7 +53,7 @@ export default function CustomerLogin() {
           className="border p-2 rounded"
           required
         />
-        <button type="submit" className="bg-green-500 text-white p-2 rounded">Accedi</button>
+        <button type="submit" className="bg-blue-500 text-white p-2 rounded">Accedi</button>
       </form>
       {error && <p className="text-red-500 mt-2">{error}</p>}
     </div>
