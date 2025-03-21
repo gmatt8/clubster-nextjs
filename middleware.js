@@ -1,11 +1,9 @@
-// middleware.js
 import { NextResponse } from 'next/server';
 import { createServerClient } from './lib/supabaseServer';
 
 export default async function middleware(req) {
   const res = NextResponse.next();
   const supabase = createServerClient(req, res);
-
   const { data: { session } } = await supabase.auth.getSession();
 
   const path = req.nextUrl.pathname;
@@ -14,7 +12,7 @@ export default async function middleware(req) {
     return res;
   }
 
-  if (!session || !session.user) {
+  if (!session) {
     return NextResponse.redirect(new URL('/manager/auth/login', req.url));
   }
 

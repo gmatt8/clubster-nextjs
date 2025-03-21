@@ -23,27 +23,26 @@ export default function ManagerLogin() {
       return;
     }
 
-    const { data: profile, error: profileError } = await supabase
+    const { data: profile } = await supabase
       .from('profiles')
       .select('role')
       .eq('id', data.user.id)
       .single();
 
-    if (profileError || !profile || profile.role !== 'manager') {
+    if (!profile || profile.role !== 'manager') {
       alert('Account non autorizzato.');
       await supabase.auth.signOut();
       router.push('/manager/auth/login');
       return;
     }
 
-    // Verifica che la sessione sia effettivamente stabilita
-    const { data: sessionData } = await supabase.auth.getSession();
-    if (!sessionData.session) {
-      alert('Errore di sessione.');
-      return;
-    }
+    // IMPOSTA IL COOKIE DELLA SESSIONE (SOLUZIONE DEFINITIVA)
+    await fetch('/api/auth/set-cookie', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ event: 'SIGNED_IN', session: data.session }),
+    });
 
-    // Redirect senza alert per sicurezza
     router.push('/manager/dashboard');
   };
 
