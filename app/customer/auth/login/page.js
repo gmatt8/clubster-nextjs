@@ -15,38 +15,37 @@ export default function CustomerLogin() {
     if (error) {
       alert(error.message);
     } else {
+      if (!data.user.email_confirmed_at) {
+        alert('Conferma prima il tuo account dalla tua email.');
+        await supabase.auth.signOut();
+        return;
+      }
+
       const { data: profile } = await supabase
         .from('profiles')
-        .select('role, verified')
+        .select('role')
         .eq('id', data.user.id)
         .single();
 
-      if (profile.role !== 'user') {
-        alert('Questo è un account Manager. Usa login manager.');
+      if (profile.role !== 'customer') {
+        alert('Questo account non è customer.');
         await supabase.auth.signOut();
         router.push('/manager/auth/login');
         return;
       }
 
-      if (!profile.verified) {
-        alert('Account non ancora verificato, inserisci il codice inviato via email.');
-        router.push('/customer/auth/verify-email');
-      } else {
-        alert('Login effettuato!');
-        router.push('/');
-      }
+      alert('Login effettuato!');
+      router.push('/');
     }
   };
 
   return (
     <div className="p-8">
       <h1 className="mb-4 font-bold text-xl">Customer Login</h1>
-      <input className="border p-2 mb-4 w-full" type="email" placeholder="Email"
-        onChange={(e) => setEmail(e.target.value)} />
-      <input className="border p-2 mb-4 w-full" type="password" placeholder="Password"
-        onChange={(e) => setPassword(e.target.value)} />
+      <input className="border p-2 mb-4 w-full" placeholder="Email" type="email" onChange={(e) => setEmail(e.target.value)} />
+      <input className="border p-2 mb-4 w-full" placeholder="Password" type="password" onChange={(e) => setPassword(e.target.value)} />
       <button className="bg-green-500 text-white p-2 rounded" onClick={handleLogin}>
-        Accedi come Customer
+        Login Customer
       </button>
     </div>
   );

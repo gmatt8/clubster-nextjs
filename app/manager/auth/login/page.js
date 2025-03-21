@@ -15,7 +15,12 @@ export default function ManagerLogin() {
     if (error) {
       alert(error.message);
     } else {
-      // Controllo immediato del ruolo dopo login
+      if (!data.user.email_confirmed_at) {
+        alert('Conferma prima il tuo account dalla tua email.');
+        await supabase.auth.signOut();
+        return;
+      }
+
       const { data: profile } = await supabase
         .from('profiles')
         .select('role')
@@ -23,34 +28,24 @@ export default function ManagerLogin() {
         .single();
 
       if (profile.role !== 'manager') {
-        alert('Questo account è registrato come CUSTOMER. Usa il login Customer.');
+        alert('Questo account non è manager.');
         await supabase.auth.signOut();
         router.push('/customer/auth/login');
         return;
       }
 
       alert('Login effettuato!');
-      router.push('/manager/dashboard');
+      router.push('/');
     }
   };
 
   return (
     <div className="p-8">
       <h1 className="mb-4 font-bold text-xl">Manager Login</h1>
-      <input
-        className="border p-2 mb-4 w-full"
-        type="email"
-        placeholder="Email"
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        className="border p-2 mb-4 w-full"
-        type="password"
-        placeholder="Password"
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button className="bg-indigo-500 text-white p-2 rounded" onClick={handleLogin}>
-        Accedi come Manager
+      <input className="border p-2 mb-4 w-full" placeholder="Email" type="email" onChange={(e) => setEmail(e.target.value)} />
+      <input className="border p-2 mb-4 w-full" placeholder="Password" type="password" onChange={(e) => setPassword(e.target.value)} />
+      <button className="bg-green-500 text-white p-2 rounded" onClick={handleLogin}>
+        Login Manager
       </button>
     </div>
   );
