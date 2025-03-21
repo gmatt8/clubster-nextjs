@@ -22,7 +22,7 @@ export default function CustomerSignup() {
     if (error) {
       alert(error.message);
     } else {
-      alert('Registrazione effettuata! Conferma la tua email per poter accedere.');
+      alert('Registration completed! Confirm your email to access.');
       router.push('/customer/auth/login');
     }
   };
@@ -33,7 +33,7 @@ export default function CustomerSignup() {
       <input className="border p-2 mb-4 w-full" placeholder="Email" type="email" onChange={(e) => setEmail(e.target.value)} />
       <input className="border p-2 mb-4 w-full" placeholder="Password" type="password" onChange={(e) => setPassword(e.target.value)} />
       <button className="bg-blue-500 text-white p-2 rounded" onClick={handleSignup}>
-        Registrati come Customer
+        Register as Customer
       </button>
     </div>
   );

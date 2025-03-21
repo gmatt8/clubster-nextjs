@@ -23,21 +23,28 @@ export default function ManagerLogin() {
       return;
     }
 
-    const { data: profile } = await supabase
+    const { data: profile, error: profileError } = await supabase
       .from('profiles')
       .select('role')
       .eq('id', data.user.id)
       .single();
 
-    if (!profile || profile.role !== 'manager') {
+    if (profileError || !profile || profile.role !== 'manager') {
       alert('Account non autorizzato.');
       await supabase.auth.signOut();
       router.push('/manager/auth/login');
       return;
     }
 
-    alert('Login effettuato!');
-    router.push('/');
+    // Verifica che la sessione sia effettivamente stabilita
+    const { data: sessionData } = await supabase.auth.getSession();
+    if (!sessionData.session) {
+      alert('Errore di sessione.');
+      return;
+    }
+
+    // Redirect senza alert per sicurezza
+    router.push('/manager/dashboard');
   };
 
   return (

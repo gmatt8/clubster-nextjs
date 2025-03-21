@@ -18,7 +18,7 @@ export default function CustomerLogin() {
     }
 
     if (!data.user.email_confirmed_at) {
-      alert('Conferma prima il tuo account dalla tua email.');
+      alert('Confirm your account from your email first.');
       await supabase.auth.signOut();
       return;
     }
@@ -30,13 +30,13 @@ export default function CustomerLogin() {
       .single();
 
     if (!profile || profile.role !== 'customer') {
-      alert('Account non autorizzato.');
+      alert('Unauthorized account.');
       await supabase.auth.signOut();
       router.push('/customer/auth/login');
       return;
     }
 
-    alert('Login effettuato!');
+    alert('Login done!');
     router.push('/');
   };
 
