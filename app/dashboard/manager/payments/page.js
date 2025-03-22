@@ -6,7 +6,7 @@ import ManagerLayout from '../ManagerLayout';
 
 export default function ManagerPaymentsPage() {
   const [stripeStatus, setStripeStatus] = useState('loading');
-  const [stripeEmail, setStripeEmail] = useState('');
+  const [stripeAccountId, setStripeAccountId] = useState('');
   const [error, setError] = useState('');
 
   useEffect(() => {
@@ -26,20 +26,19 @@ export default function ManagerPaymentsPage() {
         // Recupera i dati del club associato al manager
         const { data: club, error: clubError } = await supabase
           .from('clubs')
-          .select('stripe_status, stripe_account_id, stripe_email')
+          .select('stripe_status, stripe_account_id')
           .eq('manager_id', user.id)
           .single();
 
         if (clubError) {
-          setError('Errore nel recupero dati del club');
+          setError('Errore nel recupero dati del club: ' + clubError.message);
           setStripeStatus('none');
           return;
         }
 
-        // Imposta lo stato Stripe e, se presente, l'email (se hai salvato stripe_email nel DB)
         if (club && club.stripe_status) {
           setStripeStatus(club.stripe_status);
-          if (club.stripe_email) setStripeEmail(club.stripe_email);
+          setStripeAccountId(club.stripe_account_id);
         } else {
           setStripeStatus('none');
         }
@@ -54,7 +53,6 @@ export default function ManagerPaymentsPage() {
   }, []);
 
   function handleConnectStripe() {
-    // Recupera l'URL OAuth per Stripe dall'endpoint e reindirizza l'utente
     fetch('/api/stripe/onboarding')
       .then((res) => {
         if (!res.ok) {
@@ -72,12 +70,10 @@ export default function ManagerPaymentsPage() {
   }
 
   function handleCompleteSetup() {
-    // Implementa qui la logica per completare la configurazione con Stripe
     alert('TODO: Reindirizzare a Stripe per completare la configurazione');
   }
 
   function handleGoToStripeDashboard() {
-    // Reindirizza alla Dashboard Stripe, ad esempio
     window.location.href = 'https://dashboard.stripe.com/';
   }
 
@@ -135,7 +131,7 @@ export default function ManagerPaymentsPage() {
           <h2>Stripe Payment</h2>
           <p style={{ color: 'green', fontWeight: 'bold' }}>Stripe account connected</p>
           <p>
-            Account email: <strong>{stripeEmail || 'account-email@example.com'}</strong>
+            Account ID: <strong>{stripeAccountId || 'Not available'}</strong>
           </p>
           <p>Status: <strong>Active</strong></p>
           <button
