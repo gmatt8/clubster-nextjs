@@ -10,11 +10,13 @@
   },
   "dependencies": {
     "@supabase/auth-helpers-nextjs": "^0.10.0",
+    "@supabase/auth-helpers-shared": "^0.7.0",
     "@supabase/ssr": "^0.6.1",
     "@supabase/supabase-js": "^2.49.1",
     "next": "15.2.3",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "stripe": "^17.7.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

@@ -1,0 +1,44 @@
+'use client';
+
+import { useState } from 'react';
+
+export default function StripeOnboardingPage() {
+  const [loading, setLoading] = useState(false);
+
+  async function handleConnect() {
+    setLoading(true);
+    try {
+      // Chiamata GET a /api/stripe/onboarding
+      const res = await fetch('/api/stripe/onboarding');
+      if (!res.ok) {
+        throw new Error('Failed to get Stripe OAuth URL');
+      }
+      const data = await res.json();
+      // Reindirizza il browser all'URL ottenuto
+      window.location.href = data.url;
+    } catch (err) {
+      console.error('Error during Stripe onboarding:', err);
+      setLoading(false);
+    }
+  }
+
+  return (
+    <div style={{ padding: '2rem', textAlign: 'center' }}>
+      <h1 style={{ marginBottom: '1rem' }}>Connect your Stripe Account</h1>
+      <p style={{ marginBottom: '1rem' }}>
+        This will allow you to receive payments through Stripe (Standard).
+      </p>
+      <button
+        onClick={handleConnect}
+        disabled={loading}
+        style={{
+          padding: '1rem 2rem',
+          fontSize: '1rem',
+          cursor: loading ? 'not-allowed' : 'pointer',
+        }}
+      >
+        {loading ? 'Connecting...' : 'Connect Stripe Account'}
+      </button>
+    </div>
+  );
+}
