@@ -1,44 +1,48 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { supabase } from '@/lib/supabaseClient'; // se necessario per recuperare stato dal DB
+import { supabase } from '@/lib/supabaseClient';
 import ManagerLayout from '../ManagerLayout';
 
 export default function ManagerPaymentsPage() {
-  // Esempio di stato Stripe locale
-  const [stripeStatus, setStripeStatus] = useState('loading'); 
+  const [stripeStatus, setStripeStatus] = useState('loading');
   const [stripeEmail, setStripeEmail] = useState('');
   const [error, setError] = useState('');
 
   useEffect(() => {
-    // 1. Recupera l'utente e/o lo stato del club per capire se esiste un account Stripe associato
-    //    Qui puoi chiamare un endpoint o fare una query al DB (clubs) per caricare stripe_account_id, stripe_status, ecc.
-
     async function fetchStripeStatus() {
       try {
-        // ESEMPIO semplificato: 
-        // const user = (await supabase.auth.getUser()).data.user;
-        // Se hai l'id del manager, potresti fare:
-        // const { data: club, error: clubError } = await supabase
-        //   .from('clubs')
-        //   .select('stripe_status, stripe_account_id')
-        //   .eq('manager_id', user.id)
-        //   .single();
-        //
-        // if (club?.stripe_status) {
-        //   setStripeStatus(club.stripe_status);
-        //   // se hai anche l'email associata, setStripeEmail(...)
-        // } else {
-        //   setStripeStatus('none');
-        // }
+        // Recupera l'utente loggato
+        const {
+          data: { user },
+          error: userError,
+        } = await supabase.auth.getUser();
+        if (userError || !user) {
+          setError('Nessun utente loggato o errore nel recupero utente');
+          setStripeStatus('none');
+          return;
+        }
 
-        // Per questa demo, simuliamo 3 possibili stati: 'none', 'incomplete', 'active'
-        // e mettiamo un timeout per simulare il caricamento.
-        setTimeout(() => {
-          // Esempio: passare a 'none', 'incomplete', o 'active'
-          setStripeStatus('none'); 
-        }, 1000);
+        // Recupera i dati del club associato al manager
+        const { data: club, error: clubError } = await supabase
+          .from('clubs')
+          .select('stripe_status, stripe_account_id, stripe_email')
+          .eq('manager_id', user.id)
+          .single();
 
+        if (clubError) {
+          setError('Errore nel recupero dati del club');
+          setStripeStatus('none');
+          return;
+        }
+
+        // Imposta lo stato Stripe e, se presente, l'email (se hai salvato stripe_email nel DB)
+        if (club && club.stripe_status) {
+          setStripeStatus(club.stripe_status);
+          if (club.stripe_email) setStripeEmail(club.stripe_email);
+        } else {
+          setStripeStatus('none');
+        }
       } catch (err) {
         console.error('Errore fetchStripeStatus:', err);
         setError('Impossibile recuperare lo stato Stripe');
@@ -50,7 +54,7 @@ export default function ManagerPaymentsPage() {
   }, []);
 
   function handleConnectStripe() {
-    // Sostituisci l'alert con la fetch al tuo endpoint
+    // Recupera l'URL OAuth per Stripe dall'endpoint e reindirizza l'utente
     fetch('/api/stripe/onboarding')
       .then((res) => {
         if (!res.ok) {
@@ -59,36 +63,29 @@ export default function ManagerPaymentsPage() {
         return res.json();
       })
       .then((data) => {
-        // Reindirizza l’utente all’URL di Stripe
         window.location.href = data.url;
       })
       .catch((err) => {
         console.error('Error during Stripe onboarding:', err);
-        // Se vuoi mostrare un messaggio d'errore all'utente, fai un alert o aggiorna lo stato
         alert('Errore durante la connessione a Stripe');
       });
   }
-  
 
   function handleCompleteSetup() {
-    // Se l'account esiste ma è incompleto, potresti reindirizzare
-    // a un link di "accountLink" di Stripe per completare la configurazione
+    // Implementa qui la logica per completare la configurazione con Stripe
     alert('TODO: Reindirizzare a Stripe per completare la configurazione');
   }
 
   function handleGoToStripeDashboard() {
-    // Potresti reindirizzare direttamente a https://dashboard.stripe.com/ 
-    // o a un link personalizzato se hai un Express Dashboard
-    alert('TODO: Aprire Stripe Dashboard');
+    // Reindirizza alla Dashboard Stripe, ad esempio
+    window.location.href = 'https://dashboard.stripe.com/';
   }
 
   return (
     <ManagerLayout>
       <h1 style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>Payments</h1>
 
-      {stripeStatus === 'loading' && (
-        <p>Loading Stripe status...</p>
-      )}
+      {stripeStatus === 'loading' && <p>Loading Stripe status...</p>}
 
       {stripeStatus === 'none' && (
         <div style={{ border: '1px solid #ccc', padding: '1rem', borderRadius: '4px' }}>
@@ -103,13 +100,12 @@ export default function ManagerPaymentsPage() {
           >
             Connect Stripe Account
           </button>
-
           <div style={{ marginTop: '1rem' }}>
             <h3>Steps Explanation:</h3>
             <ol>
-              <li>Click on "Connect Stripe Account": You will be redirected to Stripe to create or link your account.</li>
-              <li>Complete the setup: Follow the on-screen instructions on Stripe to provide your details and set up your payment account.</li>
-              <li>Return to the dashboard: Once completed, you'll be redirected back here, and your account will be ready to receive payments.</li>
+              <li>Click "Connect Stripe Account": You will be redirected to Stripe to create or link your account.</li>
+              <li>Complete the setup: Follow the on-screen instructions on Stripe.</li>
+              <li>Return to the dashboard: Once completed, you'll be redirected back here, and your account will be ready.</li>
             </ol>
           </div>
         </div>
@@ -118,7 +114,9 @@ export default function ManagerPaymentsPage() {
       {stripeStatus === 'incomplete' && (
         <div style={{ border: '2px solid orange', padding: '1rem', borderRadius: '4px' }}>
           <h2>Stripe Payment</h2>
-          <p style={{ color: 'orange', fontWeight: 'bold' }}>Action required: Incomplete Stripe Setup</p>
+          <p style={{ color: 'orange', fontWeight: 'bold' }}>
+            Action required: Incomplete Stripe Setup
+          </p>
           <p>
             Your Stripe account has been connected but is not yet fully activated. Stripe requires
             additional information to enable payouts and payment processing.
@@ -136,7 +134,9 @@ export default function ManagerPaymentsPage() {
         <div style={{ border: '1px solid #ccc', padding: '1rem', borderRadius: '4px' }}>
           <h2>Stripe Payment</h2>
           <p style={{ color: 'green', fontWeight: 'bold' }}>Stripe account connected</p>
-          <p>Account email: <strong>{stripeEmail || 'account-email@example.com'}</strong></p>
+          <p>
+            Account email: <strong>{stripeEmail || 'account-email@example.com'}</strong>
+          </p>
           <p>Status: <strong>Active</strong></p>
           <button
             onClick={handleGoToStripeDashboard}
