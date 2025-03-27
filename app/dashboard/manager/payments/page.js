@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { supabase } from '@/lib/supabaseClient';
+import { supabase } from '@/lib/supabaseClientClient';
 import ManagerLayout from '../ManagerLayout';
 
 export default function ManagerPaymentsPage() {

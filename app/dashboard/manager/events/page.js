@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { supabase } from '@/lib/supabaseClient';
+import { supabase } from '@/lib/supabaseClientClient';
 import ManagerLayout from '../ManagerLayout';
 
 export default function EventsListPage() {
