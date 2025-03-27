@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { supabase } from '@/lib/supabaseClientClient'; // <-- SOLO CLIENT!
+import { supabase } from '@/lib/supabase-server'; // <-- SOLO CLIENT!
 
 export default function ManagerLayout({ children }) {
   const [clubName, setClubName] = useState('Loading...');
@@ -27,13 +27,13 @@ export default function ManagerLayout({ children }) {
 
       if (clubError || !clubData) {
         console.error('Errore nel recupero club:', clubError);
-        setClubName(clubError ? 'Error' : 'No Club');
+        setClubName(clubError ? 'Error' : 'No Club'); 
       } else {
         setClubName(clubData.name);
       }
     }
 
-    fetchClubName();
+    fetchClubName(); 
   }, []);
 
   return (
