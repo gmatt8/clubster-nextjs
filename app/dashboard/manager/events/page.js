@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { createBrowserSupabase } from "@/lib/supabase-browser";
 import Link from 'next/link';
-import { supabase } from '@/lib/supabaseClientClient';
 import ManagerLayout from '../ManagerLayout';
 
 export default function EventsListPage() {

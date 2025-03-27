@@ -1,5 +1,5 @@
 // app/api/club/route.js
-import { supabase } from '@/lib/supabaseClientClient';
+import { supabase } from '@/lib/supabase-server';
 
 export async function POST(request) {
   try {
