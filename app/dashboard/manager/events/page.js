@@ -3,78 +3,41 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import ManagerLayout from "../ManagerLayout";
-import { createBrowserSupabase } from "@/lib/supabase-browser";
+import EventsList from "@/components/manager/events/eventsList";
 
 export default function EventsListPage() {
   const [events, setEvents] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
 
-  // Crea l'istanza del client Supabase per il browser
-  const supabase = createBrowserSupabase();
-
   useEffect(() => {
     async function fetchEvents() {
       try {
-        // 1. Recupera l’utente manager
-        const {
-          data: { user },
-          error: userError,
-        } = await supabase.auth.getUser();
-        if (userError || !user) {
-          setError("Nessun utente loggato o errore nel recupero utente");
-          setLoading(false);
-          return;
+        setLoading(true);
+        const response = await fetch("/api/event");
+        if (!response.ok) {
+          const errData = await response.json();
+          throw new Error(errData.error || "Errore generico nel recupero eventi");
         }
-
-        // 2. Recupera il club associato a questo manager
-        const { data: clubData, error: clubError } = await supabase
-          .from("clubs")
-          .select("id")
-          .eq("manager_id", user.id)
-          .single();
-
-        if (clubError || !clubData) {
-          setError("Impossibile recuperare il club del manager");
-          setLoading(false);
-          return;
-        }
-
-        // 3. Carica gli eventi associati al club
-        const { data: eventsData, error: eventsError } = await supabase
-          .from("events")
-          .select("*")
-          .eq("club_id", clubData.id)
-          .order("created_at", { ascending: false });
-
-        if (eventsError) {
-          setError("Errore nel recupero degli eventi");
-          setLoading(false);
-          return;
-        }
-
-        setEvents(eventsData);
-        setLoading(false);
+        const data = await response.json();
+        setEvents(data);
       } catch (err) {
         console.error(err);
         setError("Errore generico nel recupero eventi");
+      } finally {
         setLoading(false);
       }
     }
-
     fetchEvents();
-  }, [supabase]); // puoi anche lasciare [] se non vuoi ricaricare quando supabase cambia
+  }, []);
 
   return (
     <ManagerLayout>
       <div style={{ padding: "2rem" }}>
-        <h1 style={{ fontSize: "1.5rem", marginBottom: "1rem" }}>My Events</h1>
+        <h1 style={{ fontSize: "1.5rem", marginBottom: "1rem" }}>Events</h1>
 
-        {loading && <p>Loading events...</p>}
-        {error && <p style={{ color: "red" }}>{error}</p>}
-
-        {/* Bottone/link per creare un nuovo evento */}
-        <div style={{ marginBottom: "1rem" }}>
+        {/* Bottone per creare un nuovo evento */}
+        <div style={{ marginBottom: "1.5rem" }}>
           <Link
             href="/dashboard/manager/events/new-event"
             style={{
@@ -85,30 +48,17 @@ export default function EventsListPage() {
               borderRadius: "4px",
             }}
           >
-            + Create New Event
+            + New Event
           </Link>
         </div>
 
-        {/* Se non ci sono errori e non stiamo caricando, mostra la lista eventi */}
+        {loading && <p>Loading events...</p>}
+        {error && <p style={{ color: "red" }}>{error}</p>}
         {!loading && !error && events.length === 0 && <p>No events found.</p>}
 
-        <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-          {events.map((evt) => (
-            <div
-              key={evt.id}
-              style={{ border: "1px solid #ccc", padding: "1rem" }}
-            >
-              <h2 style={{ margin: "0 0 0.5rem" }}>{evt.name}</h2>
-              <p style={{ margin: "0 0 0.5rem" }}>{evt.description}</p>
-              <p style={{ margin: "0 0 0.5rem" }}>
-                <strong>Date:</strong> {evt.event_date}
-              </p>
-              <p style={{ margin: "0", fontSize: "0.85rem", color: "#666" }}>
-                Created at: {new Date(evt.created_at).toLocaleString()}
-              </p>
-            </div>
-          ))}
-        </div>
+        {!loading && !error && events.length > 0 && (
+          <EventsList events={events} />
+        )}
       </div>
     </ManagerLayout>
   );

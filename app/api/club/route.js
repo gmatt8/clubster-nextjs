@@ -3,10 +3,13 @@ import { createServerSupabase } from "@/lib/supabase-server";
 
 export async function POST(request) {
   try {
+    // 1. Crea l’istanza di Supabase
+    const supabase = createServerSupabase();
+
     const body = await request.json();
     const { manager_id, name, address, phone_number } = body;
 
-    // Creazione base (verify-club)
+    // 2. Usa supabase normalmente
     const { data, error } = await supabase
       .from('clubs')
       .insert([
@@ -24,13 +27,18 @@ export async function POST(request) {
 
     return new Response(JSON.stringify({ data }), { status: 200 });
   } catch (err) {
-    return new Response(JSON.stringify({ error: 'Internal Server Error' }), { status: 500 });
+    return new Response(
+      JSON.stringify({ error: 'Internal Server Error' }),
+      { status: 500 }
+    );
   }
 }
 
-// Aggiornamento (PUT) per la pagina "General Settings"
 export async function PUT(request) {
   try {
+    // 1. Crea l’istanza di Supabase
+    const supabase = createServerSupabase();
+
     const body = await request.json();
     const {
       manager_id,
@@ -46,6 +54,7 @@ export async function PUT(request) {
       coat_check,
     } = body;
 
+    // 2. Usa supabase normalmente
     const { data, error } = await supabase
       .from('clubs')
       .update({
@@ -69,6 +78,9 @@ export async function PUT(request) {
 
     return new Response(JSON.stringify({ data }), { status: 200 });
   } catch (err) {
-    return new Response(JSON.stringify({ error: 'Internal Server Error' }), { status: 500 });
+    return new Response(
+      JSON.stringify({ error: 'Internal Server Error' }),
+      { status: 500 }
+    );
   }
 }

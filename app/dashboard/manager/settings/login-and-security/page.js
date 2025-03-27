@@ -1,10 +1,13 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { createBrowserSupabase } from "@/lib/supabase-browser";
 import ManagerLayout from '../../ManagerLayout';
 
 export default function ManagerSettingsLoginSecurityPage() {
+  // Crea l'istanza di supabase una sola volta
+  const supabase = useMemo(() => createBrowserSupabase(), []);
+
   const [userEmail, setUserEmail] = useState('');
   const [userId, setUserId] = useState(null);
 
@@ -30,15 +33,15 @@ export default function ManagerSettingsLoginSecurityPage() {
       }
     }
     getUser();
-  }, []);
+  }, [supabase]);
 
-  // 1. Funzione per cambiare la password
+  // Funzione per cambiare la password
   async function handleChangePassword(e) {
     e.preventDefault();
     setError('');
     setMessage('');
 
-    // Verifica che i campi siano coerenti
+    // Verifica che i campi siano compilati correttamente
     if (!currentPassword || !newPassword || !confirmNewPassword) {
       setError('Compila tutti i campi');
       return;
@@ -55,7 +58,7 @@ export default function ManagerSettingsLoginSecurityPage() {
     setLoading(true);
 
     try {
-      // 1. Verifica la password attuale (ri-effettua login con email e currentPassword)
+      // Verifica la password attuale (ri-effettua il login con email e currentPassword)
       const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
         email: userEmail,
         password: currentPassword,
@@ -67,7 +70,7 @@ export default function ManagerSettingsLoginSecurityPage() {
         return;
       }
 
-      // 2. Se la verifica è ok, aggiorna la password
+      // Se la verifica è ok, aggiorna la password
       const { data: updateData, error: updateError } = await supabase.auth.updateUser({
         password: newPassword,
       });
@@ -83,40 +86,6 @@ export default function ManagerSettingsLoginSecurityPage() {
       setError('Errore sconosciuto durante il cambio password');
     } finally {
       setLoading(false);
-    }
-  }
-
-  // 2. Funzione per disattivare/cancellare l'account
-  async function handleDeactivateAccount() {
-    setError('');
-    setMessage('');
-
-    if (!userId) {
-      setError('Impossibile determinare l\'ID utente');
-      return;
-    }
-
-    // Chiamata a un endpoint server-side che usa la Service Role Key per eliminare l'utente
-    try {
-      const response = await fetch('/api/user', {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId }),
-      });
-      if (!response.ok) {
-        const result = await response.json();
-        setError(result.error || 'Errore sconosciuto durante la cancellazione account');
-        return;
-      }
-      // Se l'account è stato cancellato con successo
-      setMessage('Account eliminato. Verrai reindirizzato...');
-      // Opzionalmente fai logout o reindirizza
-      setTimeout(() => {
-        supabase.auth.signOut();
-        window.location.href = '/';
-      }, 2000);
-    } catch (err) {
-      setError('Errore sconosciuto durante la cancellazione account');
     }
   }
 
@@ -161,19 +130,6 @@ export default function ManagerSettingsLoginSecurityPage() {
             {loading ? 'Saving...' : 'Save'}
           </button>
         </form>
-
-        <hr style={{ margin: '2rem 0' }} />
-
-        <div>
-          <p style={{ color: 'red', fontWeight: 'bold' }}>Deactivate account</p>
-          <p>If you deactivate your account, all your data will be permanently deleted.</p>
-          <button
-            onClick={handleDeactivateAccount}
-            style={{ padding: '0.75rem 1rem', backgroundColor: 'red', color: '#fff' }}
-          >
-            Deactivate account
-          </button>
-        </div>
 
         {error && <p style={{ color: 'red', marginTop: '1rem' }}>{error}</p>}
         {message && <p style={{ color: 'green', marginTop: '1rem' }}>{message}</p>}
