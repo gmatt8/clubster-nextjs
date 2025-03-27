@@ -1,5 +1,7 @@
 'use client';
 
+import { createBrowserSupabase } from "@/lib/supabase-browser";
+
 import ManagerLayout from '../ManagerLayout';
 import Link from 'next/link';
 

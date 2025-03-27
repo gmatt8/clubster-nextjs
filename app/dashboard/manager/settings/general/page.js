@@ -23,9 +23,13 @@ export default function ManagerSettingsGeneralPage() {
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
 
+  // Crea l'istanza del client Supabase per il browser
+  const supabase = createBrowserSupabase();
+
   // 1. Recupera l'utente loggato e carica i dati del club
   useEffect(() => {
     async function fetchClubData() {
+      // Recupera l'utente loggato
       const {
         data: { user },
         error: userError
@@ -70,7 +74,7 @@ export default function ManagerSettingsGeneralPage() {
     }
 
     fetchClubData();
-  }, []);
+  }, [supabase]);
 
   // 2. Salva i dati aggiornati
   async function handleSave(e) {
@@ -117,7 +121,15 @@ export default function ManagerSettingsGeneralPage() {
     <ManagerLayout>
       <h1 style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>General Settings</h1>
 
-      <form onSubmit={handleSave} style={{ display: 'flex', flexDirection: 'column', gap: '1rem', maxWidth: '600px' }}>
+      <form
+        onSubmit={handleSave}
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '1rem',
+          maxWidth: '600px'
+        }}
+      >
         <div>
           <label>Club Name</label>
           <input
@@ -154,7 +166,12 @@ export default function ManagerSettingsGeneralPage() {
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            style={{ display: 'block', width: '100%', marginTop: '0.5rem', height: '80px' }}
+            style={{
+              display: 'block',
+              width: '100%',
+              marginTop: '0.5rem',
+              height: '80px'
+            }}
           />
         </div>
 
@@ -234,7 +251,11 @@ export default function ManagerSettingsGeneralPage() {
 
         <button
           type="submit"
-          style={{ padding: '0.75rem 1rem', backgroundColor: '#007bff', color: '#fff' }}
+          style={{
+            padding: '0.75rem 1rem',
+            backgroundColor: '#007bff',
+            color: '#fff'
+          }}
           disabled={loading}
         >
           {loading ? 'Saving...' : 'Save'}

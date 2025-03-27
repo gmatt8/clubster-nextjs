@@ -2,7 +2,7 @@ export const runtime = 'nodejs';
 
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
-import { createClient } from '@supabase/supabase-js';
+import { createServerSupabase } from "@/lib/supabase-server";
 
 const supabaseAdmin = createClient(
   process.env.SUPABASE_URL,

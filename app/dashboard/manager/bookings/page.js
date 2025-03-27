@@ -1,5 +1,8 @@
 'use client';
 
+import { createBrowserSupabase } from "@/lib/supabase-browser";
+
+
 import ManagerLayout from '../ManagerLayout';
 
 export default function ManagerBookingsPage() {
