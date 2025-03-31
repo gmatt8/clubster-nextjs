@@ -14,8 +14,8 @@ export default function NewEventPage() {
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [startTime, setStartTime] = useState("");
+  const [startDate, setStartDate] = useState(""); // es. "2025-03-29"
+  const [startTime, setStartTime] = useState(""); // es. "20:00"
   const [endDate, setEndDate] = useState("");
   const [endTime, setEndTime] = useState("");
   const [musicGenre, setMusicGenre] = useState("");
@@ -33,7 +33,10 @@ export default function NewEventPage() {
   useEffect(() => {
     async function fetchManager() {
       try {
-        const { data: { user }, error: userError } = await supabase.auth.getUser();
+        const {
+          data: { user },
+          error: userError
+        } = await supabase.auth.getUser();
         if (userError) {
           setError("Errore nel recupero utente");
           return;
@@ -94,16 +97,22 @@ export default function NewEventPage() {
 
     try {
       // Combina data e ora per creare un ISO string
-      const eventDateISO = new Date(`${startDate}T${startTime}`).toISOString();
+      const startDateISO = new Date(`${startDate}T${startTime}`).toISOString();
+      const endDateISO = new Date(`${endDate}T${endTime}`).toISOString();
 
+      // 1) Crea l'evento
       const eventRes = await fetch("/api/event", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           club_id: clubId,
           name,
-          description: `${description}\nMusic Genre: ${musicGenre}\nAge Restriction: ${ageRestriction}\nDress Code: ${dressCode}\nEnd Date: ${endDate} ${endTime}`,
-          event_date: eventDateISO,
+          description,
+          start_date: startDateISO,
+          end_date: endDateISO,
+          music_genre: musicGenre,
+          age_restriction: ageRestriction,
+          dress_code: dressCode,
         }),
       });
 
@@ -115,6 +124,7 @@ export default function NewEventPage() {
       const newEvent = await eventRes.json();
       const eventId = newEvent[0].id;
 
+      // 2) Crea le ticket categories associate
       for (let cat of ticketCategories) {
         const ticketRes = await fetch("/api/ticket-category", {
           method: "POST",
@@ -128,7 +138,9 @@ export default function NewEventPage() {
         });
         if (!ticketRes.ok) {
           const errTicket = await ticketRes.json();
-          throw new Error(errTicket.error || "Errore creazione ticket category");
+          throw new Error(
+            errTicket.error || "Errore creazione ticket category"
+          );
         }
       }
 
@@ -147,7 +159,9 @@ export default function NewEventPage() {
   return (
     <ManagerLayout>
       <div style={{ padding: "2rem" }}>
-        <h1 style={{ fontSize: "1.5rem", marginBottom: "1rem" }}>Create New Event</h1>
+        <h1 style={{ fontSize: "1.5rem", marginBottom: "1rem" }}>
+          Create New Event
+        </h1>
         {error && <p style={{ color: "red" }}>{error}</p>}
         {message && <p style={{ color: "green" }}>{message}</p>}
 
@@ -245,27 +259,56 @@ export default function NewEventPage() {
 
           <h2>Ticket Categories</h2>
           {ticketCategories.map((cat, index) => (
-            <div key={index} style={{ border: "1px solid #ccc", padding: "1rem", marginBottom: "1rem" }}>
+            <div
+              key={index}
+              style={{
+                border: "1px solid #ccc",
+                padding: "1rem",
+                marginBottom: "1rem",
+              }}
+            >
               <label>Category Name</label>
               <input
                 type="text"
                 value={cat.name}
-                onChange={(e) => handleCategoryChange(index, "name", e.target.value)}
-                style={{ display: "block", width: "100%", marginBottom: "0.5rem" }}
+                onChange={(e) =>
+                  handleCategoryChange(index, "name", e.target.value)
+                }
+                style={{
+                  display: "block",
+                  width: "100%",
+                  marginBottom: "0.5rem",
+                }}
               />
               <label>Price</label>
               <input
                 type="number"
                 value={cat.price}
-                onChange={(e) => handleCategoryChange(index, "price", e.target.value)}
-                style={{ display: "block", width: "100%", marginBottom: "0.5rem" }}
+                onChange={(e) =>
+                  handleCategoryChange(index, "price", e.target.value)
+                }
+                style={{
+                  display: "block",
+                  width: "100%",
+                  marginBottom: "0.5rem",
+                }}
               />
               <label>No. of tickets</label>
               <input
                 type="number"
                 value={cat.available_tickets}
-                onChange={(e) => handleCategoryChange(index, "available_tickets", e.target.value)}
-                style={{ display: "block", width: "100%", marginBottom: "0.5rem" }}
+                onChange={(e) =>
+                  handleCategoryChange(
+                    index,
+                    "available_tickets",
+                    e.target.value
+                  )
+                }
+                style={{
+                  display: "block",
+                  width: "100%",
+                  marginBottom: "0.5rem",
+                }}
               />
 
               {ticketCategories.length > 1 && (
@@ -279,7 +322,11 @@ export default function NewEventPage() {
             + Add category
           </button>
 
-          <button type="submit" disabled={loading} style={{ marginTop: "1rem", padding: "0.75rem 1rem" }}>
+          <button
+            type="submit"
+            disabled={loading}
+            style={{ marginTop: "1rem", padding: "0.75rem 1rem" }}
+          >
             {loading ? "Saving..." : "Create Event"}
           </button>
         </form>

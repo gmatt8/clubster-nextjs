@@ -1,17 +1,53 @@
-// app/api/club/route.js
 import { createServerSupabase } from "@/lib/supabase-server";
 
+// GET: Recupera i dati di un club, es. /api/club?club_id=xxx
+export async function GET(request) {
+  try {
+    const supabase = createServerSupabase();
+    const { searchParams } = new URL(request.url);
+    const clubId = searchParams.get("club_id");
+
+    if (!clubId) {
+      return new Response(JSON.stringify({ error: "Missing club_id" }), {
+        status: 400,
+      });
+    }
+
+    const { data, error } = await supabase
+      .from("clubs")
+      .select("*")
+      .eq("id", clubId)
+      .single();
+
+    if (error) {
+      return new Response(JSON.stringify({ error: error.message }), {
+        status: 400,
+      });
+    }
+    if (!data) {
+      return new Response(JSON.stringify({ error: "Club not found" }), {
+        status: 404,
+      });
+    }
+
+    return new Response(JSON.stringify(data), { status: 200 });
+  } catch (err) {
+    console.error("GET /api/club error:", err);
+    return new Response(JSON.stringify({ error: "Internal Server Error" }), {
+      status: 500,
+    });
+  }
+}
+
+// POST: Crea un nuovo club
 export async function POST(request) {
   try {
-    // 1. Crea l’istanza di Supabase
     const supabase = createServerSupabase();
-
     const body = await request.json();
     const { manager_id, name, address, phone_number } = body;
 
-    // 2. Usa supabase normalmente
     const { data, error } = await supabase
-      .from('clubs')
+      .from("clubs")
       .insert([
         {
           manager_id,
@@ -22,23 +58,24 @@ export async function POST(request) {
       ]);
 
     if (error) {
-      return new Response(JSON.stringify({ error: error.message }), { status: 400 });
+      return new Response(JSON.stringify({ error: error.message }), {
+        status: 400,
+      });
     }
 
     return new Response(JSON.stringify({ data }), { status: 200 });
   } catch (err) {
-    return new Response(
-      JSON.stringify({ error: 'Internal Server Error' }),
-      { status: 500 }
-    );
+    console.error("POST /api/club error:", err);
+    return new Response(JSON.stringify({ error: "Internal Server Error" }), {
+      status: 500,
+    });
   }
 }
 
+// PUT: Aggiorna un club esistente
 export async function PUT(request) {
   try {
-    // 1. Crea l’istanza di Supabase
     const supabase = createServerSupabase();
-
     const body = await request.json();
     const {
       manager_id,
@@ -52,35 +89,43 @@ export async function PUT(request) {
       price,
       smoking,
       coat_check,
+      images,
     } = body;
 
-    // 2. Usa supabase normalmente
+    const updateFields = {
+      name,
+      address,
+      phone_number,
+      description,
+      capacity,
+      outdoor_area,
+      parking,
+      price,
+      smoking,
+      coat_check,
+    };
+
+    if (images !== undefined) {
+      updateFields.images = images;
+    }
+
     const { data, error } = await supabase
-      .from('clubs')
-      .update({
-        name,
-        address,
-        phone_number,
-        description,
-        capacity,
-        outdoor_area,
-        parking,
-        price,
-        smoking,
-        coat_check,
-      })
-      .eq('manager_id', manager_id)
+      .from("clubs")
+      .update(updateFields)
+      .eq("manager_id", manager_id)
       .single();
 
     if (error) {
-      return new Response(JSON.stringify({ error: error.message }), { status: 400 });
+      return new Response(JSON.stringify({ error: error.message }), {
+        status: 400,
+      });
     }
 
     return new Response(JSON.stringify({ data }), { status: 200 });
   } catch (err) {
-    return new Response(
-      JSON.stringify({ error: 'Internal Server Error' }),
-      { status: 500 }
-    );
+    console.error("PUT /api/club error:", err);
+    return new Response(JSON.stringify({ error: "Internal Server Error" }), {
+      status: 500,
+    });
   }
 }

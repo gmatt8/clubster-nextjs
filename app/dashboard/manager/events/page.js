@@ -1,64 +1,104 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import Link from "next/link";
+import { useEffect, useState } from "react";
+import { createBrowserSupabase } from "@/lib/supabase-browser";
+import { useRouter } from "next/navigation";
 import ManagerLayout from "../ManagerLayout";
-import EventsList from "@/components/manager/events/eventsList";
 
-export default function EventsListPage() {
+export default function EventsPage() {
+  const supabase = createBrowserSupabase();
+  const router = useRouter();
+
+  const [managerId, setManagerId] = useState(null);
+  const [clubId, setClubId] = useState(null);
   const [events, setEvents] = useState([]);
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function fetchEvents() {
+    async function fetchData() {
       try {
-        setLoading(true);
-        const response = await fetch("/api/event");
-        if (!response.ok) {
-          const errData = await response.json();
-          throw new Error(errData.error || "Errore generico nel recupero eventi");
+        // 1) Recupera l'utente loggato
+        const {
+          data: { user },
+          error: userError,
+        } = await supabase.auth.getUser();
+
+        if (userError || !user) {
+          setError("Nessun utente loggato o errore nel recupero utente");
+          return;
         }
-        const data = await response.json();
-        setEvents(data);
+        setManagerId(user.id);
+
+        // 2) Recupera il club associato al manager
+        const { data: clubData, error: clubError } = await supabase
+          .from("clubs")
+          .select("id")
+          .eq("manager_id", user.id)
+          .single();
+
+        if (clubError || !clubData) {
+          setError("Impossibile recuperare il club del manager");
+          return;
+        }
+        setClubId(clubData.id);
+
+        // 3) Recupera la lista degli eventi filtrati per club_id
+        const res = await fetch(`/api/event?club_id=${clubData.id}`, {
+          method: "GET",
+        });
+        if (!res.ok) {
+          const errData = await res.json();
+          throw new Error(errData.error || "Errore nel recupero eventi");
+        }
+        const eventsList = await res.json();
+        setEvents(eventsList);
       } catch (err) {
         console.error(err);
-        setError("Errore generico nel recupero eventi");
-      } finally {
-        setLoading(false);
+        setError(err.message);
       }
     }
-    fetchEvents();
-  }, []);
+    fetchData();
+  }, [supabase]);
+
+  function goToNewEvent() {
+    router.push("/dashboard/manager/events/new-event");
+  }
+
+  function goToEditEvent(eventId) {
+    router.push(`/dashboard/manager/events/edit-event?event_id=${eventId}`);
+  }
 
   return (
     <ManagerLayout>
       <div style={{ padding: "2rem" }}>
-        <h1 style={{ fontSize: "1.5rem", marginBottom: "1rem" }}>Events</h1>
-
-        {/* Bottone per creare un nuovo evento */}
-        <div style={{ marginBottom: "1.5rem" }}>
-          <Link
-            href="/dashboard/manager/events/new-event"
-            style={{
-              padding: "0.75rem 1rem",
-              backgroundColor: "#007bff",
-              color: "#fff",
-              textDecoration: "none",
-              borderRadius: "4px",
-            }}
-          >
-            + New Event
-          </Link>
-        </div>
-
-        {loading && <p>Loading events...</p>}
+        <h1 style={{ fontSize: "1.5rem", marginBottom: "1rem" }}>My Events</h1>
         {error && <p style={{ color: "red" }}>{error}</p>}
-        {!loading && !error && events.length === 0 && <p>No events found.</p>}
 
-        {!loading && !error && events.length > 0 && (
-          <EventsList events={events} />
-        )}
+        <button onClick={goToNewEvent} style={{ marginBottom: "1rem" }}>
+          + Create New Event
+        </button>
+
+        <ul style={{ listStyle: "none", padding: 0 }}>
+          {events.map((evt) => (
+            <li
+              key={evt.id}
+              style={{
+                border: "1px solid #ccc",
+                padding: "1rem",
+                marginBottom: "1rem",
+                cursor: "pointer",
+              }}
+              onClick={() => goToEditEvent(evt.id)}
+            >
+              <h2 style={{ margin: 0 }}>{evt.name}</h2>
+              <p style={{ margin: 0, fontSize: "0.9rem", color: "#555" }}>
+                {evt.start_date
+                  ? new Date(evt.start_date).toLocaleString()
+                  : "No date"}
+              </p>
+            </li>
+          ))}
+        </ul>
       </div>
     </ManagerLayout>
   );

@@ -1,33 +1,14 @@
-// app/dashboard/customer/CustomerLayout.js
-import React from 'react';
-import Link from 'next/link';
+"use client";
 
-const Header = () => (
-  <header style={{ padding: '1rem', background: '#f0f0f0' }}>
-    <nav>
-      <Link href="/dashboard/customer/home">Home</Link> |{' '}
-      <Link href="/dashboard/customer/club-details">Club Details</Link>
-      {/* Aggiungi altri link se necessario */}
-    </nav>
-  </header>
-);
+import Header from "@/components/customer/layout/header";
+import Footer from "@/components/customer/layout/footer";
 
-const Footer = () => (
-  <footer style={{ padding: '1rem', background: '#f0f0f0', marginTop: 'auto' }}>
-    <p>&copy; {new Date().getFullYear()} Clubster. All rights reserved.</p>
-  </footer>
-);
-
-const CustomerLayout = ({ children }) => {
+export default function CustomerLayout({ children }) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+    <div className="flex flex-col min-h-screen bg-white">
       <Header />
-      <main style={{ flex: 1, padding: '1rem' }}>
-        {children}
-      </main>
+      <main className="flex-1">{children}</main>
       <Footer />
     </div>
   );
-};
-
-export default CustomerLayout;
+}

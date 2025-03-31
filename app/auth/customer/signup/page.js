@@ -5,6 +5,7 @@ import { createBrowserSupabase } from "@/lib/supabase-browser";
 import { useRouter } from 'next/navigation';
 
 export default function CustomerSignupPage() {
+  const supabase = createBrowserSupabase();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -14,7 +15,7 @@ export default function CustomerSignupPage() {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    // Versione 2: signUp con options.data per i metadata
+    // Registrazione con Supabase impostando il ruolo "customer"
     const { data, error: signupError } = await supabase.auth.signUp({
       email,
       password,

@@ -5,6 +5,7 @@ import { createBrowserSupabase } from "@/lib/supabase-browser";
 import { useRouter } from 'next/navigation';
 
 export default function CustomerLoginPage() {
+  const supabase = createBrowserSupabase();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -13,7 +14,7 @@ export default function CustomerLoginPage() {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    // Versione 2: signInWithPassword
+    // Login con email e password
     const { data, error: loginError } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -25,6 +26,10 @@ export default function CustomerLoginPage() {
     }
 
     const user = data.user;
+    if (!user) {
+      setError("Nessun utente trovato.");
+      return;
+    }
 
     // Recupera il profilo per verificare che l'utente sia un customer
     const { data: profile, error: profileError } = await supabase
@@ -44,7 +49,7 @@ export default function CustomerLoginPage() {
       return;
     }
 
-    // Se tutto ok, reindirizza alla pagina /dashboard/customer/home
+    // Se tutto ok, reindirizza alla dashboard customer
     router.push('/dashboard/customer/home');
   }
 
