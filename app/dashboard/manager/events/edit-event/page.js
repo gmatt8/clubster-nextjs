@@ -18,7 +18,7 @@ export default function EditEventPage() {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
 
-  // Campi per l’evento
+  // Campi per l'evento
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [startDate, setStartDate] = useState("");
@@ -29,13 +29,15 @@ export default function EditEventPage() {
   const [ageRestriction, setAgeRestriction] = useState("");
   const [dressCode, setDressCode] = useState("");
 
+  // Ticket categories
+  const [ticketCategories, setTicketCategories] = useState([]);
+
   useEffect(() => {
     async function fetchEvent() {
       if (!eventId) {
         setError("ID evento mancante");
         return;
       }
-
       try {
         // 1) Recupera l'utente loggato
         const {
@@ -61,43 +63,56 @@ export default function EditEventPage() {
         setClubId(clubData.id);
 
         // 3) Recupera i dettagli dell'evento
-        const res = await fetch(
+        const eventRes = await fetch(
           `/api/event?event_id=${eventId}&club_id=${clubData.id}`,
-          { method: "GET" }
+          { method: "GET", credentials: "include" }
         );
-        if (!res.ok) {
-          const errData = await res.json();
+        if (!eventRes.ok) {
+          const errData = await eventRes.json();
           throw new Error(errData.error || "Errore nel recupero dell'evento");
         }
-        // Estrai la proprietà "events" dalla risposta
-        const { events: eventsData } = await res.json();
+        const { events: eventsData } = await eventRes.json();
         if (!eventsData || eventsData.length === 0) {
           setError("Evento non trovato");
           return;
         }
         const event = eventsData[0];
 
-        // Popola gli state
+        // Popola i campi dell'evento
         setName(event.name || "");
         setDescription(event.description || "");
-
-        // Start date/time
         if (event.start_date) {
-          const dateObj = new Date(event.start_date);
-          setStartDate(dateObj.toISOString().slice(0, 10));  // es. "2025-03-29"
-          setStartTime(dateObj.toISOString().slice(11, 16)); // es. "20:00"
+          const startObj = new Date(event.start_date);
+          setStartDate(startObj.toISOString().slice(0, 10));
+          setStartTime(startObj.toISOString().slice(11, 16));
         }
-
-        // End date/time
         if (event.end_date) {
           const endObj = new Date(event.end_date);
           setEndDate(endObj.toISOString().slice(0, 10));
           setEndTime(endObj.toISOString().slice(11, 16));
         }
-
         setMusicGenre(event.music_genre || "");
         setAgeRestriction(event.age_restriction || "");
         setDressCode(event.dress_code || "");
+
+        // 4) Recupera le ticket categories associate all'evento
+        const tcRes = await fetch(
+          `/api/ticket-category?event_id=${eventId}`,
+          { method: "GET", credentials: "include" }
+        );
+        if (!tcRes.ok) {
+          const errTC = await tcRes.json();
+          throw new Error(
+            errTC.error || "Errore nel recupero delle ticket categories"
+          );
+        }
+        const { ticketCategories: tcData } = await tcRes.json();
+        if (tcData && tcData.length > 0) {
+          setTicketCategories(tcData);
+        } else {
+          // Se non esistono, inizializza con una categoria vuota
+          setTicketCategories([{ name: "", price: 0, available_tickets: 0 }]);
+        }
       } catch (err) {
         console.error(err);
         setError(err.message);
@@ -105,6 +120,25 @@ export default function EditEventPage() {
     }
     fetchEvent();
   }, [eventId, supabase]);
+
+  function handleAddCategory() {
+    setTicketCategories([
+      ...ticketCategories,
+      { name: "", price: 0, available_tickets: 0 },
+    ]);
+  }
+
+  function handleRemoveCategory(index) {
+    const updated = [...ticketCategories];
+    updated.splice(index, 1);
+    setTicketCategories(updated);
+  }
+
+  function handleCategoryChange(index, field, value) {
+    const updated = [...ticketCategories];
+    updated[index][field] = value;
+    setTicketCategories(updated);
+  }
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -115,15 +149,15 @@ export default function EditEventPage() {
     setLoading(true);
     setError("");
     setMessage("");
-
     try {
       const startDateISO = new Date(`${startDate}T${startTime}`).toISOString();
       const endDateISO = new Date(`${endDate}T${endTime}`).toISOString();
 
-      // Aggiorna l'evento
-      const res = await fetch(`/api/event?event_id=${eventId}`, {
+      // Aggiorna i dettagli dell'evento
+      const updateRes = await fetch(`/api/event?event_id=${eventId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({
           club_id: clubId,
           name,
@@ -135,10 +169,47 @@ export default function EditEventPage() {
           dress_code: dressCode,
         }),
       });
+      if (!updateRes.ok) {
+        const errData = await updateRes.json();
+        throw new Error(
+          errData.error || "Errore nell'aggiornamento dell'evento"
+        );
+      }
 
-      if (!res.ok) {
-        const errData = await res.json();
-        throw new Error(errData.error || "Errore nell'aggiornamento dell'evento");
+      // Elimina tutte le ticket categories esistenti per l'evento
+      const deleteRes = await fetch(
+        `/api/ticket-category?event_id=${eventId}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        }
+      );
+      if (!deleteRes.ok) {
+        const errDelete = await deleteRes.json();
+        throw new Error(
+          errDelete.error || "Errore nella cancellazione delle ticket categories"
+        );
+      }
+
+      // Crea (o ricrea) le ticket categories aggiornate
+      for (let cat of ticketCategories) {
+        const ticketRes = await fetch("/api/ticket-category", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({
+            event_id: eventId,
+            name: cat.name,
+            price: cat.price,
+            available_tickets: cat.available_tickets,
+          }),
+        });
+        if (!ticketRes.ok) {
+          const errTicket = await ticketRes.json();
+          throw new Error(
+            errTicket.error || "Errore nella creazione delle ticket categories"
+          );
+        }
       }
 
       setMessage("Evento aggiornato con successo!");
@@ -155,14 +226,16 @@ export default function EditEventPage() {
 
   async function handleDelete() {
     if (!confirm("Sei sicuro di voler eliminare questo evento?")) return;
-
     try {
       const res = await fetch(`/api/event?event_id=${eventId}`, {
         method: "DELETE",
+        credentials: "include",
       });
       if (!res.ok) {
         const errData = await res.json();
-        throw new Error(errData.error || "Errore nella cancellazione dell'evento");
+        throw new Error(
+          errData.error || "Errore nella cancellazione dell'evento"
+        );
       }
       router.push("/dashboard/manager/events");
     } catch (err) {
@@ -205,7 +278,6 @@ export default function EditEventPage() {
               }}
             />
           </div>
-
           <div style={{ display: "flex", gap: "1rem" }}>
             <div>
               <label>Data Inizio</label>
@@ -224,7 +296,6 @@ export default function EditEventPage() {
               />
             </div>
           </div>
-
           <div style={{ display: "flex", gap: "1rem" }}>
             <div>
               <label>Data Fine</label>
@@ -243,7 +314,6 @@ export default function EditEventPage() {
               />
             </div>
           </div>
-
           <div>
             <label>Music Genre</label>
             <input
@@ -273,15 +343,68 @@ export default function EditEventPage() {
               placeholder="Casual, Formal, etc."
             />
           </div>
-
-          <div style={{ display: "flex", gap: "1rem", marginTop: "1rem" }}>
-            <button
-              type="submit"
-              disabled={loading}
+          <hr />
+          <h2>Ticket Categories</h2>
+          {ticketCategories.map((cat, index) => (
+            <div
+              key={index}
               style={{
-                padding: "0.75rem 1rem",
+                border: "1px solid #ccc",
+                padding: "1rem",
+                marginBottom: "1rem",
               }}
             >
+              <label>Category Name</label>
+              <input
+                type="text"
+                value={cat.name}
+                onChange={(e) =>
+                  handleCategoryChange(index, "name", e.target.value)
+                }
+                style={{
+                  display: "block",
+                  width: "100%",
+                  marginBottom: "0.5rem",
+                }}
+              />
+              <label>Price</label>
+              <input
+                type="number"
+                value={cat.price}
+                onChange={(e) =>
+                  handleCategoryChange(index, "price", e.target.value)
+                }
+                style={{
+                  display: "block",
+                  width: "100%",
+                  marginBottom: "0.5rem",
+                }}
+              />
+              <label>No. of tickets</label>
+              <input
+                type="number"
+                value={cat.available_tickets}
+                onChange={(e) =>
+                  handleCategoryChange(index, "available_tickets", e.target.value)
+                }
+                style={{
+                  display: "block",
+                  width: "100%",
+                  marginBottom: "0.5rem",
+                }}
+              />
+              {ticketCategories.length > 1 && (
+                <button type="button" onClick={() => handleRemoveCategory(index)}>
+                  Remove
+                </button>
+              )}
+            </div>
+          ))}
+          <button type="button" onClick={handleAddCategory}>
+            + Add category
+          </button>
+          <div style={{ display: "flex", gap: "1rem", marginTop: "1rem" }}>
+            <button type="submit" disabled={loading} style={{ padding: "0.75rem 1rem" }}>
               {loading ? "Saving..." : "Aggiorna Evento"}
             </button>
             <button

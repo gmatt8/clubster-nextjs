@@ -1,3 +1,4 @@
+// app/dashboard/manager/new-event/page.jsx
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
@@ -14,8 +15,8 @@ export default function NewEventPage() {
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [startDate, setStartDate] = useState(""); // es. "2025-03-29"
-  const [startTime, setStartTime] = useState(""); // es. "20:00"
+  const [startDate, setStartDate] = useState(""); // formato: "YYYY-MM-DD"
+  const [startTime, setStartTime] = useState(""); // formato: "HH:MM"
   const [endDate, setEndDate] = useState("");
   const [endTime, setEndTime] = useState("");
   const [musicGenre, setMusicGenre] = useState("");
@@ -105,11 +106,11 @@ export default function NewEventPage() {
       return;
     }
 
-    // Log per il debug dei valori
+    // Debug: log delle date
     console.log("startDate:", startDate, "startTime:", startTime);
     console.log("endDate:", endDate, "endTime:", endTime);
 
-    // Aggiungiamo ":00" per i secondi per avere un formato ISO completo
+    // Formattazione in ISO aggiungendo i secondi
     const startDateTimeStr = `${startDate}T${startTime}:00`;
     const endDateTimeStr = `${endDate}T${endTime}:00`;
 
@@ -136,6 +137,7 @@ export default function NewEventPage() {
       const eventRes = await fetch("/api/event", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({
           club_id: clubId,
           name,
@@ -161,6 +163,7 @@ export default function NewEventPage() {
         const ticketRes = await fetch("/api/ticket-category", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
+          credentials: "include",
           body: JSON.stringify({
             event_id: eventId,
             name: cat.name,

@@ -1,3 +1,4 @@
+// app/dashboard/customer/basket/page.js
 "use client";
 
 import { useSearchParams } from "next/navigation";
@@ -10,7 +11,7 @@ export default function BasketPage() {
   const initialTicketCategoryId = searchParams.get("ticket_category");
   const initialQuantity = Number(searchParams.get("quantity")) || 1;
 
-  // Stati per l'evento, le ticket categories, e la selezione dell'utente
+  // Stati per l'evento, le ticket categories e la selezione dell'utente
   const [eventData, setEventData] = useState(null);
   const [ticketCategories, setTicketCategories] = useState([]);
   const [selectedTicketCategoryId, setSelectedTicketCategoryId] = useState(initialTicketCategoryId || "");
@@ -50,7 +51,7 @@ export default function BasketPage() {
         const { ticketCategories: cats } = await catRes.json();
         setTicketCategories(cats || []);
 
-        // Se non esiste più la category selezionata inizialmente, resettiamo
+        // Se la categoria inizialmente selezionata non esiste più, resettiamo
         if (initialTicketCategoryId && !cats.find((c) => c.id === initialTicketCategoryId)) {
           setSelectedTicketCategoryId(cats.length > 0 ? cats[0].id : "");
         }
@@ -65,11 +66,42 @@ export default function BasketPage() {
     fetchData();
   }, [eventId]);
 
-  // Calcoliamo la ticket category selezionata
+  // Calcola la categoria selezionata e il prezzo totale
   const selectedCategory = ticketCategories.find((cat) => cat.id === selectedTicketCategoryId);
-
-  // Calcoliamo il prezzo totale (se c'è una ticket category)
   const totalPrice = selectedCategory ? selectedCategory.price * quantity : 0;
+
+  // Funzione per gestire il checkout
+  async function handleCheckout() {
+    if (!selectedTicketCategoryId || quantity <= 0) {
+      alert("Please select a ticket category and a valid quantity");
+      return;
+    }
+    try {
+      setLoading(true);
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({
+          eventId,
+          ticketCategoryId: selectedTicketCategoryId,
+          quantity,
+        }),
+      });
+      if (!res.ok) {
+        const errData = await res.json();
+        throw new Error(errData.error || "Checkout error");
+      }
+      const { url } = await res.json();
+      // Redirect all'URL di Stripe Checkout
+      window.location.href = url;
+    } catch (err) {
+      console.error(err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   // Se manca eventId, mostriamo un messaggio
   if (!eventId) {
@@ -104,7 +136,7 @@ export default function BasketPage() {
     );
   }
 
-  // Layout stile wireframe
+  // Layout wireframe
   return (
     <CustomerLayout>
       <div className="px-6 py-8 max-w-screen-xl mx-auto">
@@ -113,17 +145,12 @@ export default function BasketPage() {
         <div className="flex flex-col md:flex-row gap-6">
           {/* Colonna sinistra */}
           <div className="flex-1 border border-gray-300 p-4 rounded">
-            {/* Nome Club e Nome Evento (se l'evento ha club_name, altrimenti placeholder) */}
             <h2 className="text-lg font-semibold mb-2">{eventData?.club_name || "Club Name"}</h2>
-            <p className="text-gray-600 mb-4">
-              {eventData?.name || "Event name"}
-            </p>
+            <p className="text-gray-600 mb-4">{eventData?.name || "Event name"}</p>
 
             {/* Selezione Ticket Category */}
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Ticket category
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Ticket category</label>
               <select
                 className="border border-gray-300 rounded px-3 py-2 w-full"
                 value={selectedTicketCategoryId}
@@ -139,9 +166,7 @@ export default function BasketPage() {
 
             {/* Selezione quantità */}
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Guests
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Guests</label>
               <input
                 type="number"
                 min="1"
@@ -157,23 +182,18 @@ export default function BasketPage() {
             <div>
               <h3 className="text-lg font-semibold mb-4">Price details</h3>
               <div className="text-sm text-gray-700">
-                {/* Nome Evento */}
+                <p className="mb-1">{eventData?.name || "Event Name"}</p>
                 <p className="mb-1">
-                  {eventData?.name || "Event Name"}
+                  {selectedCategory ? `${selectedCategory.name} x ${quantity} guests` : "No ticket category"}
                 </p>
-                {/* Ticket Category x quantity */}
-                <p className="mb-1">
-                  {selectedCategory
-                    ? `${selectedCategory.name} x ${quantity} guests`
-                    : "No ticket category"}
-                </p>
-                {/* Totale */}
-                <p className="font-medium">
-                  Total (CHF): {totalPrice} CHF
-                </p>
+                <p className="font-medium">Total (CHF): {totalPrice} CHF</p>
               </div>
             </div>
-            <button className="mt-4 bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">
+            <button
+              className="mt-4 bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700"
+              onClick={handleCheckout}
+              disabled={loading}
+            >
               Proceed to checkout
             </button>
           </div>

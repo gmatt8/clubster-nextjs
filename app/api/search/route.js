@@ -4,7 +4,7 @@ import { createServerSupabase } from "@/lib/supabase-server";
 
 export async function GET(request) {
   try {
-    const supabase = createServerSupabase();
+    const supabase = await createServerSupabase();
     const { searchParams } = new URL(request.url);
     
     const location = searchParams.get("location");
@@ -13,14 +13,12 @@ export async function GET(request) {
     const lngParam = searchParams.get("lng");
     const radiusParam = searchParams.get("radius");
 
-    // Se mancano i parametri fondamentali, restituisci un array vuoto
     if (!location || !date) {
       return NextResponse.json({ events: [] }, { status: 200 });
     }
 
     let events, error;
 
-    // Se sono forniti lat, lng e radius, usa la funzione RPC per filtrare per distanza
     if (latParam && lngParam && radiusParam) {
       const lat = parseFloat(latParam);
       const lng = parseFloat(lngParam);
@@ -35,11 +33,9 @@ export async function GET(request) {
       events = data;
       error = rpcError;
     } else {
-      // Fallback: filtra in base alla data e ad un match parziale sul campo address
       const { data, error: queryError } = await supabase
         .from("events")
-        .select(
-          `
+        .select(`
           id,
           name,
           description,
@@ -49,8 +45,7 @@ export async function GET(request) {
             name,
             address
           )
-        `
-        )
+        `)
         .gte("start_date", `${date}T00:00:00`)
         .lte("start_date", `${date}T23:59:59`)
         .ilike("clubs.address", `%${location}%`);

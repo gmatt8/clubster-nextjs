@@ -1,3 +1,4 @@
+// app/dashboard/customer/Header.js
 "use client";
 
 import { useState, useRef, useEffect } from "react";
@@ -19,9 +20,7 @@ export default function Header() {
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   function toggleMenu() {
@@ -30,7 +29,7 @@ export default function Header() {
 
   async function handleLogout() {
     await supabase.auth.signOut();
-    router.push("/"); // reindirizza alla home (app/page.js)
+    router.push("/"); // reindirizza alla home
   }
 
   return (
@@ -40,11 +39,7 @@ export default function Header() {
         className="flex items-center space-x-2 cursor-pointer"
         onClick={() => router.push("/dashboard/customer/home")}
       >
-        <img
-          src="/images/clubster-logo.png"
-          alt="Clubster Logo"
-          className="h-8 w-auto"
-        />
+        <img src="/images/clubster-logo.png" alt="Clubster Logo" className="h-8 w-auto" />
       </div>
 
       {/* Testo centrale */}
@@ -58,7 +53,7 @@ export default function Header() {
           onClick={toggleMenu}
           className="p-2 rounded hover:bg-gray-100 focus:outline-none"
         >
-          {/* Icona hamburger (Heroicons, ad esempio) */}
+          {/* Icona hamburger */}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6 text-gray-600"
@@ -67,11 +62,7 @@ export default function Header() {
             stroke="currentColor"
             strokeWidth={2}
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M4 6h16M4 12h16M4 18h16"
-            />
+            <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
           </svg>
         </button>
 
@@ -79,8 +70,11 @@ export default function Header() {
         {menuOpen && (
           <div className="absolute right-0 top-full mt-2 w-44 bg-white border border-gray-200 rounded shadow-md z-50">
             <ul className="py-2 text-gray-700">
-              {/* Tickets */}
-              <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center space-x-2">
+              {/* Tickets: collega alla pagina bookings */}
+              <li
+                className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center space-x-2"
+                onClick={() => router.push("/dashboard/customer/bookings")}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-5 w-5"
