@@ -69,8 +69,9 @@ export default function EditEventPage() {
           const errData = await res.json();
           throw new Error(errData.error || "Errore nel recupero dell'evento");
         }
-        const eventsData = await res.json();
-        if (eventsData.length === 0) {
+        // Estrai la proprietà "events" dalla risposta
+        const { events: eventsData } = await res.json();
+        if (!eventsData || eventsData.length === 0) {
           setError("Evento non trovato");
           return;
         }
@@ -137,9 +138,7 @@ export default function EditEventPage() {
 
       if (!res.ok) {
         const errData = await res.json();
-        throw new Error(
-          errData.error || "Errore nell'aggiornamento dell'evento"
-        );
+        throw new Error(errData.error || "Errore nell'aggiornamento dell'evento");
       }
 
       setMessage("Evento aggiornato con successo!");

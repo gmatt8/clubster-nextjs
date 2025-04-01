@@ -44,7 +44,7 @@ export async function POST(request) {
   try {
     const supabase = createServerSupabase();
     const body = await request.json();
-    const { manager_id, name, address, phone_number } = body;
+    const { manager_id, name, address, phone_number, lat, lng } = body;
 
     const { data, error } = await supabase
       .from("clubs")
@@ -54,6 +54,8 @@ export async function POST(request) {
           name,
           address,
           phone_number,
+          lat,
+          lng,
         },
       ]);
 
@@ -90,6 +92,8 @@ export async function PUT(request) {
       smoking,
       coat_check,
       images,
+      lat,
+      lng,
     } = body;
 
     const updateFields = {
@@ -103,6 +107,8 @@ export async function PUT(request) {
       price,
       smoking,
       coat_check,
+      lat,
+      lng,
     };
 
     if (images !== undefined) {

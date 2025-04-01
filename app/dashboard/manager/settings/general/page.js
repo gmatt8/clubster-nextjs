@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { createBrowserSupabase } from "@/lib/supabase-browser";
 import ManagerLayout from '../../ManagerLayout';
 import UploadImages from '@/components/manager/settings/UploadImages';
@@ -15,6 +15,8 @@ export default function ManagerSettingsGeneralPage() {
   // Campi del club
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
+  const [lat, setLat] = useState(null);
+  const [lng, setLng] = useState(null);
   const [phoneNumber, setPhoneNumber] = useState('');
   const [description, setDescription] = useState('');
   const [capacity, setCapacity] = useState(0);
@@ -28,13 +30,13 @@ export default function ManagerSettingsGeneralPage() {
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
 
+  // Ref per Autocomplete
+  const addressInputRef = useRef(null);
+
   // Al mount, carichiamo i dati del club
   useEffect(() => {
     async function fetchClubData() {
-      const {
-        data: { user },
-        error: userError
-      } = await supabase.auth.getUser();
+      const { data: { user }, error: userError } = await supabase.auth.getUser();
 
       if (userError) {
         setError('Errore nel recupero utente');
@@ -71,11 +73,41 @@ export default function ManagerSettingsGeneralPage() {
         setSmoking(clubData.smoking || 'not allowed');
         setCoatCheck(clubData.coat_check || 'not available');
         setImages(clubData.images || []);
+
+        // Se in DB hai già lat/lng
+        if (clubData.lat) setLat(clubData.lat);
+        if (clubData.lng) setLng(clubData.lng);
       }
     }
 
     fetchClubData();
   }, [supabase]);
+
+  // Inizializza Autocomplete di Google Maps
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    if (!window.google || !window.google.maps || !window.google.maps.places) {
+      console.warn("Google Maps JS non è ancora caricato");
+      return;
+    }
+
+    const autocomplete = new window.google.maps.places.Autocomplete(addressInputRef.current, {
+      types: ["geocode"],
+    });
+
+    autocomplete.addListener("place_changed", () => {
+      const place = autocomplete.getPlace();
+      if (!place.geometry) return;
+
+      const latVal = place.geometry.location.lat();
+      const lngVal = place.geometry.location.lng();
+      setLat(latVal);
+      setLng(lngVal);
+
+      const formattedAddress = place.formatted_address || "";
+      setAddress(formattedAddress);
+    });
+  }, []);
 
   // Salvataggio dei campi
   async function handleSave(e) {
@@ -103,7 +135,9 @@ export default function ManagerSettingsGeneralPage() {
         parking,
         price,
         smoking,
-        coat_check: coatCheck
+        coat_check: coatCheck,
+        lat,
+        lng
       }),
     });
 
@@ -116,6 +150,50 @@ export default function ManagerSettingsGeneralPage() {
     }
 
     setMessage('Dati aggiornati con successo!');
+  }
+
+  // Funzione di cancellazione immagine
+  async function deleteImage(imageUrl) {
+    try {
+      if (!clubId || !managerId) return;
+
+      // 1) Trova il path nel bucket
+      const urlObj = new URL(imageUrl);
+      let path = urlObj.pathname.replace('/storage/v1/object/public/club-images/', '');
+
+      // 2) Rimuovi dal bucket
+      const { error: removeError } = await supabase
+        .storage
+        .from('club-images')
+        .remove([path]);
+      if (removeError) {
+        console.error('Errore rimozione file', removeError);
+      }
+
+      // 3) Rimuovi l’URL dall’array images
+      const updatedImages = images.filter((img) => img !== imageUrl);
+
+      // 4) Aggiorna DB
+      const response = await fetch('/api/club', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          manager_id: managerId,
+          images: updatedImages
+        })
+      });
+
+      if (!response.ok) {
+        const result = await response.json();
+        console.error('Errore aggiornando le immagini', result.error);
+        return;
+      }
+
+      // 5) Aggiorna stato
+      setImages(updatedImages);
+    } catch (err) {
+      console.error('Errore nella cancellazione immagine:', err);
+    }
   }
 
   return (
@@ -150,6 +228,7 @@ export default function ManagerSettingsGeneralPage() {
             <div>
               <label className="block text-sm text-gray-600 mb-1">Address</label>
               <input
+                ref={addressInputRef}
                 type="text"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
@@ -269,7 +348,6 @@ export default function ManagerSettingsGeneralPage() {
             />
           )}
 
-          {/* Galleria di immagini */}
           {images && images.length > 0 && (
             <div className="mt-4">
               {/* Prima immagine grande (cover) */}
@@ -281,7 +359,6 @@ export default function ManagerSettingsGeneralPage() {
                 />
                 <button
                   onClick={async () => {
-                    // cancella la prima immagine
                     await deleteImage(images[0]);
                   }}
                   className="absolute top-2 right-2 bg-black bg-opacity-60
@@ -316,12 +393,10 @@ export default function ManagerSettingsGeneralPage() {
                   </div>
                 ))}
 
-                {/* Spazio per "drag image here" - finto dropzone */}
                 <div
                   onClick={() => {
                     // Se vuoi aprire l’input file di UploadImages, puoi
-                    // esporre una ref dal componente figlio, oppure
-                    // semplicemente affidarti al bottone "Upload Images".
+                    // gestirlo qui o usare il pulsante "Upload Images" nel componente.
                   }}
                   className="flex items-center justify-center w-24 h-24 border-2 border-dashed
                              border-gray-300 rounded text-gray-400 text-sm cursor-pointer"
@@ -335,50 +410,4 @@ export default function ManagerSettingsGeneralPage() {
       </div>
     </ManagerLayout>
   );
-
-  // ------------------------
-  // FUNZIONE DI CANCELLAZIONE IMMAGINE
-  // ------------------------
-  async function deleteImage(imageUrl) {
-    try {
-      if (!clubId || !managerId) return;
-
-      // 1) Trova il path nel bucket
-      const urlObj = new URL(imageUrl);
-      let path = urlObj.pathname.replace('/storage/v1/object/public/club-images/', '');
-
-      // 2) Rimuovi dal bucket
-      const { error: removeError } = await supabase
-        .storage
-        .from('club-images')
-        .remove([path]);
-      if (removeError) {
-        console.error('Errore rimozione file', removeError);
-      }
-
-      // 3) Rimuovi l’URL dall’array images
-      const updatedImages = images.filter((img) => img !== imageUrl);
-
-      // 4) Aggiorna DB
-      const response = await fetch('/api/club', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          manager_id: managerId,
-          images: updatedImages
-        })
-      });
-
-      if (!response.ok) {
-        const result = await response.json();
-        console.error('Errore aggiornando le immagini', result.error);
-        return;
-      }
-
-      // 5) Aggiorna stato
-      setImages(updatedImages);
-    } catch (err) {
-      console.error('Errore nella cancellazione immagine:', err);
-    }
-  }
 }

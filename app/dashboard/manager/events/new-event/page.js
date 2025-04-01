@@ -35,7 +35,7 @@ export default function NewEventPage() {
       try {
         const {
           data: { user },
-          error: userError
+          error: userError,
         } = await supabase.auth.getUser();
         if (userError) {
           setError("Errore nel recupero utente");
@@ -87,19 +87,51 @@ export default function NewEventPage() {
 
   async function handleSubmit(e) {
     e.preventDefault();
+
     if (!clubId) {
       setError("Nessun club associato. Impossibile creare evento.");
       return;
     }
+    if (!name.trim()) {
+      setError("Il nome dell'evento è obbligatorio.");
+      return;
+    }
+    if (!startDate || !startTime) {
+      setError("Data e ora d'inizio sono obbligatorie.");
+      return;
+    }
+    if (!endDate || !endTime) {
+      setError("Data e ora di fine sono obbligatorie.");
+      return;
+    }
+
+    // Log per il debug dei valori
+    console.log("startDate:", startDate, "startTime:", startTime);
+    console.log("endDate:", endDate, "endTime:", endTime);
+
+    // Aggiungiamo ":00" per i secondi per avere un formato ISO completo
+    const startDateTimeStr = `${startDate}T${startTime}:00`;
+    const endDateTimeStr = `${endDate}T${endTime}:00`;
+
+    const startDateObj = new Date(startDateTimeStr);
+    if (isNaN(startDateObj.getTime())) {
+      setError("Il formato della data/ora d'inizio non è valido.");
+      return;
+    }
+    const endDateObj = new Date(endDateTimeStr);
+    if (isNaN(endDateObj.getTime())) {
+      setError("Il formato della data/ora di fine non è valido.");
+      return;
+    }
+
+    const startDateISO = startDateObj.toISOString();
+    const endDateISO = endDateObj.toISOString();
+
     setLoading(true);
     setError("");
     setMessage("");
 
     try {
-      // Combina data e ora per creare un ISO string
-      const startDateISO = new Date(`${startDate}T${startTime}`).toISOString();
-      const endDateISO = new Date(`${endDate}T${endTime}`).toISOString();
-
       // 1) Crea l'evento
       const eventRes = await fetch("/api/event", {
         method: "POST",
@@ -138,9 +170,7 @@ export default function NewEventPage() {
         });
         if (!ticketRes.ok) {
           const errTicket = await ticketRes.json();
-          throw new Error(
-            errTicket.error || "Errore creazione ticket category"
-          );
+          throw new Error(errTicket.error || "Errore creazione ticket category");
         }
       }
 

@@ -1,15 +1,17 @@
-'use client';
-
-import { useState, useEffect } from 'react';
+"use client";
+import { useState, useEffect, useRef } from 'react';
 import { createBrowserSupabase } from "@/lib/supabase-browser";
 import { useRouter } from 'next/navigation';
 
 export default function VerifyClubPage() {
   const router = useRouter();
+  const supabase = createBrowserSupabase();
 
   // Campi del form
   const [clubName, setClubName] = useState('');
   const [address, setAddress] = useState('');
+  const [lat, setLat] = useState(null);
+  const [lng, setLng] = useState(null);
   const [phoneNumber, setPhoneNumber] = useState('');
   const [docUrl, setDocUrl] = useState('');
 
@@ -25,8 +27,11 @@ export default function VerifyClubPage() {
   // ID manager loggato
   const [managerId, setManagerId] = useState(null);
 
+  // Ref per l'input address
+  const addressInputRef = useRef(null);
+
+  // Recupero utente loggato
   useEffect(() => {
-    // Recupera l'utente corrente
     async function getUser() {
       const { data: { user }, error: userError } = await supabase.auth.getUser();
       if (userError) {
@@ -36,9 +41,35 @@ export default function VerifyClubPage() {
       }
     }
     getUser();
+  }, [supabase]);
+
+  // Inizializza Autocomplete di Google Maps
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    if (!window.google || !window.google.maps || !window.google.maps.places) {
+      console.warn("Google Maps JS non è ancora caricato");
+      return;
+    }
+
+    const autocomplete = new window.google.maps.places.Autocomplete(addressInputRef.current, {
+      types: ["geocode"],
+    });
+
+    autocomplete.addListener("place_changed", () => {
+      const place = autocomplete.getPlace();
+      if (!place.geometry) return; // se l'utente digita e non seleziona un suggerimento, place.geometry può mancare
+
+      const latVal = place.geometry.location.lat();
+      const lngVal = place.geometry.location.lng();
+      setLat(latVal);
+      setLng(lngVal);
+
+      const formattedAddress = place.formatted_address || "";
+      setAddress(formattedAddress);
+    });
   }, []);
 
-  // Verifica se tutti i campi e i checkbox sono compilati
+  // Verifica se il form è compilato
   const isFormValid = () => {
     return (
       clubName.trim() !== '' &&
@@ -51,6 +82,7 @@ export default function VerifyClubPage() {
     );
   };
 
+  // Invio form
   async function handleSubmit(e) {
     e.preventDefault();
 
@@ -62,7 +94,7 @@ export default function VerifyClubPage() {
     setLoading(true);
     setError('');
 
-    // Invio i dati all'endpoint /api/club
+    // Invio i dati all'endpoint /api/club (POST)
     const response = await fetch('/api/club', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -72,6 +104,8 @@ export default function VerifyClubPage() {
         address,
         phone_number: phoneNumber,
         doc_url: docUrl,
+        lat,
+        lng,
       }),
     });
 
@@ -83,7 +117,6 @@ export default function VerifyClubPage() {
       return;
     }
 
-    // Se tutto ok, reindirizza alla dashboard manager
     setLoading(false);
     router.push('/dashboard/manager/dashboard');
   }
@@ -100,6 +133,7 @@ export default function VerifyClubPage() {
       }}
     >
       <h1 style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>Club Verification</h1>
+
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
         <div>
           <label>Club Name</label>
@@ -111,9 +145,11 @@ export default function VerifyClubPage() {
             required
           />
         </div>
+
         <div>
           <label>Address</label>
           <input
+            ref={addressInputRef}
             type="text"
             value={address}
             onChange={(e) => setAddress(e.target.value)}
@@ -121,6 +157,7 @@ export default function VerifyClubPage() {
             required
           />
         </div>
+
         <div>
           <label>Phone number</label>
           <input
@@ -131,6 +168,7 @@ export default function VerifyClubPage() {
             required
           />
         </div>
+
         <div>
           <label>Upload Document (URL o info)</label>
           <input

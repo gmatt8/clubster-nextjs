@@ -14,6 +14,7 @@ import FAQ from "@/components/customer/club-details/faq";
 export default function ClubDetailsPage() {
   const searchParams = useSearchParams();
   const clubId = searchParams.get("club_id");
+  const selectedEventId = searchParams.get("event_id"); // evento selezionato dalla ricerca
 
   const [clubData, setClubData] = useState(null);
 
@@ -62,7 +63,7 @@ export default function ClubDetailsPage() {
         <hr className="border-t border-gray-300 my-8" />
 
         {/* Sezione 2: Next Events */}
-        <NextEvents clubId={clubId} />
+        <NextEvents clubId={clubId} selectedEventId={selectedEventId} />
 
         <hr className="border-t border-gray-300 my-8" />
 

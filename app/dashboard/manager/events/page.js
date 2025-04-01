@@ -51,7 +51,8 @@ export default function EventsPage() {
           throw new Error(errData.error || "Errore nel recupero eventi");
         }
         const eventsList = await res.json();
-        setEvents(eventsList);
+        // Assicurati di estrarre la proprietà events (che è un array)
+        setEvents(eventsList.events);
       } catch (err) {
         console.error(err);
         setError(err.message);
@@ -92,9 +93,7 @@ export default function EventsPage() {
             >
               <h2 style={{ margin: 0 }}>{evt.name}</h2>
               <p style={{ margin: 0, fontSize: "0.9rem", color: "#555" }}>
-                {evt.start_date
-                  ? new Date(evt.start_date).toLocaleString()
-                  : "No date"}
+                {evt.start_date ? new Date(evt.start_date).toLocaleString() : "No date"}
               </p>
             </li>
           ))}

@@ -1,59 +1,94 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import CustomerLayout from "../CustomerLayout";
 
 export default function CustomerHomePage() {
   const router = useRouter();
 
-  // Campi di ricerca
+  // Stato per il campo di ricerca
   const [locationSearch, setLocationSearch] = useState("");
+  const [lat, setLat] = useState(null);
+  const [lng, setLng] = useState(null);
+  // Imposta il raggio predefinito a 10 km (modificabile dall'utente)
+  const [radius, setRadius] = useState("10");
   const [dateSearch, setDateSearch] = useState("");
 
-  // Stato per gli eventi (inizialmente vuoto)
+  // Stato per eventi e messaggi di errore
   const [events, setEvents] = useState([]);
-  // Numero di eventi da mostrare (per la paginazione semplice)
   const [visibleCount, setVisibleCount] = useState(8);
-
-  // Messaggio di errore se i campi non sono compilati
   const [errorMsg, setErrorMsg] = useState("");
 
-  // Funzione di ricerca
+  // Ref per il campo input della location
+  const locationInputRef = useRef(null);
+
+  // Inizializza Autocomplete di Google Maps sul campo location
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (!window.google || !window.google.maps || !window.google.maps.places) {
+      console.warn("Google Maps JS non è ancora caricato");
+      return;
+    }
+    const autocomplete = new window.google.maps.places.Autocomplete(
+      locationInputRef.current,
+      {
+        types: ["geocode"],
+        // ComponentRestrictions rimosso per indirizzi globali
+        // componentRestrictions: { country: "it" },
+      }
+    );
+
+    autocomplete.addListener("place_changed", () => {
+      const place = autocomplete.getPlace();
+      if (!place.geometry) return;
+      const latVal = place.geometry.location.lat();
+      const lngVal = place.geometry.location.lng();
+      setLat(latVal);
+      setLng(lngVal);
+      const formattedAddress = place.formatted_address || "";
+      setLocationSearch(formattedAddress);
+    });
+  }, []);
+
+  // Funzione di ricerca: controlla che tutti i campi siano compilati e invia la query
   async function handleSearch() {
-    // Verifica che entrambi i campi siano compilati
-    if (!locationSearch || !dateSearch) {
-      setErrorMsg("Please fill out both the location and the date!");
+    if (!locationSearch || !dateSearch || !radius) {
+      setErrorMsg("Please fill out location, radius and date!");
       return;
     }
     setErrorMsg("");
 
     try {
-      // Chiamata all'endpoint dedicato per la ricerca
-      const query = `/api/search?location=${encodeURIComponent(
-        locationSearch
-      )}&date=${encodeURIComponent(dateSearch)}`;
+      // Costruisce i parametri della query, includendo lat, lng e radius
+      const queryParams = new URLSearchParams({
+        location: locationSearch,
+        date: dateSearch,
+        radius,
+        lat: lat ? lat.toString() : "",
+        lng: lng ? lng.toString() : ""
+      });
+      const query = `/api/search?${queryParams.toString()}`;
       const res = await fetch(query);
-      if (!res.ok) throw new Error("Errore nel caricamento eventi filtrati");
+      if (!res.ok) throw new Error("Error fetching events");
       const { events: filteredData } = await res.json();
       setEvents(filteredData || []);
-      setVisibleCount(8); // reset della visualizzazione
+      setVisibleCount(8);
     } catch (err) {
       console.error(err);
+      setErrorMsg("Error fetching events");
     }
   }
 
-  // Subset di eventi da mostrare (paginazione "show more")
+  // Per la paginazione "show more"
   const visibleEvents = events.slice(0, visibleCount);
-
-  // Funzione per caricare altri 8 eventi
   function showMore() {
     setVisibleCount((prev) => prev + 8);
   }
 
-  // Naviga alla pagina dei dettagli del club/evento
-  function goToClubDetails(clubId) {
-    router.push(`/dashboard/customer/club-details?club_id=${clubId}`);
+  // Naviga alla pagina dei dettagli del club/evento, passando anche l'event_id
+  function goToClubDetails(clubId, eventId) {
+    router.push(`/dashboard/customer/club-details?club_id=${clubId}&event_id=${eventId}`);
   }
 
   return (
@@ -61,12 +96,11 @@ export default function CustomerHomePage() {
       <div className="px-6 py-8 max-w-screen-xl mx-auto">
         {/* Barra di ricerca */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-6">
-          {/* Campo Where */}
+          {/* Campo Location con Autocomplete */}
           <div className="flex flex-col">
-            <label className="text-sm font-medium text-gray-700 mb-1">
-              Where
-            </label>
+            <label className="text-sm font-medium text-gray-700 mb-1">Where</label>
             <input
+              ref={locationInputRef}
               type="text"
               placeholder="Location"
               value={locationSearch}
@@ -75,11 +109,23 @@ export default function CustomerHomePage() {
             />
           </div>
 
-          {/* Campo When */}
+          {/* Campo Radius (km) con valore predefinito */}
           <div className="flex flex-col">
             <label className="text-sm font-medium text-gray-700 mb-1">
-              When
+              Radius (km)
             </label>
+            <input
+              type="number"
+              placeholder="e.g. 10"
+              value={radius}
+              onChange={(e) => setRadius(e.target.value)}
+              className="border border-gray-300 rounded px-3 py-2 w-48"
+            />
+          </div>
+
+          {/* Campo Date */}
+          <div className="flex flex-col">
+            <label className="text-sm font-medium text-gray-700 mb-1">When</label>
             <input
               type="date"
               value={dateSearch}
@@ -98,7 +144,7 @@ export default function CustomerHomePage() {
             </button>
           </div>
 
-          {/* Sort by (placeholder) */}
+          {/* Ordinamento (placeholder) */}
           <div className="ml-auto">
             <label className="text-sm font-medium text-gray-700 mr-2">
               Sort by:
@@ -112,7 +158,7 @@ export default function CustomerHomePage() {
           </div>
         </div>
 
-        {/* Mostra l'errore se i campi non sono compilati */}
+        {/* Mostra errore se i campi non sono compilati */}
         {errorMsg && (
           <div className="text-red-500 mb-4">{errorMsg}</div>
         )}
@@ -122,13 +168,12 @@ export default function CustomerHomePage() {
           <>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {visibleEvents.map((evt) => {
-                // Ottieni la prima immagine del club, oppure usa una placeholder
+                // Ottieni la prima immagine oppure usa un placeholder
                 const firstImage =
                   evt.club_images && evt.club_images.length > 0
                     ? evt.club_images[0]
                     : "/placeholder.jpg";
-
-                // Esempio di prezzo (adatta alla tua logica)
+                // Esempio di prezzo
                 const priceLabel = evt.min_price
                   ? `From €${evt.min_price}`
                   : "Free";
@@ -136,32 +181,26 @@ export default function CustomerHomePage() {
                 return (
                   <div
                     key={evt.id}
-                    onClick={() => goToClubDetails(evt.club_id)}
+                    onClick={() => goToClubDetails(evt.club_id, evt.id)}
                     className="border border-gray-200 rounded-lg overflow-hidden cursor-pointer hover:shadow-md transition-shadow"
                   >
-                    {/* Immagine del club */}
                     <img
                       src={firstImage}
                       alt={evt.club_name || "Club image"}
                       className="w-full h-48 object-cover"
                     />
                     <div className="p-4">
-                      {/* Nome club e location */}
                       <p className="text-sm text-gray-500">
-                        {evt.club_name || "Club name"} –{" "}
-                        {evt.club_location || ""}
+                        {evt.club_name || "Club name"} – {evt.club_location || ""}
                       </p>
-                      {/* Nome evento */}
                       <h3 className="text-lg font-semibold text-gray-800">
                         {evt.name}
                       </h3>
-                      {/* Data evento */}
                       <p className="text-sm text-gray-600">
                         {evt.start_date
                           ? new Date(evt.start_date).toLocaleDateString()
                           : "No date"}
                       </p>
-                      {/* Prezzo */}
                       <p className="mt-1 text-sm text-purple-600 font-medium">
                         {priceLabel}
                       </p>
@@ -171,7 +210,6 @@ export default function CustomerHomePage() {
               })}
             </div>
 
-            {/* Pulsante "Show more" se ci sono più eventi di quelli visibili */}
             {events.length > visibleCount && (
               <div className="text-center mt-6">
                 <button
@@ -184,7 +222,6 @@ export default function CustomerHomePage() {
             )}
           </>
         ) : (
-          // Se nessun evento viene mostrato
           <div className="text-center mt-6 text-gray-500">
             No events found. Please perform a search.
           </div>

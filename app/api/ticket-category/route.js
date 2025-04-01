@@ -1,35 +1,40 @@
 import { createServerSupabase } from "@/lib/supabase-server";
 
-export async function POST(request) {
+export async function GET(request) {
   try {
-    // Crea l'istanza di Supabase
     const supabase = createServerSupabase();
+    const { searchParams } = new URL(request.url);
+    const eventId = searchParams.get("event_id");
 
-    const { event_id, name, price, available_tickets } = await request.json();
-
-    if (!event_id || !name) {
+    if (!eventId) {
       return new Response(
-        JSON.stringify({ error: 'Missing event_id or name' }),
+        JSON.stringify({ error: "Missing event_id" }),
         { status: 400 }
       );
     }
 
     const { data, error } = await supabase
-      .from('ticket_categories')
-      .insert([{ event_id, name, price, available_tickets }])
-      .select();
+      .from("ticket_categories")
+      .select("*")
+      .eq("event_id", eventId);
 
     if (error) {
+      console.error("Errore Supabase (GET /api/ticket-category):", error);
       return new Response(
         JSON.stringify({ error: error.message }),
         { status: 400 }
       );
     }
-    return new Response(JSON.stringify(data), { status: 200 });
-  } catch (err) {
-    console.error('POST /api/ticket-category error:', err);
+
+    // Restituisci i dati in un oggetto con chiave ticketCategories
     return new Response(
-      JSON.stringify({ error: 'Internal Server Error' }),
+      JSON.stringify({ ticketCategories: data }),
+      { status: 200 }
+    );
+  } catch (err) {
+    console.error("GET /api/ticket-category error:", err);
+    return new Response(
+      JSON.stringify({ error: "Internal Server Error" }),
       { status: 500 }
     );
   }
