@@ -35,15 +35,14 @@ export async function POST(request) {
     const session = event.data.object;
     console.log("Full session object:", JSON.stringify(session));
 
-    // Recupera i metadati dal PaymentIntent specificando il conto con Stripe Connect
+    // Recupera i metadati dal PaymentIntent
     let metadata = {};
     if (typeof session.payment_intent === "string") {
-      // L'ID del conto connesso è disponibile in event.account
       const connectedAccountId = event.account;
       try {
         const paymentIntent = await stripe.paymentIntents.retrieve(
           session.payment_intent,
-          { stripeAccount: connectedAccountId } // Passa il conto connesso
+          { stripeAccount: connectedAccountId }
         );
         metadata = paymentIntent.metadata;
         console.log("Retrieved PaymentIntent metadata:", JSON.stringify(metadata));
@@ -64,7 +63,7 @@ export async function POST(request) {
       // Genera un booking number
       const bookingNumber = `BK${Date.now()}`;
 
-      // Inserisci il booking nel database
+      // Inserisci la booking nel database
       const { data: bookingData, error: bookingError } = await supabaseAdmin
         .from("bookings")
         .insert([
@@ -82,6 +81,26 @@ export async function POST(request) {
         console.error("Error inserting booking:", JSON.stringify(bookingError));
       } else {
         console.log("Booking created:", JSON.stringify(bookingData));
+
+        // Genera N ticket per la booking
+        const ticketsToInsert = [];
+        for (let i = 0; i < quantity; i++) {
+          // Genera un dato QR univoco, ad esempio combinando booking_id, indice e timestamp
+          const qrData = `${bookingData.id}-${i}-${Date.now()}`;
+          ticketsToInsert.push({
+            booking_id: bookingData.id,
+            qr_data: qrData,
+          });
+        }
+        const { data: ticketsData, error: ticketsError } = await supabaseAdmin
+          .from("tickets")
+          .insert(ticketsToInsert)
+          .select();
+        if (ticketsError) {
+          console.error("Error inserting tickets:", JSON.stringify(ticketsError));
+        } else {
+          console.log("Tickets created:", JSON.stringify(ticketsData));
+        }
       }
     }
   } else {

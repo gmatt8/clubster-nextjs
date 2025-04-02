@@ -1,4 +1,7 @@
+// components/customer/layout/Footer.js
 "use client";
+
+import Link from "next/link";
 
 export default function Footer() {
   return (
@@ -10,14 +13,20 @@ export default function Footer() {
             <h3 className="font-semibold mb-2 text-gray-800">Account</h3>
             <ul className="space-y-1">
               <li>
-                <a href="#" className="text-sm text-gray-700 hover:underline">
+                <Link
+                  href="/dashboard/customer/bookings"
+                  className="text-sm text-gray-700 hover:underline"
+                >
                   My tickets
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-sm text-gray-700 hover:underline">
+                <Link
+                  href="/dashboard/customer/settings"
+                  className="text-sm text-gray-700 hover:underline"
+                >
                   Settings
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -27,12 +36,12 @@ export default function Footer() {
             <h3 className="font-semibold mb-2 text-gray-800">Support</h3>
             <ul className="space-y-1">
               <li>
-                <a
-                  href="#"
+                <Link
+                  href="/dashboard/customer/support"
                   className="text-sm text-gray-700 hover:underline"
                 >
                   Contact Customer Service
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -42,12 +51,12 @@ export default function Footer() {
             <h3 className="font-semibold mb-2 text-gray-800">Become a partner</h3>
             <ul className="space-y-1">
               <li>
-                <a
-                  href="#"
+                <Link
+                  href="/"
                   className="text-sm text-gray-700 hover:underline"
                 >
                   List your club
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -57,14 +66,20 @@ export default function Footer() {
             <h3 className="font-semibold mb-2 text-gray-800">Legal</h3>
             <ul className="space-y-1">
               <li>
-                <a href="#" className="text-sm text-gray-700 hover:underline">
+                <Link
+                  href="/dashboard/customer/terms-of-service"
+                  className="text-sm text-gray-700 hover:underline"
+                >
                   Terms of Service
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-sm text-gray-700 hover:underline">
+                <Link
+                  href="/dashboard/customer/privacy-policy"
+                  className="text-sm text-gray-700 hover:underline"
+                >
                   Privacy Policy
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

@@ -82,15 +82,18 @@ export default function EditEventPage() {
         setName(event.name || "");
         setDescription(event.description || "");
         if (event.start_date) {
-          const startObj = new Date(event.start_date);
-          setStartDate(startObj.toISOString().slice(0, 10));
-          setStartTime(startObj.toISOString().slice(11, 16));
-        }
-        if (event.end_date) {
-          const endObj = new Date(event.end_date);
-          setEndDate(endObj.toISOString().slice(0, 10));
-          setEndTime(endObj.toISOString().slice(11, 16));
-        }
+            const startObj = new Date(event.start_date);
+            // Formatta la data nel formato YYYY-MM-DD
+            setStartDate(startObj.toLocaleDateString('en-CA'));
+            // Formatta l'orario in formato HH:mm (24 ore)
+            setStartTime(startObj.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' }));
+          }
+          if (event.end_date) {
+            const endObj = new Date(event.end_date);
+            setEndDate(endObj.toLocaleDateString('en-CA'));
+            setEndTime(endObj.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' }));
+          }
+          
         setMusicGenre(event.music_genre || "");
         setAgeRestriction(event.age_restriction || "");
         setDressCode(event.dress_code || "");

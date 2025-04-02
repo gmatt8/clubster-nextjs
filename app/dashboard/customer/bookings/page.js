@@ -32,12 +32,23 @@ export default function MyBookingsPage() {
     fetchBookings();
   }, []);
 
-  // Utilizza la proprietà "events" (non "event") in quanto la query API restituisce "events"
   const now = new Date();
-  const upcomingBookings = bookings.filter(b => b.events && new Date(b.events.start_date) >= now);
-  const pastBookings = bookings.filter(b => b.events && new Date(b.events.start_date) < now);
 
-  // Scegli la lista da mostrare in base al tab
+  // Usa end_date se disponibile, altrimenti usa start_date per determinare se l'evento è terminato
+  const upcomingBookings = bookings.filter((b) => {
+    if (!b.events) return false;
+    const event = b.events;
+    const eventEndDate = event.end_date ? new Date(event.end_date) : new Date(event.start_date);
+    return eventEndDate > now;
+  });
+
+  const pastBookings = bookings.filter((b) => {
+    if (!b.events) return false;
+    const event = b.events;
+    const eventEndDate = event.end_date ? new Date(event.end_date) : new Date(event.start_date);
+    return eventEndDate <= now;
+  });
+
   const displayedBookings = tab === "upcoming" ? upcomingBookings : pastBookings;
 
   return (
@@ -45,16 +56,20 @@ export default function MyBookingsPage() {
       <div className="px-6 py-8 max-w-screen-xl mx-auto">
         <h1 className="text-2xl font-bold mb-6">My Tickets</h1>
 
-        {/* Tabs */}
+        {/* Tabs per scegliere tra upcoming e past */}
         <div className="mb-4 flex gap-4">
           <button
-            className={`px-4 py-2 rounded ${tab === "upcoming" ? "bg-purple-600 text-white" : "bg-gray-200"}`}
+            className={`px-4 py-2 rounded ${
+              tab === "upcoming" ? "bg-purple-600 text-white" : "bg-gray-200"
+            }`}
             onClick={() => setTab("upcoming")}
           >
             Upcoming
           </button>
           <button
-            className={`px-4 py-2 rounded ${tab === "past" ? "bg-purple-600 text-white" : "bg-gray-200"}`}
+            className={`px-4 py-2 rounded ${
+              tab === "past" ? "bg-purple-600 text-white" : "bg-gray-200"
+            }`}
             onClick={() => setTab("past")}
           >
             Past
@@ -79,30 +94,65 @@ export default function MyBookingsPage() {
   );
 }
 
-// Componente card per mostrare un singolo booking
+// Componente per la visualizzazione di una singola prenotazione
 function BookingCard({ booking }) {
-  // Usa "events" per accedere ai dettagli dell'evento
   const event = booking.events;
-  if (!event) return null; // salvaguardia nel caso manchino dati
+  if (!event) return null;
+
   const startDateObj = new Date(event.start_date);
-  const eventDateStr = startDateObj.toLocaleDateString(undefined, {
+  // Formattazione della data con orario, es.: "2 April 2025 - 22:00"
+  const eventDateStr = `${startDateObj.toLocaleDateString("en-GB", {
     year: "numeric",
     month: "long",
     day: "numeric",
-  });
+  })} - ${startDateObj.toLocaleTimeString("en-GB", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  })}`;
+
+  const clubData = event.clubs;
+  const clubLocation =
+    clubData &&
+    clubData.club_name &&
+    clubData.city &&
+    clubData.country
+      ? `${clubData.club_name}, ${clubData.city} (${clubData.country})`
+      : "Club location";
+
+  const mapsLink =
+    clubData && clubData.lat && clubData.lng
+      ? `https://www.google.com/maps/search/?api=1&query=${clubData.lat},${clubData.lng}`
+      : null;
 
   return (
     <div className="border border-gray-300 p-4 rounded flex flex-col md:flex-row justify-between gap-4">
       <div>
         <p className="text-sm text-gray-600 mb-1">{eventDateStr}</p>
         <p className="text-lg font-semibold">{event.name}</p>
-        <p className="text-gray-600">{event.club_name || "Club location"}</p>
+        <p className="text-gray-600">{clubLocation}</p>
+        {mapsLink && (
+          <a
+            href={mapsLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-500 underline text-sm"
+          >
+            View on Google Maps
+          </a>
+        )}
         <p className="text-sm mt-2">
           Order #{booking.booking_number} | {booking.quantity} ticket(s) purchased
         </p>
       </div>
       <div className="flex flex-col md:items-end justify-center gap-2">
-        <button className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">
+        {/* Bottone per scaricare il PDF dei ticket (con una pagina per ogni ticket) */}
+        <button
+          className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700"
+          onClick={() =>
+            window.open(`/api/ticket?bookingId=${booking.id}`, "_blank")
+          }
+        >
           Download tickets
         </button>
         <button className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">
