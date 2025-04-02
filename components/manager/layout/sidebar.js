@@ -21,7 +21,7 @@ export default function Sidebar() {
       {/* Logo/Titolo */}
       <div className="relative mb-8 h-20 w-full">
         <Image
-          src="/images/clubster-manager-logo-no-bg.png"
+          src="/images/clubster-manager-logo.png"
           alt="Clubster Manager Logo"
           fill
           className="object-contain"

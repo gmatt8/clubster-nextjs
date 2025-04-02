@@ -43,8 +43,7 @@ export default function Header() {
       </div>
 
       {/* Testo centrale */}
-      <h2 className="text-base sm:text-lg font-medium text-gray-800">
-        Your night starts here
+      <h2 className="text-base sm:text-lg font-medium text-gray-800">your night starts here
       </h2>
 
       {/* Hamburger + menu a tendina */}

@@ -69,14 +69,15 @@ export async function POST(request) {
         mode: "payment",
         payment_intent_data: {
           application_fee_amount: 200,
+          metadata: {
+            user_id: user.id,
+            event_id: eventId,
+            quantity: quantity.toString(),
+          },
         },
         success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard/customer/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard/customer/checkout/cancel`,
-        metadata: {
-          user_id: user.id,        // ID dell'utente autenticato
-          event_id: eventId,         // ID dell'evento acquistato
-          quantity: quantity.toString(), // quantità in stringa
-        },
+        expand: ["payment_intent"]  // <--- Aggiunto per espandere il payment_intent
       },
       {
         stripeAccount: clubData.stripe_account_id,

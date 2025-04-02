@@ -32,10 +32,10 @@ export default function MyBookingsPage() {
     fetchBookings();
   }, []);
 
-  // Filtra upcoming vs. past in base alla data dell'evento
+  // Utilizza la proprietà "events" (non "event") in quanto la query API restituisce "events"
   const now = new Date();
-  const upcomingBookings = bookings.filter(b => new Date(b.event.start_date) >= now);
-  const pastBookings = bookings.filter(b => new Date(b.event.start_date) < now);
+  const upcomingBookings = bookings.filter(b => b.events && new Date(b.events.start_date) >= now);
+  const pastBookings = bookings.filter(b => b.events && new Date(b.events.start_date) < now);
 
   // Scegli la lista da mostrare in base al tab
   const displayedBookings = tab === "upcoming" ? upcomingBookings : pastBookings;
@@ -48,17 +48,13 @@ export default function MyBookingsPage() {
         {/* Tabs */}
         <div className="mb-4 flex gap-4">
           <button
-            className={`px-4 py-2 rounded ${
-              tab === "upcoming" ? "bg-purple-600 text-white" : "bg-gray-200"
-            }`}
+            className={`px-4 py-2 rounded ${tab === "upcoming" ? "bg-purple-600 text-white" : "bg-gray-200"}`}
             onClick={() => setTab("upcoming")}
           >
             Upcoming
           </button>
           <button
-            className={`px-4 py-2 rounded ${
-              tab === "past" ? "bg-purple-600 text-white" : "bg-gray-200"
-            }`}
+            className={`px-4 py-2 rounded ${tab === "past" ? "bg-purple-600 text-white" : "bg-gray-200"}`}
             onClick={() => setTab("past")}
           >
             Past
@@ -85,7 +81,9 @@ export default function MyBookingsPage() {
 
 // Componente card per mostrare un singolo booking
 function BookingCard({ booking }) {
-  const event = booking.event;
+  // Usa "events" per accedere ai dettagli dell'evento
+  const event = booking.events;
+  if (!event) return null; // salvaguardia nel caso manchino dati
   const startDateObj = new Date(event.start_date);
   const eventDateStr = startDateObj.toLocaleDateString(undefined, {
     year: "numeric",
@@ -99,7 +97,9 @@ function BookingCard({ booking }) {
         <p className="text-sm text-gray-600 mb-1">{eventDateStr}</p>
         <p className="text-lg font-semibold">{event.name}</p>
         <p className="text-gray-600">{event.club_name || "Club location"}</p>
-        <p className="text-sm mt-2">Order #{booking.booking_number} | {booking.quantity} ticket(s) purchased</p>
+        <p className="text-sm mt-2">
+          Order #{booking.booking_number} | {booking.quantity} ticket(s) purchased
+        </p>
       </div>
       <div className="flex flex-col md:items-end justify-center gap-2">
         <button className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">

@@ -33,20 +33,33 @@ export async function POST(request) {
 
   if (event.type === "checkout.session.completed") {
     const session = event.data.object;
-    
-    // Log completo della sessione per debug
     console.log("Full session object:", JSON.stringify(session));
-    
-    // Log dei metadata
-    console.log("Session metadata:", JSON.stringify(session.metadata));
 
-    // Estrai i metadati dalla sessione
-    const userId = session.metadata?.user_id;
-    const eventId = session.metadata?.event_id;
-    const quantity = parseInt(session.metadata?.quantity, 10) || 1;
+    // Recupera i metadati dal PaymentIntent specificando il conto con Stripe Connect
+    let metadata = {};
+    if (typeof session.payment_intent === "string") {
+      // L'ID del conto connesso è disponibile in event.account
+      const connectedAccountId = event.account;
+      try {
+        const paymentIntent = await stripe.paymentIntents.retrieve(
+          session.payment_intent,
+          { stripeAccount: connectedAccountId } // Passa il conto connesso
+        );
+        metadata = paymentIntent.metadata;
+        console.log("Retrieved PaymentIntent metadata:", JSON.stringify(metadata));
+      } catch (err) {
+        console.error("Error retrieving PaymentIntent:", err);
+      }
+    } else {
+      metadata = session.payment_intent.metadata;
+    }
+
+    const userId = metadata?.user_id;
+    const eventId = metadata?.event_id;
+    const quantity = parseInt(metadata?.quantity, 10) || 1;
 
     if (!userId || !eventId) {
-      console.error("Missing metadata in session", JSON.stringify(session.metadata));
+      console.error("Missing metadata in PaymentIntent metadata", JSON.stringify(metadata));
     } else {
       // Genera un booking number
       const bookingNumber = `BK${Date.now()}`;
