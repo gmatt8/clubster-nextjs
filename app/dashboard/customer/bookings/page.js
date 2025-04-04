@@ -2,7 +2,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import CustomerLayout from "../CustomerLayout";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 export default function MyBookingsPage() {
   const [tab, setTab] = useState("upcoming"); // "upcoming" o "past"
@@ -34,7 +36,7 @@ export default function MyBookingsPage() {
 
   const now = new Date();
 
-  // Usa end_date se disponibile, altrimenti usa start_date per determinare se l'evento è terminato
+  // Determina le prenotazioni upcoming e past in base alla data di fine (o in alternativa start_date)
   const upcomingBookings = bookings.filter((b) => {
     if (!b.events) return false;
     const event = b.events;
@@ -94,13 +96,14 @@ export default function MyBookingsPage() {
   );
 }
 
-// Componente per la visualizzazione di una singola prenotazione
 function BookingCard({ booking }) {
+  const router = useRouter();
+  const supabase = createClientComponentClient();
   const event = booking.events;
   if (!event) return null;
 
+  // Formatta la data e l'orario dell'evento
   const startDateObj = new Date(event.start_date);
-  // Formattazione della data con orario, es.: "2 April 2025 - 22:00"
   const eventDateStr = `${startDateObj.toLocaleDateString("en-GB", {
     year: "numeric",
     month: "long",
@@ -111,6 +114,7 @@ function BookingCard({ booking }) {
     hour12: false,
   })}`;
 
+  // Dati del club (se disponibili)
   const clubData = event.clubs;
   const clubLocation =
     clubData &&
@@ -124,6 +128,37 @@ function BookingCard({ booking }) {
     clubData && clubData.lat && clubData.lng
       ? `https://www.google.com/maps/search/?api=1&query=${clubData.lat},${clubData.lng}`
       : null;
+
+  // Determina se l'evento è terminato (usa end_date se disponibile, altrimenti start_date)
+  const now = new Date();
+  const eventEndDate = event.end_date ? new Date(event.end_date) : new Date(event.start_date);
+  const isEventFinished = now > eventEndDate;
+
+  // Stato per verificare se esiste già una review per questo booking
+  const [reviewExists, setReviewExists] = useState(false);
+
+  useEffect(() => {
+    async function fetchReview() {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+      const userId = user.id;
+      try {
+        // Filtra per booking_id e user_id
+        const res = await fetch(`/api/reviews?booking_id=${booking.id}&user_id=${userId}`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.reviews && data.reviews.length > 0) {
+            setReviewExists(true);
+          }
+        }
+      } catch (err) {
+        console.error("Error fetching review for booking:", err);
+      }
+    }
+    if (isEventFinished) {
+      fetchReview();
+    }
+  }, [booking, isEventFinished, supabase]);
 
   return (
     <div className="border border-gray-300 p-4 rounded flex flex-col md:flex-row justify-between gap-4">
@@ -146,7 +181,6 @@ function BookingCard({ booking }) {
         </p>
       </div>
       <div className="flex flex-col md:items-end justify-center gap-2">
-        {/* Bottone per scaricare il PDF dei ticket (con una pagina per ogni ticket) */}
         <button
           className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700"
           onClick={() =>
@@ -158,6 +192,18 @@ function BookingCard({ booking }) {
         <button className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">
           Download invoice
         </button>
+        {isEventFinished && !reviewExists && (
+          <button
+            onClick={() =>
+              router.push(
+                `/dashboard/customer/add-review?event_id=${event.id}&club_id=${event.club_id}&booking_id=${booking.id}`
+              )
+            }
+            className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600"
+          >
+            Add review
+          </button>
+        )}
       </div>
     </div>
   );
