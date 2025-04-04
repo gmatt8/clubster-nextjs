@@ -1,14 +1,12 @@
+// app/api/stripe/callback/route.js
 export const runtime = 'nodejs';
 
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { createServerSupabase } from "@/lib/supabase-server";
 
-const supabaseAdmin = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY
-);
-
+// Usa createServerSupabase per creare il client Supabase (invece di createClient)
+const supabaseAdmin = createServerSupabase();
 
 export async function POST(request) {
   try {
