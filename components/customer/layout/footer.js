@@ -87,7 +87,7 @@ export default function Footer() {
 
         {/* Copyright */}
         <div className="text-center text-sm text-gray-500 mt-8">
-          © 2025 Clubster
+          © 2025 clubster
         </div>
       </div>
     </footer>

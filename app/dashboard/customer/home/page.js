@@ -3,29 +3,27 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { format } from "date-fns";
+import { enGB } from "date-fns/locale";
 import CustomerLayout from "../CustomerLayout";
 import DatePicker from "@/components/customer/home/calendar";
 
 export default function CustomerHomePage() {
   const router = useRouter();
 
-  // Stato per i campi di ricerca
+  // Stati per i campi di ricerca
   const [locationSearch, setLocationSearch] = useState("");
   const [lat, setLat] = useState(null);
   const [lng, setLng] = useState(null);
   const [radius, setRadius] = useState("10");
-  // Manteniamo la data come stringa "YYYY-MM-DD" per la query
-  const [dateSearch, setDateSearch] = useState("");
-
-  // Stato per eventi e messaggi di errore
+  const [selectedDate, setSelectedDate] = useState(null);
   const [events, setEvents] = useState([]);
   const [visibleCount, setVisibleCount] = useState(8);
   const [errorMsg, setErrorMsg] = useState("");
 
-  // Ref per il campo location (Autocomplete Google Maps)
   const locationInputRef = useRef(null);
 
-  // Inizializza Autocomplete di Google Maps
+  // Inizializza l'autocomplete di Google Maps
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (!window.google || !window.google.maps || !window.google.maps.places) {
@@ -47,11 +45,13 @@ export default function CustomerHomePage() {
 
   // Funzione di ricerca
   async function handleSearch() {
-    if (!locationSearch || !dateSearch || !radius) {
+    if (!locationSearch || !selectedDate || !radius) {
       setErrorMsg("Please fill out location, radius and date!");
       return;
     }
     setErrorMsg("");
+
+    const dateSearch = format(selectedDate, "yyyy-MM-dd");
 
     try {
       const queryParams = new URLSearchParams({
@@ -59,7 +59,7 @@ export default function CustomerHomePage() {
         date: dateSearch,
         radius,
         lat: lat ? lat.toString() : "",
-        lng: lng ? lng.toString() : ""
+        lng: lng ? lng.toString() : "",
       });
       const query = `/api/search?${queryParams.toString()}`;
       const res = await fetch(query);
@@ -73,13 +73,12 @@ export default function CustomerHomePage() {
     }
   }
 
-  // Gestione "show more"
   const visibleEvents = events.slice(0, visibleCount);
+
   function showMore() {
     setVisibleCount((prev) => prev + 8);
   }
 
-  // Naviga ai dettagli
   function goToClubDetails(clubId, eventId) {
     router.push(`/dashboard/customer/club-details?club_id=${clubId}&event_id=${eventId}`);
   }
@@ -91,9 +90,7 @@ export default function CustomerHomePage() {
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-6">
           {/* Campo Location */}
           <div className="flex flex-col">
-            <label className="text-sm font-medium text-gray-700 mb-1">
-              Where
-            </label>
+            <label className="text-sm font-medium text-gray-700 mb-1">Where</label>
             <input
               ref={locationInputRef}
               type="text"
@@ -106,9 +103,7 @@ export default function CustomerHomePage() {
 
           {/* Campo Radius */}
           <div className="flex flex-col">
-            <label className="text-sm font-medium text-gray-700 mb-1">
-              Radius (km)
-            </label>
+            <label className="text-sm font-medium text-gray-700 mb-1">Radius (km)</label>
             <input
               type="number"
               placeholder="e.g. 10"
@@ -118,27 +113,12 @@ export default function CustomerHomePage() {
             />
           </div>
 
-          {/* Campo When: usa il nostro DatePicker */}
+          {/* Campo When (usa il DatePicker) */}
           <div className="flex flex-col">
-            <label className="text-sm font-medium text-gray-700 mb-1">
-              When
-            </label>
+            <label className="text-sm font-medium text-gray-700 mb-1">When</label>
             <DatePicker
-              selected={dateSearch ? new Date(dateSearch) : undefined}
-              onSelect={(date) =>
-                // Convertiamo la data selezionata in stringa ISO "YYYY-MM-DD"
-                setDateSearch(
-                  date
-                    ? new Date(
-                        date.getFullYear(),
-                        date.getMonth(),
-                        date.getDate()
-                      )
-                      .toISOString()
-                      .split("T")[0]
-                    : ""
-                )
-              }
+              selected={selectedDate}
+              onSelect={(date) => setSelectedDate(date)}
             />
           </div>
 
@@ -152,11 +132,9 @@ export default function CustomerHomePage() {
             </button>
           </div>
 
-          {/* Ordinamento */}
+          {/* Ordinamento (non ancora implementato) */}
           <div className="ml-auto">
-            <label className="text-sm font-medium text-gray-700 mr-2">
-              Sort by:
-            </label>
+            <label className="text-sm font-medium text-gray-700 mr-2">Sort by:</label>
             <select className="border border-gray-300 rounded px-3 py-2">
               <option value="date_asc">Date (asc)</option>
               <option value="date_desc">Date (desc)</option>
@@ -166,21 +144,36 @@ export default function CustomerHomePage() {
           </div>
         </div>
 
-        {errorMsg && (
-          <div className="text-red-500 mb-4">{errorMsg}</div>
-        )}
+        {errorMsg && <div className="text-red-500 mb-4">{errorMsg}</div>}
 
         {/* Griglia eventi */}
         {events.length > 0 ? (
           <>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {visibleEvents.map((evt) => {
+                // Immagine principale (o placeholder)
                 const firstImage =
                   evt.club_images && evt.club_images.length > 0
                     ? evt.club_images[0]
                     : "/placeholder.jpg";
+
+                // Data evento (formattata ad es. "4 Apr 2025")
+                const eventDate = evt.start_date
+                  ? format(new Date(evt.start_date), "d MMM yyyy", { locale: enGB })
+                  : "No date";
+
+                // Dati del club (usando la struttura annidata)
+                const clubData = evt.clubs;
+                const locationDisplay =
+                  clubData && clubData.city && clubData.country
+                    ? `${clubData.city}, ${clubData.country}`
+                    : clubData && clubData.address
+                      ? clubData.address
+                      : "Club location";
+
+                // Prezzo (se evt.min_price è presente, altrimenti "Free")
                 const priceLabel = evt.min_price
-                  ? `From €${evt.min_price}`
+                  ? `From ${evt.min_price} CHF`
                   : "Free";
 
                 return (
@@ -191,25 +184,24 @@ export default function CustomerHomePage() {
                   >
                     <img
                       src={firstImage}
-                      alt={evt.club_name || "Club image"}
+                      alt={clubData?.club_name || "Club image"}
                       className="w-full h-48 object-cover"
                     />
                     <div className="p-4">
-                      <p className="text-sm text-gray-500">
-                        {evt.club_name || "Club name"} –{" "}
-                        {evt.club_location || ""}
-                      </p>
-                      <h3 className="text-lg font-semibold text-gray-800">
-                        {evt.name}
-                      </h3>
-                      <p className="text-sm text-gray-600">
-                        {evt.start_date
-                          ? new Date(evt.start_date).toLocaleDateString()
-                          : "No date"}
-                      </p>
-                      <p className="mt-1 text-sm text-purple-600 font-medium">
-                        {priceLabel}
-                      </p>
+                      {/* Nome del Club */}
+                      <h2 className="text-lg font-bold text-gray-800">
+                        {clubData?.club_name || "Club name"}
+                      </h2>
+                      {/* Nome evento */}
+                      <p className="text-md text-gray-800 font-medium">{evt.name}</p>
+                      {/* Data evento */}
+                      <p className="text-sm text-gray-600">{eventDate}</p>
+                      {/* Posizione */}
+                      {locationDisplay && (
+                        <p className="text-sm text-gray-500">{locationDisplay}</p>
+                      )}
+                      {/* Prezzo */}
+                      <p className="mt-1 text-sm text-purple-600 font-medium">{priceLabel}</p>
                     </div>
                   </div>
                 );
