@@ -18,7 +18,7 @@ export default function HomePage() {
           Log In Manager
         </Link>
         <Link
-          href="/auth/customer/signup"
+          href="/auth/cstomer/signup"
           className="block px-6 py-3 bg-green-500 text-white rounded hover:bg-green-600 text-center"
         >
           Sign Up Customer
