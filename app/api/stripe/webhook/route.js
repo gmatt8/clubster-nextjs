@@ -3,11 +3,9 @@ import Stripe from "stripe";
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
+// Esporta le configurazioni come segment export config
+export const runtime = "nodejs";
+export const api = { bodyParser: false };
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
@@ -134,7 +132,7 @@ export async function POST(request) {
         } else {
           const newAvailable = tcData.available_tickets - quantity;
           // Aggiorna solo se newAvailable è >= 0, altrimenti potresti voler gestire lo scenario sold out
-          if(newAvailable < 0) {
+          if (newAvailable < 0) {
             console.error("Not enough tickets available in this category");
           } else {
             const { data: updateData, error: updateError } = await supabaseAdmin
