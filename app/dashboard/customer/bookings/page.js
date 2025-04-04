@@ -184,7 +184,7 @@ function BookingCard({ booking }) {
         <button
           className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700"
           onClick={() =>
-            window.open(`/api/ticket?bookingId=${booking.id}`, "_blank")
+            window.open(`/api/ticket?booking_id=${booking.id}`, "_blank")
           }
         >
           Download tickets

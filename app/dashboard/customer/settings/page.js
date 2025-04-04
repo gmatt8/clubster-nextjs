@@ -3,6 +3,7 @@
 
 import Link from "next/link";
 import CustomerLayout from "../CustomerLayout";
+import { LockClosedIcon } from "@heroicons/react/24/outline";
 
 export default function CustomerSettingsPage() {
   return (
@@ -15,6 +16,8 @@ export default function CustomerSettingsPage() {
             className="no-underline"
           >
             <div className="w-80 h-40 border border-gray-300 rounded-lg bg-white shadow-md flex flex-col justify-center items-center text-center text-gray-800 cursor-pointer transition-transform hover:scale-105">
+              {/* Icona sopra il titolo */}
+              <LockClosedIcon className="h-12 w-12 text-gray-600 mb-2" />
               <h2 className="text-xl font-semibold mb-2">Login and Security</h2>
               <p className="text-sm text-gray-600">
                 Update your password and manage account security

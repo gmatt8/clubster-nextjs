@@ -136,7 +136,6 @@ export default function BasketPage() {
     );
   }
 
-  // Layout wireframe
   return (
     <CustomerLayout>
       <div className="px-6 py-8 max-w-screen-xl mx-auto">
@@ -154,11 +153,18 @@ export default function BasketPage() {
               <select
                 className="border border-gray-300 rounded px-3 py-2 w-full"
                 value={selectedTicketCategoryId}
-                onChange={(e) => setSelectedTicketCategoryId(e.target.value)}
+                onChange={(e) => {
+                  setSelectedTicketCategoryId(e.target.value);
+                  // Resetta la quantità a 1 se disponibili, altrimenti a 0
+                  const newCat = ticketCategories.find((c) => c.id === e.target.value);
+                  if (newCat) {
+                    setQuantity(newCat.available_tickets > 0 ? 1 : 0);
+                  }
+                }}
               >
                 {ticketCategories.map((cat) => (
                   <option key={cat.id} value={cat.id}>
-                    {cat.name} ({cat.price} CHF)
+                    {cat.name} ({cat.price} CHF) - Available: {cat.available_tickets}
                   </option>
                 ))}
               </select>
@@ -170,9 +176,17 @@ export default function BasketPage() {
               <input
                 type="number"
                 min="1"
-                className="border border-gray-300 rounded px-3 py-2 w-full"
+                max={selectedCategory ? selectedCategory.available_tickets : 1}
                 value={quantity}
-                onChange={(e) => setQuantity(Number(e.target.value))}
+                onChange={(e) => {
+                  let newQuantity = Number(e.target.value);
+                  if (selectedCategory && newQuantity > selectedCategory.available_tickets) {
+                    newQuantity = selectedCategory.available_tickets;
+                  }
+                  setQuantity(newQuantity);
+                }}
+                disabled={selectedCategory && selectedCategory.available_tickets === 0}
+                className="border border-gray-300 rounded px-3 py-2 w-full"
               />
             </div>
           </div>
@@ -190,11 +204,13 @@ export default function BasketPage() {
               </div>
             </div>
             <button
-              className="mt-4 bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700"
+              className={`mt-4 bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 ${
+                selectedCategory && selectedCategory.available_tickets === 0 ? "opacity-50 cursor-not-allowed" : ""
+              }`}
               onClick={handleCheckout}
-              disabled={loading}
+              disabled={loading || (selectedCategory && selectedCategory.available_tickets === 0)}
             >
-              Proceed to checkout
+              {selectedCategory && selectedCategory.available_tickets === 0 ? "Sold Out" : "Proceed to checkout"}
             </button>
           </div>
         </div>

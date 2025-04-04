@@ -1,18 +1,20 @@
+// app/dashboard/customer/home/page.js
 "use client";
 
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import CustomerLayout from "../CustomerLayout";
+import DatePicker from "@/components/customer/home/calendar";
 
 export default function CustomerHomePage() {
   const router = useRouter();
 
-  // Stato per il campo di ricerca
+  // Stato per i campi di ricerca
   const [locationSearch, setLocationSearch] = useState("");
   const [lat, setLat] = useState(null);
   const [lng, setLng] = useState(null);
-  // Imposta il raggio predefinito a 10 km (modificabile dall'utente)
   const [radius, setRadius] = useState("10");
+  // Manteniamo la data come stringa "YYYY-MM-DD" per la query
   const [dateSearch, setDateSearch] = useState("");
 
   // Stato per eventi e messaggi di errore
@@ -20,10 +22,10 @@ export default function CustomerHomePage() {
   const [visibleCount, setVisibleCount] = useState(8);
   const [errorMsg, setErrorMsg] = useState("");
 
-  // Ref per il campo input della location
+  // Ref per il campo location (Autocomplete Google Maps)
   const locationInputRef = useRef(null);
 
-  // Inizializza Autocomplete di Google Maps sul campo location
+  // Inizializza Autocomplete di Google Maps
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (!window.google || !window.google.maps || !window.google.maps.places) {
@@ -32,26 +34,18 @@ export default function CustomerHomePage() {
     }
     const autocomplete = new window.google.maps.places.Autocomplete(
       locationInputRef.current,
-      {
-        types: ["geocode"],
-        // ComponentRestrictions rimosso per indirizzi globali
-        // componentRestrictions: { country: "it" },
-      }
+      { types: ["geocode"] }
     );
-
     autocomplete.addListener("place_changed", () => {
       const place = autocomplete.getPlace();
       if (!place.geometry) return;
-      const latVal = place.geometry.location.lat();
-      const lngVal = place.geometry.location.lng();
-      setLat(latVal);
-      setLng(lngVal);
-      const formattedAddress = place.formatted_address || "";
-      setLocationSearch(formattedAddress);
+      setLat(place.geometry.location.lat());
+      setLng(place.geometry.location.lng());
+      setLocationSearch(place.formatted_address || "");
     });
   }, []);
 
-  // Funzione di ricerca: controlla che tutti i campi siano compilati e invia la query
+  // Funzione di ricerca
   async function handleSearch() {
     if (!locationSearch || !dateSearch || !radius) {
       setErrorMsg("Please fill out location, radius and date!");
@@ -60,7 +54,6 @@ export default function CustomerHomePage() {
     setErrorMsg("");
 
     try {
-      // Costruisce i parametri della query, includendo lat, lng e radius
       const queryParams = new URLSearchParams({
         location: locationSearch,
         date: dateSearch,
@@ -80,13 +73,13 @@ export default function CustomerHomePage() {
     }
   }
 
-  // Per la paginazione "show more"
+  // Gestione "show more"
   const visibleEvents = events.slice(0, visibleCount);
   function showMore() {
     setVisibleCount((prev) => prev + 8);
   }
 
-  // Naviga alla pagina dei dettagli del club/evento, passando anche l'event_id
+  // Naviga ai dettagli
   function goToClubDetails(clubId, eventId) {
     router.push(`/dashboard/customer/club-details?club_id=${clubId}&event_id=${eventId}`);
   }
@@ -96,9 +89,11 @@ export default function CustomerHomePage() {
       <div className="px-6 py-8 max-w-screen-xl mx-auto">
         {/* Barra di ricerca */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-6">
-          {/* Campo Location con Autocomplete */}
+          {/* Campo Location */}
           <div className="flex flex-col">
-            <label className="text-sm font-medium text-gray-700 mb-1">Where</label>
+            <label className="text-sm font-medium text-gray-700 mb-1">
+              Where
+            </label>
             <input
               ref={locationInputRef}
               type="text"
@@ -109,7 +104,7 @@ export default function CustomerHomePage() {
             />
           </div>
 
-          {/* Campo Radius (km) con valore predefinito */}
+          {/* Campo Radius */}
           <div className="flex flex-col">
             <label className="text-sm font-medium text-gray-700 mb-1">
               Radius (km)
@@ -123,14 +118,27 @@ export default function CustomerHomePage() {
             />
           </div>
 
-          {/* Campo Date */}
+          {/* Campo When: usa il nostro DatePicker */}
           <div className="flex flex-col">
-            <label className="text-sm font-medium text-gray-700 mb-1">When</label>
-            <input
-              type="date"
-              value={dateSearch}
-              onChange={(e) => setDateSearch(e.target.value)}
-              className="border border-gray-300 rounded px-3 py-2 w-48"
+            <label className="text-sm font-medium text-gray-700 mb-1">
+              When
+            </label>
+            <DatePicker
+              selected={dateSearch ? new Date(dateSearch) : undefined}
+              onSelect={(date) =>
+                // Convertiamo la data selezionata in stringa ISO "YYYY-MM-DD"
+                setDateSearch(
+                  date
+                    ? new Date(
+                        date.getFullYear(),
+                        date.getMonth(),
+                        date.getDate()
+                      )
+                      .toISOString()
+                      .split("T")[0]
+                    : ""
+                )
+              }
             />
           </div>
 
@@ -144,7 +152,7 @@ export default function CustomerHomePage() {
             </button>
           </div>
 
-          {/* Ordinamento (placeholder) */}
+          {/* Ordinamento */}
           <div className="ml-auto">
             <label className="text-sm font-medium text-gray-700 mr-2">
               Sort by:
@@ -158,7 +166,6 @@ export default function CustomerHomePage() {
           </div>
         </div>
 
-        {/* Mostra errore se i campi non sono compilati */}
         {errorMsg && (
           <div className="text-red-500 mb-4">{errorMsg}</div>
         )}
@@ -168,12 +175,10 @@ export default function CustomerHomePage() {
           <>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {visibleEvents.map((evt) => {
-                // Ottieni la prima immagine oppure usa un placeholder
                 const firstImage =
                   evt.club_images && evt.club_images.length > 0
                     ? evt.club_images[0]
                     : "/placeholder.jpg";
-                // Esempio di prezzo
                 const priceLabel = evt.min_price
                   ? `From €${evt.min_price}`
                   : "Free";
@@ -191,7 +196,8 @@ export default function CustomerHomePage() {
                     />
                     <div className="p-4">
                       <p className="text-sm text-gray-500">
-                        {evt.club_name || "Club name"} – {evt.club_location || ""}
+                        {evt.club_name || "Club name"} –{" "}
+                        {evt.club_location || ""}
                       </p>
                       <h3 className="text-lg font-semibold text-gray-800">
                         {evt.name}

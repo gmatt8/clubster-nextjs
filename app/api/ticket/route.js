@@ -5,9 +5,10 @@ import { createServerSupabase } from "@/lib/supabase-server";
 
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
-  const bookingId = searchParams.get("bookingId");
+  // Usa "booking_id" come parametro di query
+  const bookingId = searchParams.get("booking_id");
   if (!bookingId) {
-    return new Response("bookingId is required", { status: 400 });
+    return new Response("booking_id is required", { status: 400 });
   }
 
   const supabase = await createServerSupabase();

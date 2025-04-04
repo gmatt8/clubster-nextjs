@@ -1,9 +1,14 @@
+// /app/dashboard/manager/events/page.js
 "use client";
 
 import { useEffect, useState } from "react";
 import { createBrowserSupabase } from "@/lib/supabase-browser";
 import { useRouter } from "next/navigation";
 import ManagerLayout from "../ManagerLayout";
+
+// Import dei componenti
+import EventsSidebar from "@/components/manager/events/sidebar";
+import EventsCalendar from "@/components/manager/events/calendar";
 
 export default function EventsPage() {
   const supabase = createBrowserSupabase();
@@ -42,7 +47,7 @@ export default function EventsPage() {
         }
         setClubId(clubData.id);
 
-        // 3) Recupera la lista degli eventi filtrati per club_id
+        // 3) Recupera la lista degli eventi
         const res = await fetch(`/api/event?club_id=${clubData.id}`, {
           method: "GET",
         });
@@ -51,8 +56,7 @@ export default function EventsPage() {
           throw new Error(errData.error || "Errore nel recupero eventi");
         }
         const eventsList = await res.json();
-        // Assicurati di estrarre la proprietà events (che è un array)
-        setEvents(eventsList.events);
+        setEvents(eventsList.events || []);
       } catch (err) {
         console.error(err);
         setError(err.message);
@@ -71,34 +75,27 @@ export default function EventsPage() {
 
   return (
     <ManagerLayout>
-      <div style={{ padding: "2rem" }}>
-        <h1 style={{ fontSize: "1.5rem", marginBottom: "1rem" }}>My Events</h1>
-        {error && <p style={{ color: "red" }}>{error}</p>}
-
-        <button onClick={goToNewEvent} style={{ marginBottom: "1rem" }}>
-          + Create New Event
-        </button>
-
-        <ul style={{ listStyle: "none", padding: 0 }}>
-          {events.map((evt) => (
-            <li
-              key={evt.id}
-              style={{
-                border: "1px solid #ccc",
-                padding: "1rem",
-                marginBottom: "1rem",
-                cursor: "pointer",
-              }}
-              onClick={() => goToEditEvent(evt.id)}
-            >
-              <h2 style={{ margin: 0 }}>{evt.name}</h2>
-              <p style={{ margin: 0, fontSize: "0.9rem", color: "#555" }}>
-                {evt.start_date ? new Date(evt.start_date).toLocaleString() : "No date"}
-              </p>
-            </li>
-          ))}
-        </ul>
+      {/* Titolo della sezione "Events" */}
+      <div className="p-4">
+        <h1 className="text-2xl font-bold mb-4">Events</h1>
       </div>
+
+      {/* Layout a colonne con maggiore spazio tra Sidebar e Calendario */}
+      <div className="flex flex-col md:flex-row gap-8 h-full">
+        <EventsSidebar
+          events={events}
+          onNewEvent={goToNewEvent}
+          onEditEvent={goToEditEvent}
+        />
+        <EventsCalendar events={events} />
+      </div>
+
+      {/* Messaggio di errore */}
+      {error && (
+        <div className="p-4 text-red-600 text-center">
+          <p>{error}</p>
+        </div>
+      )}
     </ManagerLayout>
   );
 }

@@ -11,7 +11,7 @@ export const config = {
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-// Crea il client admin con la Service Role Key per bypassare le restrizioni RLS
+// Crea il client admin con la SERVICE_ROLE_KEY per bypassare le restrizioni RLS
 const supabaseAdmin = createClient(
   process.env.SUPABASE_URL,
   process.env.SUPABASE_SERVICE_ROLE_KEY
@@ -23,10 +23,17 @@ export async function POST(request) {
 
   let event;
   try {
-    event = stripe.webhooks.constructEvent(buf, sig, process.env.STRIPE_WEBHOOK_SECRET);
+    event = stripe.webhooks.constructEvent(
+      buf,
+      sig,
+      process.env.STRIPE_WEBHOOK_SECRET
+    );
   } catch (err) {
     console.error("Webhook signature verification failed.", err.message);
-    return NextResponse.json({ error: `Webhook Error: ${err.message}` }, { status: 400 });
+    return NextResponse.json(
+      { error: `Webhook Error: ${err.message}` },
+      { status: 400 }
+    );
   }
 
   console.log("Stripe event received:", event.type);
@@ -58,49 +65,91 @@ export async function POST(request) {
     const quantity = parseInt(metadata?.quantity, 10) || 1;
 
     if (!userId || !eventId) {
-      console.error("Missing metadata in PaymentIntent metadata", JSON.stringify(metadata));
+      console.error(
+        "Missing metadata in PaymentIntent metadata",
+        JSON.stringify(metadata)
+      );
     } else {
-      // Genera un booking number
-      const bookingNumber = `BK${Date.now()}`;
-
-      // Inserisci la booking nel database
-      const { data: bookingData, error: bookingError } = await supabaseAdmin
-        .from("bookings")
-        .insert([
-          {
-            user_id: userId,
-            event_id: eventId,
-            quantity,
-            booking_number: bookingNumber,
-          },
-        ])
-        .select()
-        .single();
-
-      if (bookingError) {
-        console.error("Error inserting booking:", JSON.stringify(bookingError));
+      let bookingId;
+      // Se esiste già un booking_id nei metadata, lo utilizziamo
+      if (metadata.booking_id) {
+        bookingId = metadata.booking_id;
+        console.log("Using existing booking_id from metadata:", bookingId);
       } else {
-        console.log("Booking created:", JSON.stringify(bookingData));
+        // Fallback: se non c'è booking_id, creiamo un nuovo booking (scenario non ideale)
+        const bookingNumber = `BK${Date.now()}`;
+        const { data: bookingData, error: bookingError } = await supabaseAdmin
+          .from("bookings")
+          .insert([
+            {
+              user_id: userId,
+              event_id: eventId,
+              quantity,
+              booking_number: bookingNumber,
+            },
+          ])
+          .select()
+          .single();
 
-        // Genera N ticket per la booking
-        const ticketsToInsert = [];
-        for (let i = 0; i < quantity; i++) {
-          // Genera un dato QR univoco, ad esempio combinando booking_id, indice e timestamp
-          const qrData = `${bookingData.id}-${i}-${Date.now()}`;
-          ticketsToInsert.push({
-            booking_id: bookingData.id,
-            qr_data: qrData,
-          });
-        }
-        const { data: ticketsData, error: ticketsError } = await supabaseAdmin
-          .from("tickets")
-          .insert(ticketsToInsert)
-          .select();
-        if (ticketsError) {
-          console.error("Error inserting tickets:", JSON.stringify(ticketsError));
+        if (bookingError || !bookingData) {
+          console.error("Error inserting booking:", JSON.stringify(bookingError));
+          return NextResponse.json({ error: "Error inserting booking" }, { status: 400 });
         } else {
-          console.log("Tickets created:", JSON.stringify(ticketsData));
+          bookingId = bookingData.id;
+          console.log("Booking created:", JSON.stringify(bookingData));
         }
+      }
+
+      // Crea l'array dei ticket da inserire per il booking corretto
+      const ticketsToInsert = [];
+      for (let i = 0; i < quantity; i++) {
+        const qrData = `${bookingId}-${i}-${Date.now()}`;
+        ticketsToInsert.push({
+          booking_id: bookingId,
+          qr_data: qrData,
+        });
+      }
+      console.log("Tickets to insert:", ticketsToInsert);
+
+      // Inserisci i ticket nel database
+      const { data: ticketsData, error: ticketsError } =
+        await supabaseAdmin.from("tickets").insert(ticketsToInsert).select();
+      if (ticketsError) {
+        console.error("Error inserting tickets:", JSON.stringify(ticketsError));
+      } else {
+        console.log("Tickets created:", JSON.stringify(ticketsData));
+      }
+
+      // ** Aggiorna la ticket category decrementando available_tickets **
+      const ticketCategoryId = metadata.ticket_category_id;
+      if (ticketCategoryId) {
+        // Recupera l'attuale quantità disponibile
+        const { data: tcData, error: tcError } = await supabaseAdmin
+          .from("ticket_categories")
+          .select("available_tickets")
+          .eq("id", ticketCategoryId)
+          .single();
+        if (tcError || !tcData) {
+          console.error("Error fetching ticket category:", tcError);
+        } else {
+          const newAvailable = tcData.available_tickets - quantity;
+          // Aggiorna solo se newAvailable è >= 0, altrimenti potresti voler gestire lo scenario sold out
+          if(newAvailable < 0) {
+            console.error("Not enough tickets available in this category");
+          } else {
+            const { data: updateData, error: updateError } = await supabaseAdmin
+              .from("ticket_categories")
+              .update({ available_tickets: newAvailable })
+              .eq("id", ticketCategoryId);
+            if (updateError) {
+              console.error("Error updating ticket category:", updateError);
+            } else {
+              console.log("Ticket category updated, new available_tickets:", newAvailable);
+            }
+          }
+        }
+      } else {
+        console.warn("No ticket_category_id found in metadata.");
       }
     }
   } else {

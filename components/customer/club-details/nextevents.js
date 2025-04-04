@@ -75,6 +75,12 @@ export default function NextEvents({ clubId, selectedEventId }) {
         setTicketCategories(categories || []);
         if (categories && categories.length > 0) {
           setSelectedTicketCategory(categories[0].id);
+          // Imposta la quantità in base alla disponibilità: se sold out, quantity = 0
+          if (categories[0].available_tickets > 0) {
+            setQuantity(1);
+          } else {
+            setQuantity(0);
+          }
         }
       } catch (err) {
         console.error(err);
@@ -82,6 +88,9 @@ export default function NextEvents({ clubId, selectedEventId }) {
     }
     fetchTicketCategories();
   }, [selectedEvent]);
+
+  // Recupera il ticket category selezionato
+  const selectedTC = ticketCategories.find((tc) => tc.id === selectedTicketCategory);
 
   // Funzione Book Now
   function handleBookNow() {
@@ -213,8 +222,7 @@ export default function NextEvents({ clubId, selectedEventId }) {
                 return <div key={index} className="w-8 h-8"></div>;
               }
               const hasEv = dayHasEvents(day);
-              // Determina il colore del testo per i giorni SENZA evento:
-              // Se il calendario mostra il mese corrente e il giorno è passato, usa il grigio; altrimenti nero.
+              // Se il giorno è passato, usa un colore più tenue
               let cellTextColor = "text-gray-900";
               if (currentYear === today.getFullYear() && currentMonth === today.getMonth() && day < today.getDate()) {
                 cellTextColor = "text-gray-400";
@@ -273,26 +281,44 @@ export default function NextEvents({ clubId, selectedEventId }) {
               <select
                 className="border border-gray-300 rounded px-2 py-1"
                 value={selectedTicketCategory}
-                onChange={(e) => setSelectedTicketCategory(e.target.value)}
+                onChange={(e) => {
+                  setSelectedTicketCategory(e.target.value);
+                  // Resetta la quantità a 1 se disponibili, altrimenti 0
+                  const newTC = ticketCategories.find((tc) => tc.id === e.target.value);
+                  if (newTC) {
+                    setQuantity(newTC.available_tickets > 0 ? 1 : 0);
+                  }
+                }}
               >
                 {ticketCategories.map((tc) => (
                   <option key={tc.id} value={tc.id}>
-                    {tc.name} - €{tc.price}
+                    {tc.name} - €{tc.price} (Available: {tc.available_tickets})
                   </option>
                 ))}
               </select>
               <input
                 type="number"
                 min="1"
+                max={selectedTC ? selectedTC.available_tickets : 1}
                 value={quantity}
-                onChange={(e) => setQuantity(Number(e.target.value))}
+                onChange={(e) => {
+                  let newQuantity = Number(e.target.value);
+                  if (selectedTC && newQuantity > selectedTC.available_tickets) {
+                    newQuantity = selectedTC.available_tickets;
+                  }
+                  setQuantity(newQuantity);
+                }}
+                disabled={selectedTC && selectedTC.available_tickets === 0}
                 className="border border-gray-300 rounded w-16 px-2 py-1"
               />
               <button
                 onClick={handleBookNow}
-                className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700"
+                disabled={selectedTC && selectedTC.available_tickets === 0}
+                className={`bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 ${
+                  selectedTC && selectedTC.available_tickets === 0 ? "opacity-50 cursor-not-allowed" : ""
+                }`}
               >
-                Book now
+                {selectedTC && selectedTC.available_tickets === 0 ? "Sold Out" : "Book now"}
               </button>
             </div>
           </div>

@@ -1,5 +1,4 @@
 // app/api/bookings/route.js
-// app/api/bookings/route.js
 import { createServerSupabase } from "@/lib/supabase-server";
 import { NextResponse } from "next/server";
 
@@ -38,16 +37,13 @@ async function reverseGeocode(lat, lng) {
 export async function GET(request) {
   try {
     const supabase = await createServerSupabase();
+    const { searchParams } = new URL(request.url);
+    const bookingId = searchParams.get("booking_id");
 
     // Recupera l'utente loggato
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
+    const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
-      return NextResponse.json(
-        { error: "Not authenticated" },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
     }
 
     // Recupera il ruolo dell'utente dalla tabella profiles
@@ -58,15 +54,12 @@ export async function GET(request) {
       .single();
     if (profileError || !profileData) {
       console.error("Error fetching profile:", profileError);
-      return NextResponse.json(
-        { error: "Internal Server Error" },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
     }
     const role = profileData.role; // "customer" o "manager"
 
-    // Recupera tutte le prenotazioni con join su events e clubs
-    const { data, error } = await supabase
+    // Costruisci la query con join su events e clubs
+    let query = supabase
       .from("bookings")
       .select(`
         id,
@@ -89,6 +82,13 @@ export async function GET(request) {
         )
       `)
       .order("created_at", { ascending: false });
+    
+    // Se è passato il parametro booking_id, aggiungi il filtro
+    if (bookingId) {
+      query = query.eq("id", bookingId);
+    }
+    
+    const { data, error } = await query;
     if (error) throw error;
     let bookings = data || [];
 
@@ -120,10 +120,7 @@ export async function GET(request) {
         bookings.map(async (booking) => {
           const event = booking.events;
           if (event && event.clubs && event.clubs.lat && event.clubs.lng) {
-            const { city, country } = await reverseGeocode(
-              event.clubs.lat,
-              event.clubs.lng
-            );
+            const { city, country } = await reverseGeocode(event.clubs.lat, event.clubs.lng);
             event.clubs.city = city;
             event.clubs.country = country;
           }
@@ -134,9 +131,6 @@ export async function GET(request) {
     return NextResponse.json({ bookings }, { status: 200 });
   } catch (err) {
     console.error("Error in GET /api/bookings:", err);
-    return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }

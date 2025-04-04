@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import ManagerLayout from '../ManagerLayout';
+import { Cog6ToothIcon, LockClosedIcon, DocumentTextIcon } from '@heroicons/react/24/outline';
 
 export default function ManagerSettingsPage() {
   return (
@@ -39,6 +40,14 @@ export default function ManagerSettingsPage() {
               transition: 'transform 0.2s',
             }}
           >
+            <Cog6ToothIcon
+              style={{
+                width: '40px',
+                height: '40px',
+                marginBottom: '0.5rem',
+                color: '#666',
+              }}
+            />
             <h2 style={{ marginBottom: '0.5rem' }}>General</h2>
             <p style={{ fontSize: '0.9rem', color: '#666' }}>
               Manage your basic information and communication preferences
@@ -66,6 +75,14 @@ export default function ManagerSettingsPage() {
               transition: 'transform 0.2s',
             }}
           >
+            <LockClosedIcon
+              style={{
+                width: '40px',
+                height: '40px',
+                marginBottom: '0.5rem',
+                color: '#666',
+              }}
+            />
             <h2 style={{ marginBottom: '0.5rem' }}>Login and Security</h2>
             <p style={{ fontSize: '0.9rem', color: '#666' }}>
               Update your password and manage account security
@@ -93,6 +110,14 @@ export default function ManagerSettingsPage() {
               transition: 'transform 0.2s',
             }}
           >
+            <DocumentTextIcon
+              style={{
+                width: '40px',
+                height: '40px',
+                marginBottom: '0.5rem',
+                color: '#666',
+              }}
+            />
             <h2 style={{ marginBottom: '0.5rem' }}>Legal</h2>
             <p style={{ fontSize: '0.9rem', color: '#666' }}>
               Terms of Service and Privacy Policy

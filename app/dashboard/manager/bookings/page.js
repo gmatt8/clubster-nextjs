@@ -92,7 +92,7 @@ export default function ManagerBookingsPage() {
   }, [filteredBookings, currentPage]);
 
   function handleDownloadTicket(bookingId) {
-    window.open(`/api/ticket?bookingId=${bookingId}`, "_blank");
+    window.open(`/api/ticket?booking_id=${booking.id}`, "_blank")
   }
 
   function handleResetFilter() {

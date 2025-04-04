@@ -1,95 +1,150 @@
 // app/dashboard/customer/checkout/success/page.js
 "use client";
 
+import { useSearchParams, useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
 import CustomerLayout from "../../CustomerLayout";
 
 export default function CheckoutSuccessPage() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const bookingId = searchParams.get("booking_id");
+  const [booking, setBooking] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    async function fetchBooking() {
+      if (!bookingId) {
+        setError("Missing booking ID");
+        setLoading(false);
+        return;
+      }
+      try {
+        const res = await fetch(`/api/bookings?booking_id=${bookingId}`, { credentials: "include" });
+        if (!res.ok) {
+          const errText = await res.text();
+          throw new Error(errText);
+        }
+        const data = await res.json();
+        if (data.bookings && data.bookings.length > 0) {
+          setBooking(data.bookings[0]);
+        } else {
+          setError("Booking not found");
+        }
+      } catch (err) {
+        console.error(err);
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchBooking();
+  }, [bookingId]);
+
+  if (loading) {
+    return (
+      <CustomerLayout>
+        <div className="px-6 py-8 max-w-screen-xl mx-auto text-center">
+          Loading order details...
+        </div>
+      </CustomerLayout>
+    );
+  }
+
+  if (error || !booking) {
+    return (
+      <CustomerLayout>
+        <div className="px-6 py-8 max-w-screen-xl mx-auto text-center">
+          <p className="text-red-500">Error: {error || "Booking not found"}</p>
+          <button
+            className="bg-purple-600 text-white px-6 py-3 rounded hover:bg-purple-700 mt-4"
+            onClick={() => router.push("/dashboard/customer/bookings")}
+          >
+            View bookings
+          </button>
+        </div>
+      </CustomerLayout>
+    );
+  }
+
+  // Estrai i dettagli della prenotazione
+  const orderNumber = booking.booking_number;
+  const orderDate = new Date(booking.created_at).toLocaleDateString("en-GB", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+  const event = booking.events;
+  const eventDate = event
+    ? new Date(event.start_date).toLocaleDateString("en-GB", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      })
+    : "";
+  const eventName = event ? event.name : "";
+  const eventLocation =
+    event && event.clubs
+      ? `${event.clubs.club_name}, ${event.clubs.city} (${event.clubs.country})`
+      : "";
+
   return (
     <CustomerLayout>
-      <div style={{ padding: "2rem" }}>
-        <div style={{ maxWidth: "600px", margin: "0 auto", textAlign: "center" }}>
-          <h1 style={{ fontSize: "2rem", marginBottom: "1rem" }}>Thank you!</h1>
-          <p style={{ marginBottom: "1rem" }}>
-            Your order was placed successfully.
-          </p>
-          <p style={{ marginBottom: "2rem", color: "#666" }}>
-            We sent the order confirmation details to <strong>customer@email.com</strong>
-          </p>
+      <div className="px-6 py-8 max-w-screen-xl mx-auto text-center">
+        <h1 className="text-2xl font-bold mb-4">Thank you!</h1>
+        <p className="mb-4">Your order was placed successfully.</p>
+        <p className="mb-6 text-gray-600">
+          We sent the order confirmation details to{" "}
+          <strong>{booking.userEmail || "your email"}</strong>
+        </p>
 
-          {/* Order info */}
-          <div style={{ marginBottom: "2rem" }}>
-            <p style={{ margin: "0.25rem 0", fontWeight: "bold" }}>Order number #K374204</p>
-            <p style={{ margin: "0.25rem 0", color: "#666" }}>Order date 15 September 2024</p>
-          </div>
+        {/* Order info */}
+        <div className="mb-6">
+          <p className="mb-1 font-bold">Order number #{orderNumber}</p>
+          <p className="mb-1 text-gray-600">Order date: {orderDate}</p>
+        </div>
 
-          {/* Big box with event details */}
-          <div
-            style={{
-              border: "1px solid #ddd",
-              borderRadius: "8px",
-              padding: "1rem",
-              textAlign: "left",
-              marginBottom: "2rem",
-            }}
-          >
-            <div style={{ marginBottom: "1rem" }}>
-              <p style={{ fontSize: "1rem", margin: 0, color: "#666" }}>
-                16 September 2024
-              </p>
-              <p style={{ fontSize: "1.2rem", margin: "0.25rem 0", fontWeight: "bold" }}>
-                SPECIAL GUEST - DAVID GUETTA
-              </p>
-              <p style={{ margin: 0, color: "#666" }}>Seven Club, Lugano [Switzerland]</p>
+        {/* Event details */}
+        {event && (
+          <div className="border border-gray-300 rounded p-4 text-left mb-6">
+            <div className="mb-4">
+              <p className="text-sm text-gray-600">{eventDate}</p>
+              <p className="text-lg font-bold my-1">{eventName}</p>
+              <p className="text-sm text-gray-600">{eventLocation}</p>
             </div>
-
-            {/* Azioni (Download tickets, invoice, ecc.) */}
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem" }}>
+            <div className="flex flex-wrap gap-4">
               <button
-                style={{
-                  backgroundColor: "#6c63ff",
-                  color: "#fff",
-                  border: "none",
-                  padding: "0.5rem 1rem",
-                  borderRadius: "4px",
-                  cursor: "pointer",
-                }}
+                className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700"
+                onClick={() =>
+                    window.open(`/api/ticket?booking_id=${booking.id}`, "_blank")
+                }
               >
                 Download tickets
               </button>
               <button
-                style={{
-                  backgroundColor: "#6c63ff",
-                  color: "#fff",
-                  border: "none",
-                  padding: "0.5rem 1rem",
-                  borderRadius: "4px",
-                  cursor: "pointer",
-                }}
+                className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700"
+                onClick={() =>
+                  window.open(`/api/invoice?booking_id=${booking.id}`, "_blank")
+                }
               >
                 Download invoice
               </button>
             </div>
           </div>
+        )}
 
-          {/* Pulsante "View bookings" o "Go to bookings" */}
-          <button
-            style={{
-              backgroundColor: "#6c63ff",
-              color: "#fff",
-              border: "none",
-              padding: "0.75rem 1.5rem",
-              borderRadius: "4px",
-              cursor: "pointer",
-              marginBottom: "2rem",
-            }}
-          >
-            View bookings
-          </button>
+        {/* Bottone "View bookings" */}
+        <button
+          className="bg-purple-600 text-white px-6 py-3 rounded hover:bg-purple-700"
+          onClick={() => router.push("/dashboard/customer/bookings")}
+        >
+          View bookings
+        </button>
 
-          <p style={{ marginBottom: "0.5rem", color: "#666" }}>
-            Need help or have questions? Contact support
-          </p>
-        </div>
+        <p className="mt-4 text-gray-600">
+          Need help or have questions? Contact support
+        </p>
       </div>
     </CustomerLayout>
   );

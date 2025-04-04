@@ -14,11 +14,16 @@ export async function POST(request) {
     const supabase = await createServerSupabase();
     const { data: ticketCat, error: tcError } = await supabase
       .from("ticket_categories")
-      .select("price, event_id")
+      .select("price, event_id, available_tickets")
       .eq("id", ticketCategoryId)
       .single();
     if (tcError || !ticketCat) {
       return NextResponse.json({ error: "Ticket category not found" }, { status: 400 });
+    }
+
+    // (Opzionale: qui potresti controllare che available_tickets sia sufficiente)
+    if(ticketCat.available_tickets < quantity) {
+      return NextResponse.json({ error: "Not enough available tickets" }, { status: 400 });
     }
 
     // Recupera l'ID Stripe del manager tramite l'evento
@@ -41,17 +46,35 @@ export async function POST(request) {
       return NextResponse.json({ error: "Club not found or not linked to Stripe" }, { status: 400 });
     }
 
-    // Per ottenere l'ID dell'utente, puoi fare:
+    // Ottieni l'ID dell'utente loggato
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
       return NextResponse.json({ error: "User not authenticated" }, { status: 401 });
+    }
+
+    // 2.1) Crea un record di booking provvisorio
+    const bookingNumber = `BK${Date.now()}`;
+    const { data: bookingData, error: bookingError } = await supabase
+      .from("bookings")
+      .insert([
+        {
+          user_id: user.id,
+          event_id: eventId,
+          quantity,
+          booking_number: bookingNumber,
+        },
+      ])
+      .select()
+      .single();
+    if (bookingError || !bookingData) {
+      return NextResponse.json({ error: "Error creating booking" }, { status: 400 });
     }
 
     // 3) Calcola il prezzo totale (in centesimi)
     const unitPrice = Math.round(ticketCat.price * 100);
     const totalPrice = unitPrice * quantity;
 
-    // 4) Crea la Checkout Session, includendo metadata utili per il webhook
+    // 4) Crea la Checkout Session, includendo metadata utili (incluso booking_id e ticket_category_id)
     const session = await stripe.checkout.sessions.create(
       {
         line_items: [
@@ -73,11 +96,14 @@ export async function POST(request) {
             user_id: user.id,
             event_id: eventId,
             quantity: quantity.toString(),
+            booking_id: bookingData.id, // Passiamo il booking_id creato in checkout
+            ticket_category_id: ticketCategoryId, // Passiamo il ticketCategoryId
           },
         },
-        success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard/customer/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
+        // Success URL include il booking_id in query string
+        success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard/customer/checkout/success?booking_id=${bookingData.id}`,
         cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard/customer/checkout/cancel`,
-        expand: ["payment_intent"]  // <--- Aggiunto per espandere il payment_intent
+        expand: ["payment_intent"],
       },
       {
         stripeAccount: clubData.stripe_account_id,

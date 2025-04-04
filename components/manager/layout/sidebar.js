@@ -1,18 +1,26 @@
 "use client";
 
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createBrowserSupabase } from "@/lib/supabase-browser";
 import Image from "next/image";
 import Link from "next/link";
+import {
+  HomeIcon,
+  CalendarDaysIcon,
+  ClipboardDocumentListIcon,
+  ChartBarIcon,
+  CreditCardIcon,
+  Cog6ToothIcon,
+  ArrowLeftOnRectangleIcon,
+} from "@heroicons/react/24/outline";
 
 export default function Sidebar() {
   const router = useRouter();
   const supabase = createBrowserSupabase();
 
   async function handleLogout() {
-    // 1) Esegui il logout su Supabase
     await supabase.auth.signOut();
-    // 2) Reindirizza alla home page (app/page.js) corrispondente a "/"
     router.push("/");
   }
 
@@ -33,49 +41,57 @@ export default function Sidebar() {
       <nav className="flex flex-col gap-1">
         <Link
           href="/dashboard/manager/dashboard"
-          className="p-2 rounded text-gray-700 hover:bg-purple-50 hover:text-purple-700"
+          className="p-2 rounded text-gray-700 hover:bg-purple-50 hover:text-purple-700 flex items-center space-x-2"
         >
-          Dashboard
+          <HomeIcon className="h-5 w-5" />
+          <span>Dashboard</span>
         </Link>
         <Link
           href="/dashboard/manager/events"
-          className="p-2 rounded text-gray-700 hover:bg-purple-50 hover:text-purple-700"
+          className="p-2 rounded text-gray-700 hover:bg-purple-50 hover:text-purple-700 flex items-center space-x-2"
         >
-          Events
+          <CalendarDaysIcon className="h-5 w-5" />
+          <span>Events</span>
         </Link>
         <Link
           href="/dashboard/manager/bookings"
-          className="p-2 rounded text-gray-700 hover:bg-purple-50 hover:text-purple-700"
+          className="p-2 rounded text-gray-700 hover:bg-purple-50 hover:text-purple-700 flex items-center space-x-2"
         >
-          Bookings
+          <ClipboardDocumentListIcon className="h-5 w-5" />
+          <span>Bookings</span>
         </Link>
         <Link
           href="/dashboard/manager/analytics"
-          className="p-2 rounded text-gray-700 hover:bg-purple-50 hover:text-purple-700"
+          className="p-2 rounded text-gray-700 hover:bg-purple-50 hover:text-purple-700 flex items-center space-x-2"
         >
-          Analytics
+          <ChartBarIcon className="h-5 w-5" />
+          <span>Analytics</span>
         </Link>
         <Link
           href="/dashboard/manager/payments"
-          className="p-2 rounded text-gray-700 hover:bg-purple-50 hover:text-purple-700"
+          className="p-2 rounded text-gray-700 hover:bg-purple-50 hover:text-purple-700 flex items-center space-x-2"
         >
-          Payments
+          <CreditCardIcon className="h-5 w-5" />
+          <span>Payments</span>
         </Link>
       </nav>
 
       {/* Footer: Settings e Logout */}
       <div className="mt-auto">
-        <Link
-          href="/dashboard/manager/settings"
-          className="block p-2 mb-2 rounded text-gray-700 hover:bg-purple-50 hover:text-purple-700"
-        >
-          Settings
+      <Link
+  href="/dashboard/manager/settings"
+  className="p-2 mb-2 rounded text-gray-700 hover:bg-purple-50 hover:text-purple-700 flex items-center space-x-2"
+>
+          <Cog6ToothIcon className="h-5 w-5" />
+          <span>Settings</span>
         </Link>
+        {/* Logout testuale in rosso */}
         <button
           onClick={handleLogout}
-          className="w-full bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded"
+          className="py-2 px-4 flex items-center space-x-2 text-red-600 hover:text-red-700"
         >
-          Logout
+          <ArrowLeftOnRectangleIcon className="h-5 w-5" />
+          <span>Logout</span>
         </button>
       </div>
     </aside>

@@ -6,7 +6,6 @@ import { createBrowserSupabase } from "@/lib/supabase-browser";
 import CustomerLayout from "../../CustomerLayout";
 
 export default function CustomerSettingsLoginSecurityPage() {
-  // Crea l'istanza di supabase una sola volta
   const supabase = useMemo(() => createBrowserSupabase(), []);
 
   const [userEmail, setUserEmail] = useState("");
@@ -25,7 +24,10 @@ export default function CustomerSettingsLoginSecurityPage() {
   // Al mount, recupera l'utente loggato
   useEffect(() => {
     async function getUser() {
-      const { data: { user }, error: userError } = await supabase.auth.getUser();
+      const {
+        data: { user },
+        error: userError,
+      } = await supabase.auth.getUser();
       if (userError) {
         setError("Errore nel recupero utente");
       } else if (user) {
@@ -42,7 +44,6 @@ export default function CustomerSettingsLoginSecurityPage() {
     setError("");
     setMessage("");
 
-    // Verifica che i campi siano compilati correttamente
     if (!currentPassword || !newPassword || !confirmNewPassword) {
       setError("Compila tutti i campi");
       return;
@@ -59,23 +60,21 @@ export default function CustomerSettingsLoginSecurityPage() {
     setLoading(true);
 
     try {
-      // Verifica la password attuale (ri-effettua il login con email e currentPassword)
+      // Verifica password attuale
       const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
         email: userEmail,
         password: currentPassword,
       });
-
       if (signInError) {
         setError("La password attuale non è corretta");
         setLoading(false);
         return;
       }
 
-      // Se la verifica è ok, aggiorna la password
+      // Aggiorna password
       const { data: updateData, error: updateError } = await supabase.auth.updateUser({
         password: newPassword,
       });
-
       if (updateError) {
         setError(updateError.message);
         setLoading(false);
@@ -93,77 +92,72 @@ export default function CustomerSettingsLoginSecurityPage() {
   return (
     <CustomerLayout>
       <div className="px-6 py-8 max-w-screen-xl mx-auto">
-        <h1 className="text-2xl font-bold mb-6">Login and Security</h1>
-        <div style={{ maxWidth: "400px" }}>
-          <form
-            onSubmit={handleChangePassword}
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "1rem",
-            }}
-          >
+        {/* Breadcrumb */}
+        <div className="text-sm text-gray-500 mb-1">
+          Settings &gt; Login and Security
+        </div>
+
+        {/* Titolo principale */}
+        <h1 className="text-2xl font-bold mb-6">Password Management</h1>
+
+        {/* Contenitore del form */}
+        <div className="max-w-md bg-white rounded-lg shadow p-6">
+          <form onSubmit={handleChangePassword} className="flex flex-col space-y-4">
+            {/* Current Password */}
             <div>
-              <label>Current Password</label>
+              <label className="block text-sm font-medium text-gray-700">
+                Current Password
+              </label>
               <input
                 type="password"
                 value={currentPassword}
                 onChange={(e) => setCurrentPassword(e.target.value)}
-                style={{
-                  display: "block",
-                  width: "100%",
-                  marginTop: "0.5rem",
-                }}
                 required
+                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-purple-500"
               />
             </div>
+
+            {/* New Password */}
             <div>
-              <label>New Password</label>
+              <label className="block text-sm font-medium text-gray-700">
+                New Password
+              </label>
               <input
                 type="password"
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
-                style={{
-                  display: "block",
-                  width: "100%",
-                  marginTop: "0.5rem",
-                }}
                 required
+                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-purple-500"
               />
             </div>
+
+            {/* Confirm New Password */}
             <div>
-              <label>Confirm New Password</label>
+              <label className="block text-sm font-medium text-gray-700">
+                Confirm New Password
+              </label>
               <input
                 type="password"
                 value={confirmNewPassword}
                 onChange={(e) => setConfirmNewPassword(e.target.value)}
-                style={{
-                  display: "block",
-                  width: "100%",
-                  marginTop: "0.5rem",
-                }}
                 required
+                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-purple-500"
               />
             </div>
 
+            {/* Pulsante di salvataggio */}
             <button
               type="submit"
               disabled={loading}
-              style={{
-                padding: "0.75rem 1rem",
-                backgroundColor: "#007bff",
-                color: "#fff",
-                border: "none",
-                borderRadius: "4px",
-                cursor: "pointer",
-              }}
+              className="inline-flex items-center justify-center rounded-md bg-purple-600 px-4 py-2 text-white hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
             >
               {loading ? "Saving..." : "Save"}
             </button>
           </form>
 
-          {error && <p style={{ color: "red", marginTop: "1rem" }}>{error}</p>}
-          {message && <p style={{ color: "green", marginTop: "1rem" }}>{message}</p>}
+          {/* Messaggi di errore/successo */}
+          {error && <p className="text-red-600 mt-4">{error}</p>}
+          {message && <p className="text-green-600 mt-4">{message}</p>}
         </div>
       </div>
     </CustomerLayout>
