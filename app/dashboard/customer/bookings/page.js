@@ -12,6 +12,10 @@ export default function MyBookingsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
+  // Stati per la paginazione separata per upcoming e past
+  const [visibleUpcoming, setVisibleUpcoming] = useState(3);
+  const [visiblePast, setVisiblePast] = useState(3);
+
   useEffect(() => {
     async function fetchBookings() {
       setLoading(true);
@@ -36,7 +40,7 @@ export default function MyBookingsPage() {
 
   const now = new Date();
 
-  // Determina le prenotazioni upcoming e past in base alla data di fine (o in alternativa start_date)
+  // Filtra le prenotazioni upcoming e past basandosi sulla data di fine o, se mancante, su start_date
   const upcomingBookings = bookings.filter((b) => {
     if (!b.events) return false;
     const event = b.events;
@@ -51,14 +55,26 @@ export default function MyBookingsPage() {
     return eventEndDate <= now;
   });
 
-  const displayedBookings = tab === "upcoming" ? upcomingBookings : pastBookings;
+  // Ordina entrambe le liste in ordine decrescente rispetto a created_at (le più recenti in cima)
+  const upcomingBookingsSorted = [...upcomingBookings].sort(
+    (a, b) => new Date(b.created_at) - new Date(a.created_at)
+  );
+  const pastBookingsSorted = [...pastBookings].sort(
+    (a, b) => new Date(b.created_at) - new Date(a.created_at)
+  );
+
+  // Mostra i primi 3 (o più se "Show more" è stato premuto) in base al tab attivo
+  const displayedBookings =
+    tab === "upcoming"
+      ? upcomingBookingsSorted.slice(0, visibleUpcoming)
+      : pastBookingsSorted.slice(0, visiblePast);
 
   return (
     <CustomerLayout>
       <div className="px-6 py-8 max-w-screen-xl mx-auto">
         <h1 className="text-2xl font-bold mb-6">My Tickets</h1>
 
-        {/* Tabs per scegliere tra upcoming e past */}
+        {/* Tabs per selezionare upcoming o past */}
         <div className="mb-4 flex gap-4">
           <button
             className={`px-4 py-2 rounded ${
@@ -85,11 +101,28 @@ export default function MyBookingsPage() {
         ) : displayedBookings.length === 0 ? (
           <p>No {tab === "upcoming" ? "upcoming" : "past"} bookings found.</p>
         ) : (
-          <div className="flex flex-col gap-4">
-            {displayedBookings.map((b) => (
-              <BookingCard key={b.id} booking={b} />
-            ))}
-          </div>
+          <>
+            <div className="flex flex-col gap-4">
+              {displayedBookings.map((b) => (
+                <BookingCard key={b.id} booking={b} />
+              ))}
+            </div>
+            {/* Bottone "Show more" se ci sono altri elementi da mostrare */}
+            {((tab === "upcoming" && upcomingBookingsSorted.length > visibleUpcoming) ||
+              (tab === "past" && pastBookingsSorted.length > visiblePast)) && (
+              <div className="text-center mt-6">
+                <button
+                  onClick={() => {
+                    if (tab === "upcoming") setVisibleUpcoming((prev) => prev + 3);
+                    else setVisiblePast((prev) => prev + 3);
+                  }}
+                  className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700"
+                >
+                  Show more
+                </button>
+              </div>
+            )}
+          </>
         )}
       </div>
     </CustomerLayout>
@@ -114,14 +147,13 @@ function BookingCard({ booking }) {
     hour12: false,
   })}`;
 
-  // Dati del club (se disponibili)
+  // Dati del club
   const clubData = event.clubs;
   const clubLocation =
-    clubData &&
-    clubData.club_name &&
-    clubData.city &&
-    clubData.country
+    clubData && clubData.club_name && clubData.city && clubData.country
       ? `${clubData.club_name}, ${clubData.city} (${clubData.country})`
+      : clubData && clubData.address
+      ? clubData.address
       : "Club location";
 
   const mapsLink =
@@ -129,7 +161,6 @@ function BookingCard({ booking }) {
       ? `https://www.google.com/maps/search/?api=1&query=${clubData.lat},${clubData.lng}`
       : null;
 
-  // Determina se l'evento è terminato (usa end_date se disponibile, altrimenti start_date)
   const now = new Date();
   const eventEndDate = event.end_date ? new Date(event.end_date) : new Date(event.start_date);
   const isEventFinished = now > eventEndDate;
@@ -143,7 +174,6 @@ function BookingCard({ booking }) {
       if (!user) return;
       const userId = user.id;
       try {
-        // Filtra per booking_id e user_id
         const res = await fetch(`/api/reviews?booking_id=${booking.id}&user_id=${userId}`);
         if (res.ok) {
           const data = await res.json();
