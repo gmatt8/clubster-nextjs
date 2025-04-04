@@ -1,3 +1,4 @@
+// app/dashboard/manager/payments/page.js
 "use client";
 
 import { useState, useEffect } from "react";
@@ -5,11 +6,12 @@ import { createBrowserSupabase } from "@/lib/supabase-browser";
 import ManagerLayout from "../ManagerLayout";
 
 export default function ManagerPaymentsPage() {
+  // Dichiarazione delle hook in modo incondizionato
   const [stripeStatus, setStripeStatus] = useState("loading");
   const [stripeAccountId, setStripeAccountId] = useState("");
   const [error, setError] = useState("");
 
-  // Crea l'istanza di supabase per il browser
+  // Crea l'istanza di Supabase per il browser
   const supabase = createBrowserSupabase();
 
   useEffect(() => {
@@ -96,9 +98,8 @@ export default function ManagerPaymentsPage() {
         >
           <h2>Set Up Stripe Payment</h2>
           <p>
-            To start receiving payments directly into your Stripe account,
-            please connect your Stripe account now. Setup is fast, secure, and
-            takes only a few minutes.
+            To start receiving payments directly into your Stripe account, please
+            connect your Stripe account now. Setup is fast, secure, and takes only a few minutes.
           </p>
           <button
             onClick={handleConnectStripe}
@@ -114,15 +115,13 @@ export default function ManagerPaymentsPage() {
             <h3>Steps Explanation:</h3>
             <ol>
               <li>
-                Click "Connect Stripe Account": You will be redirected to Stripe
-                to create or link your account.
+                Click &quot;Connect Stripe Account&quot;: You will be redirected to Stripe to create or link your account.
               </li>
               <li>
                 Complete the setup: Follow the on-screen instructions on Stripe.
               </li>
               <li>
-                Return to the dashboard: Once completed, you'll be redirected
-                back here, and your account will be ready.
+                Return to the dashboard: Once completed, you&apos;ll be redirected back here, and your account will be ready.
               </li>
             </ol>
           </div>
@@ -143,8 +142,7 @@ export default function ManagerPaymentsPage() {
           </p>
           <p>
             Your Stripe account has been connected but is not yet fully activated.
-            Stripe requires additional information to enable payouts and payment
-            processing.
+            Stripe requires additional information to enable payouts and payment processing.
           </p>
           <button
             onClick={handleCompleteSetup}
@@ -174,7 +172,9 @@ export default function ManagerPaymentsPage() {
           <p>
             Account ID: <strong>{stripeAccountId || "Not available"}</strong>
           </p>
-          <p>Status: <strong>Active</strong></p>
+          <p>
+            Status: <strong>Active</strong>
+          </p>
           <button
             onClick={handleGoToStripeDashboard}
             style={{
@@ -186,8 +186,7 @@ export default function ManagerPaymentsPage() {
             Go to Stripe Dashboard
           </button>
           <p style={{ marginTop: "1rem" }}>
-            Need to disconnect or change your Stripe account? Please contact our
-            support team.
+            Need to disconnect or change your Stripe account? Please contact our support team.
           </p>
         </div>
       )}
