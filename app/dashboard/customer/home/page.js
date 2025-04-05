@@ -8,6 +8,11 @@ import { enGB } from "date-fns/locale";
 import CustomerLayout from "../CustomerLayout";
 import DatePicker from "@/components/customer/home/calendar";
 
+// Puoi usare la libreria di icone che preferisci
+// Qui come esempio importiamo un'icona generica dal pacchetto Heroicons
+import { MapPinIcon } from "@heroicons/react/24/outline";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+
 export default function CustomerHomePage() {
   const router = useRouter();
 
@@ -20,6 +25,9 @@ export default function CustomerHomePage() {
   const [events, setEvents] = useState([]);
   const [visibleCount, setVisibleCount] = useState(8);
   const [errorMsg, setErrorMsg] = useState("");
+
+  // Per mostrare/nascondere il campo Radius (ricerca avanzata)
+  const [showAdvanced, setShowAdvanced] = useState(false);
 
   const locationInputRef = useRef(null);
 
@@ -45,8 +53,8 @@ export default function CustomerHomePage() {
 
   // Funzione di ricerca
   async function handleSearch() {
-    if (!locationSearch || !selectedDate || !radius) {
-      setErrorMsg("Please fill out location, radius and date!");
+    if (!locationSearch || !selectedDate) {
+      setErrorMsg("Please fill out location and date!");
       return;
     }
     setErrorMsg("");
@@ -85,145 +93,147 @@ export default function CustomerHomePage() {
 
   return (
     <CustomerLayout>
-      <div className="px-6 py-8 max-w-screen-xl mx-auto">
-        {/* Barra di ricerca */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-6">
-          {/* Campo Location */}
-          <div className="flex flex-col">
-            <label className="text-sm font-medium text-gray-700 mb-1">Where</label>
-            <input
-              ref={locationInputRef}
-              type="text"
-              placeholder="Location"
-              value={locationSearch}
-              onChange={(e) => setLocationSearch(e.target.value)}
-              className="border border-gray-300 rounded px-3 py-2 w-64"
-            />
-          </div>
+      <div className="max-w-screen-xl mx-auto px-4 py-8 flex flex-col items-center">
+        {/* Barra di ricerca principale */}
+        <div className="w-full max-w-3xl flex flex-col items-center">
+          {/* Grande box arrotondato */}
+          <div className="w-full flex items-center bg-white border border-gray-300 rounded-full px-4 py-2 shadow-sm">
+            {/* Icona e campo "Where" */}
+            <div className="flex items-center gap-2 w-full">
+              <MapPinIcon className="h-5 w-5 text-gray-500" />
+              <input
+                ref={locationInputRef}
+                type="text"
+                placeholder="Location"
+                value={locationSearch}
+                onChange={(e) => setLocationSearch(e.target.value)}
+                className="w-full outline-none"
+              />
+            </div>
 
-          {/* Campo Radius */}
-          <div className="flex flex-col">
-            <label className="text-sm font-medium text-gray-700 mb-1">Radius (km)</label>
-            <input
-              type="number"
-              placeholder="e.g. 10"
-              value={radius}
-              onChange={(e) => setRadius(e.target.value)}
-              className="border border-gray-300 rounded px-3 py-2 w-48"
-            />
-          </div>
+            {/* Divisore verticale */}
+            <div className="h-6 w-px bg-gray-200 mx-3" />
 
-          {/* Campo When (usa il DatePicker) */}
-          <div className="flex flex-col">
-            <label className="text-sm font-medium text-gray-700 mb-1">When</label>
-            <DatePicker
-              selected={selectedDate}
-              onSelect={(date) => setSelectedDate(date)}
-            />
-          </div>
+            {/* Campo "When" */}
+            <div className="flex items-center gap-2">
+              <DatePicker
+                selected={selectedDate}
+                onSelect={(date) => setSelectedDate(date)}
+              />
+            </div>
 
-          {/* Pulsante Search */}
-          <div className="mt-2 sm:mt-5">
+            {/* Pulsante Search */}
             <button
               onClick={handleSearch}
-              className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded"
+              className="ml-4 flex items-center justify-center bg-purple-600 hover:bg-purple-700 text-white rounded-full p-2 transition-colors"
             >
-              Search
+              <MagnifyingGlassIcon className="h-5 w-5" />
             </button>
           </div>
 
-          {/* Ordinamento (non ancora implementato) */}
-          <div className="ml-auto">
-            <label className="text-sm font-medium text-gray-700 mr-2">Sort by:</label>
-            <select className="border border-gray-300 rounded px-3 py-2">
-              <option value="date_asc">Date (asc)</option>
-              <option value="date_desc">Date (desc)</option>
-              <option value="price_asc">Price (asc)</option>
-              <option value="price_desc">Price (desc)</option>
-            </select>
+          {/* Pulsante Advanced Search per mostrare il campo Radius */}
+          <div className="mt-2">
+            <button
+              onClick={() => setShowAdvanced((prev) => !prev)}
+              className="text-purple-600 hover:underline"
+            >
+              Advanced Search
+            </button>
           </div>
+
+          {/* Campo Radius (solo se showAdvanced è true) */}
+          {showAdvanced && (
+            <div className="mt-3 flex items-center gap-2">
+              <label className="text-sm font-medium text-gray-700">Radius (km):</label>
+              <input
+                type="number"
+                placeholder="e.g. 10"
+                value={radius}
+                onChange={(e) => setRadius(e.target.value)}
+                className="border border-gray-300 rounded px-3 py-2 w-24"
+              />
+            </div>
+          )}
+
+          {/* Messaggio di errore */}
+          {errorMsg && <div className="text-red-500 mt-2">{errorMsg}</div>}
         </div>
 
-        {errorMsg && <div className="text-red-500 mb-4">{errorMsg}</div>}
-
         {/* Griglia eventi */}
-        {events.length > 0 ? (
-          <>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {visibleEvents.map((evt) => {
-                // Immagine principale (o placeholder)
-                const firstImage =
-                  evt.club_images && evt.club_images.length > 0
-                    ? evt.club_images[0]
-                    : "/placeholder.jpg";
+        <div className="w-full mt-8">
+          {events.length > 0 ? (
+            <>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                {visibleEvents.map((evt) => {
+                  // Immagine principale (o placeholder)
+                  const firstImage =
+                    evt.club_images && evt.club_images.length > 0
+                      ? evt.club_images[0]
+                      : "/placeholder.jpg";
 
-                // Data evento (formattata ad es. "4 Apr 2025")
-                const eventDate = evt.start_date
-                  ? format(new Date(evt.start_date), "d MMM yyyy", { locale: enGB })
-                  : "No date";
+                  // Data evento
+                  const eventDate = evt.start_date
+                    ? format(new Date(evt.start_date), "d MMM yyyy", { locale: enGB })
+                    : "No date";
 
-                // Dati del club (usando la struttura annidata)
-                const clubData = evt.clubs;
-                const locationDisplay =
-                  clubData && clubData.city && clubData.country
-                    ? `${clubData.city}, ${clubData.country}`
-                    : clubData && clubData.address
+                  // Dati del club
+                  const clubData = evt.clubs;
+                  const locationDisplay =
+                    clubData && clubData.city && clubData.country
+                      ? `${clubData.city}, ${clubData.country}`
+                      : clubData && clubData.address
                       ? clubData.address
                       : "Club location";
 
-                // Prezzo (se evt.min_price è presente, altrimenti "Free")
-                const priceLabel = evt.min_price
-                  ? `From ${evt.min_price} CHF`
-                  : "Free";
+                  // Prezzo
+                  const priceLabel = evt.min_price
+                    ? `From ${evt.min_price} CHF`
+                    : "Free";
 
-                return (
-                  <div
-                    key={evt.id}
-                    onClick={() => goToClubDetails(evt.club_id, evt.id)}
-                    className="border border-gray-200 rounded-lg overflow-hidden cursor-pointer hover:shadow-md transition-shadow"
-                  >
-                    <img
-                      src={firstImage}
-                      alt={clubData?.club_name || "Club image"}
-                      className="w-full h-48 object-cover"
-                    />
-                    <div className="p-4">
-                      {/* Nome del Club */}
-                      <h2 className="text-lg font-bold text-gray-800">
-                        {clubData?.club_name || "Club name"}
-                      </h2>
-                      {/* Nome evento */}
-                      <p className="text-md text-gray-800 font-medium">{evt.name}</p>
-                      {/* Data evento */}
-                      <p className="text-sm text-gray-600">{eventDate}</p>
-                      {/* Posizione */}
-                      {locationDisplay && (
-                        <p className="text-sm text-gray-500">{locationDisplay}</p>
-                      )}
-                      {/* Prezzo */}
-                      <p className="mt-1 text-sm text-purple-600 font-medium">{priceLabel}</p>
+                  return (
+                    <div
+                      key={evt.id}
+                      onClick={() => goToClubDetails(evt.club_id, evt.id)}
+                      className="border border-gray-200 rounded-lg overflow-hidden cursor-pointer hover:shadow-md transition-shadow"
+                    >
+                      <img
+                        src={firstImage}
+                        alt={clubData?.club_name || "Club image"}
+                        className="w-full h-48 object-cover"
+                      />
+                      <div className="p-4">
+                        <h2 className="text-lg font-bold text-gray-800">
+                          {clubData?.club_name || "Club name"}
+                        </h2>
+                        <p className="text-md text-gray-800 font-medium">{evt.name}</p>
+                        <p className="text-sm text-gray-600">{eventDate}</p>
+                        {locationDisplay && (
+                          <p className="text-sm text-gray-500">{locationDisplay}</p>
+                        )}
+                        <p className="mt-1 text-sm text-purple-600 font-medium">{priceLabel}</p>
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
-            </div>
-
-            {events.length > visibleCount && (
-              <div className="text-center mt-6">
-                <button
-                  onClick={showMore}
-                  className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700"
-                >
-                  Show more
-                </button>
+                  );
+                })}
               </div>
-            )}
-          </>
-        ) : (
-          <div className="text-center mt-6 text-gray-500">
-            No events found. Please perform a search.
-          </div>
-        )}
+
+              {events.length > visibleCount && (
+                <div className="text-center mt-6">
+                  <button
+                    onClick={showMore}
+                    className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700"
+                  >
+                    Show more
+                  </button>
+                </div>
+              )}
+            </>
+          ) : (
+            <div className="text-center mt-6 text-gray-500">
+              No events found. Please perform a search.
+            </div>
+          )}
+        </div>
       </div>
     </CustomerLayout>
   );
