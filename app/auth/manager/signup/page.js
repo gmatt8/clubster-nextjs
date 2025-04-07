@@ -5,6 +5,7 @@ import { createBrowserSupabase } from "@/lib/supabase-browser";
 import { useRouter } from 'next/navigation';
 
 export default function ManagerSignupPage() {
+  const supabase = createBrowserSupabase(); // Aggiungi questa riga
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
