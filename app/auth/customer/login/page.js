@@ -6,15 +6,16 @@ import { useRouter } from 'next/navigation';
 
 export default function CustomerLoginPage() {
   const supabase = createBrowserSupabase();
+  const router = useRouter();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const router = useRouter();
 
   async function handleSubmit(e) {
     e.preventDefault();
 
-    // Login con email e password
+    // Log in using email and password
     const { data, error: loginError } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -27,11 +28,11 @@ export default function CustomerLoginPage() {
 
     const user = data.user;
     if (!user) {
-      setError("Nessun utente trovato.");
+      setError("No user found.");
       return;
     }
 
-    // Recupera il profilo per verificare che l'utente sia un customer
+    // Retrieve the user profile to verify that the user is a customer
     const { data: profile, error: profileError } = await supabase
       .from('profiles')
       .select('role')
@@ -39,45 +40,90 @@ export default function CustomerLoginPage() {
       .single();
 
     if (profileError || !profile) {
-      setError('Impossibile recuperare il ruolo utente.');
+      setError('Unable to retrieve user role.');
       return;
     }
 
     if (profile.role !== 'customer') {
-      setError('Accesso non autorizzato. Questo form è per i customer.');
+      setError('Unauthorized access. This form is for customers.');
       await supabase.auth.signOut();
       return;
     }
 
-    // Se tutto ok, reindirizza alla dashboard customer
+    // Redirect to the customer dashboard
     router.push('/dashboard/customer/home');
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center">
-      <h1 className="text-2xl mb-4">Login Customer</h1>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-80">
-        <input
-          type="email"
-          placeholder="Email"
-          className="border p-2 rounded"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
+    <div className="flex flex-col md:flex-row w-full min-h-screen">
+      {/* Left section: login form with dark background */}
+      <div className="w-full md:w-1/2 bg-black text-white flex flex-col justify-center items-center p-6">
+        {/* Clubster logo */}
+        <img
+          src="/images/clubster-logo.png"
+          alt="Clubster Logo"
+          className="w-40 h-auto mb-8"
         />
-        <input
-          type="password"
-          placeholder="Password"
-          className="border p-2 rounded"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
+
+        <h1 className="text-3xl mb-4 font-semibold">Log in to your account</h1>
+
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-full max-w-sm">
+          <input
+            type="email"
+            placeholder="Enter email address"
+            className="border border-gray-700 bg-black p-3 rounded-full focus:outline-none focus:border-indigo-400 placeholder-gray-400"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+
+          <input
+            type="password"
+            placeholder="Enter password"
+            className="border border-gray-700 bg-black p-3 rounded-full focus:outline-none focus:border-indigo-400 placeholder-gray-400"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+
+          <button
+            type="submit"
+            className="bg-indigo-600 hover:bg-indigo-700 transition-colors text-white p-3 rounded-full font-semibold"
+          >
+            Log in
+          </button>
+        </form>
+
+        {error && <p className="text-red-500 mt-2">{error}</p>}
+
+        <p className="mt-6 text-sm">
+          Don't have an account?{' '}
+          <a href="/auth/customer/signup" className="text-indigo-400 hover:underline">
+            Sign up
+          </a>
+        </p>
+        
+        <p className="mt-2 text-sm">
+          Forgot your password?{' '}
+          <a href="/auth/customer/forgot-password" className="text-indigo-400 hover:underline">
+            Reset it
+          </a>
+        </p>
+      </div>
+
+      {/* Right section: image with overlaid text */}
+      <div className="relative w-full md:w-1/2 h-64 md:h-auto">
+        <img
+          src="/images/regphoto.png"
+          alt="Registration Photo"
+          className="object-cover w-full h-full"
         />
-        <button type="submit" className="bg-blue-500 text-white p-2 rounded">
-          Accedi
-        </button>
-      </form>
-      {error && <p className="text-red-500 mt-2">{error}</p>}
+        <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center p-4">
+          <h2 className="text-white text-xl md:text-2xl lg:text-3xl font-semibold text-center">
+            Your next party, <br className="hidden md:block" /> just a click away.
+          </h2>
+        </div>
+      </div>
     </div>
   );
 }
