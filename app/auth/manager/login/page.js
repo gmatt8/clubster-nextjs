@@ -5,20 +5,18 @@ import { useRouter } from "next/navigation";
 import { createBrowserSupabase } from "@/lib/supabase-browser";
 
 export default function ManagerLoginPage() {
+  const supabase = createBrowserSupabase();
+  const router = useRouter();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const router = useRouter();
-
-  // Creiamo il client di Supabase (browser)
-  const supabase = createBrowserSupabase();
 
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
 
     try {
-      // 1) Eseguiamo il login con email e password
       const { data, error: loginError } = await supabase.auth.signInWithPassword({
         email,
         password,
@@ -31,11 +29,11 @@ export default function ManagerLoginPage() {
 
       const user = data?.user;
       if (!user) {
-        setError("Nessun utente trovato.");
+        setError("No user found.");
         return;
       }
 
-      // 2) Recuperiamo il ruolo dell'utente dal profilo
+      // Recupera il ruolo dal profilo
       const { data: profile, error: profileError } = await supabase
         .from("profiles")
         .select("role")
@@ -43,51 +41,77 @@ export default function ManagerLoginPage() {
         .single();
 
       if (profileError || !profile) {
-        setError("Impossibile recuperare il ruolo utente.");
+        setError("Unable to retrieve user role.");
         return;
       }
 
-      // 3) Controlliamo che l'utente sia manager
       if (profile.role !== "manager") {
-        setError("Accesso non autorizzato. Questo form è per i manager.");
+        setError("Unauthorized access. This form is for managers.");
         await supabase.auth.signOut();
         return;
       }
 
-      // 4) Se tutto ok, reindirizziamo alla dashboard manager
+      // Se tutto ok, reindirizza alla dashboard manager
       router.push("/dashboard/manager/dashboard");
     } catch (err) {
-      setError(err.message || "Si è verificato un errore.");
+      setError(err.message || "An error occurred.");
     }
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center">
-      <h1 className="text-2xl mb-4">Login Manager</h1>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-80">
-        <input
-          type="email"
-          placeholder="Email"
-          className="border p-2 rounded"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          className="border p-2 rounded"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <button type="submit" className="bg-indigo-500 text-white p-2 rounded">
-          Accedi
-        </button>
-      </form>
+    <div className="min-h-screen bg-white flex flex-col items-center justify-center px-4">
+      {/* Logo in alto */}
+      <img
+        src="/images/clubster-manager-logo.png"
+        alt="Clubster Manager Logo"
+        className="w-48 h-auto mb-4"
+      />
+      {/* Sottotitolo */}
+      <h2 className="text-lg md:text-xl text-gray-700 mb-8">
+        Manage Your Events Easily and Effectively
+      </h2>
 
-      {/* Mostriamo l'errore, se presente */}
-      {error && <p className="text-red-500 mt-2">{error}</p>}
+      {/* Box Login */}
+      <div className="bg-[#5F4EE4] w-full max-w-sm p-8 rounded-[2rem] shadow-lg">
+        <h2 className="text-2xl font-bold text-white text-center mb-6">
+          Log In
+        </h2>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <input
+            type="email"
+            placeholder="Email address"
+            className="w-full bg-white text-gray-800 p-2 rounded-full focus:outline-none"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            className="w-full bg-white text-gray-800 p-2 rounded-full focus:outline-none"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <button
+            type="submit"
+            className="w-full bg-[#421AC5] hover:bg-[#3A18AD] text-white p-2 rounded-full font-medium transition-colors"
+          >
+            Log In
+          </button>
+        </form>
+
+        {error && <p className="text-red-200 mt-3 text-center">{error}</p>}
+        <p className="mt-6 text-center text-sm text-white">
+          Don't have an account?{" "}
+          <a href="/auth/manager/signup" className="underline">
+            Sign up
+          </a>
+        </p>
+      </div>
+
+      {/* Footer */}
+      <footer className="mt-8 text-sm text-gray-500">© 2025 Clubster</footer>
     </div>
   );
 }
