@@ -2,34 +2,49 @@
 "use client";
 
 import Link from "next/link";
+import { useState, useEffect } from "react";
+import { createBrowserSupabase } from "@/lib/supabase-browser";
 
 export default function Footer() {
+  const supabase = createBrowserSupabase();
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    async function getSession() {
+      const { data } = await supabase.auth.getSession();
+      setUser(data?.session?.user || null);
+    }
+    getSession();
+  }, [supabase]);
+
   return (
     <footer className="bg-purple-100 mt-auto w-full">
       <div className="max-w-screen-xl mx-auto px-6 py-8">
         <div className="flex flex-wrap justify-between gap-8">
-          {/* Account */}
-          <div>
-            <h3 className="font-semibold mb-2 text-gray-800">Account</h3>
-            <ul className="space-y-1">
-              <li>
-                <Link
-                  href="/dashboard/customer/bookings"
-                  className="text-sm text-gray-700 hover:underline"
-                >
-                  My tickets
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/dashboard/customer/settings"
-                  className="text-sm text-gray-700 hover:underline"
-                >
-                  Settings
-                </Link>
-              </li>
-            </ul>
-          </div>
+          {/* Account: viene visualizzata solo se l'utente è loggato */}
+          {user && (
+            <div>
+              <h3 className="font-semibold mb-2 text-gray-800">Account</h3>
+              <ul className="space-y-1">
+                <li>
+                  <Link
+                    href="/dashboard/customer/bookings"
+                    className="text-sm text-gray-700 hover:underline"
+                  >
+                    My tickets
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/dashboard/customer/settings"
+                    className="text-sm text-gray-700 hover:underline"
+                  >
+                    Settings
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          )}
 
           {/* Support */}
           <div>
