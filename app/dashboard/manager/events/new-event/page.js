@@ -5,6 +5,7 @@ import { useState, useEffect, useMemo } from "react";
 import { createBrowserSupabase } from "@/lib/supabase-browser";
 import { useRouter } from "next/navigation";
 import ManagerLayout from "../../ManagerLayout";
+import UploadEventImage from "@/components/manager/events/UploadEventImage";
 
 export default function NewEventPage() {
   const supabase = useMemo(() => createBrowserSupabase(), []);
@@ -12,11 +13,13 @@ export default function NewEventPage() {
 
   const [managerId, setManagerId] = useState(null);
   const [clubId, setClubId] = useState(null);
+  const [clubStripeStatus, setClubStripeStatus] = useState(null);
 
+  // Campi dell'evento
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [startDate, setStartDate] = useState(""); // formato: "YYYY-MM-DD"
-  const [startTime, setStartTime] = useState(""); // formato: "HH:MM"
+  const [startDate, setStartDate] = useState("");
+  const [startTime, setStartTime] = useState("");
   const [endDate, setEndDate] = useState("");
   const [endTime, setEndTime] = useState("");
   const [musicGenre, setMusicGenre] = useState("");
@@ -27,6 +30,9 @@ export default function NewEventPage() {
     { name: "Normal", price: 0, available_tickets: 0 },
   ]);
 
+  // Stato per la foto evento (una sola immagine)
+  const [eventImage, setEventImage] = useState("");
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
@@ -34,31 +40,23 @@ export default function NewEventPage() {
   useEffect(() => {
     async function fetchManager() {
       try {
-        const {
-          data: { user },
-          error: userError,
-        } = await supabase.auth.getUser();
-        if (userError) {
+        const { data: { user }, error: userError } = await supabase.auth.getUser();
+        if (userError || !user) {
           setError("Errore nel recupero utente");
           return;
         }
-        if (!user) {
-          setError("Nessun utente loggato");
-          return;
-        }
         setManagerId(user.id);
-
         const { data: clubData, error: clubError } = await supabase
           .from("clubs")
-          .select("id")
+          .select("id, stripe_account_id, stripe_status")
           .eq("manager_id", user.id)
           .single();
-
         if (clubError || !clubData) {
           setError("Impossibile recuperare il club del manager");
           return;
         }
         setClubId(clubData.id);
+        setClubStripeStatus(clubData.stripe_status);
       } catch (err) {
         console.error(err);
         setError("Errore sconosciuto nel recupero manager/club");
@@ -67,11 +65,25 @@ export default function NewEventPage() {
     fetchManager();
   }, [supabase]);
 
+  if (clubStripeStatus !== "active") {
+    return (
+      <ManagerLayout>
+        <div style={{ padding: "2rem", textAlign: "center" }}>
+          <h1 style={{ fontSize: "1.5rem", marginBottom: "1rem" }}>Crea Nuovo Evento</h1>
+          <p>Per creare un nuovo evento, devi collegare il tuo account Stripe.</p>
+          <button
+            onClick={() => router.push("/dashboard/manager/payments")}
+            style={{ marginTop: "1rem", padding: "0.75rem 1rem", backgroundColor: "#007bff", color: "#fff", border: "none", borderRadius: "4px", cursor: "pointer" }}
+          >
+            Collegare Stripe
+          </button>
+        </div>
+      </ManagerLayout>
+    );
+  }
+
   function handleAddCategory() {
-    setTicketCategories([
-      ...ticketCategories,
-      { name: "", price: 0, available_tickets: 0 },
-    ]);
+    setTicketCategories([...ticketCategories, { name: "", price: 0, available_tickets: 0 }]);
   }
 
   function handleRemoveCategory(index) {
@@ -88,7 +100,6 @@ export default function NewEventPage() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-
     if (!clubId) {
       setError("Nessun club associato. Impossibile creare evento.");
       return;
@@ -105,15 +116,8 @@ export default function NewEventPage() {
       setError("Data e ora di fine sono obbligatorie.");
       return;
     }
-
-    // Debug: log delle date
-    console.log("startDate:", startDate, "startTime:", startTime);
-    console.log("endDate:", endDate, "endTime:", endTime);
-
-    // Formattazione in ISO aggiungendo i secondi
     const startDateTimeStr = `${startDate}T${startTime}:00`;
     const endDateTimeStr = `${endDate}T${endTime}:00`;
-
     const startDateObj = new Date(startDateTimeStr);
     if (isNaN(startDateObj.getTime())) {
       setError("Il formato della data/ora d'inizio non è valido.");
@@ -124,7 +128,6 @@ export default function NewEventPage() {
       setError("Il formato della data/ora di fine non è valido.");
       return;
     }
-
     const startDateISO = startDateObj.toISOString();
     const endDateISO = endDateObj.toISOString();
 
@@ -133,7 +136,7 @@ export default function NewEventPage() {
     setMessage("");
 
     try {
-      // 1) Crea l'evento
+      // Crea l'evento includendo il campo "image"
       const eventRes = await fetch("/api/event", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -147,18 +150,17 @@ export default function NewEventPage() {
           music_genre: musicGenre,
           age_restriction: ageRestriction,
           dress_code: dressCode,
+          image: eventImage
         }),
       });
-
       if (!eventRes.ok) {
         const errData = await eventRes.json();
         throw new Error(errData.error || "Errore creazione evento");
       }
-
       const newEvent = await eventRes.json();
       const eventId = newEvent[0].id;
 
-      // 2) Crea le ticket categories associate
+      // Crea le ticket categories associate
       for (let cat of ticketCategories) {
         const ticketRes = await fetch("/api/ticket-category", {
           method: "POST",
@@ -176,7 +178,6 @@ export default function NewEventPage() {
           throw new Error(errTicket.error || "Errore creazione ticket category");
         }
       }
-
       setMessage("Evento creato con successo!");
       setTimeout(() => {
         router.push("/dashboard/manager/events");
@@ -192,12 +193,9 @@ export default function NewEventPage() {
   return (
     <ManagerLayout>
       <div style={{ padding: "2rem" }}>
-        <h1 style={{ fontSize: "1.5rem", marginBottom: "1rem" }}>
-          Create New Event
-        </h1>
+        <h1 style={{ fontSize: "1.5rem", marginBottom: "1rem" }}>Create New Event</h1>
         {error && <p style={{ color: "red" }}>{error}</p>}
         {message && <p style={{ color: "green" }}>{message}</p>}
-
         <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
           <div>
             <label>Event Name*</label>
@@ -217,7 +215,6 @@ export default function NewEventPage() {
               style={{ display: "block", width: "100%", height: "80px" }}
             />
           </div>
-
           <div style={{ display: "flex", gap: "1rem" }}>
             <div>
               <label>Start Date</label>
@@ -236,7 +233,6 @@ export default function NewEventPage() {
               />
             </div>
           </div>
-
           <div style={{ display: "flex", gap: "1rem" }}>
             <div>
               <label>End Date</label>
@@ -255,7 +251,6 @@ export default function NewEventPage() {
               />
             </div>
           </div>
-
           <div>
             <label>Music Genre</label>
             <input
@@ -265,7 +260,6 @@ export default function NewEventPage() {
               style={{ display: "block", width: "100%" }}
             />
           </div>
-
           <div>
             <label>Age Restriction</label>
             <input
@@ -276,7 +270,6 @@ export default function NewEventPage() {
               placeholder="+21"
             />
           </div>
-
           <div>
             <label>Dress Code</label>
             <input
@@ -287,79 +280,47 @@ export default function NewEventPage() {
               placeholder="Casual, Formal, etc."
             />
           </div>
-
-          <hr />
-
+          {/* Sezione per foto evento */}
+          <div style={{ marginTop: "1rem" }}>
+            <h2 style={{ fontSize: "1.2rem", marginBottom: "0.5rem" }}>Event Photo (optional)</h2>
+            <UploadEventImage
+              eventId="new" // Usato come ID temporaneo per il caricamento
+              currentImage={eventImage}
+              managerId={managerId}
+              onUploadComplete={(uploadedUrl) => setEventImage(uploadedUrl)}
+            />
+          </div>
           <h2>Ticket Categories</h2>
           {ticketCategories.map((cat, index) => (
-            <div
-              key={index}
-              style={{
-                border: "1px solid #ccc",
-                padding: "1rem",
-                marginBottom: "1rem",
-              }}
-            >
+            <div key={index} style={{ border: "1px solid #ccc", padding: "1rem", marginBottom: "1rem" }}>
               <label>Category Name</label>
               <input
                 type="text"
                 value={cat.name}
-                onChange={(e) =>
-                  handleCategoryChange(index, "name", e.target.value)
-                }
-                style={{
-                  display: "block",
-                  width: "100%",
-                  marginBottom: "0.5rem",
-                }}
+                onChange={(e) => handleCategoryChange(index, "name", e.target.value)}
+                style={{ display: "block", width: "100%", marginBottom: "0.5rem" }}
               />
               <label>Price</label>
               <input
                 type="number"
                 value={cat.price}
-                onChange={(e) =>
-                  handleCategoryChange(index, "price", e.target.value)
-                }
-                style={{
-                  display: "block",
-                  width: "100%",
-                  marginBottom: "0.5rem",
-                }}
+                onChange={(e) => handleCategoryChange(index, "price", e.target.value)}
+                style={{ display: "block", width: "100%", marginBottom: "0.5rem" }}
               />
               <label>No. of tickets</label>
               <input
                 type="number"
                 value={cat.available_tickets}
-                onChange={(e) =>
-                  handleCategoryChange(
-                    index,
-                    "available_tickets",
-                    e.target.value
-                  )
-                }
-                style={{
-                  display: "block",
-                  width: "100%",
-                  marginBottom: "0.5rem",
-                }}
+                onChange={(e) => handleCategoryChange(index, "available_tickets", e.target.value)}
+                style={{ display: "block", width: "100%", marginBottom: "0.5rem" }}
               />
-
               {ticketCategories.length > 1 && (
-                <button type="button" onClick={() => handleRemoveCategory(index)}>
-                  Remove
-                </button>
+                <button type="button" onClick={() => handleRemoveCategory(index)}>Remove</button>
               )}
             </div>
           ))}
-          <button type="button" onClick={handleAddCategory}>
-            + Add category
-          </button>
-
-          <button
-            type="submit"
-            disabled={loading}
-            style={{ marginTop: "1rem", padding: "0.75rem 1rem" }}
-          >
+          <button type="button" onClick={handleAddCategory}>+ Add category</button>
+          <button type="submit" disabled={loading} style={{ marginTop: "1rem", padding: "0.75rem 1rem" }}>
             {loading ? "Saving..." : "Create Event"}
           </button>
         </form>

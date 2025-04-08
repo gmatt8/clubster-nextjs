@@ -4,13 +4,25 @@
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { createBrowserSupabase } from "@/lib/supabase-browser";
-// Importa le icone da Heroicons
-import { Bars3Icon, Cog6ToothIcon, ArrowLeftOnRectangleIcon, TicketIcon } from '@heroicons/react/24/outline';
+import Link from "next/link";
+import { Bars3Icon, Cog6ToothIcon, ArrowLeftOnRectangleIcon, TicketIcon } from "@heroicons/react/24/outline";
 
 export default function Header() {
   const router = useRouter();
   const supabase = createBrowserSupabase();
+  
+  // Stato per determinare se l'utente è autenticato
+  const [user, setUser] = useState(null);
+  
+  useEffect(() => {
+    async function getSession() {
+      const { data } = await supabase.auth.getSession();
+      setUser(data?.session?.user || null);
+    }
+    getSession();
+  }, [supabase]);
 
+  // Stato per il menu (per utente loggato)
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
 
@@ -31,19 +43,18 @@ export default function Header() {
 
   async function handleLogout() {
     await supabase.auth.signOut();
-    router.push("/"); // reindirizza alla home
+    router.push("/"); // reindirizza alla home principale
   }
 
   return (
     <header className="w-full border-b border-gray-200 bg-white relative">
-      {/* Contenitore principale full-width */}
       <div className="relative flex items-center justify-center py-4">
-        {/* Testo centrato */}
+        {/* Testo al centro */}
         <h2 className="text-base sm:text-lg font-medium text-gray-800">
           your night starts here
         </h2>
 
-        {/* Logo posizionato a sinistra, estremo */}
+        {/* Logo a sinistra */}
         <div
           className="absolute left-0 pl-4 cursor-pointer flex items-center"
           onClick={() => router.push("/dashboard/customer/home")}
@@ -55,53 +66,65 @@ export default function Header() {
           />
         </div>
 
-        {/* Hamburger menu posizionato a destra, estremo */}
-        <div className="absolute right-0 pr-4" ref={menuRef}>
-          <button
-            onClick={toggleMenu}
-            className="p-2 rounded hover:bg-gray-100 focus:outline-none"
-          >
-            <Bars3Icon className="h-6 w-6 text-gray-600" />
-          </button>
-
-          {/* Menu a tendina */}
-          {menuOpen && (
-            <div className="absolute right-0 top-full mt-2 w-48 bg-white border border-gray-200 rounded shadow-md z-50">
-              <ul className="py-2 text-gray-700">
-                {/* Tickets */}
-                <li
-                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center space-x-2"
-                  onClick={() => router.push("/dashboard/customer/bookings")}
-                >
-                  <TicketIcon className="h-5 w-5" />
-                  <span>Tickets</span>
-                </li>
-
-                {/* Settings */}
-                <li
-                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center space-x-2"
-                  onClick={() => router.push("/dashboard/customer/settings")}
-                >
-                  <Cog6ToothIcon className="h-5 w-5" />
-                  <span>Settings</span>
-                </li>
-
-                {/* Divider */}
-                <hr className="my-1" />
-
-                {/* Log out */}
-                <li
-                  onClick={handleLogout}
-                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center space-x-2 text-red-600"
-                >
-                  <ArrowLeftOnRectangleIcon className="h-5 w-5" />
-                  <span>Log out</span>
-                </li>
-              </ul>
+        {/* Zona a destra: mostra hamburger se loggato, altrimenti i bottoni Login e Signup */}
+        <div className="absolute right-0 pr-4">
+          {user ? (
+            // Utente loggato: mostra il menu hamburger
+            <div ref={menuRef}>
+              <button
+                onClick={toggleMenu}
+                className="p-2 rounded hover:bg-gray-100 focus:outline-none"
+              >
+                <Bars3Icon className="h-6 w-6 text-gray-600" />
+              </button>
+              {menuOpen && (
+                <div className="absolute right-0 top-full mt-2 w-48 bg-white border border-gray-200 rounded shadow-md z-50">
+                  <ul className="py-2 text-gray-700">
+                    <li
+                      className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center space-x-2"
+                      onClick={() => router.push("/dashboard/customer/bookings")}
+                    >
+                      <TicketIcon className="h-5 w-5" />
+                      <span>Tickets</span>
+                    </li>
+                    <li
+                      className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center space-x-2"
+                      onClick={() => router.push("/dashboard/customer/settings")}
+                    >
+                      <Cog6ToothIcon className="h-5 w-5" />
+                      <span>Settings</span>
+                    </li>
+                    <hr className="my-1" />
+                    <li
+                      onClick={handleLogout}
+                      className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center space-x-2 text-red-600"
+                    >
+                      <ArrowLeftOnRectangleIcon className="h-5 w-5" />
+                      <span>Log out</span>
+                    </li>
+                  </ul>
+                </div>
+              )}
+            </div>
+          ) : (
+            // Utente non loggato: mostra i bottoni Login e Signup
+            <div className="flex gap-2">
+              <Link
+                href="/auth/customer/login"
+                className="px-4 py-2 border border-blue-500 text-blue-500 rounded hover:bg-blue-50"
+              >
+                Login
+              </Link>
+              <Link
+                href="/auth/customer/signup"
+                className="px-4 py-2 border border-green-500 text-green-500 rounded hover:bg-green-50"
+              >
+                Signup
+              </Link>
             </div>
           )}
         </div>
       </div>
     </header>
-);
+  );
 }

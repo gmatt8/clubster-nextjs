@@ -16,6 +16,7 @@ export default function EventsPage() {
 
   const [managerId, setManagerId] = useState(null);
   const [clubId, setClubId] = useState(null);
+  const [clubStripeStatus, setClubStripeStatus] = useState(null);
   const [events, setEvents] = useState([]);
   const [error, setError] = useState("");
 
@@ -34,10 +35,10 @@ export default function EventsPage() {
         }
         setManagerId(user.id);
 
-        // 2) Recupera il club associato al manager
+        // 2) Recupera il club associato al manager (incluso lo stato Stripe)
         const { data: clubData, error: clubError } = await supabase
           .from("clubs")
-          .select("id")
+          .select("id, stripe_account_id, stripe_status")
           .eq("manager_id", user.id)
           .single();
 
@@ -46,6 +47,7 @@ export default function EventsPage() {
           return;
         }
         setClubId(clubData.id);
+        setClubStripeStatus(clubData.stripe_status);
 
         // 3) Recupera la lista degli eventi
         const res = await fetch(`/api/event?club_id=${clubData.id}`, {
@@ -66,7 +68,12 @@ export default function EventsPage() {
   }, [supabase]);
 
   function goToNewEvent() {
-    router.push("/dashboard/manager/events/new-event");
+    if (clubStripeStatus !== "active") {
+      alert("Devi collegare il tuo account Stripe per creare un nuovo evento.");
+      router.push("/dashboard/manager/payments");
+    } else {
+      router.push("/dashboard/manager/events/new-event");
+    }
   }
 
   function goToEditEvent(eventId) {
@@ -80,7 +87,7 @@ export default function EventsPage() {
         <h1 className="text-2xl font-bold mb-4">Events</h1>
       </div>
 
-      {/* Layout a colonne con maggiore spazio tra Sidebar e Calendario */}
+      {/* Layout a colonne */}
       <div className="flex flex-col md:flex-row gap-8 h-full">
         <EventsSidebar
           events={events}
@@ -90,7 +97,6 @@ export default function EventsPage() {
         <EventsCalendar events={events} />
       </div>
 
-      {/* Messaggio di errore */}
       {error && (
         <div className="p-4 text-red-600 text-center">
           <p>{error}</p>

@@ -1,10 +1,9 @@
-// components/manager/settings/UploadImages.js
 "use client";
 
 import React, { useState } from "react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
-export default function UploadImages({ clubId, currentImage, managerId, onUploadComplete }) {
+export default function UploadEventImage({ eventId, currentImage, managerId, onUploadComplete }) {
   const supabase = createClientComponentClient();
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploading, setUploading] = useState(false);
@@ -22,24 +21,21 @@ export default function UploadImages({ clubId, currentImage, managerId, onUpload
       setUploading(true);
       setUploadError("");
       const fileName = `${Date.now()}-${selectedFile.name}`;
-      // Carica il file nel bucket "club-images" nella cartella del club
+      // Carica il file nel bucket "event-images" nella cartella dell'evento
       const { error } = await supabase
         .storage
-        .from("club-images")
-        .upload(`clubs/${clubId}/${fileName}`, selectedFile, { upsert: true });
-      
+        .from("event-images")
+        .upload(`events/${eventId}/${fileName}`, selectedFile, { upsert: true });
       if (error) {
         throw error;
       }
-
-      // Ottieni l'URL pubblico per il file caricato
+      // Ottieni URL pubblico
       const { data: publicUrlData } = supabase
         .storage
-        .from("club-images")
-        .getPublicUrl(`clubs/${clubId}/${fileName}`);
-
+        .from("event-images")
+        .getPublicUrl(`events/${eventId}/${fileName}`);
       if (publicUrlData?.publicUrl) {
-        onUploadComplete([publicUrlData.publicUrl]);
+        onUploadComplete(publicUrlData.publicUrl);
       } else {
         setUploadError("Impossibile ottenere l'URL pubblico del file");
       }
@@ -54,13 +50,13 @@ export default function UploadImages({ clubId, currentImage, managerId, onUpload
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row items-center gap-4">
         <label
-          htmlFor="file-input"
+          htmlFor="event-file-input"
           className="border-2 border-dashed border-gray-300 rounded p-4 w-full sm:w-auto text-center text-gray-500 cursor-pointer"
         >
           Drag image here or click to upload
         </label>
         <input
-          id="file-input"
+          id="event-file-input"
           type="file"
           accept="image/*"
           className="hidden"

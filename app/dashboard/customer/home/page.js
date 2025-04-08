@@ -7,31 +7,38 @@ import { format } from "date-fns";
 import { enGB } from "date-fns/locale";
 import CustomerLayout from "../CustomerLayout";
 import DatePicker from "@/components/customer/home/calendar";
-
-// Puoi usare la libreria di icone che preferisci
-// Qui come esempio importiamo un'icona generica dal pacchetto Heroicons
-import { MapPinIcon } from "@heroicons/react/24/outline";
-import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import { MapPinIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 
 export default function CustomerHomePage() {
   const router = useRouter();
 
-  // Stati per i campi di ricerca
+  // Stato per la modalità di ricerca: "club" oppure "event"
+  const [searchType, setSearchType] = useState("club");
+
+  // Stati per il form di ricerca
   const [locationSearch, setLocationSearch] = useState("");
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [radius, setRadius] = useState("10"); // default 10 km
   const [lat, setLat] = useState(null);
   const [lng, setLng] = useState(null);
-  const [radius, setRadius] = useState("10");
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [events, setEvents] = useState([]);
-  const [visibleCount, setVisibleCount] = useState(8);
-  const [errorMsg, setErrorMsg] = useState("");
 
-  // Per mostrare/nascondere il campo Radius (ricerca avanzata)
+  // Stati per i risultati
+  const [events, setEvents] = useState([]);
+  const [clubs, setClubs] = useState([]);
+
+  // Stato per mostrare un certo numero di risultati alla volta
+  const [visibleCount, setVisibleCount] = useState(8);
+
+  // Messaggi di errore e controllo se è stata fatta una ricerca
+  const [errorMsg, setErrorMsg] = useState("");
+  const [searchPerformed, setSearchPerformed] = useState(false);
+
+  // Stato per advanced search (campo Radius per ricerca club)
   const [showAdvanced, setShowAdvanced] = useState(false);
 
   const locationInputRef = useRef(null);
 
-  // Inizializza l'autocomplete di Google Maps
+  // Inizializza Google Autocomplete sul campo location
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (!window.google || !window.google.maps || !window.google.maps.places) {
@@ -53,76 +60,229 @@ export default function CustomerHomePage() {
 
   // Funzione di ricerca
   async function handleSearch() {
-    if (!locationSearch || !selectedDate) {
-      setErrorMsg("Please fill out location and date!");
-      return;
-    }
+    setSearchPerformed(true);
     setErrorMsg("");
 
-    const dateSearch = format(selectedDate, "yyyy-MM-dd");
+    if (searchType === "club") {
+      if (!locationSearch.trim()) {
+        setErrorMsg("Inserisci una location per cercare club.");
+        return;
+      }
+    } else if (searchType === "event") {
+      if (!locationSearch.trim() && !selectedDate) {
+        setErrorMsg("Per cercare eventi, inserisci almeno una location o una data.");
+        return;
+      }
+    }
 
+    const queryParams = new URLSearchParams({
+      type: searchType,
+      location: locationSearch.trim(),
+      radius,
+      lat: lat ? lat.toString() : "",
+      lng: lng ? lng.toString() : "",
+    });
+    if (selectedDate) {
+      const dateSearch = format(selectedDate, "yyyy-MM-dd");
+      queryParams.set("date", dateSearch);
+    }
+
+    const query = `/api/search?${queryParams.toString()}`;
     try {
-      const queryParams = new URLSearchParams({
-        location: locationSearch,
-        date: dateSearch,
-        radius,
-        lat: lat ? lat.toString() : "",
-        lng: lng ? lng.toString() : "",
-      });
-      const query = `/api/search?${queryParams.toString()}`;
       const res = await fetch(query);
-      if (!res.ok) throw new Error("Error fetching events");
-      const { events: filteredData } = await res.json();
-      setEvents(filteredData || []);
+      if (!res.ok) throw new Error("Error fetching results");
+      const data = await res.json();
+
+      if (searchType === "club") {
+        setClubs(data.clubs || []);
+        setEvents([]);
+      } else {
+        setEvents(data.events || []);
+        setClubs([]);
+      }
       setVisibleCount(8);
     } catch (err) {
       console.error(err);
-      setErrorMsg("Error fetching events");
+      setErrorMsg("Error fetching results");
     }
   }
-
-  const visibleEvents = events.slice(0, visibleCount);
 
   function showMore() {
     setVisibleCount((prev) => prev + 8);
   }
 
-  function goToClubDetails(clubId, eventId) {
-    router.push(`/dashboard/customer/club-details?club_id=${clubId}&event_id=${eventId}`);
+  // Navigazione verso i dettagli
+  function goToDetails(clubId, eventId, type) {
+    if (type === "club") {
+      router.push(`/dashboard/customer/club-details?club_id=${clubId}`);
+    } else if (type === "event") {
+      router.push(`/dashboard/customer/club-details?club_id=${clubId}&event_id=${eventId}`);
+    }
+  }
+
+  // Render dei box per i club
+  function renderClubBoxes() {
+    if (clubs.length === 0) {
+      if (searchPerformed) {
+        return <div className="text-center mt-6 text-gray-500">No clubs found.</div>;
+      }
+      return null;
+    }
+
+    return (
+      <>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {clubs.slice(0, visibleCount).map((club) => (
+            <div
+              key={club.id}
+              onClick={() => goToDetails(club.id, "", "club")}
+              className="border border-gray-200 rounded-lg overflow-hidden cursor-pointer hover:shadow-md transition-shadow"
+            >
+              <img
+                src={
+                  club.images && club.images.length > 0
+                    ? club.images[0]
+                    : "/images/no-image.jpeg"
+                }
+                alt={club.name}
+                className="w-full h-48 object-cover"
+              />
+              <div className="p-4">
+                <h2 className="text-lg font-bold text-gray-800">{club.name}</h2>
+                <p className="text-sm text-gray-600">{club.address}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+        {clubs.length > visibleCount && (
+          <div className="text-center mt-6">
+            <button
+              onClick={showMore}
+              className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700"
+            >
+              Show more
+            </button>
+          </div>
+        )}
+      </>
+    );
+  }
+
+  // Render dei box per gli eventi
+  function renderEventBoxes() {
+    if (events.length === 0) {
+      if (searchPerformed) {
+        return <div className="text-center mt-6 text-gray-500">No events found.</div>;
+      }
+      return null;
+    }
+
+    return (
+      <>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {events.slice(0, visibleCount).map((evt) => {
+            const clubData = evt.clubs || {};
+            // Se esiste l'immagine dell'evento, usala, altrimenti usa quella del club oppure il fallback
+            const finalImage = evt.image
+              ? evt.image
+              : (clubData.images && clubData.images.length > 0 ? clubData.images[0] : "/images/no-image.jpeg");
+            const eventName = evt.name || "Unnamed Event";
+            const clubName = clubData.club_name || "Unknown Club";
+            const eventDate = evt.start_date
+              ? format(new Date(evt.start_date), "d MMM yyyy", { locale: enGB })
+              : "No date";
+            let locationDisplay = "";
+            if (clubData.city && clubData.country) {
+              locationDisplay = `${clubData.city}, ${clubData.country}`;
+            } else if (clubData.address) {
+              locationDisplay = clubData.address;
+            } else {
+              locationDisplay = "Unknown location";
+            }
+
+            return (
+              <div
+                key={evt.id}
+                onClick={() => goToDetails(evt.club_id, evt.id, "event")}
+                className="border border-gray-200 rounded-lg overflow-hidden cursor-pointer hover:shadow-md transition-shadow"
+              >
+                <img
+                  src={finalImage}
+                  alt={eventName}
+                  className="w-full h-48 object-cover"
+                />
+                <div className="p-4">
+                  <h2 className="text-lg font-bold text-gray-800">{eventName}</h2>
+                  <p className="text-md text-gray-800 font-medium">{clubName}</p>
+                  <p className="text-sm text-gray-600">{eventDate}</p>
+                  <p className="text-sm text-gray-500">{locationDisplay}</p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        {events.length > visibleCount && (
+          <div className="text-center mt-6">
+            <button
+              onClick={showMore}
+              className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700"
+            >
+              Show more
+            </button>
+          </div>
+        )}
+      </>
+    );
   }
 
   return (
     <CustomerLayout>
       <div className="max-w-screen-xl mx-auto px-4 py-8 flex flex-col items-center">
-        {/* Barra di ricerca principale */}
+        {/* Selezione del tipo di ricerca */}
+        <div className="flex gap-4 mb-6">
+          <button
+            onClick={() => setSearchType("club")}
+            className={`px-4 py-2 rounded ${
+              searchType === "club" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-800"
+            }`}
+          >
+            Cerca Club
+          </button>
+          <button
+            onClick={() => setSearchType("event")}
+            className={`px-4 py-2 rounded ${
+              searchType === "event" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-800"
+            }`}
+          >
+            Cerca Eventi
+          </button>
+        </div>
+
+        {/* Form di ricerca */}
         <div className="w-full max-w-3xl flex flex-col items-center">
-          {/* Grande box arrotondato */}
           <div className="w-full flex items-center bg-white border border-gray-300 rounded-full px-4 py-2 shadow-sm">
-            {/* Icona e campo "Where" */}
-            <div className="flex items-center gap-2 w-full">
+            <div className="flex items-center gap-2 flex-1">
               <MapPinIcon className="h-5 w-5 text-gray-500" />
               <input
                 ref={locationInputRef}
                 type="text"
-                placeholder="Location"
+                placeholder="Inserisci location"
                 value={locationSearch}
                 onChange={(e) => setLocationSearch(e.target.value)}
                 className="w-full outline-none"
               />
             </div>
-
-            {/* Divisore verticale */}
-            <div className="h-6 w-px bg-gray-200 mx-3" />
-
-            {/* Campo "When" */}
-            <div className="flex items-center gap-2">
-              <DatePicker
-                selected={selectedDate}
-                onSelect={(date) => setSelectedDate(date)}
-              />
-            </div>
-
-            {/* Pulsante Search */}
+            {searchType === "event" && (
+              <>
+                <div className="h-6 w-px bg-gray-200 mx-3" />
+                <div className="flex items-center gap-2">
+                  <DatePicker
+                    selected={selectedDate}
+                    onSelect={(date) => setSelectedDate(date)}
+                  />
+                </div>
+              </>
+            )}
             <button
               onClick={handleSearch}
               className="ml-4 flex items-center justify-center bg-purple-600 hover:bg-purple-700 text-white rounded-full p-2 transition-colors"
@@ -131,108 +291,35 @@ export default function CustomerHomePage() {
             </button>
           </div>
 
-          {/* Pulsante Advanced Search per mostrare il campo Radius */}
-          <div className="mt-2">
-            <button
-              onClick={() => setShowAdvanced((prev) => !prev)}
-              className="text-purple-600 hover:underline"
-            >
-              Advanced Search
-            </button>
-          </div>
-
-          {/* Campo Radius (solo se showAdvanced è true) */}
-          {showAdvanced && (
+          {/* Pulsante Advanced Search (solo per club) */}
+          {searchType === "club" && (
+            <div className="mt-2">
+              <button
+                onClick={() => setShowAdvanced((prev) => !prev)}
+                className="text-purple-600 hover:underline"
+              >
+                {showAdvanced ? "Nascondi opzioni avanzate" : "Advanced Search"}
+              </button>
+            </div>
+          )}
+          {showAdvanced && searchType === "club" && (
             <div className="mt-3 flex items-center gap-2">
               <label className="text-sm font-medium text-gray-700">Radius (km):</label>
               <input
                 type="number"
-                placeholder="e.g. 10"
+                placeholder="es. 10"
                 value={radius}
                 onChange={(e) => setRadius(e.target.value)}
                 className="border border-gray-300 rounded px-3 py-2 w-24"
               />
             </div>
           )}
-
-          {/* Messaggio di errore */}
           {errorMsg && <div className="text-red-500 mt-2">{errorMsg}</div>}
         </div>
 
-        {/* Griglia eventi */}
+        {/* Visualizzazione dei risultati */}
         <div className="w-full mt-8">
-          {events.length > 0 ? (
-            <>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                {visibleEvents.map((evt) => {
-                  // Immagine principale (o placeholder)
-                  const firstImage =
-                    evt.club_images && evt.club_images.length > 0
-                      ? evt.club_images[0]
-                      : "/placeholder.jpg";
-
-                  // Data evento
-                  const eventDate = evt.start_date
-                    ? format(new Date(evt.start_date), "d MMM yyyy", { locale: enGB })
-                    : "No date";
-
-                  // Dati del club
-                  const clubData = evt.clubs;
-                  const locationDisplay =
-                    clubData && clubData.city && clubData.country
-                      ? `${clubData.city}, ${clubData.country}`
-                      : clubData && clubData.address
-                      ? clubData.address
-                      : "Club location";
-
-                  // Prezzo
-                  const priceLabel = evt.min_price
-                    ? `From ${evt.min_price} CHF`
-                    : "Free";
-
-                  return (
-                    <div
-                      key={evt.id}
-                      onClick={() => goToClubDetails(evt.club_id, evt.id)}
-                      className="border border-gray-200 rounded-lg overflow-hidden cursor-pointer hover:shadow-md transition-shadow"
-                    >
-                      <img
-                        src={firstImage}
-                        alt={clubData?.club_name || "Club image"}
-                        className="w-full h-48 object-cover"
-                      />
-                      <div className="p-4">
-                        <h2 className="text-lg font-bold text-gray-800">
-                          {clubData?.club_name || "Club name"}
-                        </h2>
-                        <p className="text-md text-gray-800 font-medium">{evt.name}</p>
-                        <p className="text-sm text-gray-600">{eventDate}</p>
-                        {locationDisplay && (
-                          <p className="text-sm text-gray-500">{locationDisplay}</p>
-                        )}
-                        <p className="mt-1 text-sm text-purple-600 font-medium">{priceLabel}</p>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-
-              {events.length > visibleCount && (
-                <div className="text-center mt-6">
-                  <button
-                    onClick={showMore}
-                    className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700"
-                  >
-                    Show more
-                  </button>
-                </div>
-              )}
-            </>
-          ) : (
-            <div className="text-center mt-6 text-gray-500">
-              No events found. Please perform a search.
-            </div>
-          )}
+          {searchType === "club" ? renderClubBoxes() : renderEventBoxes()}
         </div>
       </div>
     </CustomerLayout>

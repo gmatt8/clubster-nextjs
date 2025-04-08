@@ -17,37 +17,29 @@ export default function VerifyClubPage() {
 
   // Dati documento
   const [docUrl, setDocUrl] = useState("");
-  const [docName, setDocName] = useState("");
-  const [docFilePath, setDocFilePath] = useState("");
+  const [docName, setDocName] = useState("");     // nome file visualizzato
+  const [docFilePath, setDocFilePath] = useState(""); // path su Storage (per rimozione)
 
   // Checkboxes (4 in totale)
-  const [confirmLocalLegal, setConfirmLocalLegal] = useState(false);
-  const [confirmLicenses, setConfirmLicenses] = useState(false);
-  const [confirmSafety, setConfirmSafety] = useState(false);
-  const [confirmTerms, setConfirmTerms] = useState(false);
+  const [confirmLocalLegal, setConfirmLocalLegal] = useState(false); // 1
+  const [confirmLicenses, setConfirmLicenses] = useState(false);     // 2
+  const [confirmSafety, setConfirmSafety] = useState(false);         // 3
+  const [confirmTerms, setConfirmTerms] = useState(false);           // 4
 
-  // Stato di errore e caricamento
+  // Errori e stato di caricamento
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [uploadingDoc, setUploadingDoc] = useState(false);
 
-  // ID del manager loggato
+  // ID manager loggato
   const [managerId, setManagerId] = useState(null);
 
-  // Ref per l'input address e file nascosto
+  // Ref per l'input address
   const addressInputRef = useRef(null);
+  // Ref per input file nascosto
   const fileInputRef = useRef(null);
 
-  // Controllo della sessione
-  useEffect(() => {
-    async function checkSession() {
-      const { data: sessionData, error } = await supabase.auth.getSession();
-      console.log("Session:", sessionData, "Error:", error);
-    }
-    checkSession();
-  }, [supabase]);
-
-  // Recupera l'utente loggato
+  // Recupero utente loggato
   useEffect(() => {
     async function getUser() {
       const {
@@ -63,27 +55,36 @@ export default function VerifyClubPage() {
     getUser();
   }, [supabase]);
 
-  // Inizializza l'autocomplete per l'indirizzo
+  // Inizializza Autocomplete di Google Maps
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (!window.google || !window.google.maps || !window.google.maps.places) {
       console.warn("Google Maps JS non è ancora caricato");
       return;
     }
+
     const autocomplete = new window.google.maps.places.Autocomplete(
       addressInputRef.current,
-      { types: ["geocode"] }
+      {
+        types: ["geocode"],
+      }
     );
+
     autocomplete.addListener("place_changed", () => {
       const place = autocomplete.getPlace();
       if (!place.geometry) return;
-      setLat(place.geometry.location.lat());
-      setLng(place.geometry.location.lng());
-      setAddress(place.formatted_address || "");
+
+      const latVal = place.geometry.location.lat();
+      const lngVal = place.geometry.location.lng();
+      setLat(latVal);
+      setLng(lngVal);
+
+      const formattedAddress = place.formatted_address || "";
+      setAddress(formattedAddress);
     });
   }, []);
 
-  // Verifica che il form sia compilato
+  // Verifica se il form è compilato
   const isFormValid = () => {
     return (
       clubName.trim() !== "" &&
@@ -97,7 +98,7 @@ export default function VerifyClubPage() {
     );
   };
 
-  // Gestione dell'upload file su Supabase Storage
+  // Gestione caricamento file su Supabase Storage
   const handleFileChange = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -105,25 +106,32 @@ export default function VerifyClubPage() {
       setError("Impossibile caricare il file: manca l'ID del manager.");
       return;
     }
+
     setError("");
     setUploadingDoc(true);
+
     try {
       const fileExt = file.name.split(".").pop();
       const fileName = `${managerId}.${fileExt}`;
       const filePath = `${managerId}/${fileName}`;
-      // Carica il file nel bucket "club-verify" con upsert
+
+      // 1. Carica il file nel bucket "club-verify"
       const { error: uploadError } = await supabase.storage
         .from("club-verify")
-        .upload(filePath, file, { upsert: true });
+        .upload(filePath, file, { upsert: true }); 
+      // "upsert: true" sovrascrive se esiste già
+
       if (uploadError) {
         setError(uploadError.message);
         setUploadingDoc(false);
         return;
       }
-      // Ottieni l'URL pubblico
+
+      // 2. Ottieni URL pubblico
       const { data: publicData } = supabase.storage
         .from("club-verify")
         .getPublicUrl(filePath);
+
       if (publicData?.publicUrl) {
         setDocUrl(publicData.publicUrl);
         setDocName(file.name);
@@ -142,18 +150,24 @@ export default function VerifyClubPage() {
   // Rimuove il file dal bucket (opzionale) e resetta lo stato
   const handleRemoveDoc = async () => {
     if (!docFilePath) {
+      // Se non abbiamo il path, rimuoviamo solo dallo stato
       setDocUrl("");
       setDocName("");
       setDocFilePath("");
       return;
     }
+
     try {
+      // Cancella dal bucket
       const { error: removeError } = await supabase.storage
         .from("club-verify")
         .remove([docFilePath]);
+
       if (removeError) {
+        // Se c'è un errore in rimozione, lo mostriamo
         setError(removeError.message);
       } else {
+        // Reset state
         setDocUrl("");
         setDocName("");
         setDocFilePath("");
@@ -164,15 +178,19 @@ export default function VerifyClubPage() {
     }
   };
 
-  // Invio del form
+  // Invio form
   async function handleSubmit(e) {
     e.preventDefault();
+
     if (!managerId) {
       setError("Impossibile recuperare l'ID del manager");
       return;
     }
+
     setLoading(true);
     setError("");
+
+    // Invio i dati all'endpoint /api/club (POST)
     const response = await fetch("/api/club", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -186,12 +204,15 @@ export default function VerifyClubPage() {
         lng,
       }),
     });
+
     const result = await response.json();
+
     if (!response.ok) {
       setError(result.error || "Errore sconosciuto durante la creazione del club");
       setLoading(false);
       return;
     }
+
     setLoading(false);
     router.push("/dashboard/manager/dashboard");
   }
@@ -217,6 +238,7 @@ export default function VerifyClubPage() {
           priority
         />
       </div>
+
       {/* Box bianco centrale */}
       <div
         style={{
@@ -229,12 +251,26 @@ export default function VerifyClubPage() {
         }}
       >
         {/* Titolo sezione */}
-        <h2 style={{ marginTop: 0, marginBottom: "1.5rem", textAlign: "left", fontWeight: "bold" }}>
+        <h2
+          style={{
+            marginTop: 0,
+            marginBottom: "1.5rem",
+            textAlign: "left",
+            fontWeight: "bold",
+          }}
+        >
           Club’s details
         </h2>
+
         <form onSubmit={handleSubmit}>
           {/* Riga a 2 colonne: Club Name - Address */}
-          <div style={{ display: "flex", gap: "1rem", marginBottom: "1rem" }}>
+          <div
+            style={{
+              display: "flex",
+              gap: "1rem",
+              marginBottom: "1rem",
+            }}
+          >
             {/* Club Name */}
             <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
               <label style={{ marginBottom: "0.3rem" }}>
@@ -252,6 +288,7 @@ export default function VerifyClubPage() {
                 required
               />
             </div>
+
             {/* Address */}
             <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
               <label style={{ marginBottom: "0.3rem" }}>
@@ -271,6 +308,7 @@ export default function VerifyClubPage() {
               />
             </div>
           </div>
+
           {/* Phone number */}
           <div style={{ display: "flex", flexDirection: "column", marginBottom: "1rem" }}>
             <label style={{ marginBottom: "0.3rem" }}>
@@ -288,8 +326,15 @@ export default function VerifyClubPage() {
               required
             />
           </div>
-          {/* Sezione Upload Document */}
-          <h3 style={{ margin: "2rem 0 0.5rem 0", textAlign: "left", fontWeight: "bold" }}>
+
+          {/* Titolo per Upload Document */}
+          <h3
+            style={{
+              margin: "2rem 0 0.5rem 0",
+              textAlign: "left",
+              fontWeight: "bold",
+            }}
+          >
             Club Ownership Verification
           </h3>
           <p
@@ -308,9 +353,16 @@ export default function VerifyClubPage() {
             <br />
             - Official Club License
           </p>
-          {/* Pulsante Upload o file già caricato */}
+
+          {/* Se non c'è un docUrl, mostriamo il pulsante Upload */}
           {!docUrl && (
-            <div style={{ display: "flex", justifyContent: "center", marginBottom: "2rem" }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                marginBottom: "2rem",
+              }}
+            >
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
@@ -337,14 +389,16 @@ export default function VerifyClubPage() {
               />
             </div>
           )}
+
+          {/* Se c'è un docUrl, mostriamo il nome file + X per rimuoverlo */}
           {docUrl && (
             <div
               style={{
                 display: "flex",
                 justifyContent: "center",
+                marginBottom: "2rem",
                 alignItems: "center",
                 gap: "1rem",
-                marginBottom: "2rem",
               }}
             >
               <p style={{ margin: 0, color: "green" }}>
@@ -366,11 +420,25 @@ export default function VerifyClubPage() {
               </button>
             </div>
           )}
-          {/* Sezione Checkboxes */}
-          <h3 style={{ margin: "2rem 0 1rem 0", textAlign: "left", fontWeight: "bold" }}>
+
+          {/* Titolo per Checkboxes */}
+          <h3
+            style={{
+              margin: "2rem 0 1rem 0",
+              textAlign: "left",
+              fontWeight: "bold",
+            }}
+          >
             Licenses and Authorizations
           </h3>
-          <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem", marginBottom: "1.5rem" }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "0.5rem",
+              marginBottom: "1.5rem",
+            }}
+          >
             <label style={{ display: "flex", alignItems: "center" }}>
               <input
                 type="checkbox"
@@ -378,8 +446,10 @@ export default function VerifyClubPage() {
                 onChange={(e) => setConfirmLocalLegal(e.target.checked)}
                 style={{ marginRight: "0.5rem" }}
               />
-              I confirm that the club complies with all local legal and licensing requirements
+              I confirm that the club complies with all local legal and licensing
+              requirements
             </label>
+
             <label style={{ display: "flex", alignItems: "center" }}>
               <input
                 type="checkbox"
@@ -389,6 +459,7 @@ export default function VerifyClubPage() {
               />
               I confirm that the club holds all necessary operational licenses
             </label>
+
             <label style={{ display: "flex", alignItems: "center" }}>
               <input
                 type="checkbox"
@@ -398,6 +469,7 @@ export default function VerifyClubPage() {
               />
               I confirm that the club meets all building and safety standards
             </label>
+
             <label style={{ display: "flex", alignItems: "center" }}>
               <input
                 type="checkbox"
@@ -408,12 +480,14 @@ export default function VerifyClubPage() {
               I have read and accept the Terms &amp; Conditions and Privacy Policy
             </label>
           </div>
+
           {/* Messaggio d'errore */}
           {error && (
-            <p style={{ color: "red", textAlign: "center", marginBottom: "1rem" }}>
+            <p style={{ color: "red", marginBottom: "1rem", textAlign: "center" }}>
               {error}
             </p>
           )}
+
           {/* Pulsante Next */}
           <div style={{ textAlign: "center" }}>
             <button
@@ -425,7 +499,10 @@ export default function VerifyClubPage() {
                 color: "#fff",
                 border: "none",
                 borderRadius: "4px",
-                cursor: isFormValid() && !loading && !uploadingDoc ? "pointer" : "not-allowed",
+                cursor:
+                  isFormValid() && !loading && !uploadingDoc
+                    ? "pointer"
+                    : "not-allowed",
               }}
             >
               {loading ? "Saving..." : "Next"}

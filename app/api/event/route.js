@@ -34,21 +34,41 @@ export async function GET(request) {
   }
 }
 
-// POST: Crea un nuovo evento
+// POST: Crea un nuovo evento (aggiungendo il campo "image" opzionale)
 export async function POST(request) {
   try {
     const supabase = await createServerSupabase();
     const payload = await request.json();
     console.log("Payload ricevuto (POST /api/event):", payload);
 
-    const { club_id, name, description, start_date, end_date, music_genre, age_restriction, dress_code } = payload;
+    const {
+      club_id,
+      name,
+      description,
+      start_date,
+      end_date,
+      music_genre,
+      age_restriction,
+      dress_code,
+      image  // campo opzionale per la foto evento
+    } = payload;
     if (!club_id || !name) {
       return new Response(JSON.stringify({ error: "Missing club_id or name" }), { status: 400 });
     }
 
     const { data, error } = await supabase
       .from("events")
-      .insert([{ club_id, name, description, start_date, end_date, music_genre, age_restriction, dress_code }])
+      .insert([{
+        club_id,
+        name,
+        description,
+        start_date,
+        end_date,
+        music_genre,
+        age_restriction,
+        dress_code,
+        image   // inserisce la foto se presente
+      }])
       .select();
 
     if (error) {
@@ -89,7 +109,7 @@ export async function DELETE(request) {
   }
 }
 
-// PUT: Aggiorna un evento esistente
+// PUT: Aggiorna un evento esistente (gestisce il campo "image")
 export async function PUT(request) {
   try {
     const supabase = await createServerSupabase();
@@ -101,11 +121,24 @@ export async function PUT(request) {
     }
 
     const payload = await request.json();
-    const { club_id, name, description, start_date, end_date, music_genre, age_restriction, dress_code } = payload;
+    const {
+      club_id,
+      name,
+      description,
+      start_date,
+      end_date,
+      music_genre,
+      age_restriction,
+      dress_code,
+      image   // campo opzionale per la foto evento
+    } = payload;
+
+    const updateFields = { club_id, name, description, start_date, end_date, music_genre, age_restriction, dress_code };
+    if (image !== undefined) updateFields.image = image;  // aggiorna il campo "image" se fornito
 
     const { data, error } = await supabase
       .from("events")
-      .update({ club_id, name, description, start_date, end_date, music_genre, age_restriction, dress_code })
+      .update(updateFields)
       .eq("id", eventId)
       .select();
 

@@ -52,7 +52,7 @@ export default function Footer() {
             <ul className="space-y-1">
               <li>
                 <Link
-                  href="/"
+                  href="/auth/manager/landing"
                   className="text-sm text-gray-700 hover:underline"
                 >
                   List your club

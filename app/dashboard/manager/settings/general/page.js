@@ -1,3 +1,4 @@
+// /app/dashboard/manager/settings/page.js
 "use client";
 
 import { useEffect, useState, useRef } from "react";
@@ -10,7 +11,7 @@ export default function ManagerSettingsGeneralPage() {
 
   const [managerId, setManagerId] = useState(null);
   const [clubId, setClubId] = useState(null);
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState([]); // ci aspettiamo un array, ma con al massimo un elemento
 
   // Campi del club
   const [name, setName] = useState("");
@@ -33,7 +34,6 @@ export default function ManagerSettingsGeneralPage() {
   // Ref per Autocomplete di Google Maps
   const addressInputRef = useRef(null);
 
-  // Al mount, carichiamo i dati del club
   useEffect(() => {
     async function fetchClubData() {
       const {
@@ -75,7 +75,7 @@ export default function ManagerSettingsGeneralPage() {
         setPrice(clubData.price || "$");
         setSmoking(clubData.smoking || "not allowed");
         setCoatCheck(clubData.coat_check || "not available");
-        setImages(clubData.images || []);
+        setImages(clubData.images || []); // qui ci aspettiamo un array, ma limitato a 1
         if (clubData.lat) setLat(clubData.lat);
         if (clubData.lng) setLng(clubData.lng);
       }
@@ -116,7 +116,6 @@ export default function ManagerSettingsGeneralPage() {
     });
   }, []);
 
-  // Funzione per il salvataggio dei campi
   async function handleSave(e) {
     e.preventDefault();
     if (!managerId) {
@@ -145,6 +144,7 @@ export default function ManagerSettingsGeneralPage() {
         coat_check: coatCheck,
         lat,
         lng,
+        images, // verrà aggiornato con al massimo 1 elemento
       }),
     });
 
@@ -162,7 +162,6 @@ export default function ManagerSettingsGeneralPage() {
   return (
     <ManagerLayout>
       <div className="px-6 py-8 max-w-screen-xl mx-auto">
-        {/* Header con titolo e pulsante "Save" */}
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-2xl font-bold">Settings &gt; General</h1>
           <button
@@ -273,7 +272,6 @@ export default function ManagerSettingsGeneralPage() {
                 </select>
               </div>
             </div>
-
             <div className="grid grid-cols-3 gap-4 mt-4">
               <div>
                 <label className="block text-sm text-gray-600 mb-1">
@@ -318,24 +316,23 @@ export default function ManagerSettingsGeneralPage() {
             </div>
           </div>
 
-          {/* Errori e messaggi */}
+          {/* Sezione Errori e Messaggi */}
           {error && <p className="text-red-500 text-sm">{error}</p>}
           {message && <p className="text-green-500 text-sm">{message}</p>}
 
-          {/* Sezione "Photos" con il nuovo componente PhotosManager */}
+          {/* Sezione "Photos" */}
           <div>
             <h2 className="text-lg font-semibold text-gray-700 mb-3">
-              Photos
+              Photo
             </h2>
             {clubId && managerId && (
-  <PhotosManager
-    clubId={clubId}
-    managerId={managerId}
-    currentImages={images}
-    onUpdate={(newImages) => setImages(newImages)}
-  />
-)}
-
+              <PhotosManager
+                clubId={clubId}
+                managerId={managerId}
+                currentImages={images}
+                onUpdate={(newImages) => setImages(newImages)}
+              />
+            )}
           </div>
         </form>
       </div>
