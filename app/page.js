@@ -182,7 +182,6 @@ export default function CustomerHomePage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {events.slice(0, visibleCount).map((evt) => {
             const clubData = evt.clubs || {};
-            // Se esiste l'immagine dell'evento, usala, altrimenti usa quella del club oppure il fallback
             const finalImage = evt.image
               ? evt.image
               : (clubData.images && clubData.images.length > 0 ? clubData.images[0] : "/images/no-image.jpeg");
@@ -238,6 +237,11 @@ export default function CustomerHomePage() {
   return (
     <CustomerLayout>
       <div className="max-w-screen-xl mx-auto px-4 py-8 flex flex-col items-center">
+        {/* Inserimento della frase spostata dal header */}
+        <h2 className="text-base sm:text-lg font-medium text-gray-800 mb-6">
+          your night starts here
+        </h2>
+        
         {/* Selezione del tipo di ricerca */}
         <div className="flex gap-4 mb-6">
           <button

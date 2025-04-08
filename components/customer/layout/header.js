@@ -48,11 +48,8 @@ export default function Header() {
 
   return (
     <header className="w-full border-b border-gray-200 bg-white relative">
-      <div className="relative flex items-center justify-center py-4">
-        {/* Testo al centro */}
-        <h2 className="text-base sm:text-lg font-medium text-gray-800">
-          your night starts here
-        </h2>
+      <div className="relative flex items-center justify-center py-8">
+        {/* Rimosso: your night starts here */}
 
         {/* Logo a sinistra */}
         <div
