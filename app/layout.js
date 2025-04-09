@@ -2,7 +2,7 @@ import '../styles/globals.css';
 import Script from 'next/script';
 
 export const metadata = {
-  title: 'My App',
+  title: 'clubster',
 };
 
 export default function RootLayout({ children }) {
