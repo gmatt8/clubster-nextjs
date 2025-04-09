@@ -68,7 +68,7 @@ export default function ManagerLoginPage() {
       />
       {/* Sottotitolo */}
       <h2 className="text-lg md:text-xl text-gray-700 mb-8">
-        Manage Your Events Easily and Effectively
+        Welcome Back!
       </h2>
 
       {/* Box Login */}
