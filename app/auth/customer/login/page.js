@@ -51,7 +51,7 @@ export default function CustomerLoginPage() {
     }
 
     // Redirect to the customer dashboard
-    router.push('/dashboard/customer/home');
+    router.push('/');
   }
 
   return (

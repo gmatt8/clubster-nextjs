@@ -54,7 +54,7 @@ export default function Header() {
         {/* Logo a sinistra */}
         <div
           className="absolute left-0 pl-4 cursor-pointer flex items-center"
-          onClick={() => router.push("/dashboard/customer/home")}
+          onClick={() => router.push("/")}
         >
           <img
             src="/images/clubster-logo.png"
