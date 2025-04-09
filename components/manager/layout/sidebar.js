@@ -21,7 +21,7 @@ export default function Sidebar() {
 
   async function handleLogout() {
     await supabase.auth.signOut();
-    router.push("/");
+    router.push("/auth/manager/landing");
   }
 
   return (
