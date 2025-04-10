@@ -1,12 +1,15 @@
 'use client';
 
 import { useState } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { createBrowserSupabase } from "@/lib/supabase-browser";
-import { useRouter } from 'next/navigation';
 
 export default function CustomerLoginPage() {
   const supabase = createBrowserSupabase();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  // Se "next" non è presente, puoi specificare un URL di fallback (es. '/dashboard/customer/basket' o un'altra pagina)
+  const nextUrl = searchParams.get("next") || '/';
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -50,8 +53,8 @@ export default function CustomerLoginPage() {
       return;
     }
 
-    // Redirect to the customer dashboard
-    router.push('/');
+    // Redirect to the URL indicato nella query string o a quello di default
+    router.push(nextUrl);
   }
 
   return (
@@ -98,7 +101,7 @@ export default function CustomerLoginPage() {
 
         <p className="mt-6 text-sm">
           Don't have an account?{' '}
-          <a href="/auth/customer/signup" className="text-indigo-400 hover:underline">
+          <a href={`/auth/customer/signup?next=${encodeURIComponent(nextUrl)}`} className="text-indigo-400 hover:underline">
             Sign up
           </a>
         </p>

@@ -246,7 +246,7 @@ export default function CustomerHomePage() {
               searchType === "club" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-800"
             }`}
           >
-            Cerca Club
+            Search Club
           </button>
           <button
             onClick={() => setSearchType("event")}
@@ -254,7 +254,7 @@ export default function CustomerHomePage() {
               searchType === "event" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-800"
             }`}
           >
-            Cerca Eventi
+            Search Events
           </button>
         </div>
 

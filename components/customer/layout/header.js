@@ -5,15 +5,20 @@ import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { createBrowserSupabase } from "@/lib/supabase-browser";
 import Link from "next/link";
-import { Bars3Icon, Cog6ToothIcon, ArrowLeftOnRectangleIcon, TicketIcon } from "@heroicons/react/24/outline";
+import {
+  Bars3Icon,
+  Cog6ToothIcon,
+  ArrowLeftOnRectangleIcon,
+  TicketIcon,
+} from "@heroicons/react/24/outline";
 
 export default function Header() {
   const router = useRouter();
   const supabase = createBrowserSupabase();
-  
+
   // Stato per determinare se l'utente è autenticato
   const [user, setUser] = useState(null);
-  
+
   useEffect(() => {
     async function getSession() {
       const { data } = await supabase.auth.getSession();
@@ -49,8 +54,6 @@ export default function Header() {
   return (
     <header className="w-full border-b border-gray-200 bg-white relative">
       <div className="relative flex items-center justify-center py-8">
-        {/* Rimosso: your night starts here */}
-
         {/* Logo a sinistra */}
         <div
           className="absolute left-0 pl-4 cursor-pointer flex items-center"
@@ -108,13 +111,13 @@ export default function Header() {
             <div className="flex gap-2">
               <Link
                 href="/auth/customer/login"
-                className="px-4 py-2 border border-blue-500 text-blue-500 rounded hover:bg-blue-50"
+                className="px-4 py-2 border border-purple-600 text-purple-600 bg-transparent rounded-full hover:bg-purple-50 transition-colors"
               >
                 Login
               </Link>
               <Link
                 href="/auth/customer/signup"
-                className="px-4 py-2 border border-green-500 text-green-500 rounded hover:bg-green-50"
+                className="px-4 py-2 border border-purple-600 bg-purple-600 text-white rounded-full hover:bg-purple-700 transition-colors"
               >
                 Signup
               </Link>

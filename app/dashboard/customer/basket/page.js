@@ -4,6 +4,7 @@
 import { useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import CustomerLayout from "../CustomerLayout";
+import AuthModal from "@/components/customer/basket/AuthModal";
 
 export default function BasketPage() {
   const searchParams = useSearchParams();
@@ -11,7 +12,7 @@ export default function BasketPage() {
   const initialTicketCategoryId = searchParams.get("ticket_category");
   const initialQuantity = Number(searchParams.get("quantity")) || 1;
 
-  // Stati per l'evento, le ticket categories e la selezione dell'utente
+  // Stati per evento, ticket categories e selezione utente
   const [eventData, setEventData] = useState(null);
   const [ticketCategories, setTicketCategories] = useState([]);
   const [selectedTicketCategoryId, setSelectedTicketCategoryId] = useState(initialTicketCategoryId || "");
@@ -20,8 +21,9 @@ export default function BasketPage() {
   // Stati di caricamento ed errori
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [showAuthModal, setShowAuthModal] = useState(false);
 
-  // Al mount o quando eventId cambia, carichiamo l'evento e le categories
+  // Carica evento e ticket categories al mount o quando eventId cambia
   useEffect(() => {
     if (!eventId) return;
 
@@ -64,7 +66,7 @@ export default function BasketPage() {
     }
 
     fetchData();
-  }, [eventId]);
+  }, [eventId, initialTicketCategoryId]);
 
   // Calcola la categoria selezionata e il prezzo totale
   const selectedCategory = ticketCategories.find((cat) => cat.id === selectedTicketCategoryId);
@@ -90,10 +92,15 @@ export default function BasketPage() {
       });
       if (!res.ok) {
         const errData = await res.json();
+        // Se l'errore è di autenticazione mostra il modal
+        if (res.status === 401 || errData.error === "User not authenticated") {
+          setShowAuthModal(true);
+          return;
+        }
         throw new Error(errData.error || "Checkout error");
       }
       const { url } = await res.json();
-      // Redirect all'URL di Stripe Checkout
+      // Redirige all'URL di Stripe Checkout
       window.location.href = url;
     } catch (err) {
       console.error(err);
@@ -114,7 +121,7 @@ export default function BasketPage() {
     );
   }
 
-  // Se stiamo caricando i dati, mostriamo un loading
+  // Stato di caricamento
   if (loading) {
     return (
       <CustomerLayout>
@@ -125,7 +132,7 @@ export default function BasketPage() {
     );
   }
 
-  // Se c'è un errore, lo mostriamo
+  // Visualizza errori
   if (error) {
     return (
       <CustomerLayout>
@@ -155,7 +162,6 @@ export default function BasketPage() {
                 value={selectedTicketCategoryId}
                 onChange={(e) => {
                   setSelectedTicketCategoryId(e.target.value);
-                  // Resetta la quantità a 1 se disponibili, altrimenti a 0
                   const newCat = ticketCategories.find((c) => c.id === e.target.value);
                   if (newCat) {
                     setQuantity(newCat.available_tickets > 0 ? 1 : 0);
@@ -215,6 +221,8 @@ export default function BasketPage() {
           </div>
         </div>
       </div>
+      {/* Includiamo il modal per l'autenticazione */}
+      <AuthModal open={showAuthModal} onClose={() => setShowAuthModal(false)} />
     </CustomerLayout>
   );
 }

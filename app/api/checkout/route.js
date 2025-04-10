@@ -10,23 +10,24 @@ export async function POST(request) {
     // 1) Recupera i dati dal body
     const { eventId, ticketCategoryId, quantity } = await request.json();
 
-    // 2) Recupera i dettagli dell'evento e la ticket category dal DB
+    // 2) Recupera i dettagli dell'evento e della ticket category dal DB
     const supabase = await createServerSupabase();
     const { data: ticketCat, error: tcError } = await supabase
       .from("ticket_categories")
       .select("price, event_id, available_tickets")
       .eq("id", ticketCategoryId)
       .single();
+
     if (tcError || !ticketCat) {
       return NextResponse.json({ error: "Ticket category not found" }, { status: 400 });
     }
 
-    // (Opzionale: qui potresti controllare che available_tickets sia sufficiente)
-    if(ticketCat.available_tickets < quantity) {
+    // Controlla se i biglietti disponibili sono sufficienti
+    if (ticketCat.available_tickets < quantity) {
       return NextResponse.json({ error: "Not enough available tickets" }, { status: 400 });
     }
 
-    // Recupera l'ID Stripe del manager tramite l'evento
+    // Recupera l'ID dello Stripe account del manager tramite l'evento
     const { data: eventData, error: evError } = await supabase
       .from("events")
       .select("club_id")
@@ -36,7 +37,7 @@ export async function POST(request) {
       return NextResponse.json({ error: "Event not found" }, { status: 400 });
     }
 
-    // Ottieni info sul club
+    // Ottieni informazioni sul club
     const { data: clubData, error: clubError } = await supabase
       .from("clubs")
       .select("stripe_account_id")
@@ -46,7 +47,7 @@ export async function POST(request) {
       return NextResponse.json({ error: "Club not found or not linked to Stripe" }, { status: 400 });
     }
 
-    // Ottieni l'ID dell'utente loggato
+    // Ottieni l'utente loggato
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
       return NextResponse.json({ error: "User not authenticated" }, { status: 401 });
@@ -70,11 +71,11 @@ export async function POST(request) {
       return NextResponse.json({ error: "Error creating booking" }, { status: 400 });
     }
 
-    // 3) Calcola il prezzo totale (in centesimi)
+    // 3) Calcola il prezzo totale in centesimi
     const unitPrice = Math.round(ticketCat.price * 100);
     const totalPrice = unitPrice * quantity;
 
-    // 4) Crea la Checkout Session, includendo metadata utili (incluso booking_id e ticket_category_id)
+    // 4) Crea la sessione Checkout su Stripe includendo metadati utili (booking_id, ticket_category_id, ecc.)
     const session = await stripe.checkout.sessions.create(
       {
         line_items: [
@@ -96,11 +97,11 @@ export async function POST(request) {
             user_id: user.id,
             event_id: eventId,
             quantity: quantity.toString(),
-            booking_id: bookingData.id, // Passiamo il booking_id creato in checkout
-            ticket_category_id: ticketCategoryId, // Passiamo il ticketCategoryId
+            booking_id: bookingData.id,
+            ticket_category_id: ticketCategoryId,
           },
         },
-        // Success URL include il booking_id in query string
+        // Success URL include il booking_id nella query string
         success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard/customer/checkout/success?booking_id=${bookingData.id}`,
         cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard/customer/checkout/cancel`,
         expand: ["payment_intent"],

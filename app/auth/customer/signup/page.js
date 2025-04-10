@@ -1,12 +1,16 @@
 'use client';
 
 import { useState } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { createBrowserSupabase } from "@/lib/supabase-browser";
-import { useRouter } from 'next/navigation';
 
 export default function CustomerSignupPage() {
   const supabase = createBrowserSupabase();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  // Se "next" non è presente, puoi impostare un valore di default
+  const nextUrl = searchParams.get("next") || '/';
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -31,13 +35,13 @@ export default function CustomerSignupPage() {
       return;
     }
 
-    // Show a success message and redirect
+    // Show a success message and redirect to the login page with il parametro next
     setMessage(
       'Sign up successful. Please check your email to verify your account. You will be redirected to the login page.'
     );
 
     setTimeout(() => {
-      router.push('/auth/customer/login');
+      router.push(`/auth/customer/login?next=${encodeURIComponent(nextUrl)}`);
     }, 3000);
   }
 
@@ -45,7 +49,6 @@ export default function CustomerSignupPage() {
     <div className="flex flex-col md:flex-row w-full min-h-screen">
       {/* Left section: dark background with sign-up form */}
       <div className="w-full md:w-1/2 bg-black text-white flex flex-col justify-center items-center p-6">
-        
         {/* Clubster logo */}
         <img
           src="/images/clubster-logo.png"
@@ -88,7 +91,7 @@ export default function CustomerSignupPage() {
 
         <p className="mt-6">
           Already have an account?{' '}
-          <a href="/auth/customer/login" className="text-indigo-400 hover:underline">
+          <a href={`/auth/customer/login?next=${encodeURIComponent(nextUrl)}`} className="text-indigo-400 hover:underline">
             Log in
           </a>
         </p>

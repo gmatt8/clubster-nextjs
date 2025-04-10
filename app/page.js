@@ -237,28 +237,32 @@ export default function CustomerHomePage() {
   return (
     <CustomerLayout>
       <div className="max-w-screen-xl mx-auto px-4 py-8 flex flex-col items-center">
-        {/* Inserimento della frase spostata dal header */}
+        {/* Frase ispirazionale */}
         <h2 className="text-base sm:text-lg font-medium text-gray-800 mb-6">
           your night starts here
         </h2>
         
-        {/* Selezione del tipo di ricerca */}
-        <div className="flex gap-4 mb-6">
+        {/* Selezione del tipo di ricerca come tab */}
+        <div className="mb-6 flex space-x-8 border-b border-gray-200">
           <button
             onClick={() => setSearchType("club")}
-            className={`px-4 py-2 rounded ${
-              searchType === "club" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-800"
+            className={`pb-2 text-sm sm:text-base font-medium ${
+              searchType === "club"
+                ? "border-b-2 border-purple-600 text-purple-600"
+                : "border-b-2 border-transparent text-gray-500 hover:text-purple-600 hover:border-purple-600"
             }`}
           >
-            Cerca Club
+            Clubs
           </button>
           <button
             onClick={() => setSearchType("event")}
-            className={`px-4 py-2 rounded ${
-              searchType === "event" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-800"
+            className={`pb-2 text-sm sm:text-base font-medium ${
+              searchType === "event"
+                ? "border-b-2 border-purple-600 text-purple-600"
+                : "border-b-2 border-transparent text-gray-500 hover:text-purple-600 hover:border-purple-600"
             }`}
           >
-            Cerca Eventi
+            Events
           </button>
         </div>
 
@@ -300,7 +304,7 @@ export default function CustomerHomePage() {
             <div className="mt-2">
               <button
                 onClick={() => setShowAdvanced((prev) => !prev)}
-                className="text-purple-600 hover:underline"
+                className="text-purple-600 hover:underline text-sm"
               >
                 {showAdvanced ? "Nascondi opzioni avanzate" : "Advanced Search"}
               </button>

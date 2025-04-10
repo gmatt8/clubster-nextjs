@@ -1,0 +1,39 @@
+// components/customer/basket/AuthModal.js
+import { useState, useEffect } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
+import Link from "next/link";
+
+export default function AuthModal({ open, onClose }) {
+  const [currentUrl, setCurrentUrl] = useState("");
+
+  useEffect(() => {
+    setCurrentUrl(window.location.href);
+  }, []);
+
+  return (
+    <Dialog open={open} onOpenChange={onClose}>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>Accesso richiesto</DialogTitle>
+          <DialogDescription>
+            Devi effettuare il login per completare l’ordine.
+          </DialogDescription>
+        </DialogHeader>
+        <DialogFooter className="flex justify-end gap-4">
+          <Link 
+            href={`/auth/customer/login?next=${encodeURIComponent(currentUrl)}`} 
+            className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700"
+          >
+            LOGIN
+          </Link>
+          <Link 
+            href={`/auth/customer/signup?next=${encodeURIComponent(currentUrl)}`} 
+            className="bg-gray-300 text-black px-4 py-2 rounded hover:bg-gray-400"
+          >
+            SIGNUP
+          </Link>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
