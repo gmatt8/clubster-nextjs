@@ -77,7 +77,7 @@ export async function GET(request) {
 
   // 6. Genera una pagina per ogni ticket
   for (const [index, ticket] of tickets.entries()) {
-    const page = pdfDoc.addPage();
+    const page = pdfDoc.addPage([595.28, 841.89]);
     const { width, height } = page.getSize();
 
     // 6a. Disegna un rettangolo come header (colore grigio molto chiaro)
@@ -98,48 +98,25 @@ export async function GET(request) {
       color: rgb(0, 0, 0),
     });
 
-    // 6c. Logo in alto a destra con effetto ringrandito
+    // 6c. Logo in alto a destra senza box bianco
 
-    // Imposta la larghezza desiderata
-    const desiredLogoWidth = 80;
-    const aspectRatio = logoOrigWidth / logoOrigHeight;
-    const desiredLogoHeight = desiredLogoWidth / aspectRatio;
+// Imposta la larghezza desiderata
+const desiredLogoWidth = 80;
+const aspectRatio = logoOrigWidth / logoOrigHeight;
+const desiredLogoHeight = desiredLogoWidth / aspectRatio;
 
-    // Parametri per il "container" del logo
-    const logoBgPadding = 5;
-    const shadowOffset = 2;
+// Calcola le coordinate base per il logo
+const baseLogoX = width - margin - desiredLogoWidth;
+const baseLogoY = height - headerHeight + (headerHeight - desiredLogoHeight) / 2;
 
-    // Calcola le coordinate base per il logo
-    const baseLogoX = width - margin - desiredLogoWidth;
-    const baseLogoY = height - headerHeight + (headerHeight - desiredLogoHeight) / 2;
+// Disegna il logo senza box bianco o ombra
+page.drawImage(logoImage, {
+  x: baseLogoX,
+  y: baseLogoY,
+  width: desiredLogoWidth,
+  height: desiredLogoHeight,
+});
 
-    // Disegna l'ombra
-    page.drawRectangle({
-      x: baseLogoX - logoBgPadding + shadowOffset,
-      y: baseLogoY - logoBgPadding - shadowOffset,
-      width: desiredLogoWidth + 2 * logoBgPadding,
-      height: desiredLogoHeight + 2 * logoBgPadding,
-      color: rgb(0.6, 0.6, 0.6),
-    });
-
-    // Disegna il container bianco con bordo
-    page.drawRectangle({
-      x: baseLogoX - logoBgPadding,
-      y: baseLogoY - logoBgPadding,
-      width: desiredLogoWidth + 2 * logoBgPadding,
-      height: desiredLogoHeight + 2 * logoBgPadding,
-      color: rgb(1, 1, 1),
-      borderColor: rgb(0.8, 0.8, 0.8),
-      borderWidth: 1,
-    });
-
-    // Disegna il logo
-    page.drawImage(logoImage, {
-      x: baseLogoX,
-      y: baseLogoY,
-      width: desiredLogoWidth,
-      height: desiredLogoHeight,
-    });
 
     // 6d. Sotto l'header, aggiungi i dettagli:
     // "Ticket X of Y", "Booking ID", "Club: [clubName]", "Event: [eventName]",
