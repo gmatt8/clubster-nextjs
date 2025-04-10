@@ -36,6 +36,9 @@ export default function CustomerHomePage() {
   // Stato per advanced search (campo Radius per ricerca club)
   const [showAdvanced, setShowAdvanced] = useState(false);
 
+  // Stato per gestione caricamento risultati
+  const [loadingResults, setLoadingResults] = useState(false);
+
   const locationInputRef = useRef(null);
 
   // Inizializza Google Autocomplete sul campo location
@@ -62,15 +65,18 @@ export default function CustomerHomePage() {
   async function handleSearch() {
     setSearchPerformed(true);
     setErrorMsg("");
+    setLoadingResults(true);
 
     if (searchType === "club") {
       if (!locationSearch.trim()) {
         setErrorMsg("Inserisci una location per cercare club.");
+        setLoadingResults(false);
         return;
       }
     } else if (searchType === "event") {
       if (!locationSearch.trim() && !selectedDate) {
         setErrorMsg("Per cercare eventi, inserisci almeno una location o una data.");
+        setLoadingResults(false);
         return;
       }
     }
@@ -104,6 +110,8 @@ export default function CustomerHomePage() {
     } catch (err) {
       console.error(err);
       setErrorMsg("Error fetching results");
+    } finally {
+      setLoadingResults(false);
     }
   }
 
@@ -122,6 +130,9 @@ export default function CustomerHomePage() {
 
   // Render dei box per i club
   function renderClubBoxes() {
+    if (loadingResults) {
+      return <div className="text-center mt-6 text-gray-500">Loading...</div>;
+    }
     if (clubs.length === 0) {
       if (searchPerformed) {
         return <div className="text-center mt-6 text-gray-500">No clubs found.</div>;
@@ -170,6 +181,9 @@ export default function CustomerHomePage() {
 
   // Render dei box per gli eventi
   function renderEventBoxes() {
+    if (loadingResults) {
+      return <div className="text-center mt-6 text-gray-500">Loading...</div>;
+    }
     if (events.length === 0) {
       if (searchPerformed) {
         return <div className="text-center mt-6 text-gray-500">No events found.</div>;
@@ -237,12 +251,9 @@ export default function CustomerHomePage() {
   return (
     <CustomerLayout>
       <div className="max-w-screen-xl mx-auto px-4 py-8 flex flex-col items-center">
-        {/* Frase ispirazionale */}
         <h2 className="text-base sm:text-lg font-medium text-gray-800 mb-6">
           your night starts here
         </h2>
-        
-        {/* Selezione del tipo di ricerca come tab */}
         <div className="mb-6 flex space-x-8 border-b border-gray-200">
           <button
             onClick={() => setSearchType("club")}
@@ -265,8 +276,6 @@ export default function CustomerHomePage() {
             Events
           </button>
         </div>
-
-        {/* Form di ricerca */}
         <div className="w-full max-w-3xl flex flex-col items-center">
           <div className="w-full flex items-center bg-white border border-gray-300 rounded-full px-4 py-2 shadow-sm">
             <div className="flex items-center gap-2 flex-1">
@@ -298,8 +307,6 @@ export default function CustomerHomePage() {
               <MagnifyingGlassIcon className="h-5 w-5" />
             </button>
           </div>
-
-          {/* Pulsante Advanced Search (solo per club) */}
           {searchType === "club" && (
             <div className="mt-2">
               <button
@@ -324,8 +331,6 @@ export default function CustomerHomePage() {
           )}
           {errorMsg && <div className="text-red-500 mt-2">{errorMsg}</div>}
         </div>
-
-        {/* Visualizzazione dei risultati */}
         <div className="w-full mt-8">
           {searchType === "club" ? renderClubBoxes() : renderEventBoxes()}
         </div>

@@ -2,12 +2,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-// Esempio di icona share da react-icons
 import { FiShare2 } from "react-icons/fi";
 
 export default function ClubInfo({ club }) {
-  const images = club.images || [];
-
   // Stato per la media e il numero di recensioni
   const [averageRating, setAverageRating] = useState("0.0");
   const [reviewsCount, setReviewsCount] = useState(0);
@@ -39,94 +36,101 @@ export default function ClubInfo({ club }) {
     fetchReviews();
   }, [club.id]);
 
+  // Otteniamo l'immagine principale (max 1 secondo le nuove regole)
+  const images = club.images || [];
+  const clubImage = images.length > 0 ? images[0] : null;
+
+  // Funzione per gestire la condivisione del link del club
+  const handleShare = async () => {
+    const shareData = {
+      title: club.name,
+      text: club.description || `Scopri ${club.name}`,
+      url: window.location.href,
+    };
+
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+        console.log("Club shared successfully.");
+      } else {
+        // Fallback: copia il link negli appunti
+        await navigator.clipboard.writeText(window.location.href);
+        console.log("Link copiato negli appunti.");
+      }
+    } catch (error) {
+      console.error("Error sharing the club: ", error);
+      // Non viene mostrato alcun alert in caso di errore.
+    }
+  };
+
   return (
     <section className="mb-8">
-      {/* Header: nome club, indirizzo, rating, share icon */}
-      <div className="flex items-start justify-between">
-        {/* Colonna sinistra: nome + indirizzo */}
-        <div>
-          <h1 className="text-2xl font-bold">{club.name}</h1>
-          {club.address && (
-            <p className="text-sm text-gray-600 mt-1">{club.address}</p>
-          )}
-        </div>
-
-        {/* Colonna destra: rating + share */}
-        <div className="flex items-start gap-4">
-          {/* Sezione rating e numero recensioni */}
-          <div className="flex flex-col items-end">
-            {/* Riga stella + media */}
-            <div className="flex items-center gap-1 text-xl">
-              <span className="text-yellow-500">★</span>
-              <span>{averageRating}</span>
-            </div>
-            {/* Numero di recensioni */}
-            <p className="text-sm text-gray-500">
-              {reviewsCount} reviews
-            </p>
+      {/* Hero con immagine di sfondo blur */}
+      <div className="relative w-full h-[400px] md:h-[500px] overflow-hidden rounded-lg">
+        {clubImage ? (
+          <>
+            {/* Immagine di sfondo blurrata */}
+            <img
+              src={clubImage}
+              alt="Club background"
+              className="absolute inset-0 w-full h-full object-cover blur-sm scale-105"
+            />
+            {/* Overlay scuro per migliore leggibilità */}
+            <div className="absolute inset-0 bg-black bg-opacity-30" />
+          </>
+        ) : (
+          // Se non ci sono immagini
+          <div className="absolute inset-0 bg-gray-300 flex items-center justify-center">
+            No image
           </div>
+        )}
 
-          {/* Icona share */}
-          <button
-            onClick={() => alert("Share functionality to be implemented")}
-            className="text-gray-600 hover:text-gray-800 mt-1"
-            title="Share"
-          >
-            <FiShare2 size={20} />
-          </button>
-        </div>
-      </div>
-
-      {/* Immagini: principale + colonna destra */}
-      <div className="flex flex-col md:flex-row gap-4 mt-4">
-        {/* Immagine principale */}
-        <div className="flex-1">
-          {images.length > 0 ? (
+        {/* Contenuto in sovrimpressione (hero content) */}
+        <div className="relative z-10 w-full h-full flex flex-col items-center justify-center px-6 text-white">
+          {/* Immagine non blur in primo piano, se presente */}
+          {clubImage && (
             <img
-              src={images[0]}
-              alt="Club main cover"
-              className="w-full h-[500px] object-cover rounded"
-            />
-          ) : (
-            <div className="w-full h-[500px] bg-gray-200 flex items-center justify-center rounded">
-              No image
-            </div>
-          )}
-        </div>
-
-        {/* Seconda immagine media + miniature */}
-        <div className="w-full md:w-1/3 flex flex-col gap-2">
-          {images.length > 1 && (
-            <img
-              src={images[1]}
-              alt="Club secondary"
-              className="w-full h-[240px] object-cover rounded"
+              src={clubImage}
+              alt="Club main"
+              className="w-32 h-32 md:w-48 md:h-48 object-cover rounded-full border-4 border-white shadow mb-4"
             />
           )}
-          {images.length > 2 && (
-            <div className="flex gap-2">
-              {images.slice(2, 5).map((img, i) => (
-                <img
-                  key={i}
-                  src={img}
-                  alt={`Thumbnail ${i}`}
-                  className="w-1/3 h-[80px] object-cover rounded"
-                />
-              ))}
-            </div>
+
+          {/* Nome Club e indirizzo */}
+          <h1 className="text-2xl md:text-3xl font-bold text-center">
+            {club.name}
+          </h1>
+          {club.address && (
+            <p className="text-sm md:text-base text-gray-100 mt-1 text-center">
+              {club.address}
+            </p>
           )}
-          {images.length > 5 && (
+
+          {/* Rating + Share */}
+          <div className="flex items-center gap-6 mt-4">
+            {/* Rating */}
+            <div className="flex flex-col items-center">
+              <div className="flex items-center gap-1 text-xl">
+                <span className="text-yellow-400">★</span>
+                <span>{averageRating}</span>
+              </div>
+              <p className="text-xs text-gray-100">{reviewsCount} reviews</p>
+            </div>
+
+            {/* Icona share */}
             <button
-              onClick={() => alert("Show all images (to implement)")}
-              className="mt-2 text-sm text-purple-600 hover:underline"
+              onClick={handleShare}
+              className="flex flex-col items-center text-gray-100 hover:text-white"
+              title="Share"
             >
-              Show all
+              <FiShare2 size={20} />
+              <span className="text-xs mt-1">Share</span>
             </button>
-          )}
+          </div>
         </div>
       </div>
 
-      {/* Descrizione (se presente) */}
+      {/* Descrizione Club (se presente) */}
       {club.description && (
         <div className="mt-6">
           <h2 className="text-lg font-semibold mb-1">Description</h2>
