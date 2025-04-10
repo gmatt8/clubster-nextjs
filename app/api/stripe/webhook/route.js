@@ -3,7 +3,6 @@ import Stripe from "stripe";
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 
-// Esporta le configurazioni come segment export config
 export const runtime = "nodejs";
 export const api = { bodyParser: false };
 
@@ -14,6 +13,21 @@ const supabaseAdmin = createClient(
   process.env.SUPABASE_URL,
   process.env.SUPABASE_SERVICE_ROLE_KEY
 );
+
+/**
+ * Funzione per generare un Ticket ID personalizzato con prefisso "T"
+ * (es. "TX9K3LMNOP" se totalLength è 10)
+ */
+function generateCustomTicketId(totalLength = 10) {
+  const prefix = "T";
+  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  let result = "";
+  const randomPartLength = totalLength - prefix.length;
+  for (let i = 0; i < randomPartLength; i++) {
+    result += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+  return prefix + result;
+}
 
 export async function POST(request) {
   const sig = request.headers.get("stripe-signature");
@@ -63,65 +77,71 @@ export async function POST(request) {
     const quantity = parseInt(metadata?.quantity, 10) || 1;
 
     if (!userId || !eventId) {
-      console.error(
-        "Missing metadata in PaymentIntent metadata",
-        JSON.stringify(metadata)
-      );
+      console.error("Missing required metadata in PaymentIntent", JSON.stringify(metadata));
     } else {
-      let bookingId;
-      // Se esiste già un booking_id nei metadata, lo utilizziamo
-      if (metadata.booking_id) {
-        bookingId = metadata.booking_id;
-        console.log("Using existing booking_id from metadata:", bookingId);
-      } else {
-        // Fallback: se non c'è booking_id, creiamo un nuovo booking (scenario non ideale)
+      let bookingId = metadata.booking_id;
+      if (!bookingId) {
+        // Fallback (ragionevolmente raro, perché il booking_id dovrebbe già essere passato)
+        const fallbackBookingId = "fallback-" + Date.now();
         const bookingNumber = `BK${Date.now()}`;
         const { data: bookingData, error: bookingError } = await supabaseAdmin
           .from("bookings")
           .insert([
             {
+              id: fallbackBookingId,
               user_id: userId,
               event_id: eventId,
               quantity,
               booking_number: bookingNumber,
+              status: "pending"
             },
           ])
           .select()
           .single();
-
         if (bookingError || !bookingData) {
-          console.error("Error inserting booking:", JSON.stringify(bookingError));
+          console.error("Error inserting fallback booking:", bookingError);
           return NextResponse.json({ error: "Error inserting booking" }, { status: 400 });
         } else {
           bookingId = bookingData.id;
-          console.log("Booking created:", JSON.stringify(bookingData));
+          console.log("Fallback booking created:", JSON.stringify(bookingData));
         }
       }
 
-      // Crea l'array dei ticket da inserire per il booking corretto
+      // Aggiorna lo status del booking a "confirmed", poiché il pagamento ha avuto esito positivo
+      const { data: updateData, error: updateError } = await supabaseAdmin
+        .from("bookings")
+        .update({ status: "confirmed" })
+        .eq("id", bookingId);
+      if (updateError) {
+        console.error("Error updating booking status:", updateError);
+      } else {
+        console.log("Booking updated to confirmed:", bookingId);
+      }
+
+      // Crea i record dei ticket per il booking
       const ticketsToInsert = [];
       for (let i = 0; i < quantity; i++) {
+        const ticketId = generateCustomTicketId();
         const qrData = `${bookingId}-${i}-${Date.now()}`;
         ticketsToInsert.push({
+          id: ticketId,
           booking_id: bookingId,
           qr_data: qrData,
         });
       }
       console.log("Tickets to insert:", ticketsToInsert);
 
-      // Inserisci i ticket nel database
       const { data: ticketsData, error: ticketsError } =
         await supabaseAdmin.from("tickets").insert(ticketsToInsert).select();
       if (ticketsError) {
-        console.error("Error inserting tickets:", JSON.stringify(ticketsError));
+        console.error("Error inserting tickets:", ticketsError);
       } else {
         console.log("Tickets created:", JSON.stringify(ticketsData));
       }
 
-      // ** Aggiorna la ticket category decrementando available_tickets **
+      // Aggiorna la ticket category decrementando available_tickets
       const ticketCategoryId = metadata.ticket_category_id;
       if (ticketCategoryId) {
-        // Recupera l'attuale quantità disponibile
         const { data: tcData, error: tcError } = await supabaseAdmin
           .from("ticket_categories")
           .select("available_tickets")
@@ -131,16 +151,15 @@ export async function POST(request) {
           console.error("Error fetching ticket category:", tcError);
         } else {
           const newAvailable = tcData.available_tickets - quantity;
-          // Aggiorna solo se newAvailable è >= 0, altrimenti potresti voler gestire lo scenario sold out
           if (newAvailable < 0) {
             console.error("Not enough tickets available in this category");
           } else {
-            const { data: updateData, error: updateError } = await supabaseAdmin
+            const { data: updateTCData, error: updateTCError } = await supabaseAdmin
               .from("ticket_categories")
               .update({ available_tickets: newAvailable })
               .eq("id", ticketCategoryId);
-            if (updateError) {
-              console.error("Error updating ticket category:", updateError);
+            if (updateTCError) {
+              console.error("Error updating ticket category:", updateTCError);
             } else {
               console.log("Ticket category updated, new available_tickets:", newAvailable);
             }

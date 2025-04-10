@@ -58,7 +58,8 @@ export async function GET(request) {
     }
     const role = profileData.role; // "customer" o "manager"
 
-    // Costruisci la query con join su events e clubs
+    // Costruisci la query con join su events e clubs  
+    // Aggiungiamo il filtro per mostrare solo i booking con status "confirmed"
     let query = supabase
       .from("bookings")
       .select(`
@@ -81,6 +82,7 @@ export async function GET(request) {
           )
         )
       `)
+      .eq("status", "confirmed")  // <-- Solo booking confermati
       .order("created_at", { ascending: false });
     
     // Se è passato il parametro booking_id, aggiungi il filtro
@@ -92,7 +94,8 @@ export async function GET(request) {
     if (error) throw error;
     let bookings = data || [];
 
-    // Filtra in base al ruolo
+    // Filtra in base al ruolo: solo i booking dell'utente per il "customer",
+    // oppure quelli dei club gestiti per il "manager"
     if (role === "customer") {
       bookings = bookings.filter((booking) => booking.user_id === user.id);
     } else if (role === "manager") {

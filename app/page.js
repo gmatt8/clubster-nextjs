@@ -8,14 +8,15 @@ import { enGB } from "date-fns/locale";
 import CustomerLayout from "app/dashboard/customer/CustomerLayout";
 import DatePicker from "@/components/customer/home/calendar";
 import { MapPinIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import PopularLocation from "@/components/customer/home/popularLocation";
 
 export default function CustomerHomePage() {
   const router = useRouter();
 
-  // Stato per la modalità di ricerca: "club" oppure "event"
-  const [searchType, setSearchType] = useState("club");
+  // Ricerca predefinita: "event"
+  const [searchType, setSearchType] = useState("event");
 
-  // Stati per il form di ricerca
+  // Stati principali per il form
   const [locationSearch, setLocationSearch] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
   const [radius, setRadius] = useState("10"); // default 10 km
@@ -26,22 +27,22 @@ export default function CustomerHomePage() {
   const [events, setEvents] = useState([]);
   const [clubs, setClubs] = useState([]);
 
-  // Stato per mostrare un certo numero di risultati alla volta
+  // Stato per gestire quanti risultati mostrare
   const [visibleCount, setVisibleCount] = useState(8);
 
-  // Messaggi di errore e controllo se è stata fatta una ricerca
+  // Error handling e controllo ricerca
   const [errorMsg, setErrorMsg] = useState("");
   const [searchPerformed, setSearchPerformed] = useState(false);
-
-  // Stato per advanced search (campo Radius per ricerca club)
-  const [showAdvanced, setShowAdvanced] = useState(false);
-
-  // Stato per gestione caricamento risultati
   const [loadingResults, setLoadingResults] = useState(false);
+
+  // Advanced Search: sortBy e filtro per club con eventi disponibili
+  const [showAdvanced, setShowAdvanced] = useState(false);
+  const [sortBy, setSortBy] = useState("date"); // default "date" per eventi
+  const [onlyWithEvents, setOnlyWithEvents] = useState(false);
 
   const locationInputRef = useRef(null);
 
-  // Inizializza Google Autocomplete sul campo location
+  // Inizializza Google Autocomplete
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (!window.google || !window.google.maps || !window.google.maps.places) {
@@ -61,33 +62,77 @@ export default function CustomerHomePage() {
     });
   }, []);
 
-  // Funzione di ricerca
-  async function handleSearch() {
+  // Aggiorna il sortBy e resetta onlyWithEvents quando cambia il tipo di ricerca
+  useEffect(() => {
+    if (searchType === "event") {
+      setSortBy("date");
+    } else {
+      setSortBy("distance");
+    }
+    setOnlyWithEvents(false);
+  }, [searchType]);
+
+  /**
+   * La funzione handleSearch ora accetta parametri opzionali.
+   * Se passati, verranno usati per la ricerca anziché i valori in state.
+   */
+  async function handleSearch(customAddress, customLat, customLng) {
     setSearchPerformed(true);
     setErrorMsg("");
     setLoadingResults(true);
 
-    if (searchType === "club") {
-      if (!locationSearch.trim()) {
-        setErrorMsg("Inserisci una location per cercare club.");
-        setLoadingResults(false);
-        return;
-      }
-    } else if (searchType === "event") {
-      if (!locationSearch.trim() && !selectedDate) {
-        setErrorMsg("Per cercare eventi, inserisci almeno una location o una data.");
+    const effectiveAddress = customAddress !== undefined ? customAddress : locationSearch;
+    if (!effectiveAddress.trim()) {
+      setErrorMsg("Inserisci una location per cercare.");
+      setLoadingResults(false);
+      return;
+    }
+
+    let effectiveLat = customLat !== undefined ? customLat : lat;
+    let effectiveLng = customLng !== undefined ? customLng : lng;
+
+    // Se non sono stati impostati lat e lng, utilizza il geocoder
+    if (!effectiveLat && !effectiveLng) {
+      if (typeof window !== "undefined" && window.google && window.google.maps && window.google.maps.Geocoder) {
+        try {
+          const geocoder = new window.google.maps.Geocoder();
+          const results = await new Promise((resolve, reject) => {
+            geocoder.geocode({ address: effectiveAddress }, (results, status) => {
+              if (status === "OK" && results.length) {
+                resolve(results);
+              } else {
+                reject("Location non trovata");
+              }
+            });
+          });
+          effectiveLat = results[0].geometry.location.lat();
+          effectiveLng = results[0].geometry.location.lng();
+          setLat(effectiveLat);
+          setLng(effectiveLng);
+        } catch (error) {
+          setErrorMsg("Non siamo riusciti a trovare la location.");
+          setLoadingResults(false);
+          return;
+        }
+      } else {
+        setErrorMsg("Servizio di geocoding non disponibile.");
         setLoadingResults(false);
         return;
       }
     }
 
+    // Prepara i parametri per la query
     const queryParams = new URLSearchParams({
       type: searchType,
-      location: locationSearch.trim(),
+      location: effectiveAddress.trim(),
       radius,
-      lat: lat ? lat.toString() : "",
-      lng: lng ? lng.toString() : "",
+      lat: effectiveLat ? effectiveLat.toString() : "",
+      lng: effectiveLng ? effectiveLng.toString() : "",
+      sort: sortBy,
     });
+    if (searchType === "club" && onlyWithEvents) {
+      queryParams.set("onlyWithEvents", "true");
+    }
     if (selectedDate) {
       const dateSearch = format(selectedDate, "yyyy-MM-dd");
       queryParams.set("date", dateSearch);
@@ -115,11 +160,21 @@ export default function CustomerHomePage() {
     }
   }
 
+  // Gestione del click su una destinazione popolare
+  function handlePopularDestinationClick(dest) {
+    // Imposta immediatamente gli stati in base alla destinazione cliccata
+    setLocationSearch(dest.address);
+    setLat(dest.lat);
+    setLng(dest.lng);
+    setSortBy("distance");
+    // Chiamando handleSearch() passando i valori direttamente, evitiamo la race condition
+    handleSearch(dest.address, dest.lat, dest.lng);
+  }
+
   function showMore() {
     setVisibleCount((prev) => prev + 8);
   }
 
-  // Navigazione verso i dettagli
   function goToDetails(clubId, eventId, type) {
     if (type === "club") {
       router.push(`/dashboard/customer/club-details?club_id=${clubId}`);
@@ -160,7 +215,7 @@ export default function CustomerHomePage() {
               />
               <div className="p-4">
                 <h2 className="text-lg font-bold text-gray-800">{club.name}</h2>
-                <p className="text-sm text-gray-600">{club.address}</p>
+                <p className="text-sm text-gray-600">{club.shortAddress || club.address}</p>
               </div>
             </div>
           ))}
@@ -254,17 +309,9 @@ export default function CustomerHomePage() {
         <h2 className="text-base sm:text-lg font-medium text-gray-800 mb-6">
           your night starts here
         </h2>
+
+        {/* Pulsanti invertiti: Events a sinistra, Clubs a destra */}
         <div className="mb-6 flex space-x-8 border-b border-gray-200">
-          <button
-            onClick={() => setSearchType("club")}
-            className={`pb-2 text-sm sm:text-base font-medium ${
-              searchType === "club"
-                ? "border-b-2 border-purple-600 text-purple-600"
-                : "border-b-2 border-transparent text-gray-500 hover:text-purple-600 hover:border-purple-600"
-            }`}
-          >
-            Clubs
-          </button>
           <button
             onClick={() => setSearchType("event")}
             className={`pb-2 text-sm sm:text-base font-medium ${
@@ -275,8 +322,20 @@ export default function CustomerHomePage() {
           >
             Events
           </button>
+          <button
+            onClick={() => setSearchType("club")}
+            className={`pb-2 text-sm sm:text-base font-medium ${
+              searchType === "club"
+                ? "border-b-2 border-purple-600 text-purple-600"
+                : "border-b-2 border-transparent text-gray-500 hover:text-purple-600 hover:border-purple-600"
+            }`}
+          >
+            Clubs
+          </button>
         </div>
-        <div className="w-full max-w-3xl flex flex-col items-center">
+
+        {/* Barra di ricerca principale */}
+        <div className="w-full max-w-3xl flex flex-col items-center my-4">
           <div className="w-full flex items-center bg-white border border-gray-300 rounded-full px-4 py-2 shadow-sm">
             <div className="flex items-center gap-2 flex-1">
               <MapPinIcon className="h-5 w-5 text-gray-500" />
@@ -301,13 +360,15 @@ export default function CustomerHomePage() {
               </>
             )}
             <button
-              onClick={handleSearch}
+              onClick={() => handleSearch()}
               className="ml-4 flex items-center justify-center bg-purple-600 hover:bg-purple-700 text-white rounded-full p-2 transition-colors"
             >
               <MagnifyingGlassIcon className="h-5 w-5" />
             </button>
           </div>
-          {searchType === "club" && (
+
+          {/* Sezione Advanced Search */}
+          {(searchType === "club" || searchType === "event") && (
             <div className="mt-2">
               <button
                 onClick={() => setShowAdvanced((prev) => !prev)}
@@ -317,20 +378,76 @@ export default function CustomerHomePage() {
               </button>
             </div>
           )}
-          {showAdvanced && searchType === "club" && (
-            <div className="mt-3 flex items-center gap-2">
-              <label className="text-sm font-medium text-gray-700">Radius (km):</label>
-              <input
-                type="number"
-                placeholder="es. 10"
-                value={radius}
-                onChange={(e) => setRadius(e.target.value)}
-                className="border border-gray-300 rounded px-3 py-2 w-24"
-              />
+          {showAdvanced && (searchType === "club" || searchType === "event") && (
+            <div className="mt-3 flex flex-wrap items-center gap-4 w-full max-w-lg">
+              <div className="flex items-center gap-2">
+                <label className="text-sm font-medium text-gray-700">Radius (km):</label>
+                <input
+                  type="number"
+                  placeholder="es. 10"
+                  value={radius}
+                  onChange={(e) => setRadius(e.target.value)}
+                  className="border border-gray-300 rounded px-3 py-2 w-16"
+                />
+              </div>
+              <div className="flex items-center gap-2">
+                <label className="text-sm font-medium text-gray-700">Sort by:</label>
+                {searchType === "event" ? (
+                  <select
+                    className="border border-gray-300 rounded px-2 py-1 text-sm"
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value)}
+                  >
+                    <option value="date">Data</option>
+                    <option value="distance">Distanza</option>
+                    <option value="best_selling_event">Evento più venduto</option>
+                    <option value="highest_rating">Rating migliore</option>
+                  </select>
+                ) : (
+                  <select
+                    className="border border-gray-300 rounded px-2 py-1 text-sm"
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value)}
+                  >
+                    <option value="distance">Distanza</option>
+                    <option value="best_selling_club">Best selling</option>
+                    <option value="highest_rating">Rating migliore</option>
+                  </select>
+                )}
+              </div>
+              {searchType === "club" && (
+                <div className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    id="onlyWithEvents"
+                    checked={onlyWithEvents}
+                    onChange={(e) => setOnlyWithEvents(e.target.checked)}
+                    className="h-4 w-4 text-purple-600 border-gray-300 rounded"
+                  />
+                  <label htmlFor="onlyWithEvents" className="text-sm text-gray-700">
+                    Mostra solo club con eventi disponibili
+                  </label>
+                </div>
+              )}
             </div>
           )}
           {errorMsg && <div className="text-red-500 mt-2">{errorMsg}</div>}
         </div>
+
+        {/* Carosello delle destinazioni popolari, visibile se non è stata fatta una ricerca */}
+        {!searchPerformed && (
+          <div className="w-full mt-4">
+            <h3 className="text-xl font-bold mb-2 text-gray-800 text-left">
+              Popular Location
+            </h3>
+            <PopularLocation 
+              onSelect={handlePopularDestinationClick} 
+              selectedAddress={locationSearch} 
+            />
+          </div>
+        )}
+
+        {/* Sezione con i risultati */}
         <div className="w-full mt-8">
           {searchType === "club" ? renderClubBoxes() : renderEventBoxes()}
         </div>

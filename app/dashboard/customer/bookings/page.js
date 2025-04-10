@@ -190,6 +190,9 @@ function BookingCard({ booking }) {
     }
   }, [booking, isEventFinished, supabase]);
 
+  // Determina il testo per il numero di ticket
+  const ticketText = booking.quantity === 1 ? "ticket" : "tickets";
+
   return (
     <div className="border border-gray-300 p-4 rounded flex flex-col md:flex-row justify-between gap-4">
       <div>
@@ -206,8 +209,9 @@ function BookingCard({ booking }) {
             View on Google Maps
           </a>
         )}
+        {/* Mostra il Booking ID personalizzato come numero d'ordine e il testo corretto per ticket */}
         <p className="text-sm mt-2">
-          Order #{booking.booking_number} | {booking.quantity} ticket(s) purchased
+          Order #{booking.id} | {booking.quantity} {ticketText} purchased
         </p>
       </div>
       <div className="flex flex-col md:items-end justify-center gap-2">

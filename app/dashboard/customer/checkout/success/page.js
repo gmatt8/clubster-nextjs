@@ -68,8 +68,8 @@ export default function CheckoutSuccessPage() {
     );
   }
 
-  // Estrai i dettagli della prenotazione
-  const orderNumber = booking.booking_number;
+  // Utilizza il booking.id come order number (che contiene il Booking ID personalizzato)
+  const orderNumber = booking.id;
   const orderDate = new Date(booking.created_at).toLocaleDateString("en-GB", {
     year: "numeric",
     month: "long",
@@ -117,7 +117,7 @@ export default function CheckoutSuccessPage() {
               <button
                 className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700"
                 onClick={() =>
-                    window.open(`/api/ticket?booking_id=${booking.id}`, "_blank")
+                  window.open(`/api/ticket?booking_id=${booking.id}`, "_blank")
                 }
               >
                 Download tickets
@@ -134,7 +134,6 @@ export default function CheckoutSuccessPage() {
           </div>
         )}
 
-        {/* Bottone "View bookings" */}
         <button
           className="bg-purple-600 text-white px-6 py-3 rounded hover:bg-purple-700"
           onClick={() => router.push("/dashboard/customer/bookings")}

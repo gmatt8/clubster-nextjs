@@ -28,6 +28,7 @@
     "lucide-react": "^0.487.0",
     "next": "13.4.16",
     "pdf-lib": "^1.17.1",
+    "puppeteer": "^24.6.1",
     "qrcode": "^1.5.4",
     "react": "^18.2.0",
     "react-calendar": "^5.1.0",

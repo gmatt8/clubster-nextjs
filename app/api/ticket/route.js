@@ -1,210 +1,127 @@
 // app/api/ticket/route.js
-import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
-import QRCode from "qrcode";
-import { createServerSupabase } from "@/lib/supabase-server";
+import { NextResponse } from "next/server";
 import fs from "fs/promises";
 import path from "path";
+import puppeteer from "puppeteer";
+import QRCode from "qrcode";
+import { createServerSupabase } from "@/lib/supabase-server";
 
 export async function GET(request) {
-  const { searchParams } = new URL(request.url);
-  const bookingId = searchParams.get("booking_id");
-  if (!bookingId) {
-    return new Response("booking_id is required", { status: 400 });
-  }
-
-  // 1. Recupera i ticket dal database
-  const supabase = await createServerSupabase();
-  const { data: tickets, error: ticketsError } = await supabase
-    .from("tickets")
-    .select("*")
-    .eq("booking_id", bookingId);
-
-  if (ticketsError || !tickets || tickets.length === 0) {
-    return new Response("No tickets found for this booking", { status: 404 });
-  }
-
-  // 2. Recupera i dettagli del booking per ottenere nome evento, start date, club name e indirizzo del club
-  const { data: bookingDetails, error: bookingError } = await supabase
-    .from("bookings")
-    .select(`
-      id,
-      event_id,
-      events (
-        name,
-        start_date,
-        clubs ( name, address )
-      )
-    `)
-    .eq("id", bookingId)
-    .single();
-
-  let clubName = "Nome del Club";
-  let eventName = "Nome dell'Evento";
-  let eventStart = "Orario start";
-  let clubAddress = "Indirizzo del Club";
-
-  if (bookingError) {
-    console.error("Error fetching booking details: ", bookingError);
-  } else if (
-    bookingDetails &&
-    bookingDetails.events &&
-    bookingDetails.events.clubs
-  ) {
-    clubName = bookingDetails.events.clubs.name;
-    clubAddress = bookingDetails.events.clubs.address || clubAddress;
-    eventName = bookingDetails.events.name;
-    eventStart = bookingDetails.events.start_date;
-    if (eventStart) {
-      // Formatta la data in modo leggibile
-      eventStart = new Date(eventStart).toLocaleString();
+  try {
+    const { searchParams } = new URL(request.url);
+    const bookingId = searchParams.get("booking_id");
+    if (!bookingId) {
+      return new Response("booking_id is required", { status: 400 });
     }
+
+    // 1. Recupera i ticket dal database
+    const supabase = await createServerSupabase();
+    const { data: tickets, error: ticketsError } = await supabase
+      .from("tickets")
+      .select("*")
+      .eq("booking_id", bookingId);
+
+    if (ticketsError || !tickets || tickets.length === 0) {
+      return new Response("No tickets found for this booking", { status: 404 });
+    }
+
+    // 2. Recupera i dettagli del booking per ottenere nome evento, start date, club name e indirizzo del club
+    const { data: bookingDetails, error: bookingError } = await supabase
+      .from("bookings")
+      .select(`
+        id,
+        event_id,
+        events (
+          name,
+          start_date,
+          clubs ( name, address )
+        )
+      `)
+      .eq("id", bookingId)
+      .single();
+
+    let clubName = "Nome del Club";
+    let eventName = "Nome dell'Evento";
+    let eventDateFormatted = "Event Date";
+    let startTimeFormatted = "Start Time";
+    let clubAddress = "Indirizzo del Club";
+
+    if (bookingError) {
+      console.error("Error fetching booking details:", bookingError);
+    } else if (
+      bookingDetails &&
+      bookingDetails.events &&
+      bookingDetails.events.clubs
+    ) {
+      clubName = bookingDetails.events.clubs.name;
+      clubAddress = bookingDetails.events.clubs.address || clubAddress;
+      eventName = bookingDetails.events.name;
+
+      // Formatta la data in formato "4 Feb 2025"
+      const eventDate = new Date(bookingDetails.events.start_date);
+      eventDateFormatted = eventDate.toLocaleDateString("en-GB", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      });
+      // Formatta l'orario in formato "20:00"
+      startTimeFormatted = eventDate.toLocaleTimeString("en-GB", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+      });
+    }
+
+    // 3. Definisci il prezzo (se presente, altrimenti lo puoi eliminare)
+    // In questo caso non usiamo il price, quindi non viene sostituito
+
+    // 4. Genera il QR Code (utilizza il dato qr_data del primo ticket)
+    const qrDataUrl = await QRCode.toDataURL(tickets[0].qr_data);
+
+    // 5. Carica il template HTML
+    const templatePath = path.join(process.cwd(), "templates", "ticketTemplate.html");
+    let html = await fs.readFile(templatePath, "utf-8");
+
+    // 6. Carica il logo dal file system e convertilo in base64
+    const logoPath = path.join(process.cwd(), "public", "images", "clubster-logo.png");
+    const logoBytes = await fs.readFile(logoPath);
+    const logoBase64 = logoBytes.toString("base64");
+
+    // 7. Sostituisci i segnaposto nel template con i valori reali
+    html = html
+      .replace("[[LOGO_BASE64]]", `data:image/png;base64,${logoBase64}`)
+      .replace("[[EVENT_NAME]]", eventName)
+      .replace("[[CLUB_NAME]]", clubName)
+      .replace("[[CLUB_ADDRESS]]", clubAddress)
+      .replace("[[EVENT_DATE]]", eventDateFormatted)
+      .replace("[[START_TIME]]", startTimeFormatted)
+      // Rimossi il prezzo: non sostituiamo [[TICKET_PRICE]]
+      .replace("[[BOOKING_ID]]", bookingId)
+      .replace("[[QR_CODE_DATAURL]]", qrDataUrl)
+      // Per Ticket ID, usiamo il primo ticket (o adatta alla logica necessaria)
+      .replace("[[TICKET_ID]]", tickets[0].id);
+
+    // 8. Avvia Puppeteer e genera il PDF in formato A4
+    const browser = await puppeteer.launch({ headless: "new" });
+    const page = await browser.newPage();
+    await page.setContent(html, { waitUntil: "networkidle0" });
+    const pdfBuffer = await page.pdf({
+      format: "A4",
+      printBackground: true,
+      margin: { top: "10mm", bottom: "10mm", left: "10mm", right: "10mm" },
+    });
+    await browser.close();
+
+    // 9. Restituisci il PDF
+    const fileName = `Clubster_tickets_${bookingId}.pdf`;
+    return new Response(pdfBuffer, {
+      headers: {
+        "Content-Type": "application/pdf",
+        "Content-Disposition": `attachment; filename="${fileName}"`,
+      },
+    });
+  } catch (err) {
+    console.error("Error generating PDF ticket:", err);
+    return new Response(JSON.stringify({ error: "Internal Server Error" }), { status: 500 });
   }
-
-  // 3. Crea il PDF ed incorpora il font base
-  const pdfDoc = await PDFDocument.create();
-  const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
-
-  // 4. Carica il logo dal file system (verifica che il percorso sia corretto)
-  const logoPath = path.join(process.cwd(), "public", "images", "clubster-logo.png");
-  const logoBytes = await fs.readFile(logoPath);
-  const logoImage = await pdfDoc.embedPng(logoBytes);
-  const logoOrigWidth = logoImage.width;
-  const logoOrigHeight = logoImage.height;
-
-  // 5. Imposta alcuni valori di layout
-  const margin = 50;
-  const headerHeight = 80;
-
-  // 6. Genera una pagina per ogni ticket
-  for (const [index, ticket] of tickets.entries()) {
-    const page = pdfDoc.addPage([595.28, 841.89]);
-    const { width, height } = page.getSize();
-
-    // 6a. Disegna un rettangolo come header (colore grigio molto chiaro)
-    page.drawRectangle({
-      x: 0,
-      y: height - headerHeight,
-      width: width,
-      height: headerHeight,
-      color: rgb(0.95, 0.95, 0.97),
-    });
-
-    // 6b. Testo "TICKET" in alto a sinistra nell'header
-    page.drawText("TICKET", {
-      x: margin,
-      y: height - headerHeight + 25,
-      size: 24,
-      font,
-      color: rgb(0, 0, 0),
-    });
-
-    // 6c. Logo in alto a destra senza box bianco
-
-// Imposta la larghezza desiderata
-const desiredLogoWidth = 80;
-const aspectRatio = logoOrigWidth / logoOrigHeight;
-const desiredLogoHeight = desiredLogoWidth / aspectRatio;
-
-// Calcola le coordinate base per il logo
-const baseLogoX = width - margin - desiredLogoWidth;
-const baseLogoY = height - headerHeight + (headerHeight - desiredLogoHeight) / 2;
-
-// Disegna il logo senza box bianco o ombra
-page.drawImage(logoImage, {
-  x: baseLogoX,
-  y: baseLogoY,
-  width: desiredLogoWidth,
-  height: desiredLogoHeight,
-});
-
-
-    // 6d. Sotto l'header, aggiungi i dettagli:
-    // "Ticket X of Y", "Booking ID", "Club: [clubName]", "Event: [eventName]",
-    // "Start: [eventStart]" e "Address: [clubAddress]"
-    let detailsY = height - headerHeight - 40;
-    page.drawText(`Ticket ${index + 1} of ${tickets.length}`, {
-      x: margin,
-      y: detailsY,
-      size: 12,
-      font,
-      color: rgb(0, 0, 0),
-    });
-    detailsY -= 20;
-    page.drawText(`Booking ID: ${bookingId}`, {
-      x: margin,
-      y: detailsY,
-      size: 12,
-      font,
-      color: rgb(0, 0, 0),
-    });
-    detailsY -= 20;
-    page.drawText(`Club: ${clubName}`, {
-      x: margin,
-      y: detailsY,
-      size: 12,
-      font,
-      color: rgb(0, 0, 0),
-    });
-    detailsY -= 20;
-    page.drawText(`Event: ${eventName}`, {
-      x: margin,
-      y: detailsY,
-      size: 12,
-      font,
-      color: rgb(0, 0, 0),
-    });
-    detailsY -= 20;
-    page.drawText(`Start: ${eventStart}`, {
-      x: margin,
-      y: detailsY,
-      size: 12,
-      font,
-      color: rgb(0, 0, 0),
-    });
-    detailsY -= 20;
-    page.drawText(`Address: ${clubAddress}`, {
-      x: margin,
-      y: detailsY,
-      size: 12,
-      font,
-      color: rgb(0, 0, 0),
-    });
-
-    // 6e. Genera il QR code e posizionalo centrato (sotto l'header)
-    const qrDataUrl = await QRCode.toDataURL(ticket.qr_data);
-    const qrImageBytes = await fetch(qrDataUrl).then((res) => res.arrayBuffer());
-    const qrImage = await pdfDoc.embedPng(qrImageBytes);
-
-    const qrWidth = 150;
-    const qrHeight = 150;
-    const qrX = (width - qrWidth) / 2;
-    const qrY = (height - headerHeight) / 2 - (qrHeight / 2);
-
-    page.drawImage(qrImage, {
-      x: qrX,
-      y: qrY,
-      width: qrWidth,
-      height: qrHeight,
-    });
-
-    // 6f. Posiziona il Ticket ID sotto il QR code
-    page.drawText(`Ticket ID: ${ticket.id}`, {
-      x: qrX,
-      y: qrY - 20,
-      size: 12,
-      font,
-      color: rgb(0, 0, 0),
-    });
-  }
-
-  // 7. Serializza il PDF e imposta l'header per il download
-  const pdfBytes = await pdfDoc.save();
-  const fileName = `Clubster_tickets_${bookingId}.pdf`;
-
-  return new Response(pdfBytes, {
-    headers: {
-      "Content-Type": "application/pdf",
-      "Content-Disposition": `attachment; filename="${fileName}"`,
-    },
-  });
 }

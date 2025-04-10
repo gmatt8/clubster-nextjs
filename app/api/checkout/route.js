@@ -5,6 +5,21 @@ import { NextResponse } from "next/server";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
+/**
+ * Funzione per generare un Booking ID personalizzato con prefisso "B"
+ * (es. "BJK6X78UUN" se totalLength è 10)
+ */
+function generateCustomBookingId(totalLength = 10) {
+  const prefix = "B";
+  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  let result = "";
+  const randomPartLength = totalLength - prefix.length;
+  for (let i = 0; i < randomPartLength; i++) {
+    result += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+  return prefix + result;
+}
+
 export async function POST(request) {
   try {
     // 1) Recupera i dati dal body
@@ -53,21 +68,26 @@ export async function POST(request) {
       return NextResponse.json({ error: "User not authenticated" }, { status: 401 });
     }
 
-    // 2.1) Crea un record di booking provvisorio
-    const bookingNumber = `BK${Date.now()}`;
+    // 2.1) Crea un record di booking provvisorio con status "pending"
+    // Poiché la colonna id è di tipo text (per Booking ID personalizzato) non viene generato automaticamente.
+    const bookingId = generateCustomBookingId(); // e.g. "BJK6X78UUN"
+    const bookingNumber = `BK${Date.now()}`; // numero ordine (es. per visualizzazione)
     const { data: bookingData, error: bookingError } = await supabase
       .from("bookings")
       .insert([
         {
+          id: bookingId,               // Booking ID personalizzato
           user_id: user.id,
           event_id: eventId,
           quantity,
-          booking_number: bookingNumber,
+          booking_number: bookingNumber, // numero d'ordine (puoi usarlo o mostrare direttamente l'id)
+          status: "pending"              // stato iniziale
         },
       ])
       .select()
       .single();
     if (bookingError || !bookingData) {
+      console.error("Booking creation error:", bookingError);
       return NextResponse.json({ error: "Error creating booking" }, { status: 400 });
     }
 
@@ -75,7 +95,7 @@ export async function POST(request) {
     const unitPrice = Math.round(ticketCat.price * 100);
     const totalPrice = unitPrice * quantity;
 
-    // 4) Crea la sessione Checkout su Stripe includendo metadati utili (booking_id, ticket_category_id, ecc.)
+    // 4) Crea la sessione Checkout su Stripe includendo metadati utili
     const session = await stripe.checkout.sessions.create(
       {
         line_items: [
@@ -97,7 +117,7 @@ export async function POST(request) {
             user_id: user.id,
             event_id: eventId,
             quantity: quantity.toString(),
-            booking_id: bookingData.id,
+            booking_id: bookingData.id,         // passa il booking_id nei metadata
             ticket_category_id: ticketCategoryId,
           },
         },
