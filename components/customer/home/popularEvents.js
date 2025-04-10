@@ -52,8 +52,7 @@ export default function PopularEvents() {
                 `/dashboard/customer/club-details?club_id=${event.club_id}&event_id=${event.id}`
               )
             }
-            // Stesse classi di PopularLocation
-            className="w-[180px] bg-white rounded-lg shadow hover:shadow-md transition-shadow cursor-pointer"
+            className="w-[232px] bg-white rounded-lg shadow hover:shadow-md transition-shadow cursor-pointer"
           >
             <img
               src={event.image || "/images/no-image.jpeg"}
@@ -62,9 +61,7 @@ export default function PopularEvents() {
             />
             <div className="p-3 text-center">
               <p className="font-semibold text-sm text-gray-800">{event.name}</p>
-              <p className="text-xs text-gray-500">
-                {event.club_name || "Unknown Club"}
-              </p>
+              <p className="text-xs text-gray-500">{event.club_name || "Unknown Club"}</p>
             </div>
           </div>
         ))}
