@@ -48,7 +48,13 @@ export default function Header() {
 
   async function handleLogout() {
     await supabase.auth.signOut();
-    router.push("/"); // reindirizza alla home principale
+    router.push("/");
+    router.refresh(); // Refresh automatico della pagina
+  }
+
+  function handleLogoClick() {
+    router.push("/");
+    router.refresh(); // Resetta la pagina home
   }
 
   return (
@@ -57,7 +63,7 @@ export default function Header() {
         {/* Logo a sinistra */}
         <div
           className="absolute left-0 pl-4 cursor-pointer flex items-center"
-          onClick={() => router.push("/")}
+          onClick={handleLogoClick}
         >
           <img
             src="/images/clubster-logo.png"
