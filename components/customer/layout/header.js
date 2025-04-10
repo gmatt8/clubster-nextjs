@@ -46,15 +46,23 @@ export default function Header() {
     setMenuOpen((prev) => !prev);
   }
 
+  // Funzione aggiornata per il logout
   async function handleLogout() {
     await supabase.auth.signOut();
-    router.push("/");
-    router.refresh(); // Refresh automatico della pagina
+    // Usa await per assicurarsi che la navigazione sia completata prima
+    await router.push("/");
+    // Prova router.refresh() se usi l'app router Next.js 13; altrimenti, usa la ricarica completa:
+    router.refresh();
+    // oppure, se router.refresh() non funziona:
+    // window.location.reload();
   }
 
-  function handleLogoClick() {
-    router.push("/");
-    router.refresh(); // Resetta la pagina home
+  // Funzione per il click sul logo
+  async function handleLogoClick() {
+    await router.push("/");
+    router.refresh();
+    // Se router.refresh() non funziona, usa questo al suo posto:
+    // window.location.reload();
   }
 
   return (
@@ -88,14 +96,18 @@ export default function Header() {
                   <ul className="py-2 text-gray-700">
                     <li
                       className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center space-x-2"
-                      onClick={() => router.push("/dashboard/customer/bookings")}
+                      onClick={() =>
+                        router.push("/dashboard/customer/bookings")
+                      }
                     >
                       <TicketIcon className="h-5 w-5" />
                       <span>Tickets</span>
                     </li>
                     <li
                       className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center space-x-2"
-                      onClick={() => router.push("/dashboard/customer/settings")}
+                      onClick={() =>
+                        router.push("/dashboard/customer/settings")
+                      }
                     >
                       <Cog6ToothIcon className="h-5 w-5" />
                       <span>Settings</span>
