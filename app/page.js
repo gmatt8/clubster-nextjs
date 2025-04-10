@@ -8,41 +8,38 @@ import { enGB } from "date-fns/locale";
 import CustomerLayout from "app/dashboard/customer/CustomerLayout";
 import DatePicker from "@/components/customer/home/calendar";
 import { MapPinIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+
+// Import dei componenti dei caroselli
 import PopularLocation from "@/components/customer/home/popularLocation";
+import PopularClubs from "@/components/customer/home/popularClubs";
+import PopularEvents from "@/components/customer/home/popularEvents";
 
 export default function CustomerHomePage() {
   const router = useRouter();
 
-  // Ricerca predefinita: "event"
+  // Stato per il form di ricerca
   const [searchType, setSearchType] = useState("event");
-
-  // Stati principali per il form
   const [locationSearch, setLocationSearch] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
-  const [radius, setRadius] = useState("10"); // default 10 km
+  const [radius, setRadius] = useState("10");
   const [lat, setLat] = useState(null);
   const [lng, setLng] = useState(null);
 
-  // Stati per i risultati
+  // Risultati della ricerca
   const [events, setEvents] = useState([]);
   const [clubs, setClubs] = useState([]);
-
-  // Stato per gestire quanti risultati mostrare
   const [visibleCount, setVisibleCount] = useState(8);
-
-  // Error handling e controllo ricerca
   const [errorMsg, setErrorMsg] = useState("");
   const [searchPerformed, setSearchPerformed] = useState(false);
   const [loadingResults, setLoadingResults] = useState(false);
 
-  // Advanced Search: sortBy e filtro per club con eventi disponibili
+  // Stato per ricerca avanzata
   const [showAdvanced, setShowAdvanced] = useState(false);
-  const [sortBy, setSortBy] = useState("date"); // default "date" per eventi
+  const [sortBy, setSortBy] = useState("date");
   const [onlyWithEvents, setOnlyWithEvents] = useState(false);
 
   const locationInputRef = useRef(null);
 
-  // Inizializza Google Autocomplete
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (!window.google || !window.google.maps || !window.google.maps.places) {
@@ -62,7 +59,6 @@ export default function CustomerHomePage() {
     });
   }, []);
 
-  // Aggiorna il sortBy e resetta onlyWithEvents quando cambia il tipo di ricerca
   useEffect(() => {
     if (searchType === "event") {
       setSortBy("date");
@@ -72,16 +68,13 @@ export default function CustomerHomePage() {
     setOnlyWithEvents(false);
   }, [searchType]);
 
-  /**
-   * La funzione handleSearch ora accetta parametri opzionali.
-   * Se passati, verranno usati per la ricerca anziché i valori in state.
-   */
   async function handleSearch(customAddress, customLat, customLng) {
     setSearchPerformed(true);
     setErrorMsg("");
     setLoadingResults(true);
 
-    const effectiveAddress = customAddress !== undefined ? customAddress : locationSearch;
+    const effectiveAddress =
+      customAddress !== undefined ? customAddress : locationSearch;
     if (!effectiveAddress.trim()) {
       setErrorMsg("Inserisci una location per cercare.");
       setLoadingResults(false);
@@ -91,7 +84,6 @@ export default function CustomerHomePage() {
     let effectiveLat = customLat !== undefined ? customLat : lat;
     let effectiveLng = customLng !== undefined ? customLng : lng;
 
-    // Se non sono stati impostati lat e lng, utilizza il geocoder
     if (!effectiveLat && !effectiveLng) {
       if (typeof window !== "undefined" && window.google && window.google.maps && window.google.maps.Geocoder) {
         try {
@@ -121,7 +113,6 @@ export default function CustomerHomePage() {
       }
     }
 
-    // Prepara i parametri per la query
     const queryParams = new URLSearchParams({
       type: searchType,
       location: effectiveAddress.trim(),
@@ -143,7 +134,6 @@ export default function CustomerHomePage() {
       const res = await fetch(query);
       if (!res.ok) throw new Error("Error fetching results");
       const data = await res.json();
-
       if (searchType === "club") {
         setClubs(data.clubs || []);
         setEvents([]);
@@ -160,14 +150,11 @@ export default function CustomerHomePage() {
     }
   }
 
-  // Gestione del click su una destinazione popolare
   function handlePopularDestinationClick(dest) {
-    // Imposta immediatamente gli stati in base alla destinazione cliccata
     setLocationSearch(dest.address);
     setLat(dest.lat);
     setLng(dest.lng);
     setSortBy("distance");
-    // Chiamando handleSearch() passando i valori direttamente, evitiamo la race condition
     handleSearch(dest.address, dest.lat, dest.lng);
   }
 
@@ -179,11 +166,13 @@ export default function CustomerHomePage() {
     if (type === "club") {
       router.push(`/dashboard/customer/club-details?club_id=${clubId}`);
     } else if (type === "event") {
-      router.push(`/dashboard/customer/club-details?club_id=${clubId}&event_id=${eventId}`);
+      router.push(
+        `/dashboard/customer/club-details?club_id=${clubId}&event_id=${eventId}`
+      );
     }
   }
 
-  // Render dei box per i club
+  // Render dei risultati della ricerca
   function renderClubBoxes() {
     if (loadingResults) {
       return <div className="text-center mt-6 text-gray-500">Loading...</div>;
@@ -194,7 +183,6 @@ export default function CustomerHomePage() {
       }
       return null;
     }
-
     return (
       <>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -222,10 +210,7 @@ export default function CustomerHomePage() {
         </div>
         {clubs.length > visibleCount && (
           <div className="text-center mt-6">
-            <button
-              onClick={showMore}
-              className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700"
-            >
+            <button onClick={showMore} className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700">
               Show more
             </button>
           </div>
@@ -234,7 +219,6 @@ export default function CustomerHomePage() {
     );
   }
 
-  // Render dei box per gli eventi
   function renderEventBoxes() {
     if (loadingResults) {
       return <div className="text-center mt-6 text-gray-500">Loading...</div>;
@@ -245,29 +229,11 @@ export default function CustomerHomePage() {
       }
       return null;
     }
-
     return (
       <>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {events.slice(0, visibleCount).map((evt) => {
-            const clubData = evt.clubs || {};
-            const finalImage = evt.image
-              ? evt.image
-              : (clubData.images && clubData.images.length > 0 ? clubData.images[0] : "/images/no-image.jpeg");
-            const eventName = evt.name || "Unnamed Event";
-            const clubName = clubData.club_name || "Unknown Club";
-            const eventDate = evt.start_date
-              ? format(new Date(evt.start_date), "d MMM yyyy", { locale: enGB })
-              : "No date";
-            let locationDisplay = "";
-            if (clubData.city && clubData.country) {
-              locationDisplay = `${clubData.city}, ${clubData.country}`;
-            } else if (clubData.address) {
-              locationDisplay = clubData.address;
-            } else {
-              locationDisplay = "Unknown location";
-            }
-
+            const finalImage = evt.image ? evt.image : "/images/no-image.jpeg";
             return (
               <div
                 key={evt.id}
@@ -276,14 +242,15 @@ export default function CustomerHomePage() {
               >
                 <img
                   src={finalImage}
-                  alt={eventName}
+                  alt={evt.name}
                   className="w-full h-48 object-cover"
                 />
                 <div className="p-4">
-                  <h2 className="text-lg font-bold text-gray-800">{eventName}</h2>
-                  <p className="text-md text-gray-800 font-medium">{clubName}</p>
-                  <p className="text-sm text-gray-600">{eventDate}</p>
-                  <p className="text-sm text-gray-500">{locationDisplay}</p>
+                  <h2 className="text-lg font-bold text-gray-800">{evt.name}</h2>
+                  <p className="text-md text-gray-800 font-medium">{evt.club_name || "Unknown Club"}</p>
+                  <p className="text-sm text-gray-600">
+                    {evt.start_date ? format(new Date(evt.start_date), "d MMM yyyy", { locale: enGB }) : "No date"}
+                  </p>
                 </div>
               </div>
             );
@@ -291,10 +258,7 @@ export default function CustomerHomePage() {
         </div>
         {events.length > visibleCount && (
           <div className="text-center mt-6">
-            <button
-              onClick={showMore}
-              className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700"
-            >
+            <button onClick={showMore} className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700">
               Show more
             </button>
           </div>
@@ -306,11 +270,8 @@ export default function CustomerHomePage() {
   return (
     <CustomerLayout>
       <div className="max-w-screen-xl mx-auto px-4 py-8 flex flex-col items-center">
-        <h2 className="text-base sm:text-lg font-medium text-gray-800 mb-6">
-          your night starts here
-        </h2>
+        <h2 className="text-base sm:text-lg font-medium text-gray-800 mb-6">your night starts here</h2>
 
-        {/* Pulsanti invertiti: Events a sinistra, Clubs a destra */}
         <div className="mb-6 flex space-x-8 border-b border-gray-200">
           <button
             onClick={() => setSearchType("event")}
@@ -334,7 +295,6 @@ export default function CustomerHomePage() {
           </button>
         </div>
 
-        {/* Barra di ricerca principale */}
         <div className="w-full max-w-3xl flex flex-col items-center my-4">
           <div className="w-full flex items-center bg-white border border-gray-300 rounded-full px-4 py-2 shadow-sm">
             <div className="flex items-center gap-2 flex-1">
@@ -352,10 +312,7 @@ export default function CustomerHomePage() {
               <>
                 <div className="h-6 w-px bg-gray-200 mx-3" />
                 <div className="flex items-center gap-2">
-                  <DatePicker
-                    selected={selectedDate}
-                    onSelect={(date) => setSelectedDate(date)}
-                  />
+                  <DatePicker selected={selectedDate} onSelect={(date) => setSelectedDate(date)} />
                 </div>
               </>
             )}
@@ -366,14 +323,9 @@ export default function CustomerHomePage() {
               <MagnifyingGlassIcon className="h-5 w-5" />
             </button>
           </div>
-
-          {/* Sezione Advanced Search */}
           {(searchType === "club" || searchType === "event") && (
             <div className="mt-2">
-              <button
-                onClick={() => setShowAdvanced((prev) => !prev)}
-                className="text-purple-600 hover:underline text-sm"
-              >
+              <button onClick={() => setShowAdvanced((prev) => !prev)} className="text-purple-600 hover:underline text-sm">
                 {showAdvanced ? "Nascondi opzioni avanzate" : "Advanced Search"}
               </button>
             </div>
@@ -434,20 +386,35 @@ export default function CustomerHomePage() {
           {errorMsg && <div className="text-red-500 mt-2">{errorMsg}</div>}
         </div>
 
-        {/* Carosello delle destinazioni popolari, visibile se non è stata fatta una ricerca */}
         {!searchPerformed && (
-          <div className="w-full mt-4">
-            <h3 className="text-xl font-bold mb-2 text-gray-800 text-left">
-              Popular Location
-            </h3>
-            <PopularLocation 
-              onSelect={handlePopularDestinationClick} 
-              selectedAddress={locationSearch} 
-            />
-          </div>
-        )}
+  <>
+    <div className="w-full mt-4">
+      <h3 className="text-xl font-bold mb-2 text-gray-800 text-left">
+        Popular Location
+      </h3>
+      <PopularLocation 
+        onSelect={handlePopularDestinationClick} 
+        selectedAddress={locationSearch} 
+      />
+    </div>
 
-        {/* Sezione con i risultati */}
+    <div className="w-full mt-4">
+      <h3 className="text-xl font-bold mb-2 text-gray-800 text-left">
+        Popular Clubs
+      </h3>
+      <PopularClubs />
+    </div>
+
+    <div className="w-full mt-4">
+      <h3 className="text-xl font-bold mb-2 text-gray-800 text-left">
+        Popular Events
+      </h3>
+      <PopularEvents />
+    </div>
+  </>
+)}
+
+
         <div className="w-full mt-8">
           {searchType === "club" ? renderClubBoxes() : renderEventBoxes()}
         </div>
