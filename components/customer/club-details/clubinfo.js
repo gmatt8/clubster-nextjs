@@ -36,9 +36,9 @@ export default function ClubInfo({ club }) {
     fetchReviews();
   }, [club.id]);
 
-  // Otteniamo l'immagine principale (max 1 secondo le nuove regole)
+  // Otteniamo l'immagine principale oppure usiamo il fallback se non esiste
   const images = club.images || [];
-  const clubImage = images.length > 0 ? images[0] : null;
+  const clubImage = images.length > 0 ? images[0] : "/images/no-image.jpeg";
 
   // Funzione per gestire la condivisione del link del club
   const handleShare = async () => {
@@ -59,7 +59,7 @@ export default function ClubInfo({ club }) {
       }
     } catch (error) {
       console.error("Error sharing the club: ", error);
-      // Non viene mostrato alcun alert in caso di errore.
+      // Nessun alert viene mostrato all'utente.
     }
   };
 
@@ -79,7 +79,7 @@ export default function ClubInfo({ club }) {
             <div className="absolute inset-0 bg-black bg-opacity-30" />
           </>
         ) : (
-          // Se non ci sono immagini
+          // Caso teorico in cui clubImage sia falsy (non dovrebbe mai accadere grazie al fallback)
           <div className="absolute inset-0 bg-gray-300 flex items-center justify-center">
             No image
           </div>
