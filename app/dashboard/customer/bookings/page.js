@@ -1,4 +1,4 @@
-// app/dashboard/customer/bookings/page.js
+// /app/dashboard/customer/bookings/page.js
 "use client";
 
 import { useEffect, useState } from "react";
