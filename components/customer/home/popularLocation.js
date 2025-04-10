@@ -1,4 +1,4 @@
-// components/customer/home/popularLocation.js
+// /components/customer/home/popularLocation.js
 
 import React from "react";
 
