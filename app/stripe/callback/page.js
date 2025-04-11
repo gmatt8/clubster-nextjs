@@ -3,18 +3,15 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import ManagerLayout from '@/app/dashboard/manager/ManagerLayout';
+import ManagerLayout from '../manager/ManagerLayout';
 
 export default function StripeCallbackPage() {
   const router = useRouter();
   const [status, setStatus] = useState('Exchanging code with Stripe...');
   const [error, setError] = useState('');
 
-  function handleGoToPayments() {
-    router.push('/dashboard/manager/payments');
-  }
-
   useEffect(() => {
+    // Recupera i parametri dalla query string
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get('code');
     const errorParam = urlParams.get('error');
@@ -32,6 +29,7 @@ export default function StripeCallbackPage() {
       return;
     }
 
+    // Funzione per lo scambio del code con i token Stripe e poi il redirect
     async function exchangeCode() {
       try {
         const res = await fetch('/api/stripe/callback', {
@@ -45,7 +43,17 @@ export default function StripeCallbackPage() {
           throw new Error(data.error || 'Unknown error');
         }
 
+        // In caso di successo, aggiorna lo stato e reindirizza
         setStatus('Stripe account connected successfully!');
+        
+        // Reindirizzamento immediato:
+        router.push('/dashboard/manager/settings');
+
+        // Oppure, se preferisci attendere qualche secondo prima di redirigere:
+        // setTimeout(() => {
+        //   router.push('/dashboard/manager/settings');
+        // }, 3000);
+        
       } catch (err) {
         console.error('Error exchanging code:', err);
         setError(err.message);
@@ -54,7 +62,7 @@ export default function StripeCallbackPage() {
     }
 
     exchangeCode();
-  }, []);
+  }, [router]);
 
   return (
     <ManagerLayout>
@@ -62,12 +70,6 @@ export default function StripeCallbackPage() {
         <h1>Stripe Callback</h1>
         <p>{status}</p>
         {error && <p style={{ color: 'red' }}>{error}</p>}
-        <button
-          onClick={handleGoToPayments}
-          style={{ marginTop: '1rem', padding: '0.75rem 1rem' }}
-        >
-          Go to Payments
-        </button>
       </div>
     </ManagerLayout>
   );
