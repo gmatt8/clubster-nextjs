@@ -60,35 +60,40 @@ export async function GET(request) {
 
     // Costruisci la query con join su events e clubs  
     // Aggiungiamo il filtro per mostrare solo i booking con status "confirmed"
-    let query = supabase
-      .from("bookings")
-      .select(`
-        id,
-        booking_number,
-        quantity,
-        created_at,
-        user_id,
-        events (
-          id,
-          name,
-          start_date,
-          end_date,
-          club_id,
-          clubs (
-            club_name: name,
-            lat,
-            lng,
-            manager_id
-          )
-        )
-      `)
-      .eq("status", "confirmed")  // <-- Solo booking confermati
-      .order("created_at", { ascending: false });
-    
-    // Se è passato il parametro booking_id, aggiungi il filtro
-    if (bookingId) {
-      query = query.eq("id", bookingId);
-    }
+    // Costruisci la query con join su events e clubs
+let query = supabase
+.from("bookings")
+.select(`
+  id,
+  booking_number,
+  quantity,
+  created_at,
+  user_id,
+  status,
+  events (
+    id,
+    name,
+    start_date,
+    end_date,
+    club_id,
+    clubs (
+      club_name: name,
+      lat,
+      lng,
+      manager_id
+    )
+  )
+`)
+.order("created_at", { ascending: false });
+
+// Se viene passato il parametro booking_id, filtra per id
+if (bookingId) {
+query = query.eq("id", bookingId);
+} else {
+// Altrimenti, mostra solo i booking confermati
+query = query.eq("status", "confirmed");
+}
+424
     
     const { data, error } = await query;
     if (error) throw error;

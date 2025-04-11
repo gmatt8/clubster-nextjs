@@ -54,7 +54,7 @@ export async function POST(request) {
     const session = event.data.object;
     console.log("Full session object:", JSON.stringify(session));
 
-    // Recupera i metadati dal PaymentIntent
+    // Recupera i metadata dal PaymentIntent:
     let metadata = {};
     if (typeof session.payment_intent === "string") {
       const connectedAccountId = event.account;
@@ -70,18 +70,20 @@ export async function POST(request) {
       }
     } else {
       metadata = session.payment_intent.metadata;
+      console.log("Using embedded metadata from session.payment_intent:", JSON.stringify(metadata));
     }
 
+    // Estrai i metadata necessari
     const userId = metadata?.user_id;
     const eventId = metadata?.event_id;
     const quantity = parseInt(metadata?.quantity, 10) || 1;
 
     if (!userId || !eventId) {
-      console.error("Missing required metadata in PaymentIntent", JSON.stringify(metadata));
+      console.error("Missing required metadata in PaymentIntent:", JSON.stringify(metadata));
     } else {
       let bookingId = metadata.booking_id;
       if (!bookingId) {
-        // Fallback (ragionevolmente raro, perché il booking_id dovrebbe già essere passato)
+        // Caso fallback: se booking_id non è presente, crea un booking provvisorio
         const fallbackBookingId = "fallback-" + Date.now();
         const bookingNumber = `BK${Date.now()}`;
         const { data: bookingData, error: bookingError } = await supabaseAdmin
@@ -107,15 +109,34 @@ export async function POST(request) {
         }
       }
 
-      // Aggiorna lo status del booking a "confirmed", poiché il pagamento ha avuto esito positivo
+      // (Opzionale) Verifica lo stato del booking prima dell'update
+      const { data: preUpdateData } = await supabaseAdmin
+        .from("bookings")
+        .select("status")
+        .eq("id", bookingId);
+      console.log("Booking status before update:", preUpdateData);
+
+      // Aggiorna lo status del booking a "confirmed"
       const { data: updateData, error: updateError } = await supabaseAdmin
         .from("bookings")
         .update({ status: "confirmed" })
-        .eq("id", bookingId);
+        .eq("id", bookingId)
+        .select();
       if (updateError) {
         console.error("Error updating booking status:", updateError);
       } else {
-        console.log("Booking updated to confirmed:", bookingId);
+        console.log("Booking updated to confirmed:", JSON.stringify(updateData));
+      }
+
+      // (Opzionale) Verifica nuovamente lo stato dopo l'update
+      const { data: postUpdateData, error: postUpdateError } = await supabaseAdmin
+        .from("bookings")
+        .select("status")
+        .eq("id", bookingId);
+      if (postUpdateError) {
+        console.error("Error fetching booking after update:", postUpdateError);
+      } else {
+        console.log("Booking status after update:", postUpdateData);
       }
 
       // Crea i record dei ticket per il booking
@@ -139,7 +160,7 @@ export async function POST(request) {
         console.log("Tickets created:", JSON.stringify(ticketsData));
       }
 
-      // Aggiorna la ticket category decrementando available_tickets
+      // Aggiorna la ticket category decrementando i biglietti disponibili
       const ticketCategoryId = metadata.ticket_category_id;
       if (ticketCategoryId) {
         const { data: tcData, error: tcError } = await supabaseAdmin
@@ -157,7 +178,8 @@ export async function POST(request) {
             const { data: updateTCData, error: updateTCError } = await supabaseAdmin
               .from("ticket_categories")
               .update({ available_tickets: newAvailable })
-              .eq("id", ticketCategoryId);
+              .eq("id", ticketCategoryId)
+              .select();
             if (updateTCError) {
               console.error("Error updating ticket category:", updateTCError);
             } else {
