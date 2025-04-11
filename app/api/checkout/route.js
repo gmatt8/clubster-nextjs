@@ -69,19 +69,18 @@ export async function POST(request) {
     }
 
     // 2.1) Crea un record di booking provvisorio con status "pending"
-    // Poiché la colonna id è di tipo text (per Booking ID personalizzato) non viene generato automaticamente.
-    const bookingId = generateCustomBookingId(); // e.g. "BJK6X78UUN"
-    const bookingNumber = `BK${Date.now()}`; // numero ordine (es. per visualizzazione)
+    // Utilizza solo bookingId come identificatore univoco
+    const bookingId = generateCustomBookingId();
     const { data: bookingData, error: bookingError } = await supabase
       .from("bookings")
       .insert([
         {
-          id: bookingId,               // Booking ID personalizzato
+          id: bookingId,
           user_id: user.id,
           event_id: eventId,
           quantity,
-          booking_number: bookingNumber, // numero d'ordine (puoi usarlo o mostrare direttamente l'id)
-          status: "pending"              // stato iniziale
+          // Rimuovi booking_number
+          status: "pending"
         },
       ])
       .select()
@@ -95,7 +94,7 @@ export async function POST(request) {
     const unitPrice = Math.round(ticketCat.price * 100);
     const totalPrice = unitPrice * quantity;
 
-    // 4) Crea la sessione Checkout su Stripe includendo metadati utili
+    // 4) Crea la sessione Checkout su Stripe includendo i metadata utili
     const session = await stripe.checkout.sessions.create(
       {
         line_items: [
@@ -117,7 +116,7 @@ export async function POST(request) {
             user_id: user.id,
             event_id: eventId,
             quantity: quantity.toString(),
-            booking_id: bookingData.id,         // passa il booking_id nei metadata
+            booking_id: bookingData.id, // Passa il bookingId
             ticket_category_id: ticketCategoryId,
           },
         },

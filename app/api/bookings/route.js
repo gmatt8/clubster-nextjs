@@ -2,7 +2,6 @@
 import { createServerSupabase } from "@/lib/supabase-server";
 import { NextResponse } from "next/server";
 
-// Funzione per eseguire il reverse geocode usando l'API di Google Maps
 async function reverseGeocode(lat, lng) {
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
   if (!apiKey) {
@@ -46,7 +45,7 @@ export async function GET(request) {
       return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
     }
 
-    // Recupera il ruolo dell'utente dalla tabella profiles
+    // Recupera il ruolo dell'utente
     const { data: profileData, error: profileError } = await supabase
       .from("profiles")
       .select("role")
@@ -56,51 +55,41 @@ export async function GET(request) {
       console.error("Error fetching profile:", profileError);
       return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
     }
-    const role = profileData.role; // "customer" o "manager"
+    const role = profileData.role;
 
-    // Costruisci la query con join su events e clubs  
-    // Aggiungiamo il filtro per mostrare solo i booking con status "confirmed"
-    // Costruisci la query con join su events e clubs
-let query = supabase
-.from("bookings")
-.select(`
-  id,
-  booking_number,
-  quantity,
-  created_at,
-  user_id,
-  status,
-  events (
-    id,
-    name,
-    start_date,
-    end_date,
-    club_id,
-    clubs (
-      club_name: name,
-      lat,
-      lng,
-      manager_id
-    )
-  )
-`)
-.order("created_at", { ascending: false });
+    let query = supabase
+      .from("bookings")
+      .select(`
+        id,
+        status,
+        created_at,
+        user_id,
+        events (
+          id,
+          name,
+          start_date,
+          end_date,
+          club_id,
+          clubs (
+            club_name: name,
+            lat,
+            lng,
+            manager_id
+          )
+        )
+      `)
+      .order("created_at", { ascending: false });
 
-// Se viene passato il parametro booking_id, filtra per id
-if (bookingId) {
-query = query.eq("id", bookingId);
-} else {
-// Altrimenti, mostra solo i booking confermati
-query = query.eq("status", "confirmed");
-}
-424
+    if (bookingId) {
+      query = query.eq("id", bookingId);
+    } else {
+      query = query.eq("status", "confirmed");
+    }
     
     const { data, error } = await query;
     if (error) throw error;
     let bookings = data || [];
 
-    // Filtra in base al ruolo: solo i booking dell'utente per il "customer",
-    // oppure quelli dei club gestiti per il "manager"
     if (role === "customer") {
       bookings = bookings.filter((booking) => booking.user_id === user.id);
     } else if (role === "manager") {
@@ -112,9 +101,8 @@ query = query.eq("status", "confirmed");
       );
     }
 
-    // Per ogni booking, recupera l'email reale dal profilo
     for (const booking of bookings) {
-      const { data: pData, error: pError } = await supabase
+      const { data: pData } = await supabase
         .from("profiles")
         .select("email")
         .eq("id", booking.user_id)
@@ -122,7 +110,6 @@ query = query.eq("status", "confirmed");
       booking.userEmail = pData?.email || "N/A";
     }
 
-    // Arricchisci i dati con reverse geocoding, se disponibili le coordinate
     if (bookings.length > 0) {
       await Promise.all(
         bookings.map(async (booking) => {

@@ -64,7 +64,6 @@ model Booking {
   user_id        String
   event_id       String
   quantity       Int
-  booking_number String
   status         String   @default("pending")
   created_at     DateTime @default(now())
 
