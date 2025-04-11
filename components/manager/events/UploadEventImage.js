@@ -1,3 +1,4 @@
+// component/manager/events/UploadEventImage.js
 "use client";
 
 import React, { useState } from "react";

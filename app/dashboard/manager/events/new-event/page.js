@@ -1,4 +1,4 @@
-// app/dashboard/manager/new-event/page.jsx
+// app/dashboard/manager/new-event/page.js
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
@@ -6,6 +6,8 @@ import { createBrowserSupabase } from "@/lib/supabase-browser";
 import { useRouter } from "next/navigation";
 import ManagerLayout from "../../ManagerLayout";
 import UploadEventImage from "@/components/manager/events/UploadEventImage";
+import DatePicker from "@/components/manager/events/DataTimePicker"; // Il componente calendario
+import EventHeader from "@/components/manager/events/EventHeader"; // Importa il nuovo EventHeader
 
 export default function NewEventPage() {
   const supabase = useMemo(() => createBrowserSupabase(), []);
@@ -18,6 +20,7 @@ export default function NewEventPage() {
   // Campi dell'evento
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  // Campi data (formato "YYYY-MM-DD")
   const [startDate, setStartDate] = useState("");
   const [startTime, setStartTime] = useState("");
   const [endDate, setEndDate] = useState("");
@@ -26,6 +29,7 @@ export default function NewEventPage() {
   const [ageRestriction, setAgeRestriction] = useState("");
   const [dressCode, setDressCode] = useState("");
 
+  // Stato per le ticket categories
   const [ticketCategories, setTicketCategories] = useState([
     { name: "Normal", price: 0, available_tickets: 0 },
   ]);
@@ -40,17 +44,22 @@ export default function NewEventPage() {
   useEffect(() => {
     async function fetchManager() {
       try {
-        const { data: { user }, error: userError } = await supabase.auth.getUser();
+        const {
+          data: { user },
+          error: userError,
+        } = await supabase.auth.getUser();
         if (userError || !user) {
           setError("Errore nel recupero utente");
           return;
         }
         setManagerId(user.id);
+
         const { data: clubData, error: clubError } = await supabase
           .from("clubs")
           .select("id, stripe_account_id, stripe_status")
           .eq("manager_id", user.id)
           .single();
+
         if (clubError || !clubData) {
           setError("Impossibile recuperare il club del manager");
           return;
@@ -68,12 +77,14 @@ export default function NewEventPage() {
   if (clubStripeStatus !== "active") {
     return (
       <ManagerLayout>
-        <div style={{ padding: "2rem", textAlign: "center" }}>
-          <h1 style={{ fontSize: "1.5rem", marginBottom: "1rem" }}>Crea Nuovo Evento</h1>
-          <p>Per creare un nuovo evento, devi collegare il tuo account Stripe.</p>
+        <div className="px-6 py-8 max-w-screen-md mx-auto text-center">
+          <h1 className="text-xl font-bold mb-4">Create New Event</h1>
+          <p className="text-gray-700">
+            Per creare un nuovo evento, devi collegare il tuo account Stripe.
+          </p>
           <button
             onClick={() => router.push("/dashboard/manager/payments")}
-            style={{ marginTop: "1rem", padding: "0.75rem 1rem", backgroundColor: "#007bff", color: "#fff", border: "none", borderRadius: "4px", cursor: "pointer" }}
+            className="mt-6 px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
           >
             Collegare Stripe
           </button>
@@ -82,8 +93,12 @@ export default function NewEventPage() {
     );
   }
 
+  // Funzioni per la gestione delle Ticket Categories
   function handleAddCategory() {
-    setTicketCategories([...ticketCategories, { name: "", price: 0, available_tickets: 0 }]);
+    setTicketCategories([
+      ...ticketCategories,
+      { name: "", price: 0, available_tickets: 0 },
+    ]);
   }
 
   function handleRemoveCategory(index) {
@@ -136,7 +151,7 @@ export default function NewEventPage() {
     setMessage("");
 
     try {
-      // Crea l'evento includendo il campo "image"
+      // Creazione evento
       const eventRes = await fetch("/api/event", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -150,7 +165,7 @@ export default function NewEventPage() {
           music_genre: musicGenre,
           age_restriction: ageRestriction,
           dress_code: dressCode,
-          image: eventImage
+          image: eventImage,
         }),
       });
       if (!eventRes.ok) {
@@ -160,7 +175,7 @@ export default function NewEventPage() {
       const newEvent = await eventRes.json();
       const eventId = newEvent[0].id;
 
-      // Crea le ticket categories associate
+      // Creazione ticket categories associate
       for (let cat of ticketCategories) {
         const ticketRes = await fetch("/api/ticket-category", {
           method: "POST",
@@ -192,137 +207,226 @@ export default function NewEventPage() {
 
   return (
     <ManagerLayout>
-      <div style={{ padding: "2rem" }}>
-        <h1 style={{ fontSize: "1.5rem", marginBottom: "1rem" }}>Create New Event</h1>
-        {error && <p style={{ color: "red" }}>{error}</p>}
-        {message && <p style={{ color: "green" }}>{message}</p>}
-        <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-          <div>
-            <label>Event Name*</label>
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-              style={{ display: "block", width: "100%" }}
-            />
-          </div>
-          <div>
-            <label>Description</label>
-            <textarea
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              style={{ display: "block", width: "100%", height: "80px" }}
-            />
-          </div>
-          <div style={{ display: "flex", gap: "1rem" }}>
+      <div className="px-6 py-8 max-w-screen-xl mx-auto">
+        {/* Inserisci il nuovo EventHeader */}
+        <EventHeader title="Create New Event" />
+
+        {error && <p className="text-red-600 mb-4">{error}</p>}
+        {message && <p className="text-green-600 mb-4">{message}</p>}
+
+        <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+          {/* BOX 1: Dettagli evento */}
+          <div className="bg-white rounded-lg shadow p-6 space-y-4">
+            <h2 className="text-lg font-semibold text-gray-800">Event Details</h2>
+
+            {/* Nome Evento e Descrizione */}
             <div>
-              <label>Start Date</label>
-              <input
-                type="date"
-                value={startDate}
-                onChange={(e) => setStartDate(e.target.value)}
-              />
-            </div>
-            <div>
-              <label>Start Time</label>
-              <input
-                type="time"
-                value={startTime}
-                onChange={(e) => setStartTime(e.target.value)}
-              />
-            </div>
-          </div>
-          <div style={{ display: "flex", gap: "1rem" }}>
-            <div>
-              <label>End Date</label>
-              <input
-                type="date"
-                value={endDate}
-                onChange={(e) => setEndDate(e.target.value)}
-              />
-            </div>
-            <div>
-              <label>End Time</label>
-              <input
-                type="time"
-                value={endTime}
-                onChange={(e) => setEndTime(e.target.value)}
-              />
-            </div>
-          </div>
-          <div>
-            <label>Music Genre</label>
-            <input
-              type="text"
-              value={musicGenre}
-              onChange={(e) => setMusicGenre(e.target.value)}
-              style={{ display: "block", width: "100%" }}
-            />
-          </div>
-          <div>
-            <label>Age Restriction</label>
-            <input
-              type="text"
-              value={ageRestriction}
-              onChange={(e) => setAgeRestriction(e.target.value)}
-              style={{ display: "block", width: "100%" }}
-              placeholder="+21"
-            />
-          </div>
-          <div>
-            <label>Dress Code</label>
-            <input
-              type="text"
-              value={dressCode}
-              onChange={(e) => setDressCode(e.target.value)}
-              style={{ display: "block", width: "100%" }}
-              placeholder="Casual, Formal, etc."
-            />
-          </div>
-          {/* Sezione per foto evento */}
-          <div style={{ marginTop: "1rem" }}>
-            <h2 style={{ fontSize: "1.2rem", marginBottom: "0.5rem" }}>Event Photo (optional)</h2>
-            <UploadEventImage
-              eventId="new" // Usato come ID temporaneo per il caricamento
-              currentImage={eventImage}
-              managerId={managerId}
-              onUploadComplete={(uploadedUrl) => setEventImage(uploadedUrl)}
-            />
-          </div>
-          <h2>Ticket Categories</h2>
-          {ticketCategories.map((cat, index) => (
-            <div key={index} style={{ border: "1px solid #ccc", padding: "1rem", marginBottom: "1rem" }}>
-              <label>Category Name</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Event Name*
+              </label>
               <input
                 type="text"
-                value={cat.name}
-                onChange={(e) => handleCategoryChange(index, "name", e.target.value)}
-                style={{ display: "block", width: "100%", marginBottom: "0.5rem" }}
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+                className="w-full border border-gray-300 rounded px-3 py-2"
               />
-              <label>Price</label>
-              <input
-                type="number"
-                value={cat.price}
-                onChange={(e) => handleCategoryChange(index, "price", e.target.value)}
-                style={{ display: "block", width: "100%", marginBottom: "0.5rem" }}
-              />
-              <label>No. of tickets</label>
-              <input
-                type="number"
-                value={cat.available_tickets}
-                onChange={(e) => handleCategoryChange(index, "available_tickets", e.target.value)}
-                style={{ display: "block", width: "100%", marginBottom: "0.5rem" }}
-              />
-              {ticketCategories.length > 1 && (
-                <button type="button" onClick={() => handleRemoveCategory(index)}>Remove</button>
-              )}
             </div>
-          ))}
-          <button type="button" onClick={handleAddCategory}>+ Add category</button>
-          <button type="submit" disabled={loading} style={{ marginTop: "1rem", padding: "0.75rem 1rem" }}>
-            {loading ? "Saving..." : "Create Event"}
-          </button>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Description
+              </label>
+              <textarea
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                className="w-full border border-gray-300 rounded px-3 py-2 h-24"
+              />
+            </div>
+
+            {/* Sezione Data & Orari */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Start Date
+                </label>
+                <DatePicker
+                  selected={startDate ? new Date(startDate) : null}
+                  onSelect={(date) => {
+                    if (date) {
+                      setStartDate(date.toLocaleDateString("en-CA"));
+                    }
+                  }}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Start Time
+                </label>
+                <input
+                  type="time"
+                  value={startTime}
+                  onChange={(e) => setStartTime(e.target.value)}
+                  className="w-full border border-gray-300 rounded px-3 py-2"
+                />
+              </div>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  End Date
+                </label>
+                <DatePicker
+                  selected={endDate ? new Date(endDate) : null}
+                  onSelect={(date) => {
+                    if (date) {
+                      setEndDate(date.toLocaleDateString("en-CA"));
+                    }
+                  }}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  End Time
+                </label>
+                <input
+                  type="time"
+                  value={endTime}
+                  onChange={(e) => setEndTime(e.target.value)}
+                  className="w-full border border-gray-300 rounded px-3 py-2"
+                />
+              </div>
+            </div>
+
+            {/* Altri campi */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Music Genre
+                </label>
+                <input
+                  type="text"
+                  value={musicGenre}
+                  onChange={(e) => setMusicGenre(e.target.value)}
+                  className="w-full border border-gray-300 rounded px-3 py-2"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Age Restriction
+                </label>
+                <input
+                  type="text"
+                  value={ageRestriction}
+                  onChange={(e) => setAgeRestriction(e.target.value)}
+                  placeholder="+21"
+                  className="w-full border border-gray-300 rounded px-3 py-2"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Dress Code
+                </label>
+                <input
+                  type="text"
+                  value={dressCode}
+                  onChange={(e) => setDressCode(e.target.value)}
+                  placeholder="Casual, Formal, etc."
+                  className="w-full border border-gray-300 rounded px-3 py-2"
+                />
+              </div>
+            </div>
+
+            {/* Upload immagine evento */}
+            <div>
+              <h3 className="text-lg font-semibold text-gray-800 mb-1">
+                Upload Event Image (optional)
+              </h3>
+              <UploadEventImage
+                eventId="new" // ID temporaneo per caricamento
+                currentImage={eventImage}
+                managerId={managerId}
+                onUploadComplete={(uploadedUrl) => setEventImage(uploadedUrl)}
+              />
+            </div>
+          </div>
+
+          {/* BOX 2: Ticket Categories */}
+          <div className="bg-white rounded-lg shadow p-6 space-y-4">
+            <h2 className="text-lg font-semibold text-gray-800">Ticket Categories</h2>
+            {ticketCategories.map((cat, index) => (
+              <div
+                key={index}
+                className="border border-gray-300 rounded p-4 space-y-2"
+              >
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Category Name
+                  </label>
+                  <input
+                    type="text"
+                    value={cat.name}
+                    onChange={(e) =>
+                      handleCategoryChange(index, "name", e.target.value)
+                    }
+                    className="w-full border border-gray-300 rounded px-3 py-2"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Price
+                  </label>
+                  <input
+                    type="number"
+                    value={cat.price}
+                    onChange={(e) =>
+                      handleCategoryChange(index, "price", e.target.value)
+                    }
+                    className="w-full border border-gray-300 rounded px-3 py-2"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    No. of Tickets
+                  </label>
+                  <input
+                    type="number"
+                    value={cat.available_tickets}
+                    onChange={(e) =>
+                      handleCategoryChange(index, "available_tickets", e.target.value)
+                    }
+                    className="w-full border border-gray-300 rounded px-3 py-2"
+                  />
+                </div>
+                {ticketCategories.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveCategory(index)}
+                    className="mt-2 px-4 py-2 bg-red-500 text-white text-sm rounded hover:bg-red-600"
+                  >
+                    Remove
+                  </button>
+                )}
+              </div>
+            ))}
+            <button
+              type="button"
+              onClick={handleAddCategory}
+              className="px-4 py-2 bg-purple-600 text-white text-sm rounded hover:bg-purple-700"
+            >
+              + Add category
+            </button>
+          </div>
+
+          {/* Pulsante finale per creare l'evento */}
+          <div className="flex justify-end">
+            <button
+              type="submit"
+              disabled={loading}
+              className="px-6 py-2 bg-purple-600 text-white rounded hover:bg-purple-700"
+            >
+              {loading ? "Saving..." : "Create Event"}
+            </button>
+          </div>
         </form>
       </div>
     </ManagerLayout>

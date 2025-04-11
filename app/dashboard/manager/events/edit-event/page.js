@@ -1,9 +1,13 @@
+// app/dashboard/manager/events/edit-event/page.js
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
 import { createBrowserSupabase } from "@/lib/supabase-browser";
 import { useRouter, useSearchParams } from "next/navigation";
 import ManagerLayout from "../../ManagerLayout";
+import EventHeader from "@/components/manager/events/EventHeader"; // Assicurati che il percorso sia corretto
+import DatePicker from "@/components/manager/events/DataTimePicker"; // Componente calendario
+import UploadEventImage from "@/components/manager/events/UploadEventImage";
 
 export default function EditEventPage() {
   const supabase = useMemo(() => createBrowserSupabase(), []);
@@ -21,6 +25,7 @@ export default function EditEventPage() {
   // Campi per l'evento
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  // Date in formato "YYYY-MM-DD"
   const [startDate, setStartDate] = useState("");
   const [startTime, setStartTime] = useState("");
   const [endDate, setEndDate] = useState("");
@@ -32,6 +37,10 @@ export default function EditEventPage() {
   // Ticket categories
   const [ticketCategories, setTicketCategories] = useState([]);
 
+  // Immagine evento
+  const [eventImage, setEventImage] = useState("");
+
+  // Caricamento dati evento
   useEffect(() => {
     async function fetchEvent() {
       if (!eventId) {
@@ -77,26 +86,26 @@ export default function EditEventPage() {
           return;
         }
         const event = eventsData[0];
-
-        // Popola i campi dell'evento
         setName(event.name || "");
         setDescription(event.description || "");
         if (event.start_date) {
-            const startObj = new Date(event.start_date);
-            // Formatta la data nel formato YYYY-MM-DD
-            setStartDate(startObj.toLocaleDateString('en-CA'));
-            // Formatta l'orario in formato HH:mm (24 ore)
-            setStartTime(startObj.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' }));
-          }
-          if (event.end_date) {
-            const endObj = new Date(event.end_date);
-            setEndDate(endObj.toLocaleDateString('en-CA'));
-            setEndTime(endObj.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' }));
-          }
-          
+          const startObj = new Date(event.start_date);
+          setStartDate(startObj.toLocaleDateString("en-CA")); // Formato YYYY-MM-DD
+          setStartTime(
+            startObj.toLocaleTimeString("it-IT", { hour: "2-digit", minute: "2-digit" })
+          );
+        }
+        if (event.end_date) {
+          const endObj = new Date(event.end_date);
+          setEndDate(endObj.toLocaleDateString("en-CA"));
+          setEndTime(
+            endObj.toLocaleTimeString("it-IT", { hour: "2-digit", minute: "2-digit" })
+          );
+        }
         setMusicGenre(event.music_genre || "");
         setAgeRestriction(event.age_restriction || "");
         setDressCode(event.dress_code || "");
+        setEventImage(event.image || "");
 
         // 4) Recupera le ticket categories associate all'evento
         const tcRes = await fetch(
@@ -105,9 +114,7 @@ export default function EditEventPage() {
         );
         if (!tcRes.ok) {
           const errTC = await tcRes.json();
-          throw new Error(
-            errTC.error || "Errore nel recupero delle ticket categories"
-          );
+          throw new Error(errTC.error || "Errore nel recupero delle ticket categories");
         }
         const { ticketCategories: tcData } = await tcRes.json();
         if (tcData && tcData.length > 0) {
@@ -124,6 +131,7 @@ export default function EditEventPage() {
     fetchEvent();
   }, [eventId, supabase]);
 
+  // Funzioni per la gestione delle ticket categories
   function handleAddCategory() {
     setTicketCategories([
       ...ticketCategories,
@@ -153,8 +161,20 @@ export default function EditEventPage() {
     setError("");
     setMessage("");
     try {
-      const startDateISO = new Date(`${startDate}T${startTime}`).toISOString();
-      const endDateISO = new Date(`${endDate}T${endTime}`).toISOString();
+      const startDateTimeStr = `${startDate}T${startTime}:00`;
+      const endDateTimeStr = `${endDate}T${endTime}:00`;
+      const startDateObj = new Date(startDateTimeStr);
+      const endDateObj = new Date(endDateTimeStr);
+      if (isNaN(startDateObj.getTime())) {
+        setError("Il formato della data/ora d'inizio non è valido.");
+        return;
+      }
+      if (isNaN(endDateObj.getTime())) {
+        setError("Il formato della data/ora di fine non è valido.");
+        return;
+      }
+      const startDateISO = startDateObj.toISOString();
+      const endDateISO = endDateObj.toISOString();
 
       // Aggiorna i dettagli dell'evento
       const updateRes = await fetch(`/api/event?event_id=${eventId}`, {
@@ -174,27 +194,19 @@ export default function EditEventPage() {
       });
       if (!updateRes.ok) {
         const errData = await updateRes.json();
-        throw new Error(
-          errData.error || "Errore nell'aggiornamento dell'evento"
-        );
+        throw new Error(errData.error || "Errore nell'aggiornamento dell'evento");
       }
 
-      // Elimina tutte le ticket categories esistenti per l'evento
-      const deleteRes = await fetch(
-        `/api/ticket-category?event_id=${eventId}`,
-        {
-          method: "DELETE",
-          credentials: "include",
-        }
-      );
+      // Elimina le ticket categories esistenti per l'evento
+      const deleteRes = await fetch(`/api/ticket-category?event_id=${eventId}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
       if (!deleteRes.ok) {
         const errDelete = await deleteRes.json();
-        throw new Error(
-          errDelete.error || "Errore nella cancellazione delle ticket categories"
-        );
+        throw new Error(errDelete.error || "Errore nella cancellazione delle ticket categories");
       }
-
-      // Crea (o ricrea) le ticket categories aggiornate
+      // Crea le ticket categories aggiornate
       for (let cat of ticketCategories) {
         const ticketRes = await fetch("/api/ticket-category", {
           method: "POST",
@@ -209,12 +221,9 @@ export default function EditEventPage() {
         });
         if (!ticketRes.ok) {
           const errTicket = await ticketRes.json();
-          throw new Error(
-            errTicket.error || "Errore nella creazione delle ticket categories"
-          );
+          throw new Error(errTicket.error || "Errore nella creazione delle ticket categories");
         }
       }
-
       setMessage("Evento aggiornato con successo!");
       setTimeout(() => {
         router.push("/dashboard/manager/events");
@@ -236,9 +245,7 @@ export default function EditEventPage() {
       });
       if (!res.ok) {
         const errData = await res.json();
-        throw new Error(
-          errData.error || "Errore nella cancellazione dell'evento"
-        );
+        throw new Error(errData.error || "Errore nella cancellazione dell'evento");
       }
       router.push("/dashboard/manager/events");
     } catch (err) {
@@ -249,177 +256,229 @@ export default function EditEventPage() {
 
   return (
     <ManagerLayout>
-      <div style={{ padding: "2rem" }}>
-        <h1 style={{ fontSize: "1.5rem", marginBottom: "1rem" }}>
-          Modifica Evento
-        </h1>
-        {error && <p style={{ color: "red" }}>{error}</p>}
-        {message && <p style={{ color: "green" }}>{message}</p>}
-        <form
-          onSubmit={handleSubmit}
-          style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
-        >
-          <div>
-            <label>Nome Evento*</label>
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-              style={{ display: "block", width: "100%" }}
-            />
-          </div>
-          <div>
-            <label>Descrizione</label>
-            <textarea
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              style={{
-                display: "block",
-                width: "100%",
-                height: "80px",
-              }}
-            />
-          </div>
-          <div style={{ display: "flex", gap: "1rem" }}>
+      <div className="px-6 py-8 max-w-screen-xl mx-auto">
+        {/* Inserisci il nuovo EventHeader */}
+        <EventHeader title="Edit Event" />
+
+        {error && <p className="text-red-600 mb-4">{error}</p>}
+        {message && <p className="text-green-600 mb-4">{message}</p>}
+
+        <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+          {/* BOX 1: Dettagli evento */}
+          <div className="bg-white rounded-lg shadow p-6 space-y-4">
+            <h2 className="text-lg font-semibold text-gray-800">Event Details</h2>
+
+            {/* Nome Evento e Descrizione */}
             <div>
-              <label>Data Inizio</label>
-              <input
-                type="date"
-                value={startDate}
-                onChange={(e) => setStartDate(e.target.value)}
-              />
-            </div>
-            <div>
-              <label>Ora Inizio</label>
-              <input
-                type="time"
-                value={startTime}
-                onChange={(e) => setStartTime(e.target.value)}
-              />
-            </div>
-          </div>
-          <div style={{ display: "flex", gap: "1rem" }}>
-            <div>
-              <label>Data Fine</label>
-              <input
-                type="date"
-                value={endDate}
-                onChange={(e) => setEndDate(e.target.value)}
-              />
-            </div>
-            <div>
-              <label>Ora Fine</label>
-              <input
-                type="time"
-                value={endTime}
-                onChange={(e) => setEndTime(e.target.value)}
-              />
-            </div>
-          </div>
-          <div>
-            <label>Music Genre</label>
-            <input
-              type="text"
-              value={musicGenre}
-              onChange={(e) => setMusicGenre(e.target.value)}
-              style={{ display: "block", width: "100%" }}
-            />
-          </div>
-          <div>
-            <label>Age Restriction</label>
-            <input
-              type="text"
-              value={ageRestriction}
-              onChange={(e) => setAgeRestriction(e.target.value)}
-              style={{ display: "block", width: "100%" }}
-              placeholder="+21"
-            />
-          </div>
-          <div>
-            <label>Dress Code</label>
-            <input
-              type="text"
-              value={dressCode}
-              onChange={(e) => setDressCode(e.target.value)}
-              style={{ display: "block", width: "100%" }}
-              placeholder="Casual, Formal, etc."
-            />
-          </div>
-          <hr />
-          <h2>Ticket Categories</h2>
-          {ticketCategories.map((cat, index) => (
-            <div
-              key={index}
-              style={{
-                border: "1px solid #ccc",
-                padding: "1rem",
-                marginBottom: "1rem",
-              }}
-            >
-              <label>Category Name</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Event Name*
+              </label>
               <input
                 type="text"
-                value={cat.name}
-                onChange={(e) =>
-                  handleCategoryChange(index, "name", e.target.value)
-                }
-                style={{
-                  display: "block",
-                  width: "100%",
-                  marginBottom: "0.5rem",
-                }}
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+                className="w-full border border-gray-300 rounded px-3 py-2"
               />
-              <label>Price</label>
-              <input
-                type="number"
-                value={cat.price}
-                onChange={(e) =>
-                  handleCategoryChange(index, "price", e.target.value)
-                }
-                style={{
-                  display: "block",
-                  width: "100%",
-                  marginBottom: "0.5rem",
-                }}
-              />
-              <label>No. of tickets</label>
-              <input
-                type="number"
-                value={cat.available_tickets}
-                onChange={(e) =>
-                  handleCategoryChange(index, "available_tickets", e.target.value)
-                }
-                style={{
-                  display: "block",
-                  width: "100%",
-                  marginBottom: "0.5rem",
-                }}
-              />
-              {ticketCategories.length > 1 && (
-                <button type="button" onClick={() => handleRemoveCategory(index)}>
-                  Remove
-                </button>
-              )}
             </div>
-          ))}
-          <button type="button" onClick={handleAddCategory}>
-            + Add category
-          </button>
-          <div style={{ display: "flex", gap: "1rem", marginTop: "1rem" }}>
-            <button type="submit" disabled={loading} style={{ padding: "0.75rem 1rem" }}>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Description
+              </label>
+              <textarea
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                className="w-full border border-gray-300 rounded px-3 py-2 h-24"
+              />
+            </div>
+
+            {/* Sezione Data & Orari con DatePicker */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Start Date
+                </label>
+                <DatePicker
+                  selected={startDate ? new Date(startDate) : null}
+                  onSelect={(date) => {
+                    if (date) {
+                      setStartDate(date.toLocaleDateString("en-CA"));
+                    }
+                  }}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Start Time
+                </label>
+                <input
+                  type="time"
+                  value={startTime}
+                  onChange={(e) => setStartTime(e.target.value)}
+                  className="w-full border border-gray-300 rounded px-3 py-2"
+                />
+              </div>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  End Date
+                </label>
+                <DatePicker
+                  selected={endDate ? new Date(endDate) : null}
+                  onSelect={(date) => {
+                    if (date) {
+                      setEndDate(date.toLocaleDateString("en-CA"));
+                    }
+                  }}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  End Time
+                </label>
+                <input
+                  type="time"
+                  value={endTime}
+                  onChange={(e) => setEndTime(e.target.value)}
+                  className="w-full border border-gray-300 rounded px-3 py-2"
+                />
+              </div>
+            </div>
+
+            {/* Altri campi */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Music Genre
+                </label>
+                <input
+                  type="text"
+                  value={musicGenre}
+                  onChange={(e) => setMusicGenre(e.target.value)}
+                  className="w-full border border-gray-300 rounded px-3 py-2"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Age Restriction
+                </label>
+                <input
+                  type="text"
+                  value={ageRestriction}
+                  onChange={(e) => setAgeRestriction(e.target.value)}
+                  placeholder="+21"
+                  className="w-full border border-gray-300 rounded px-3 py-2"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Dress Code
+                </label>
+                <input
+                  type="text"
+                  value={dressCode}
+                  onChange={(e) => setDressCode(e.target.value)}
+                  placeholder="Casual, Formal, etc."
+                  className="w-full border border-gray-300 rounded px-3 py-2"
+                />
+              </div>
+            </div>
+
+            {/* Upload immagine evento */}
+            <div>
+              <h3 className="text-lg font-semibold text-gray-800 mb-1">
+                Upload Event Image (optional)
+              </h3>
+              <UploadEventImage
+                eventId={eventId}
+                currentImage={eventImage}
+                managerId={managerId}
+                onUploadComplete={(uploadedUrl) => setEventImage(uploadedUrl)}
+              />
+            </div>
+          </div>
+
+          {/* BOX 2: Ticket Categories */}
+          <div className="bg-white rounded-lg shadow p-6 space-y-4">
+            <h2 className="text-lg font-semibold text-gray-800">Ticket Categories</h2>
+            {ticketCategories.map((cat, index) => (
+              <div
+                key={index}
+                className="border border-gray-300 rounded p-4 space-y-2"
+              >
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Category Name
+                  </label>
+                  <input
+                    type="text"
+                    value={cat.name}
+                    onChange={(e) =>
+                      handleCategoryChange(index, "name", e.target.value)
+                    }
+                    className="w-full border border-gray-300 rounded px-3 py-2"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Price
+                  </label>
+                  <input
+                    type="number"
+                    value={cat.price}
+                    onChange={(e) =>
+                      handleCategoryChange(index, "price", e.target.value)
+                    }
+                    className="w-full border border-gray-300 rounded px-3 py-2"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    No. of Tickets
+                  </label>
+                  <input
+                    type="number"
+                    value={cat.available_tickets}
+                    onChange={(e) =>
+                      handleCategoryChange(index, "available_tickets", e.target.value)
+                    }
+                    className="w-full border border-gray-300 rounded px-3 py-2"
+                  />
+                </div>
+                {ticketCategories.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveCategory(index)}
+                    className="mt-2 px-4 py-2 bg-red-500 text-white text-sm rounded hover:bg-red-600"
+                  >
+                    Remove
+                  </button>
+                )}
+              </div>
+            ))}
+            <button
+              type="button"
+              onClick={handleAddCategory}
+              className="px-4 py-2 bg-purple-600 text-white text-sm rounded hover:bg-purple-700"
+            >
+              + Add category
+            </button>
+          </div>
+
+          {/* Pulsante finale per aggiornare l'evento */}
+          <div className="flex justify-end space-x-4">
+            <button
+              type="submit"
+              disabled={loading}
+              className="px-6 py-2 bg-purple-600 text-white rounded hover:bg-purple-700"
+            >
               {loading ? "Saving..." : "Aggiorna Evento"}
             </button>
             <button
               type="button"
               onClick={handleDelete}
-              style={{
-                padding: "0.75rem 1rem",
-                backgroundColor: "#f44336",
-                color: "white",
-                border: "none",
-                cursor: "pointer",
-              }}
+              className="px-6 py-2 bg-red-500 text-white rounded hover:bg-red-600"
             >
               Elimina Evento
             </button>

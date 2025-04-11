@@ -1,3 +1,4 @@
+// components/manager/events/EventImageManager.js
 "use client";
 
 import React, { useState } from "react";
