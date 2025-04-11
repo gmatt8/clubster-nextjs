@@ -4,6 +4,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { createBrowserSupabase } from "@/lib/supabase-browser";
 import CustomerLayout from "../../CustomerLayout";
+import SettingsHeader from "@/components/customer/settings/SettingsHeader";
 
 export default function CustomerSettingsLoginSecurityPage() {
   const supabase = useMemo(() => createBrowserSupabase(), []);
@@ -72,7 +73,7 @@ export default function CustomerSettingsLoginSecurityPage() {
       }
 
       // Aggiorna password
-      const { data: updateData, error: updateError } = await supabase.auth.updateUser({
+      const { error: updateError } = await supabase.auth.updateUser({
         password: newPassword,
       });
       if (updateError) {
@@ -92,13 +93,7 @@ export default function CustomerSettingsLoginSecurityPage() {
   return (
     <CustomerLayout>
       <div className="px-6 py-8 max-w-screen-xl mx-auto">
-        {/* Breadcrumb */}
-        <div className="text-sm text-gray-500 mb-1">
-          Settings &gt; Login and Security
-        </div>
-
-        {/* Titolo principale */}
-        <h1 className="text-2xl font-bold mb-6">Password Management</h1>
+        <SettingsHeader title="Login and Security" />
 
         {/* Contenitore del form */}
         <div className="max-w-md bg-white rounded-lg shadow p-6">
@@ -113,7 +108,8 @@ export default function CustomerSettingsLoginSecurityPage() {
                 value={currentPassword}
                 onChange={(e) => setCurrentPassword(e.target.value)}
                 required
-                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-purple-500"
+                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2
+                           focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-purple-500"
               />
             </div>
 
@@ -127,7 +123,8 @@ export default function CustomerSettingsLoginSecurityPage() {
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
                 required
-                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-purple-500"
+                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2
+                           focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-purple-500"
               />
             </div>
 
@@ -141,7 +138,8 @@ export default function CustomerSettingsLoginSecurityPage() {
                 value={confirmNewPassword}
                 onChange={(e) => setConfirmNewPassword(e.target.value)}
                 required
-                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-purple-500"
+                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2
+                           focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-purple-500"
               />
             </div>
 
@@ -149,7 +147,9 @@ export default function CustomerSettingsLoginSecurityPage() {
             <button
               type="submit"
               disabled={loading}
-              className="inline-flex items-center justify-center rounded-md bg-purple-600 px-4 py-2 text-white hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
+              className="inline-flex items-center justify-center rounded-md bg-purple-600
+                         px-4 py-2 text-white hover:bg-purple-700 focus:outline-none
+                         focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
             >
               {loading ? "Saving..." : "Save"}
             </button>

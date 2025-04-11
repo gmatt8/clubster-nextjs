@@ -1,17 +1,18 @@
-// /app/dashboard/manager/settings/page.js
+// app/dashboard/manager/settings/general/page.js
 "use client";
 
 import { useEffect, useState, useRef } from "react";
 import { createBrowserSupabase } from "@/lib/supabase-browser";
 import ManagerLayout from "../../ManagerLayout";
 import PhotosManager from "@/components/manager/settings/PhotosManager";
+import ManagerSettingsHeader from "@/components/manager/settings/SettingsHeader"; // Nuovo componente header
 
 export default function ManagerSettingsGeneralPage() {
   const supabase = createBrowserSupabase();
 
   const [managerId, setManagerId] = useState(null);
   const [clubId, setClubId] = useState(null);
-  const [images, setImages] = useState([]); // ci aspettiamo un array, ma con al massimo un elemento
+  const [images, setImages] = useState([]); // ci aspettiamo un array, ma limitato a 1 elemento
 
   // Campi del club
   const [name, setName] = useState("");
@@ -162,16 +163,11 @@ export default function ManagerSettingsGeneralPage() {
   return (
     <ManagerLayout>
       <div className="px-6 py-8 max-w-screen-xl mx-auto">
-        <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-bold">Settings &gt; General</h1>
-          <button
-            onClick={handleSave}
-            disabled={loading || !managerId}
-            className="px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-          >
-            {loading ? "Saving..." : "Save"}
-          </button>
-        </div>
+        {/* Nuovo header per una UI uniforme */}
+        <ManagerSettingsHeader 
+          title="General" 
+          backHref="/dashboard/manager/settings" 
+        />
 
         <form onSubmit={handleSave} className="flex flex-col gap-6">
           {/* Sezione "Informations" */}

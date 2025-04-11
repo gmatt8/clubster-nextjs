@@ -2,12 +2,23 @@
 "use client";
 
 import ManagerLayout from "../../../ManagerLayout";
+import ManagerSettingsHeader from "@/components/manager/settings/SettingsHeader";
 
 export default function ManagerTermsPage() {
   return (
     <ManagerLayout>
-      <div className="px-6 py-12 max-w-screen-md mx-auto space-y-6">
-        <h1 className="text-3xl font-bold">Terms of Service</h1>
+      <div className="px-6 py-12 max-w-screen-md mx-auto">
+        {/* Breadcrumb e Titolo a sinistra */}
+        <ManagerSettingsHeader 
+          breadcrumbs={[
+            { label: "Settings", href: "/dashboard/manager/settings" },
+            { label: "Legal", href: "/dashboard/manager/settings/legal" },
+            { label: "Terms of Service" },
+          ]}
+          title="Terms of Service"
+        />
+
+        {/* Contenuto dei Terms of Service */}
         <p className="text-gray-700">
           These terms apply to venue managers using Clubster to list and manage nightlife events.
         </p>

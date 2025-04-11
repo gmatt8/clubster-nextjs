@@ -1,32 +1,29 @@
-'use client';
+// app/dashboard/manager/settings/login-and-security/page.js
+"use client";
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo } from "react";
 import { createBrowserSupabase } from "@/lib/supabase-browser";
-import ManagerLayout from '../../ManagerLayout';
+import ManagerLayout from "../../ManagerLayout";
+import ManagerSettingsHeader from "@/components/manager/settings/SettingsHeader";
 
 export default function ManagerSettingsLoginSecurityPage() {
-  // Crea l'istanza di supabase una sola volta
   const supabase = useMemo(() => createBrowserSupabase(), []);
 
-  const [userEmail, setUserEmail] = useState('');
+  const [userEmail, setUserEmail] = useState("");
   const [userId, setUserId] = useState(null);
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmNewPassword, setConfirmNewPassword] = useState("");
 
-  // Campi per cambio password
-  const [currentPassword, setCurrentPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmNewPassword, setConfirmNewPassword] = useState('');
-
-  // Messaggi di stato
-  const [error, setError] = useState('');
-  const [message, setMessage] = useState('');
+  const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // Al mount, recupera l'utente loggato
   useEffect(() => {
     async function getUser() {
       const { data: { user }, error: userError } = await supabase.auth.getUser();
       if (userError) {
-        setError('Errore nel recupero utente');
+        setError("Errore nel recupero utente");
       } else if (user) {
         setUserEmail(user.email);
         setUserId(user.id);
@@ -35,55 +32,47 @@ export default function ManagerSettingsLoginSecurityPage() {
     getUser();
   }, [supabase]);
 
-  // Funzione per cambiare la password
   async function handleChangePassword(e) {
     e.preventDefault();
-    setError('');
-    setMessage('');
+    setError("");
+    setMessage("");
 
-    // Verifica che i campi siano compilati correttamente
     if (!currentPassword || !newPassword || !confirmNewPassword) {
-      setError('Compila tutti i campi');
+      setError("Compila tutti i campi");
       return;
     }
     if (newPassword !== confirmNewPassword) {
-      setError('La nuova password e la conferma non coincidono');
+      setError("La nuova password e la conferma non coincidono");
       return;
     }
     if (!userEmail) {
-      setError('Impossibile determinare l\'email utente');
+      setError("Impossibile determinare l'email utente");
       return;
     }
 
     setLoading(true);
 
     try {
-      // Verifica la password attuale (ri-effettua il login con email e currentPassword)
       const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
         email: userEmail,
         password: currentPassword,
       });
-
       if (signInError) {
-        setError('La password attuale non è corretta');
+        setError("La password attuale non è corretta");
         setLoading(false);
         return;
       }
 
-      // Se la verifica è ok, aggiorna la password
-      const { data: updateData, error: updateError } = await supabase.auth.updateUser({
-        password: newPassword,
-      });
-
+      const { error: updateError } = await supabase.auth.updateUser({ password: newPassword });
       if (updateError) {
         setError(updateError.message);
         setLoading(false);
         return;
       }
 
-      setMessage('Password aggiornata con successo!');
+      setMessage("Password aggiornata con successo!");
     } catch (err) {
-      setError('Errore sconosciuto durante il cambio password');
+      setError("Errore sconosciuto durante il cambio password");
     } finally {
       setLoading(false);
     }
@@ -91,48 +80,62 @@ export default function ManagerSettingsLoginSecurityPage() {
 
   return (
     <ManagerLayout>
-      <h1 style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>Login and Security</h1>
+      <div className="px-6 py-8 max-w-screen-xl mx-auto">
+        <ManagerSettingsHeader title="Login and Security" />
 
-      <div style={{ maxWidth: '400px' }}>
-        <form onSubmit={handleChangePassword} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          <div>
-            <label>Current Password</label>
-            <input
-              type="password"
-              value={currentPassword}
-              onChange={(e) => setCurrentPassword(e.target.value)}
-              style={{ display: 'block', width: '100%', marginTop: '0.5rem' }}
-              required
-            />
-          </div>
-          <div>
-            <label>New Password</label>
-            <input
-              type="password"
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-              style={{ display: 'block', width: '100%', marginTop: '0.5rem' }}
-              required
-            />
-          </div>
-          <div>
-            <label>Confirm New Password</label>
-            <input
-              type="password"
-              value={confirmNewPassword}
-              onChange={(e) => setConfirmNewPassword(e.target.value)}
-              style={{ display: 'block', width: '100%', marginTop: '0.5rem' }}
-              required
-            />
-          </div>
+        <div className="max-w-md bg-white rounded-lg shadow p-6">
+          <form onSubmit={handleChangePassword} className="flex flex-col space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Current Password
+              </label>
+              <input
+                type="password"
+                value={currentPassword}
+                onChange={(e) => setCurrentPassword(e.target.value)}
+                required
+                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring focus:border-purple-500"
+              />
+            </div>
 
-          <button type="submit" disabled={loading} style={{ padding: '0.75rem 1rem', backgroundColor: '#007bff', color: '#fff' }}>
-            {loading ? 'Saving...' : 'Save'}
-          </button>
-        </form>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                New Password
+              </label>
+              <input
+                type="password"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                required
+                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring focus:border-purple-500"
+              />
+            </div>
 
-        {error && <p style={{ color: 'red', marginTop: '1rem' }}>{error}</p>}
-        {message && <p style={{ color: 'green', marginTop: '1rem' }}>{message}</p>}
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Confirm New Password
+              </label>
+              <input
+                type="password"
+                value={confirmNewPassword}
+                onChange={(e) => setConfirmNewPassword(e.target.value)}
+                required
+                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring focus:border-purple-500"
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="inline-flex items-center justify-center rounded-md bg-purple-600 px-4 py-2 text-white hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
+            >
+              {loading ? "Saving..." : "Save"}
+            </button>
+          </form>
+
+          {error && <p className="text-red-600 mt-4">{error}</p>}
+          {message && <p className="text-green-600 mt-4">{message}</p>}
+        </div>
       </div>
     </ManagerLayout>
   );
