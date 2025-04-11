@@ -1,3 +1,4 @@
+// app/dashboard/stripe/callback/route.js
 'use client';
 
 import { useEffect, useState } from 'react';

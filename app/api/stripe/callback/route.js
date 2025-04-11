@@ -5,12 +5,11 @@ import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { createServerSupabase } from "@/lib/supabase-server";
 
-// Usa createServerSupabase per creare il client Supabase (invece di createClient)
-const supabaseAdmin = createServerSupabase();
-
 export async function POST(request) {
+  // Inizializza il client Supabase nel contesto della richiesta
+  const supabaseAdmin = await createServerSupabase();
+
   try {
-    // Leggi i dati dal body JSON
     const { code, managerId } = await request.json();
 
     if (!code) {
@@ -20,20 +19,19 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Missing managerId' }, { status: 400 });
     }
 
-    // Parametri per scambiare il code con i token
+    // Parametri per scambiare il code con i token di Stripe
     const params = new URLSearchParams();
     params.append('grant_type', 'authorization_code');
     params.append('client_id', process.env.STRIPE_CLIENT_ID);
     params.append('client_secret', process.env.STRIPE_SECRET_KEY);
     params.append('code', code);
 
-    const response = await fetch('https://connect.stripe.com/oauth/token', {
+    const stripeRes = await fetch('https://connect.stripe.com/oauth/token', {
       method: 'POST',
       body: params,
     });
-
-    const data = await response.json();
-    if (!response.ok) {
+    const data = await stripeRes.json();
+    if (!stripeRes.ok) {
       console.error('Errore Stripe OAuth:', data);
       return NextResponse.json(
         { error: data.error_description || 'OAuth exchange failed' },
@@ -41,7 +39,6 @@ export async function POST(request) {
       );
     }
 
-    // Estraiamo lo stripe_user_id
     const { stripe_user_id } = data;
     if (!stripe_user_id) {
       return NextResponse.json({ error: 'No stripe_user_id in response' }, { status: 400 });
