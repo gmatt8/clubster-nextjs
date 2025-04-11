@@ -108,7 +108,7 @@ export default function Footer() {
           {/* Social Icons */}
           <div className="flex space-x-4">
             <Link
-              href="https://www.instagram.com"
+              href="https://www.instagram.com/clubster_app"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-gray-400"
@@ -116,7 +116,7 @@ export default function Footer() {
               <FaInstagram className="w-6 h-6" />
             </Link>
             <Link
-              href="https://www.tiktok.com"
+              href="https://www.tiktok.com/clubsterapp"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-gray-400"
@@ -124,7 +124,7 @@ export default function Footer() {
               <SiTiktok className="w-6 h-6" />
             </Link>
             <Link
-              href="https://www.x.com"
+              href="https://x.com/clubster_app"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-gray-400"
