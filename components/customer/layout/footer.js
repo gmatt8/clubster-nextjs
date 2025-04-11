@@ -116,7 +116,7 @@ export default function Footer() {
               <FaInstagram className="w-6 h-6" />
             </Link>
             <Link
-              href="https://www.tiktok.com/clubsterapp"
+              href="https://www.tiktok.com/@clubsterapp"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-gray-400"
