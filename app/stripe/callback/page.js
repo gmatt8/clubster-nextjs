@@ -3,19 +3,18 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import ManagerLayout from '@/app/dashboard/manager/ManagerLayout';
 
 export default function StripeCallbackPage() {
   const router = useRouter();
   const [status, setStatus] = useState('Exchanging code with Stripe...');
   const [error, setError] = useState('');
 
-  // Aggiungiamo un pulsante per tornare ai payments
   function handleGoToPayments() {
     router.push('/dashboard/manager/payments');
   }
 
   useEffect(() => {
-    // Recupera i parametri dalla query string
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get('code');
     const errorParam = urlParams.get('error');
@@ -33,7 +32,6 @@ export default function StripeCallbackPage() {
       return;
     }
 
-    // Chiama l'endpoint server-side per scambiare code e state con i token
     async function exchangeCode() {
       try {
         const res = await fetch('/api/stripe/callback', {
@@ -59,17 +57,18 @@ export default function StripeCallbackPage() {
   }, []);
 
   return (
-    <div style={{ padding: '2rem', textAlign: 'center' }}>
-      <h1>Stripe Callback</h1>
-      <p>{status}</p>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      {/* Bottone per andare alla pagina payments */}
-      <button
-        onClick={handleGoToPayments}
-        style={{ marginTop: '1rem', padding: '0.75rem 1rem' }}
-      >
-        Go to Payments
-      </button>
-    </div>
+    <ManagerLayout>
+      <div style={{ textAlign: 'center' }}>
+        <h1>Stripe Callback</h1>
+        <p>{status}</p>
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+        <button
+          onClick={handleGoToPayments}
+          style={{ marginTop: '1rem', padding: '0.75rem 1rem' }}
+        >
+          Go to Payments
+        </button>
+      </div>
+    </ManagerLayout>
   );
 }
