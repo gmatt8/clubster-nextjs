@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 async function reverseGeocode(lat, lng) {
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
   if (!apiKey) {
-    console.error("NEXT_PUBLIC_GOOGLE_MAPS_API_KEY not defined");
+    console.error("[Bookings] NEXT_PUBLIC_GOOGLE_MAPS_API_KEY not defined");
     return { city: null, country: null };
   }
   try {
@@ -28,34 +28,38 @@ async function reverseGeocode(lat, lng) {
     }
     return { city, country };
   } catch (err) {
-    console.error("Reverse geocode error:", err);
+    console.error("[Bookings] Reverse geocode error:", err);
     return { city: null, country: null };
   }
 }
 
 export async function GET(request) {
+  console.log("[Bookings] GET request received");
   try {
     const supabase = await createServerSupabase();
     const { searchParams } = new URL(request.url);
     const bookingId = searchParams.get("booking_id");
+    console.log("[Bookings] bookingId from query:", bookingId);
 
     // Recupera l'utente loggato
     const { data: { user } } = await supabase.auth.getUser();
+    console.log("[Bookings] Authenticated user:", user);
     if (!user) {
       return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
     }
 
-    // Recupera il ruolo dell'utente
+    // Recupera il ruolo dell'utente dalla tabella profiles
     const { data: profileData, error: profileError } = await supabase
       .from("profiles")
       .select("role")
       .eq("id", user.id)
       .single();
+    console.log("[Bookings] Profile data:", profileData, "Error:", profileError);
     if (profileError || !profileData) {
-      console.error("Error fetching profile:", profileError);
       return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
     }
     const role = profileData.role;
+    console.log("[Bookings] User role:", role);
 
     let query = supabase
       .from("bookings")
@@ -82,11 +86,14 @@ export async function GET(request) {
 
     if (bookingId) {
       query = query.eq("id", bookingId);
+      console.log("[Bookings] Filtering for bookingId:", bookingId);
     } else {
       query = query.eq("status", "confirmed");
+      console.log("[Bookings] Filtering for status confirmed");
     }
     
     const { data, error } = await query;
+    console.log("[Bookings] Query result:", data, "Error:", error);
     if (error) throw error;
     let bookings = data || [];
 
@@ -123,9 +130,10 @@ export async function GET(request) {
       );
     }
 
+    console.log("[Bookings] Final bookings returned:", bookings);
     return NextResponse.json({ bookings }, { status: 200 });
   } catch (err) {
-    console.error("Error in GET /api/bookings:", err);
+    console.error("[Bookings] Error in GET /api/bookings:", err);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }

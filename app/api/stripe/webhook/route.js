@@ -22,64 +22,74 @@ function generateCustomTicketId(totalLength = 10) {
   for (let i = 0; i < randomPartLength; i++) {
     result += characters.charAt(Math.floor(Math.random() * characters.length));
   }
-  return prefix + result;
+  const ticketId = prefix + result;
+  console.log("[Webhook] Generated Ticket ID:", ticketId);
+  return ticketId;
 }
 
 export async function POST(request) {
+  console.log("[Webhook] Received POST request");
   const sig = request.headers.get("stripe-signature");
   const buf = await request.text();
   let event;
-
   try {
     event = stripe.webhooks.constructEvent(
       buf,
       sig,
       process.env.STRIPE_WEBHOOK_SECRET
     );
+    console.log("[Webhook] Event constructed successfully.");
   } catch (err) {
-    console.error("Webhook signature verification failed.", err.message);
-    return NextResponse.json(
-      { error: `Webhook Error: ${err.message}` },
-      { status: 400 }
-    );
+    console.error("[Webhook] Webhook signature verification failed:", err.message);
+    return NextResponse.json({ error: `Webhook Error: ${err.message}` }, { status: 400 });
   }
 
-  console.log("Stripe event received:", event.type);
+  console.log("[Webhook] Stripe event received:", event.type);
 
   if (event.type === "checkout.session.completed") {
     const session = event.data.object;
-    console.log("Full session object:", JSON.stringify(session));
+    console.log("[Webhook] Full session object:", JSON.stringify(session));
 
-    let metadata = {};
-    if (typeof session.payment_intent === "string") {
-      const connectedAccountId = event.account;
-      try {
-        const paymentIntent = await stripe.paymentIntents.retrieve(
-          session.payment_intent,
-          { stripeAccount: connectedAccountId }
-        );
-        metadata = paymentIntent.metadata;
-        console.log("Retrieved PaymentIntent metadata:", JSON.stringify(metadata));
-      } catch (err) {
-        console.error("Error retrieving PaymentIntent:", err);
+    // Estrazione dei metadata:
+    // Se payment_intent è una stringa, prova a recuperare il PaymentIntent.
+    // Se event.account non è definito, non lo passa come parametro.
+    let metadata;
+    if (session.payment_intent) {
+      if (typeof session.payment_intent === "string") {
+        try {
+          const params = event.account ? { stripeAccount: event.account } : {};
+          const paymentIntent = await stripe.paymentIntents.retrieve(session.payment_intent, params);
+          metadata = paymentIntent.metadata;
+          console.log("[Webhook] Retrieved metadata from PaymentIntent:", JSON.stringify(metadata));
+        } catch (error) {
+          console.error("[Webhook] Error retrieving PaymentIntent. Falling back to session.metadata. Error:", error.message);
+          metadata = session.metadata;
+        }
+      } else if (typeof session.payment_intent === "object") {
+        metadata = session.payment_intent.metadata;
       }
     } else {
-      metadata = session.payment_intent.metadata;
-      console.log("Using embedded metadata:", JSON.stringify(metadata));
+      metadata = session.metadata;
     }
+
+    console.log("[Webhook] Final metadata used:", JSON.stringify(metadata));
 
     const userId = metadata?.user_id;
     const eventId = metadata?.event_id;
     const quantity = parseInt(metadata?.quantity, 10) || 1;
 
+    console.log("[Webhook] Metadata values:", { userId, eventId, quantity });
+
     if (!userId || !eventId) {
-      console.error("Missing required metadata:", JSON.stringify(metadata));
+      console.error("[Webhook] Missing required metadata:", JSON.stringify(metadata));
       return NextResponse.json({ error: "Missing required metadata" }, { status: 400 });
     }
 
     let bookingId = metadata.booking_id;
+    console.log("[Webhook] Booking ID from metadata:", bookingId);
     if (!bookingId) {
       const fallbackBookingId = "fallback-" + Date.now();
+      console.log("[Webhook] No booking_id provided, using fallback:", fallbackBookingId);
       const { data: bookingData, error: bookingError } = await supabaseAdmin
         .from("bookings")
         .insert([
@@ -94,14 +104,25 @@ export async function POST(request) {
         .select()
         .single();
       if (bookingError || !bookingData) {
-        console.error("Error inserting fallback booking:", bookingError);
+        console.error("[Webhook] Error inserting fallback booking:", bookingError);
         return NextResponse.json({ error: "Error inserting booking" }, { status: 400 });
       } else {
         bookingId = bookingData.id;
-        console.log("Fallback booking created:", JSON.stringify(bookingData));
+        console.log("[Webhook] Fallback booking created:", JSON.stringify(bookingData));
       }
     } else {
-      console.log("Booking ID provided in metadata:", bookingId);
+      console.log("[Webhook] Booking ID provided:", bookingId);
+    }
+
+    // Controlla lo stato del booking PRIMA dell'update
+    const { data: preUpdateData, error: preUpdateError } = await supabaseAdmin
+      .from("bookings")
+      .select("id, status")
+      .eq("id", bookingId);
+    console.log("[Webhook] Booking BEFORE update:", preUpdateData, preUpdateError);
+    if (!preUpdateData || preUpdateData.length === 0) {
+      console.error("[Webhook] No booking found with id:", bookingId);
+      return NextResponse.json({ error: "Booking not found" }, { status: 400 });
     }
 
     // Aggiorna lo status del booking a "confirmed"
@@ -111,10 +132,17 @@ export async function POST(request) {
       .eq("id", bookingId)
       .select();
     if (updateError) {
-      console.error("Error updating booking status:", updateError);
+      console.error("[Webhook] Error updating booking status:", updateError);
     } else {
-      console.log("Booking updated to confirmed:", JSON.stringify(updateData));
+      console.log("[Webhook] Booking updated to confirmed:", JSON.stringify(updateData));
     }
+
+    // Verifica lo stato DOPO l'update
+    const { data: postUpdateData, error: postUpdateError } = await supabaseAdmin
+      .from("bookings")
+      .select("id, status")
+      .eq("id", bookingId);
+    console.log("[Webhook] Booking AFTER update:", postUpdateData, postUpdateError);
 
     // Genera e inserisci i ticket
     const ticketsToInsert = [];
@@ -127,30 +155,34 @@ export async function POST(request) {
         qr_data: qrData,
       });
     }
-    console.log("Tickets to insert:", ticketsToInsert);
+    console.log("[Webhook] Tickets to insert:", ticketsToInsert);
 
-    const { data: ticketsData, error: ticketsError } =
-      await supabaseAdmin.from("tickets").insert(ticketsToInsert).select();
+    const { data: ticketsData, error: ticketsError } = await supabaseAdmin
+      .from("tickets")
+      .insert(ticketsToInsert)
+      .select();
     if (ticketsError) {
-      console.error("Error inserting tickets:", ticketsError);
+      console.error("[Webhook] Error inserting tickets:", ticketsError);
     } else {
-      console.log("Tickets created:", JSON.stringify(ticketsData));
+      console.log("[Webhook] Tickets created:", JSON.stringify(ticketsData));
     }
 
     // Aggiorna la ticket category decrementando i biglietti disponibili
     const ticketCategoryId = metadata.ticket_category_id;
+    console.log("[Webhook] ticket_category_id from metadata:", ticketCategoryId);
     if (ticketCategoryId) {
       const { data: tcData, error: tcError } = await supabaseAdmin
         .from("ticket_categories")
         .select("available_tickets")
         .eq("id", ticketCategoryId)
         .single();
+      console.log("[Webhook] Ticket category data:", tcData, "Error:", tcError);
       if (tcError || !tcData) {
-        console.error("Error fetching ticket category:", tcError);
+        console.error("[Webhook] Error fetching ticket category:", tcError);
       } else {
         const newAvailable = tcData.available_tickets - quantity;
         if (newAvailable < 0) {
-          console.error("Not enough tickets available. Current available:", tcData.available_tickets);
+          console.error("[Webhook] Not enough tickets available. Current available:", tcData.available_tickets);
         } else {
           const { data: updateTCData, error: updateTCError } = await supabaseAdmin
             .from("ticket_categories")
@@ -158,17 +190,17 @@ export async function POST(request) {
             .eq("id", ticketCategoryId)
             .select();
           if (updateTCError) {
-            console.error("Error updating ticket category:", updateTCError);
+            console.error("[Webhook] Error updating ticket category:", updateTCError);
           } else {
-            console.log("Ticket category updated, new available_tickets:", newAvailable);
+            console.log("[Webhook] Ticket category updated, new available_tickets:", newAvailable);
           }
         }
       }
     } else {
-      console.warn("No ticket_category_id found in metadata.");
+      console.warn("[Webhook] No ticket_category_id found in metadata.");
     }
   } else {
-    console.warn(`Unhandled event type ${event.type}`);
+    console.warn("[Webhook] Unhandled event type:", event.type);
   }
 
   return NextResponse.json({ received: true }, { status: 200 });

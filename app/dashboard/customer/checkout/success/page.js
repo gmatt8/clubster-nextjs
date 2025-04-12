@@ -27,13 +27,14 @@ export default function CheckoutSuccessPage() {
           throw new Error(errText);
         }
         const data = await res.json();
+        console.log("[Checkout Success] Fetched booking data:", data);
         if (data.bookings && data.bookings.length > 0) {
           setBooking(data.bookings[0]);
         } else {
           setError("Booking not found");
         }
       } catch (err) {
-        console.error(err);
+        console.error("[Checkout Success] Error fetching booking:", err);
         setError(err.message);
       } finally {
         setLoading(false);
@@ -68,7 +69,6 @@ export default function CheckoutSuccessPage() {
     );
   }
 
-  // Utilizza il booking.id come order number (che contiene il Booking ID personalizzato)
   const orderNumber = booking.id;
   const orderDate = new Date(booking.created_at).toLocaleDateString("en-GB", {
     year: "numeric",
@@ -99,13 +99,11 @@ export default function CheckoutSuccessPage() {
           <strong>{booking.userEmail || "your email"}</strong>
         </p>
 
-        {/* Order info */}
         <div className="mb-6">
           <p className="mb-1 font-bold">Order number #{orderNumber}</p>
           <p className="mb-1 text-gray-600">Order date: {orderDate}</p>
         </div>
 
-        {/* Event details */}
         {event && (
           <div className="border border-gray-300 rounded p-4 text-left mb-6">
             <div className="mb-4">
@@ -140,7 +138,6 @@ export default function CheckoutSuccessPage() {
         >
           View bookings
         </button>
-
         <p className="mt-4 text-gray-600">
           Need help or have questions? Contact support
         </p>
