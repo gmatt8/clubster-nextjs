@@ -115,30 +115,34 @@ export async function POST(request) {
           },
         ],
         mode: "payment",
-        // Aggiungi metadata a livello di sessione
+        // Puoi lasciare metadata anche qui (sarà disponibile in session.metadata)
         metadata: {
           user_id: user.id,
           event_id: eventId,
           quantity: quantity.toString(),
-          booking_id: bookingData.id, // Booking ID generato
+          booking_id: bookingData.id,
           ticket_category_id: ticketCategoryId,
         },
         payment_intent_data: {
-          // Commissione su piattaforma: 5%
+          // Aggiungi qui i metadata per il PaymentIntent
+          metadata: {
+            user_id: user.id,
+            event_id: eventId,
+            quantity: quantity.toString(),
+            booking_id: bookingData.id,
+            ticket_category_id: ticketCategoryId,
+          },
           application_fee_amount: applicationFeeAmount,
-          // Se la logica di Checkout Connect è "direct charges", allora
-          // la piattaforma riceve la fee e il resto va al manager
         },
         success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard/customer/checkout/success?booking_id=${bookingData.id}`,
         cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard/customer/checkout/cancel`,
-        // Fondamentale per avere i metadata nel PaymentIntent
         expand: ["payment_intent"],
       },
       {
-        // Collegamento all'account del manager (Standard)
         stripeAccount: clubData.stripe_account_id,
       }
     );
+    
     
     console.log("[Checkout] Stripe session created:", session);
 
