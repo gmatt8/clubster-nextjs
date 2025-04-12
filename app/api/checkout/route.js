@@ -115,7 +115,7 @@ export async function POST(request) {
           },
         ],
         mode: "payment",
-        // Puoi lasciare metadata anche qui (sarà disponibile in session.metadata)
+        // Imposta i metadata a livello di sessione (rimangono disponibili in session.metadata)
         metadata: {
           user_id: user.id,
           event_id: eventId,
@@ -124,7 +124,7 @@ export async function POST(request) {
           ticket_category_id: ticketCategoryId,
         },
         payment_intent_data: {
-          // Aggiungi qui i metadata per il PaymentIntent
+          // Importante: imposta esplicitamente anche i metadata per il PaymentIntent
           metadata: {
             user_id: user.id,
             event_id: eventId,
@@ -142,6 +142,7 @@ export async function POST(request) {
         stripeAccount: clubData.stripe_account_id,
       }
     );
+    
     
     
     console.log("[Checkout] Stripe session created:", session);
