@@ -50,13 +50,12 @@ export async function POST(request) {
     const session = event.data.object;
     console.log("[Webhook] Full session object:", JSON.stringify(session));
 
-    // Estrazione dei metadata:
-    // Se payment_intent è una stringa, prova a recuperare il PaymentIntent.
-    // Se event.account non è definito, non lo passa come parametro.
+    // Estrazione dei metadata
     let metadata;
     if (session.payment_intent) {
       if (typeof session.payment_intent === "string") {
         try {
+          // Se si tratta di un Connect event, event.account conterrà l'ID dell'account del manager
           const params = event.account ? { stripeAccount: event.account } : {};
           const paymentIntent = await stripe.paymentIntents.retrieve(session.payment_intent, params);
           metadata = paymentIntent.metadata;
@@ -88,6 +87,7 @@ export async function POST(request) {
     let bookingId = metadata.booking_id;
     console.log("[Webhook] Booking ID from metadata:", bookingId);
     if (!bookingId) {
+      // Fallback in caso manchi il booking_id
       const fallbackBookingId = "fallback-" + Date.now();
       console.log("[Webhook] No booking_id provided, using fallback:", fallbackBookingId);
       const { data: bookingData, error: bookingError } = await supabaseAdmin
@@ -131,6 +131,9 @@ export async function POST(request) {
       .update({ status: "confirmed" })
       .eq("id", bookingId)
       .select();
+    console.log("[Webhook] updateData:", updateData);
+    console.log("[Webhook] updateError:", updateError);
+
     if (updateError) {
       console.error("[Webhook] Error updating booking status:", updateError);
     } else {
@@ -181,6 +184,7 @@ export async function POST(request) {
         console.error("[Webhook] Error fetching ticket category:", tcError);
       } else {
         const newAvailable = tcData.available_tickets - quantity;
+        console.log("[Webhook] New available tickets calculated:", newAvailable);
         if (newAvailable < 0) {
           console.error("[Webhook] Not enough tickets available. Current available:", tcData.available_tickets);
         } else {
@@ -192,7 +196,7 @@ export async function POST(request) {
           if (updateTCError) {
             console.error("[Webhook] Error updating ticket category:", updateTCError);
           } else {
-            console.log("[Webhook] Ticket category updated, new available_tickets:", newAvailable);
+            console.log("[Webhook] Ticket category updated, new available_tickets:", newAvailable, updateTCData);
           }
         }
       }

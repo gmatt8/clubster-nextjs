@@ -69,7 +69,7 @@ export async function POST(request) {
       return NextResponse.json({ error: "User not authenticated" }, { status: 401 });
     }
 
-    // Crea record di booking usando esclusivamente il booking ID
+    // Crea record di booking usando esclusivamente il booking ID personalizzato
     const bookingId = generateCustomBookingId();
     const { data: bookingData, error: bookingError } = await supabase
       .from("bookings")
@@ -94,6 +94,9 @@ export async function POST(request) {
     const unitPrice = Math.round(ticketCat.price * 100);
     const totalPrice = unitPrice * quantity;
     console.log("[Checkout] Calculated total price (cents):", totalPrice);
+
+    // Esempio: Commissione del 5% (in centesimi)
+    const applicationFeeAmount = Math.round(totalPrice * 0.05);
 
     // Crea sessione Checkout su Stripe
     console.log("[Checkout] Creating Stripe Checkout session...");
@@ -121,14 +124,18 @@ export async function POST(request) {
           ticket_category_id: ticketCategoryId,
         },
         payment_intent_data: {
-          application_fee_amount: 200,
-          // Puoi omettere i metadata qui se li passi già a livello di sessione
+          // Commissione su piattaforma: 5%
+          application_fee_amount: applicationFeeAmount,
+          // Se la logica di Checkout Connect è "direct charges", allora
+          // la piattaforma riceve la fee e il resto va al manager
         },
         success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard/customer/checkout/success?booking_id=${bookingData.id}`,
         cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard/customer/checkout/cancel`,
+        // Fondamentale per avere i metadata nel PaymentIntent
         expand: ["payment_intent"],
       },
       {
+        // Collegamento all'account del manager (Standard)
         stripeAccount: clubData.stripe_account_id,
       }
     );
