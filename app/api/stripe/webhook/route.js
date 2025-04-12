@@ -8,7 +8,7 @@ export const api = { bodyParser: false };
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-// Crea il client admin con la SERVICE_ROLE_KEY per bypassare le restrizioni RLS
+// Crea il client admin (con SERVICE_ROLE_KEY) per bypassare le restrizioni RLS
 const supabaseAdmin = createClient(
   process.env.SUPABASE_URL,
   process.env.SUPABASE_SERVICE_ROLE_KEY
@@ -38,24 +38,36 @@ export async function POST(request) {
       sig,
       process.env.STRIPE_WEBHOOK_SECRET
     );
-    console.log("[Webhook] Event constructed successfully.");
+    console.log("[Webhook] Event constructed successfully. Event id:", event.id);
   } catch (err) {
     console.error("[Webhook] Webhook signature verification failed:", err.message);
     return NextResponse.json({ error: `Webhook Error: ${err.message}` }, { status: 400 });
   }
-
+  
+  // INSERT idempotency check: tenta di registrare l'evento nel database
+  const { data: eventRecord, error: eventRecordError } = await supabaseAdmin
+    .from("processed_webhook_events")
+    .insert([{ event_id: event.id }])
+    .select()
+    .single();
+  if (eventRecordError) {
+    // Se l'errore indica che l'evento esiste già (es. codice 23505) oppure qualsiasi altro errore,
+    // consideriamo l'evento già processato e interrompiamo
+    console.log("[Webhook] Event", event.id, "already processed or error inserting idempotency record:", eventRecordError.message);
+    return NextResponse.json({ received: true }, { status: 200 });
+  }
+  
   console.log("[Webhook] Stripe event received:", event.type);
 
   if (event.type === "checkout.session.completed") {
     const session = event.data.object;
     console.log("[Webhook] Full session object:", JSON.stringify(session));
 
-    // Estrazione dei metadata
+    // Estrai i metadata (tentando di recuperarli dal PaymentIntent se possibile)
     let metadata;
     if (session.payment_intent) {
       if (typeof session.payment_intent === "string") {
         try {
-          // Se si tratta di un Connect event, event.account conterrà l'ID dell'account del manager
           const params = event.account ? { stripeAccount: event.account } : {};
           const paymentIntent = await stripe.paymentIntents.retrieve(session.payment_intent, params);
           metadata = paymentIntent.metadata;
@@ -78,7 +90,6 @@ export async function POST(request) {
     const quantity = parseInt(metadata?.quantity, 10) || 1;
 
     console.log("[Webhook] Metadata values:", { userId, eventId, quantity });
-
     if (!userId || !eventId) {
       console.error("[Webhook] Missing required metadata:", JSON.stringify(metadata));
       return NextResponse.json({ error: "Missing required metadata" }, { status: 400 });
@@ -87,7 +98,6 @@ export async function POST(request) {
     let bookingId = metadata.booking_id;
     console.log("[Webhook] Booking ID from metadata:", bookingId);
     if (!bookingId) {
-      // Fallback in caso manchi il booking_id
       const fallbackBookingId = "fallback-" + Date.now();
       console.log("[Webhook] No booking_id provided, using fallback:", fallbackBookingId);
       const { data: bookingData, error: bookingError } = await supabaseAdmin
@@ -114,7 +124,17 @@ export async function POST(request) {
       console.log("[Webhook] Booking ID provided:", bookingId);
     }
 
-    // Controlla lo stato del booking PRIMA dell'update
+    // Ulteriore controllo: se esistono già ticket per questo booking, esci
+    const { data: existingTickets, error: existingTicketsError } = await supabaseAdmin
+      .from("tickets")
+      .select("id")
+      .eq("booking_id", bookingId);
+    if (existingTickets && existingTickets.length > 0) {
+      console.log("[Webhook] Tickets already generated for booking", bookingId, ". Skipping duplicate processing.");
+      return NextResponse.json({ received: true }, { status: 200 });
+    }
+
+    // Recupera lo stato del booking prima dell'update
     const { data: preUpdateData, error: preUpdateError } = await supabaseAdmin
       .from("bookings")
       .select("id, status")
@@ -123,6 +143,10 @@ export async function POST(request) {
     if (!preUpdateData || preUpdateData.length === 0) {
       console.error("[Webhook] No booking found with id:", bookingId);
       return NextResponse.json({ error: "Booking not found" }, { status: 400 });
+    }
+    if (preUpdateData[0].status === "confirmed") {
+      console.log("[Webhook] Booking already confirmed. Skipping duplicate processing.");
+      return NextResponse.json({ received: true }, { status: 200 });
     }
 
     // Aggiorna lo status del booking a "confirmed"
@@ -133,14 +157,13 @@ export async function POST(request) {
       .select();
     console.log("[Webhook] updateData:", updateData);
     console.log("[Webhook] updateError:", updateError);
-
     if (updateError) {
       console.error("[Webhook] Error updating booking status:", updateError);
     } else {
       console.log("[Webhook] Booking updated to confirmed:", JSON.stringify(updateData));
     }
 
-    // Verifica lo stato DOPO l'update
+    // Verifica lo stato del booking dopo l'update
     const { data: postUpdateData, error: postUpdateError } = await supabaseAdmin
       .from("bookings")
       .select("id, status")
@@ -159,7 +182,6 @@ export async function POST(request) {
       });
     }
     console.log("[Webhook] Tickets to insert:", ticketsToInsert);
-
     const { data: ticketsData, error: ticketsError } = await supabaseAdmin
       .from("tickets")
       .insert(ticketsToInsert)
@@ -170,7 +192,7 @@ export async function POST(request) {
       console.log("[Webhook] Tickets created:", JSON.stringify(ticketsData));
     }
 
-    // Aggiorna la ticket category decrementando i biglietti disponibili
+    // Aggiorna la ticket category decrementando gli available_tickets
     const ticketCategoryId = metadata.ticket_category_id;
     console.log("[Webhook] ticket_category_id from metadata:", ticketCategoryId);
     if (ticketCategoryId) {
@@ -206,6 +228,6 @@ export async function POST(request) {
   } else {
     console.warn("[Webhook] Unhandled event type:", event.type);
   }
-
+  
   return NextResponse.json({ received: true }, { status: 200 });
 }
