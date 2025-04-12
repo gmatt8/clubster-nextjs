@@ -1,4 +1,4 @@
-// app/dashboard/customer/checkout/success/page.js
+// /app/dashboard/customer/checkout/success/page.js
 "use client";
 
 import { useSearchParams, useRouter } from "next/navigation";
