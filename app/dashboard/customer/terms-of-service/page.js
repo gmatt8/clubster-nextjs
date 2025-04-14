@@ -1,4 +1,4 @@
-// app/dashboard/customer/terms-of-service/page.js
+// /app/dashboard/customer/terms-of-service/page.js
 "use client";
 
 import CustomerLayout from "../CustomerLayout";
