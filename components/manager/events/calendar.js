@@ -113,8 +113,8 @@ export default function EventsCalendar({ events = [] }) {
           const isPast = cellDate < todayDate;
 
           if (hasEvent) {
-            const eventBgColor = isPast ? "bg-purple-100" : "bg-purple-200";
-            const eventBorderColor = isPast ? "border-purple-400" : "border-purple-800";
+            const eventBgColor = isPast ? "bg-gray-100" : "bg-green-100";
+            const eventBorderColor = isPast ? "border-gray-400" : "border-green-500";
             const eventNames = dayEvents.map((ev) => ev.name).join(", ");
             return (
               <div
@@ -128,7 +128,7 @@ export default function EventsCalendar({ events = [] }) {
               >
                 {/* Numero del giorno sempre visibile */}
                 <div className="absolute top-1 right-1 text-xs text-gray-600">{day}</div>
-                <span className="text-xs text-purple-900 font-bold text-center">
+                <span className="text-xs text-gray-700 font-bold text-center">
                   {eventNames}
                 </span>
               </div>
