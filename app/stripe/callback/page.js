@@ -3,7 +3,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import ManagerLayout from '@/app/dashboard/manager/ManagerLayout';
+import ManagerLayout from '@/app/manager/ManagerLayout';
 
 export default function StripeCallbackPage() {
   const router = useRouter();
@@ -47,11 +47,11 @@ export default function StripeCallbackPage() {
         setStatus('Stripe account connected successfully!');
         
         // Reindirizzamento immediato:
-        router.push('/dashboard/manager/payments');
+        router.push('/manager/payments');
 
         // Oppure, se preferisci attendere qualche secondo prima di redirigere:
         // setTimeout(() => {
-        //   router.push('/dashboard/manager/settings');
+        //   router.push('/manager/settings');
         // }, 3000);
         
       } catch (err) {

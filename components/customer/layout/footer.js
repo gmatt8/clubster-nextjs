@@ -34,7 +34,7 @@ export default function Footer() {
               <ul className="space-y-1">
                 <li>
                   <Link
-                    href="/dashboard/customer/bookings"
+                    href="/customer/bookings"
                     className="text-sm hover:underline"
                   >
                     My tickets
@@ -42,7 +42,7 @@ export default function Footer() {
                 </li>
                 <li>
                   <Link
-                    href="/dashboard/customer/settings"
+                    href="/customer/settings"
                     className="text-sm hover:underline"
                   >
                     Settings
@@ -57,7 +57,7 @@ export default function Footer() {
             <ul className="space-y-1">
               <li>
                 <Link
-                  href="/dashboard/customer/support"
+                  href="/customer/support"
                   className="text-sm hover:underline"
                 >
                   Contact Customer Service
@@ -85,7 +85,7 @@ export default function Footer() {
             <ul className="space-y-1">
               <li>
                 <Link
-                  href="/dashboard/customer/terms-of-service"
+                  href="/customer/terms-of-service"
                   className="text-sm hover:underline"
                 >
                   Terms of Service
@@ -93,7 +93,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/dashboard/customer/privacy-policy"
+                  href="/customer/privacy-policy"
                   className="text-sm hover:underline"
                 >
                   Privacy Policy

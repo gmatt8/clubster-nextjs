@@ -1,5 +1,5 @@
 // app/not-found.js
-import CustomerLayout from "@/app/dashboard/customer/CustomerLayout";
+import CustomerLayout from "@/app/customer/CustomerLayout";
 import Link from "next/link";
 
 export default function NotFound() {

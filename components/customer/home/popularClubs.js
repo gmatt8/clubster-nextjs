@@ -48,7 +48,7 @@ export default function PopularClubs() {
           <div
             key={club.id}
             onClick={() =>
-              router.push(`/dashboard/customer/club-details?club_id=${club.id}`)
+              router.push(`/customer/club-details?club_id=${club.id}`)
             }
             className="w-[237px] bg-white rounded-lg shadow hover:shadow-md transition-shadow cursor-pointer"
           >

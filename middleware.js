@@ -13,16 +13,16 @@ export async function middleware(request) {
 
   const { pathname, origin } = request.nextUrl;
 
-  // Applica la logica solo se siamo in /dashboard/manager
-  if (pathname.startsWith('/dashboard/manager')) {
+  // Applica la logica solo se siamo in /manager
+  if (pathname.startsWith('/manager')) {
     // Se non c'è sessione, reindirizza al login manager
     if (!session) {
       return NextResponse.redirect(`${origin}/auth/manager/login`);
     }
 
-    // Se l'utente è già su /dashboard/manager/verify-club,
+    // Se l'utente è già su /manager/verify-club,
     // NON forzare di nuovo il check del club, così eviti il loop
-    if (pathname === '/dashboard/manager/verify-club') {
+    if (pathname === '/manager/verify-club') {
       // Lasciamo passare
       return res;
     }
@@ -36,7 +36,7 @@ export async function middleware(request) {
 
     // Se non esiste un record in clubs, reindirizza a verify-club
     if (!clubData) {
-      return NextResponse.redirect(`${origin}/dashboard/manager/verify-club`);
+      return NextResponse.redirect(`${origin}/manager/verify-club`);
     }
   }
 
@@ -45,5 +45,5 @@ export async function middleware(request) {
 }
 
 export const config = {
-  matcher: ['/dashboard/manager/:path*'],
+  matcher: ['/manager/:path*'],
 };

@@ -52,7 +52,7 @@ export default function ManagerLoginPage() {
       }
 
       // Se tutto ok, reindirizza alla dashboard manager
-      router.push("/dashboard/manager/dashboard");
+      router.push("/manager/dashboard");
     } catch (err) {
       setError(err.message || "An error occurred.");
     }

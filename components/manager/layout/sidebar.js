@@ -27,12 +27,12 @@ export default function Sidebar() {
   }
 
   // Controlla quale sezione è attiva
-  const isDashboard = pathname.startsWith("/dashboard/manager/dashboard");
-  const isEvents = pathname.startsWith("/dashboard/manager/events");
-  const isBookings = pathname.startsWith("/dashboard/manager/bookings");
-  const isAnalytics = pathname.startsWith("/dashboard/manager/analytics");
-  const isPayments = pathname.startsWith("/dashboard/manager/payments");
-  const isSettings = pathname.startsWith("/dashboard/manager/settings");
+  const isDashboard = pathname.startsWith("/manager/dashboard");
+  const isEvents = pathname.startsWith("/manager/events");
+  const isBookings = pathname.startsWith("/manager/bookings");
+  const isAnalytics = pathname.startsWith("/manager/analytics");
+  const isPayments = pathname.startsWith("/manager/payments");
+  const isSettings = pathname.startsWith("/manager/settings");
 
   return (
     <aside className="w-64 bg-white border-r border-gray-200 p-4 flex flex-col">
@@ -50,7 +50,7 @@ export default function Sidebar() {
       {/* Menu di navigazione */}
       <nav className="flex flex-col gap-1">
         <Link
-          href="/dashboard/manager/dashboard"
+          href="/manager/dashboard"
           className={`p-2 rounded flex items-center space-x-2 ${
             isDashboard
               ? "bg-purple-50 text-purple-700"
@@ -61,7 +61,7 @@ export default function Sidebar() {
           <span>Dashboard</span>
         </Link>
         <Link
-          href="/dashboard/manager/events"
+          href="/manager/events"
           className={`p-2 rounded flex items-center space-x-2 ${
             isEvents
               ? "bg-purple-50 text-purple-700"
@@ -72,7 +72,7 @@ export default function Sidebar() {
           <span>Events</span>
         </Link>
         <Link
-          href="/dashboard/manager/bookings"
+          href="/manager/bookings"
           className={`p-2 rounded flex items-center space-x-2 ${
             isBookings
               ? "bg-purple-50 text-purple-700"
@@ -83,7 +83,7 @@ export default function Sidebar() {
           <span>Bookings</span>
         </Link>
         <Link
-          href="/dashboard/manager/analytics"
+          href="/manager/analytics"
           className={`p-2 rounded flex items-center space-x-2 ${
             isAnalytics
               ? "bg-purple-50 text-purple-700"
@@ -94,7 +94,7 @@ export default function Sidebar() {
           <span>Analytics</span>
         </Link>
         <Link
-          href="/dashboard/manager/payments"
+          href="/manager/payments"
           className={`p-2 rounded flex items-center space-x-2 ${
             isPayments
               ? "bg-purple-50 text-purple-700"
@@ -109,7 +109,7 @@ export default function Sidebar() {
       {/* Footer: Settings e Logout */}
       <div className="mt-auto">
         <Link
-          href="/dashboard/manager/settings"
+          href="/manager/settings"
           className={`p-2 mb-2 rounded flex items-center space-x-2 ${
             isSettings
               ? "bg-purple-50 text-purple-700"

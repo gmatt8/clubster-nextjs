@@ -1,4 +1,4 @@
-// app/dashboard/customer/Header.js
+// app/customer/Header.js
 "use client";
 
 import { useState, useRef, useEffect } from "react";
@@ -97,7 +97,7 @@ export default function Header() {
                     <li
                       className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center space-x-2"
                       onClick={() =>
-                        router.push("/dashboard/customer/bookings")
+                        router.push("/customer/bookings")
                       }
                     >
                       <TicketIcon className="h-5 w-5" />
@@ -106,7 +106,7 @@ export default function Header() {
                     <li
                       className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center space-x-2"
                       onClick={() =>
-                        router.push("/dashboard/customer/settings")
+                        router.push("/customer/settings")
                       }
                     >
                       <Cog6ToothIcon className="h-5 w-5" />

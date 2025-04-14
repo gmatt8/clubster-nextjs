@@ -5,7 +5,7 @@ import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { format } from "date-fns";
 import { enGB } from "date-fns/locale";
-import CustomerLayout from "app/dashboard/customer/CustomerLayout";
+import CustomerLayout from "@/app/customer/CustomerLayout";
 import DatePicker from "@/components/customer/home/calendar";
 import { MapPinIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 
@@ -164,10 +164,10 @@ export default function CustomerHomePage() {
 
   function goToDetails(clubId, eventId, type) {
     if (type === "club") {
-      router.push(`/dashboard/customer/club-details?club_id=${clubId}`);
+      router.push(`/customer/club-details?club_id=${clubId}`);
     } else if (type === "event") {
       router.push(
-        `/dashboard/customer/club-details?club_id=${clubId}&event_id=${eventId}`
+        `/customer/club-details?club_id=${clubId}&event_id=${eventId}`
       );
     }
   }

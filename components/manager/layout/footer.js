@@ -20,7 +20,7 @@ export default function Footer() {
             <ul className="space-y-1">
               <li>
                 <Link
-                  href="/dashboard/manager/support"
+                  href="/manager/support"
                   className="text-sm hover:underline"
                 >
                   Contact Manager Support
@@ -34,7 +34,7 @@ export default function Footer() {
             <ul className="space-y-1">
               <li>
                 <Link
-                  href="/dashboard/manager/club"
+                  href="/manager/club"
                   className="text-sm hover:underline"
                 >
                   Club Dashboard
@@ -48,7 +48,7 @@ export default function Footer() {
             <ul className="space-y-1">
               <li>
                 <Link
-                  href="/dashboard/manager/terms-of-service"
+                  href="/manager/terms-of-service"
                   className="text-sm hover:underline"
                 >
                   Terms of Service
@@ -56,7 +56,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/dashboard/manager/privacy-policy"
+                  href="/manager/privacy-policy"
                   className="text-sm hover:underline"
                 >
                   Privacy Policy

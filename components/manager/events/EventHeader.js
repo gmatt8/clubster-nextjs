@@ -4,7 +4,7 @@
 import Link from "next/link";
 import { FaAngleLeft } from "react-icons/fa";
 
-export default function EventHeader({ title, backHref = "/dashboard/manager/events" }) {
+export default function EventHeader({ title, backHref = "/manager/events" }) {
   return (
     <div className="mb-6">
       {/* Breadcrumb con pulsante back */}

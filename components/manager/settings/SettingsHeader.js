@@ -9,14 +9,14 @@ import { FaAngleLeft } from "react-icons/fa";
  *  - breadcrumbs: array di oggetti { label: string, href?: string }
  *    Ad esempio:
  *      [
- *        { label: "Settings", href: "/dashboard/manager/settings" },
- *        { label: "Legal", href: "/dashboard/manager/settings/legal" },
+ *        { label: "Settings", href: "/manager/settings" },
+ *        { label: "Legal", href: "/manager/settings/legal" },
  *        { label: "Privacy Policy" }
  *      ]
  *  - title: string (il titolo principale)
  *  - backHref: string (opzionale, usato se breadcrumbs non viene passato)
  */
-export default function ManagerSettingsHeader({ breadcrumbs, title, backHref = "/dashboard/manager/settings" }) {
+export default function ManagerSettingsHeader({ breadcrumbs, title, backHref = "/manager/settings" }) {
   return (
     <div className="mb-6 text-left">
       <div className="flex items-center text-sm text-gray-500 space-x-1 mb-1">

@@ -134,8 +134,8 @@ export async function POST(request) {
           },
           application_fee_amount: applicationFeeAmount,
         },
-        success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard/customer/checkout/success?booking_id=${bookingData.id}`,
-        cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard/customer/checkout/cancel`,
+        success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/customer/checkout/success?booking_id=${bookingData.id}`,
+        cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/customer/checkout/cancel`,
         expand: ["payment_intent"],
       },
       {

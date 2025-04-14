@@ -49,7 +49,7 @@ export default function PopularEvents() {
             key={event.id}
             onClick={() =>
               router.push(
-                `/dashboard/customer/club-details?club_id=${event.club_id}&event_id=${event.id}`
+                `/customer/club-details?club_id=${event.club_id}&event_id=${event.id}`
               )
             }
             className="w-[232px] bg-white rounded-lg shadow hover:shadow-md transition-shadow cursor-pointer"

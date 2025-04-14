@@ -1,11 +1,11 @@
-// app/dashboard/customer/settings/SettingsHeader.js
+// app/customer/settings/SettingsHeader.js
 "use client";
 
 import Link from "next/link";
 // Se stai già usando qualche libreria di icone (ad es. react-icons) puoi importare un'icona triangolare o simile
 import { FaAngleLeft } from "react-icons/fa";
 
-export default function SettingsHeader({ title, backHref = "/dashboard/customer/settings" }) {
+export default function SettingsHeader({ title, backHref = "/customer/settings" }) {
   return (
     <div className="mb-6">
       {/* Breadcrumb + pulsante "Back to Settings" */}

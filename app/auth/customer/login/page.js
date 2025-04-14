@@ -8,7 +8,7 @@ export default function CustomerLoginPage() {
   const supabase = createBrowserSupabase();
   const router = useRouter();
   const searchParams = useSearchParams();
-  // Se "next" non è presente, puoi specificare un URL di fallback (es. '/dashboard/customer/basket' o un'altra pagina)
+  // Se "next" non è presente, puoi specificare un URL di fallback (es. '/customer/basket' o un'altra pagina)
   const nextUrl = searchParams.get("next") || '/';
 
   const [email, setEmail] = useState('');

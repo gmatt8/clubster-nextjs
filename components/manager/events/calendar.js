@@ -122,7 +122,7 @@ export default function EventsCalendar({ events = [] }) {
                 className={`relative h-20 border-4 ${eventBorderColor} ${eventBgColor} rounded flex items-center justify-center p-1 cursor-pointer`}
                 onClick={() =>
                   router.push(
-                    `/dashboard/manager/events/edit-event?event_id=${dayEvents[0].id}`
+                    `/manager/events/edit-event?event_id=${dayEvents[0].id}`
                   )
                 }
               >
