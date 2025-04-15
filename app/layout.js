@@ -5,7 +5,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata = {
-  title: 'Clubster – Discover and manage nightlife',
+  title: 'Clubster',
   description:
     'Find your next party or manage your club like a pro. Clubster connects clubbers and club managers with powerful tools and vibrant events.',
   viewport: 'width=device-width, initial-scale=1',
@@ -13,7 +13,7 @@ export const metadata = {
     icon: '/favicon.ico',
   },
   openGraph: {
-    title: 'Clubster – Discover your next party',
+    title: 'Clubster',
     description: 'Your nightlife starts here. Discover events, book clubs, enjoy the night.',
     url: 'https://www.clubsterapp.com',
     siteName: 'Clubster',
@@ -29,7 +29,7 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Clubster – Discover and manage nightlife',
+    title: 'Clubster',
     description:
       'The all-in-one platform for event lovers and club owners.',
     images: ['https://www.clubsterapp.com/og-cover.png'],
