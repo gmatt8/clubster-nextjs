@@ -13,9 +13,10 @@ async function reverseGeocode(lat, lng) {
       `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${apiKey}`
     );
     const data = await res.json();
-    if (data.status !== "OK" || !data.results || data.results.length === 0) {
+    if (data.status !== "OK" || !data.results || !data.results.length) {
       return { city: null, country: null };
     }
+
     let city = null;
     let country = null;
     for (const component of data.results[0].address_components) {
@@ -39,25 +40,26 @@ export async function GET(request) {
     const supabase = await createServerSupabase();
     const { searchParams } = new URL(request.url);
     const bookingId = searchParams.get("booking_id");
-    console.log("[Bookings] bookingId from query:", bookingId);
 
-    // Recupera l'utente loggato
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
     console.log("[Bookings] Authenticated user:", user);
     if (!user) {
       return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
     }
 
-    // Recupera il ruolo dell'utente dalla tabella profiles
     const { data: profileData, error: profileError } = await supabase
       .from("profiles")
       .select("role")
       .eq("id", user.id)
       .single();
-    console.log("[Bookings] Profile data:", profileData, "Error:", profileError);
+
     if (profileError || !profileData) {
       return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
     }
+
     const role = profileData.role;
     console.log("[Bookings] User role:", role);
 
@@ -75,7 +77,7 @@ export async function GET(request) {
           end_date,
           club_id,
           clubs (
-            club_name: name,
+            name,
             lat,
             lng,
             manager_id
@@ -91,23 +93,22 @@ export async function GET(request) {
       query = query.eq("status", "confirmed");
       console.log("[Bookings] Filtering for status confirmed");
     }
-    
+
     const { data, error } = await query;
-    console.log("[Bookings] Query result:", data, "Error:", error);
     if (error) throw error;
+
     let bookings = data || [];
 
+    // Filtra in base al ruolo
     if (role === "customer") {
-      bookings = bookings.filter((booking) => booking.user_id === user.id);
+      bookings = bookings.filter((b) => b.user_id === user.id);
     } else if (role === "manager") {
       bookings = bookings.filter(
-        (booking) =>
-          booking.events &&
-          booking.events.clubs &&
-          booking.events.clubs.manager_id === user.id
+        (b) => b.events?.clubs?.manager_id === user.id
       );
     }
 
+    // Aggiungi email utente
     for (const booking of bookings) {
       const { data: pData } = await supabase
         .from("profiles")
@@ -117,6 +118,7 @@ export async function GET(request) {
       booking.userEmail = pData?.email || "N/A";
     }
 
+    // Geolocalizzazione inversa (facoltativa)
     if (bookings.length > 0) {
       await Promise.all(
         bookings.map(async (booking) => {

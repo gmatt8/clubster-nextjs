@@ -1,8 +1,9 @@
+// app/manager/bookings/page.js
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
 import ManagerLayout from "../ManagerLayout";
-import { useRouter } from "next/navigation";
+import { Download, FileText } from "lucide-react";
 
 const PAGE_SIZE = 20;
 
@@ -14,19 +15,13 @@ export default function ManagerBookingsPage() {
   const [selectedEvent, setSelectedEvent] = useState("");
   const [sortBy, setSortBy] = useState("date_desc");
   const [currentPage, setCurrentPage] = useState(1);
-  const router = useRouter();
 
   useEffect(() => {
-    async function fetchManagerBookings() {
+    async function fetchBookings() {
       try {
-        setLoading(true);
-        setError("");
-        const res = await fetch("/api/bookings", { credentials: "include" });
-        if (!res.ok) {
-          const errText = await res.text();
-          throw new Error(errText);
-        }
+        const res = await fetch("/api/bookings");
         const data = await res.json();
+        if (!res.ok) throw new Error(data.error || "Errore");
         setBookings(data.bookings || []);
       } catch (err) {
         setError(err.message);
@@ -34,25 +29,22 @@ export default function ManagerBookingsPage() {
         setLoading(false);
       }
     }
-    fetchManagerBookings();
+    fetchBookings();
   }, []);
 
-  // Estrai la lista degli eventi unici dai booking
   const eventNames = useMemo(() => {
     const names = bookings.map((b) => b.events?.name).filter(Boolean);
     return Array.from(new Set(names));
   }, [bookings]);
 
-  // Applica filtri e ordinamento
   const filteredBookings = useMemo(() => {
     let temp = [...bookings];
     if (searchTerm) {
-      const lowerSearch = searchTerm.toLowerCase();
-      temp = temp.filter((b) => {
-        const orderIdMatch = b.booking_number?.toLowerCase().includes(lowerSearch);
-        const emailMatch = b.profiles?.email?.toLowerCase().includes(lowerSearch);
-        return orderIdMatch || emailMatch;
-      });
+      const term = searchTerm.toLowerCase();
+      temp = temp.filter((b) =>
+        (b.booking_number || "").toLowerCase().includes(term) ||
+        (b.userEmail || "").toLowerCase().includes(term)
+      );
     }
     if (selectedEvent) {
       temp = temp.filter((b) => b.events?.name === selectedEvent);
@@ -61,14 +53,11 @@ export default function ManagerBookingsPage() {
       case "date_asc":
         temp.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
         break;
-      case "date_desc":
-        temp.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-        break;
       case "email_asc":
-        temp.sort((a, b) => (a.profiles?.email || "").localeCompare(b.profiles?.email || ""));
+        temp.sort((a, b) => (a.userEmail || "").localeCompare(b.userEmail || ""));
         break;
       case "email_desc":
-        temp.sort((a, b) => (b.profiles?.email || "").localeCompare(a.profiles?.email || ""));
+        temp.sort((a, b) => (b.userEmail || "").localeCompare(a.userEmail || ""));
         break;
       default:
         temp.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
@@ -79,188 +68,149 @@ export default function ManagerBookingsPage() {
 
   const totalItems = filteredBookings.length;
   const totalPages = Math.ceil(totalItems / PAGE_SIZE);
+  const displayedBookings = filteredBookings.slice(
+    (currentPage - 1) * PAGE_SIZE,
+    currentPage * PAGE_SIZE
+  );
 
-  useEffect(() => {
-    if (currentPage > totalPages) {
-      setCurrentPage(1);
-    }
-  }, [totalPages, currentPage]);
-
-  const displayedBookings = useMemo(() => {
-    const startIndex = (currentPage - 1) * PAGE_SIZE;
-    return filteredBookings.slice(startIndex, startIndex + PAGE_SIZE);
-  }, [filteredBookings, currentPage]);
-
-  function handleDownloadTicket(bookingId) {
-    window.open(`/api/ticket?booking_id=${booking.id}`, "_blank")
-  }
-
-  function handleResetFilter() {
-    setSearchTerm("");
-    setSelectedEvent("");
-    setSortBy("date_desc");
-    setCurrentPage(1);
-  }
-
-  function handlePrevPage() {
-    if (currentPage > 1) setCurrentPage((prev) => prev - 1);
-  }
-
-  function handleNextPage() {
-    if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
-  }
+  const handleDownloadTicket = (id) => {
+    window.open(`/api/ticket?booking_id=${id}`, "_blank");
+  };
 
   return (
     <ManagerLayout>
-      <div className="p-8">
-        <h1 className="text-2xl font-bold mb-4">Bookings</h1>
+      <div className="p-6 max-w-7xl mx-auto">
+        <h1 className="text-2xl font-bold mb-6">Bookings</h1>
 
-        {/* Sezione filtri */}
-        <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-4">
+        {/* Filters */}
+        <div className="bg-white p-4 rounded-md shadow-sm border border-gray-200 mb-6 flex flex-col sm:flex-row gap-4 items-center">
           <input
-            type="text"
-            placeholder="Search (order ID or email)"
+            className="w-full sm:w-1/3 border border-gray-300 rounded px-3 py-2 text-sm"
+            placeholder="Search by email or order ID"
             value={searchTerm}
             onChange={(e) => {
               setSearchTerm(e.target.value);
               setCurrentPage(1);
             }}
-            className="border border-gray-300 rounded px-3 py-2"
           />
-          <div className="flex items-center gap-2">
-            <label>Select event</label>
-            <select
-              className="border border-gray-300 rounded px-2 py-2"
-              value={selectedEvent}
-              onChange={(e) => {
-                setSelectedEvent(e.target.value);
-                setCurrentPage(1);
-              }}
-            >
-              <option value="">All</option>
-              {eventNames.map((evt) => (
-                <option key={evt} value={evt}>
-                  {evt}
-                </option>
-              ))}
-            </select>
-          </div>
-          <button
-            className="text-red-600 border border-red-600 px-3 py-2 rounded"
-            onClick={handleResetFilter}
+          <select
+            className="w-full sm:w-1/4 border border-gray-300 rounded px-2 py-2 text-sm"
+            value={selectedEvent}
+            onChange={(e) => {
+              setSelectedEvent(e.target.value);
+              setCurrentPage(1);
+            }}
           >
-            Reset Filter
-          </button>
-          <div className="flex items-center gap-2 ml-auto">
-            <label>Sort by:</label>
-            <select
-              className="border border-gray-300 rounded px-2 py-2"
-              value={sortBy}
-              onChange={(e) => {
-                setSortBy(e.target.value);
-                setCurrentPage(1);
-              }}
-            >
-              <option value="date_desc">Date (desc)</option>
-              <option value="date_asc">Date (asc)</option>
-              <option value="email_asc">Email (A-Z)</option>
-              <option value="email_desc">Email (Z-A)</option>
-            </select>
-          </div>
+            <option value="">All Events</option>
+            {eventNames.map((evt) => (
+              <option key={evt}>{evt}</option>
+            ))}
+          </select>
+          <select
+            className="w-full sm:w-1/4 border border-gray-300 rounded px-2 py-2 text-sm"
+            value={sortBy}
+            onChange={(e) => {
+              setSortBy(e.target.value);
+              setCurrentPage(1);
+            }}
+          >
+            <option value="date_desc">Date (Newest)</option>
+            <option value="date_asc">Date (Oldest)</option>
+            <option value="email_asc">Email (A-Z)</option>
+            <option value="email_desc">Email (Z-A)</option>
+          </select>
         </div>
 
+        {/* Table */}
         {loading ? (
-          <p>Loading...</p>
+          <p>Loading bookings...</p>
         ) : error ? (
-          <p className="text-red-500">{error}</p>
-        ) : bookings.length === 0 ? (
+          <p className="text-red-600">{error}</p>
+        ) : displayedBookings.length === 0 ? (
           <p>No bookings found.</p>
         ) : (
-          <>
-            <div className="overflow-x-auto">
-              <table className="min-w-full text-left text-sm font-light border">
-                <thead className="border-b font-medium bg-gray-50">
-                  <tr>
-                    <th className="px-6 py-4">Order ID</th>
-                    <th className="px-6 py-4">Email</th>
-                    <th className="px-6 py-4">Event</th>
-                    <th className="px-6 py-4">ORDER DATE</th>
-                    <th className="px-6 py-4"></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {displayedBookings.map((b) => {
-                    const dateObj = new Date(b.created_at);
-                    const dateStr = dateObj.toLocaleDateString("en-GB", {
-                      year: "numeric",
-                      month: "short",
-                      day: "2-digit",
-                    });
-                    return (
-                      <tr key={b.id} className="border-b last:border-0">
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          {b.booking_number}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          {b.profiles?.email || b.userEmail || "N/A"}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          {b.events?.name || "N/A"}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          {dateStr}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-right">
-                          <button
-                            onClick={() => handleDownloadTicket(b.id)}
-                            className="bg-purple-600 text-white px-3 py-1 rounded mr-2"
-                          >
-                            Tickets
-                          </button>
-                          <button
-                            disabled
-                            className="bg-gray-300 text-gray-600 px-3 py-1 rounded cursor-not-allowed"
-                          >
-                            Invoice
-                          </button>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+          <div className="overflow-x-auto border rounded-md shadow-sm">
+            <table className="min-w-full text-sm">
+              <thead className="bg-gray-50 text-gray-700 uppercase text-xs tracking-wider">
+                <tr>
+                  <th className="px-4 py-3 text-left">Order ID</th>
+                  <th className="px-4 py-3 text-left">Email</th>
+                  <th className="px-4 py-3 text-left">Event</th>
+                  <th className="px-4 py-3 text-left">Date</th>
+                  <th className="px-4 py-3 text-left">Status</th>
+                  <th className="px-4 py-3 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {displayedBookings.map((b) => {
+                  const dateStr = new Date(b.created_at).toLocaleDateString("en-GB", {
+                    year: "numeric",
+                    month: "short",
+                    day: "2-digit",
+                  });
+                  return (
+                    <tr key={b.id} className="border-t hover:bg-gray-50">
+                      <td className="px-4 py-3">{b.id}</td>
+                      <td className="px-4 py-3">{b.userEmail || "N/A"}</td>
+                      <td className="px-4 py-3">{b.events?.name || "N/A"}</td>
+                      <td className="px-4 py-3">{dateStr}</td>
+                      <td className="px-4 py-3">
+                        <span className={`text-xs font-medium px-2 py-1 rounded-full ${
+                          b.status === "confirmed"
+                            ? "bg-green-100 text-green-800"
+                            : b.status === "pending"
+                            ? "bg-yellow-100 text-yellow-800"
+                            : "bg-red-100 text-red-800"
+                        }`}>
+                          {b.status}
+                        </span>
+                      </td>
+                      <td className="px-4 py-3 text-right">
+                        <button
+                          onClick={() => handleDownloadTicket(b.id)}
+                          className="inline-flex items-center gap-1 bg-purple-600 text-white text-xs px-3 py-1 rounded hover:bg-purple-700 mr-2"
+                        >
+                          <Download className="w-4 h-4" /> Tickets
+                        </button>
+                        <button
+                          disabled
+                          className="inline-flex items-center gap-1 bg-gray-300 text-gray-700 text-xs px-3 py-1 rounded cursor-not-allowed"
+                        >
+                          <FileText className="w-4 h-4" /> Invoice
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        )}
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="mt-4 flex justify-between items-center text-sm">
+            <p>
+              Showing {(currentPage - 1) * PAGE_SIZE + 1}–
+              {Math.min(currentPage * PAGE_SIZE, totalItems)} of {totalItems}
+            </p>
+            <div className="flex gap-2">
+              <button
+                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                disabled={currentPage === 1}
+                className="px-3 py-1 border rounded disabled:bg-gray-200 disabled:text-gray-400"
+              >
+                Prev
+              </button>
+              <button
+                onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+                disabled={currentPage === totalPages}
+                className="px-3 py-1 border rounded disabled:bg-gray-200 disabled:text-gray-400"
+              >
+                Next
+              </button>
             </div>
-            <div className="mt-2 flex items-center justify-between text-sm text-gray-500">
-              <p>
-                Showing {(currentPage - 1) * PAGE_SIZE + 1}-
-                {Math.min(currentPage * PAGE_SIZE, totalItems)} of {totalItems}
-              </p>
-              <div className="flex gap-2">
-                <button
-                  onClick={handlePrevPage}
-                  disabled={currentPage === 1}
-                  className={`px-3 py-1 border rounded ${
-                    currentPage === 1
-                      ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                      : "bg-white"
-                  }`}
-                >
-                  Prev
-                </button>
-                <button
-                  onClick={handleNextPage}
-                  disabled={currentPage === totalPages || totalPages === 0}
-                  className={`px-3 py-1 border rounded ${
-                    currentPage === totalPages || totalPages === 0
-                      ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                      : "bg-white"
-                  }`}
-                >
-                  Next
-                </button>
-              </div>
-            </div>
-          </>
+          </div>
         )}
       </div>
     </ManagerLayout>

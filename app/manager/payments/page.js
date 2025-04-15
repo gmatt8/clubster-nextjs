@@ -4,31 +4,29 @@
 import { useState, useEffect } from "react";
 import { createBrowserSupabase } from "@/lib/supabase-browser";
 import ManagerLayout from "../ManagerLayout";
+import { Loader2 } from "lucide-react"; // se usi Lucide
 
 export default function ManagerPaymentsPage() {
-  // Dichiarazione delle hook in modo incondizionato
   const [stripeStatus, setStripeStatus] = useState("loading");
   const [stripeAccountId, setStripeAccountId] = useState("");
   const [error, setError] = useState("");
 
-  // Crea l'istanza di Supabase per il browser
   const supabase = createBrowserSupabase();
 
   useEffect(() => {
     async function fetchStripeStatus() {
       try {
-        // Recupera l'utente loggato
         const {
           data: { user },
           error: userError,
         } = await supabase.auth.getUser();
+
         if (userError || !user) {
-          setError("Nessun utente loggato o errore nel recupero utente");
+          setError("Nessun utente loggato.");
           setStripeStatus("none");
           return;
         }
 
-        // Recupera i dati del club associato al manager
         const { data: club, error: clubError } = await supabase
           .from("clubs")
           .select("stripe_status, stripe_account_id")
@@ -36,20 +34,16 @@ export default function ManagerPaymentsPage() {
           .single();
 
         if (clubError) {
-          setError("Errore nel recupero dati del club: " + clubError.message);
+          setError("Errore nel recupero dati del club.");
           setStripeStatus("none");
           return;
         }
 
-        if (club && club.stripe_status) {
-          setStripeStatus(club.stripe_status);
-          setStripeAccountId(club.stripe_account_id);
-        } else {
-          setStripeStatus("none");
-        }
+        setStripeStatus(club.stripe_status || "none");
+        setStripeAccountId(club.stripe_account_id || "");
       } catch (err) {
-        console.error("Errore fetchStripeStatus:", err);
-        setError("Impossibile recuperare lo stato Stripe");
+        console.error("Stripe fetch error:", err);
+        setError("Errore generico durante il caricamento.");
         setStripeStatus("none");
       }
     }
@@ -57,141 +51,100 @@ export default function ManagerPaymentsPage() {
     fetchStripeStatus();
   }, [supabase]);
 
-  function handleConnectStripe() {
-    fetch("/api/stripe/onboarding")
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("Failed to get Stripe OAuth URL");
-        }
-        return res.json();
-      })
-      .then((data) => {
-        window.location.href = data.url;
-      })
-      .catch((err) => {
-        console.error("Error during Stripe onboarding:", err);
-        alert("Errore durante la connessione a Stripe");
-      });
-  }
+  const handleConnectStripe = async () => {
+    try {
+      const res = await fetch("/api/stripe/onboarding");
+      if (!res.ok) throw new Error("Errore nel recupero URL Stripe");
+      const { url } = await res.json();
+      window.location.href = url;
+    } catch (err) {
+      console.error(err);
+      alert("Errore durante la connessione a Stripe");
+    }
+  };
 
-  function handleCompleteSetup() {
-    alert("TODO: Reindirizzare a Stripe per completare la configurazione");
-  }
-
-  function handleGoToStripeDashboard() {
+  const handleGoToStripeDashboard = () => {
     window.location.href = "https://dashboard.stripe.com/";
-  }
+  };
 
   return (
     <ManagerLayout>
-      <h1 style={{ fontSize: "1.5rem", marginBottom: "1rem" }}>Payments</h1>
+      <div className="max-w-2xl mx-auto px-6 py-10">
+        <h1 className="text-2xl font-bold mb-6">Stripe Payments</h1>
 
-      {stripeStatus === "loading" && <p>Loading Stripe status...</p>}
-
-      {stripeStatus === "none" && (
-        <div
-          style={{
-            border: "1px solid #ccc",
-            padding: "1rem",
-            borderRadius: "4px",
-          }}
-        >
-          <h2>Set Up Stripe Payment</h2>
-          <p>
-            To start receiving payments directly into your Stripe account, please
-            connect your Stripe account now. Setup is fast, secure, and takes only a few minutes.
-          </p>
-          <button
-            onClick={handleConnectStripe}
-            style={{
-              padding: "0.75rem 1rem",
-              backgroundColor: "#007bff",
-              color: "#fff",
-            }}
-          >
-            Connect Stripe Account
-          </button>
-          <div style={{ marginTop: "1rem" }}>
-            <h3>Steps Explanation:</h3>
-            <ol>
-              <li>
-                Click &quot;Connect Stripe Account&quot;: You will be redirected to Stripe to create or link your account.
-              </li>
-              <li>
-                Complete the setup: Follow the on-screen instructions on Stripe.
-              </li>
-              <li>
-                Return to the dashboard: Once completed, you&apos;ll be redirected back here, and your account will be ready.
-              </li>
-            </ol>
+        {stripeStatus === "loading" && (
+          <div className="flex items-center gap-2 text-gray-600">
+            <Loader2 className="animate-spin w-5 h-5" />
+            Caricamento...
           </div>
-        </div>
-      )}
+        )}
 
-      {stripeStatus === "incomplete" && (
-        <div
-          style={{
-            border: "2px solid orange",
-            padding: "1rem",
-            borderRadius: "4px",
-          }}
-        >
-          <h2>Stripe Payment</h2>
-          <p style={{ color: "orange", fontWeight: "bold" }}>
-            Action required: Incomplete Stripe Setup
-          </p>
-          <p>
-            Your Stripe account has been connected but is not yet fully activated.
-            Stripe requires additional information to enable payouts and payment processing.
-          </p>
-          <button
-            onClick={handleCompleteSetup}
-            style={{
-              padding: "0.75rem 1rem",
-              backgroundColor: "orange",
-              color: "#fff",
-            }}
-          >
-            Complete Setup Now
-          </button>
-        </div>
-      )}
+        {stripeStatus === "none" && (
+          <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+            <p className="text-gray-700 mb-2">
+              🚫 <span className="font-semibold">Stripe non collegato</span>
+            </p>
+            <p className="text-sm text-gray-600 mb-4">
+              Per ricevere pagamenti, collega il tuo account Stripe.
+              Il processo è sicuro e richiede solo pochi minuti.
+            </p>
+            <button
+              onClick={handleConnectStripe}
+              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-sm"
+            >
+              Collega Stripe
+            </button>
 
-      {stripeStatus === "active" && (
-        <div
-          style={{
-            border: "1px solid #ccc",
-            padding: "1rem",
-            borderRadius: "4px",
-          }}
-        >
-          <h2>Stripe Payment</h2>
-          <p style={{ color: "green", fontWeight: "bold" }}>
-            Stripe account connected
-          </p>
-          <p>
-            Account ID: <strong>{stripeAccountId || "Not available"}</strong>
-          </p>
-          <p>
-            Status: <strong>Active</strong>
-          </p>
-          <button
-            onClick={handleGoToStripeDashboard}
-            style={{
-              padding: "0.75rem 1rem",
-              backgroundColor: "#007bff",
-              color: "#fff",
-            }}
-          >
-            Go to Stripe Dashboard
-          </button>
-          <p style={{ marginTop: "1rem" }}>
-            Need to disconnect or change your Stripe account? Please contact our support team.
-          </p>
-        </div>
-      )}
+            <div className="mt-6 text-xs text-gray-500">
+              Una volta completata la registrazione, tornerai automaticamente qui.
+              Per assistenza, <a href="/support" className="text-blue-600 underline">contatta il supporto</a>.
+            </div>
+          </div>
+        )}
 
-      {error && <p style={{ color: "red", marginTop: "1rem" }}>{error}</p>}
+        {stripeStatus === "incomplete" && (
+          <div className="bg-yellow-50 border border-yellow-300 rounded-lg p-6 shadow-sm">
+            <p className="text-yellow-700 font-semibold mb-2">⚠️ Configurazione incompleta</p>
+            <p className="text-sm text-gray-700 mb-4">
+              Il tuo account Stripe è collegato ma richiede ulteriori informazioni
+              prima di poter ricevere pagamenti.
+            </p>
+            <button
+              onClick={handleConnectStripe}
+              className="bg-yellow-600 text-white px-4 py-2 rounded hover:bg-yellow-700 text-sm"
+            >
+              Completa su Stripe
+            </button>
+          </div>
+        )}
+
+        {stripeStatus === "active" && (
+          <div className="bg-green-50 border border-green-300 rounded-lg p-6 shadow-sm">
+            <p className="text-green-700 font-semibold mb-2">✅ Stripe collegato correttamente</p>
+            <div className="text-sm text-gray-700 mb-3">
+              <p>
+                <span className="font-semibold">Account ID:</span> {stripeAccountId}
+              </p>
+              <p>
+                <span className="font-semibold">Status:</span> Active
+              </p>
+            </div>
+            <button
+              onClick={handleGoToStripeDashboard}
+              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-sm"
+            >
+              Vai alla Dashboard Stripe
+            </button>
+            <p className="text-xs text-gray-500 mt-4">
+              Per modifiche o disconnessioni, contatta il nostro team di supporto.
+            </p>
+          </div>
+        )}
+
+        {error && (
+          <p className="text-red-600 text-sm mt-4">{error}</p>
+        )}
+      </div>
     </ManagerLayout>
   );
 }
