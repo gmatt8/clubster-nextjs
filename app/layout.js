@@ -1,12 +1,38 @@
+// app/layout.js
 import '../styles/globals.css';
 import Script from 'next/script';
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata = {
-  title: 'Clubster',
+  title: 'Clubster – Discover and manage nightlife',
+  description:
+    'Find your next party or manage your club like a pro. Clubster connects clubbers and club managers with powerful tools and vibrant events.',
+  viewport: 'width=device-width, initial-scale=1',
   icons: {
     icon: '/favicon.ico',
+  },
+  openGraph: {
+    title: 'Clubster – Discover your next party',
+    description: 'Your nightlife starts here. Discover events, book clubs, enjoy the night.',
+    url: 'https://www.clubsterapp.com',
+    siteName: 'Clubster',
+    images: [
+      {
+        url: 'https://www.clubsterapp.com/og-cover.png',
+        width: 1200,
+        height: 630,
+        alt: 'Clubster Open Graph Image',
+      },
+    ],
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Clubster – Discover and manage nightlife',
+    description:
+      'The all-in-one platform for event lovers and club owners.',
+    images: ['https://www.clubsterapp.com/og-cover.png'],
   },
 };
 
@@ -20,7 +46,7 @@ export default function RootLayout({ children }) {
           strategy="beforeInteractive"
         />
         <Analytics />
-        <SpeedInsights /> 
+        <SpeedInsights />
       </body>
     </html>
   );
