@@ -10,8 +10,8 @@ export default function Footer() {
   return (
     <footer className="bg-gray-900 mt-auto w-full text-white">
       <div className="max-w-screen-xl mx-auto px-6 py-10">
-        {/* Grid Links */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+        {/* Grid Links - 3 colonne */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
           {/* Account */}
           <div>
             <h3 className="font-semibold mb-2">Account</h3>
@@ -29,19 +29,14 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Manage Your Club */}
+          {/* Contact – al centro */}
           <div>
-            <h3 className="font-semibold mb-2">Manage Your Club</h3>
+            <h3 className="font-semibold mb-2">Contact</h3>
             <ul className="space-y-1">
               <li>
-                <Link href="/auth/manager/landing" className="text-sm hover:underline">
-                  Clubster Manager
-                </Link>
-              </li>
-              <li>
-                <Link href="/auth/manager/signup" className="text-sm hover:underline">
-                  Start now
-                </Link>
+                <a href="mailto:clubsterapp@hotmail.com" className="text-sm hover:underline">
+                  clubsterapp@hotmail.com
+                </a>
               </li>
             </ul>
           </div>
@@ -58,23 +53,6 @@ export default function Footer() {
               <li>
                 <Link href="/manager/privacy-policy" className="text-sm hover:underline">
                   Privacy Policy
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Contact */}
-          <div>
-            <h3 className="font-semibold mb-2">Contact</h3>
-            <ul className="space-y-1">
-              <li>
-                <a href="mailto:clubsterapp@hotmail.com" className="text-sm hover:underline">
-                  clubsterapp@hotmail.com
-                </a>
-              </li>
-              <li>
-                <Link href="/manager/support" className="text-sm hover:underline">
-                  Manager Support
                 </Link>
               </li>
             </ul>
