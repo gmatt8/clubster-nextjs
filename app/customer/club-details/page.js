@@ -78,7 +78,8 @@ export default function ClubDetailsPage() {
         <hr className="border-t border-gray-300 my-8" />
 
         {/* Sezione 5: FAQ */}
-        <FAQ />
+<FAQ clubId={clubId} />
+
       </div>
     </CustomerLayout>
   );
