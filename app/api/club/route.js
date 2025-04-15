@@ -1,3 +1,4 @@
+// app/api/club/route.js
 import { createServerSupabase } from "@/lib/supabase-server";
 
 // GET: Recupera i dati di un club, es. /api/club?club_id=xxx

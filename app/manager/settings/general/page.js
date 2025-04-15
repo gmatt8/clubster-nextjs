@@ -6,6 +6,8 @@ import { createBrowserSupabase } from "@/lib/supabase-browser";
 import ManagerLayout from "../../ManagerLayout";
 import PhotosManager from "@/components/manager/settings/PhotosManager";
 import ManagerSettingsHeader from "@/components/manager/settings/SettingsHeader"; // Nuovo componente header
+import FAQManager from "@/components/manager/settings/FAQManager";
+
 
 export default function ManagerSettingsGeneralPage() {
   const supabase = createBrowserSupabase();
@@ -330,6 +332,12 @@ export default function ManagerSettingsGeneralPage() {
               />
             )}
           </div>
+
+{/* Sezione "FAQs" */}
+{clubId && (
+  <FAQManager clubId={clubId} />
+)}
+
         </form>
       </div>
     </ManagerLayout>
