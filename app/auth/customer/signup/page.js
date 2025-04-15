@@ -1,25 +1,29 @@
+// app/auth/customer/signup/page.js
 'use client';
 
 import { useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { createBrowserSupabase } from "@/lib/supabase-browser";
+import { Loader2, Mail, Lock } from "lucide-react";
 
 export default function CustomerSignupPage() {
   const supabase = createBrowserSupabase();
   const router = useRouter();
   const searchParams = useSearchParams();
-  // Se "next" non è presente, puoi impostare un valore di default
   const nextUrl = searchParams.get("next") || '/';
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false);
 
   async function handleSubmit(e) {
     e.preventDefault();
+    setError('');
+    setMessage('');
+    setLoading(true);
 
-    // Sign-up with Supabase, setting the role to "customer"
     const { data, error: signupError } = await supabase.auth.signUp({
       email,
       password,
@@ -32,84 +36,83 @@ export default function CustomerSignupPage() {
 
     if (signupError) {
       setError(signupError.message);
+      setLoading(false);
       return;
     }
 
-    // Show a success message and redirect to the login page with il parametro next
-    setMessage(
-      'Sign up successful. Please check your email to verify your account. You will be redirected to the login page.'
-    );
-
+    setMessage('Signup successful! Please verify your email. Redirecting...');
     setTimeout(() => {
       router.push(`/auth/customer/login?next=${encodeURIComponent(nextUrl)}`);
     }, 3000);
   }
 
   return (
-    <div className="flex flex-col md:flex-row w-full min-h-screen">
-      {/* Left section: dark background with sign-up form */}
-      <div className="w-full md:w-1/2 bg-black text-white flex flex-col justify-center items-center p-6">
-        {/* Clubster logo */}
-        <img
-          src="/images/clubster-logo.png"
-          alt="Clubster Logo"
-          className="w-40 h-auto mb-8"
-        />
+    <div className="min-h-screen w-full bg-gradient-to-b md:bg-gradient-to-br from-[#0f0c29] via-[#302b63] to-[#24243e] flex items-center justify-center px-4 py-10 overflow-x-hidden">
+      {/* Gradient blob behind */}
+      <div className="absolute -z-10 w-[500px] h-[500px] bg-pink-500 opacity-20 blur-[100px] rounded-full top-[-100px] left-[-100px] animate-pulse" />
+      <div className="absolute -z-10 w-[400px] h-[400px] bg-indigo-500 opacity-20 blur-[100px] rounded-full bottom-[-80px] right-[-80px] animate-ping" />
 
-        <h1 className="text-3xl mb-4 font-semibold">Create an account</h1>
+      <div className="w-full max-w-md px-6 py-10 bg-white/5 border border-white/10 backdrop-blur-xl rounded-3xl shadow-2xl text-white">
+        {/* Logo */}
+        <div className="flex justify-center mb-6">
+          <img src="/images/clubster-logo.png" alt="Clubster" className="w-28 h-auto" />
+        </div>
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-full max-w-sm">
-          <input
-            type="email"
-            placeholder="Enter email address"
-            className="border border-gray-700 bg-black p-3 rounded-full
-                       focus:outline-none focus:border-indigo-400 placeholder-gray-400"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          <input
-            type="password"
-            placeholder="Enter password"
-            className="border border-gray-700 bg-black p-3 rounded-full
-                       focus:outline-none focus:border-indigo-400 placeholder-gray-400"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+        {/* Title */}
+        <h1 className="text-center text-2xl font-bold mb-2">Let’s get started 🎉</h1>
+        <p className="text-sm text-gray-300 text-center mb-6">
+          Create your free Clubster account
+        </p>
+
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <div className="relative">
+            <Mail className="absolute left-3 top-2.5 w-4 h-4 text-gray-400" />
+            <input
+              type="email"
+              placeholder="Email address"
+              className="w-full bg-black/30 text-white pl-10 pr-3 py-2 rounded-full text-sm border border-white/10 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="relative">
+            <Lock className="absolute left-3 top-2.5 w-4 h-4 text-gray-400" />
+            <input
+              type="password"
+              placeholder="Password"
+              className="w-full bg-black/30 text-white pl-10 pr-3 py-2 rounded-full text-sm border border-white/10 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+
           <button
             type="submit"
-            className="bg-indigo-600 hover:bg-indigo-700 transition-colors
-                       text-white p-3 rounded-full font-semibold"
+            disabled={loading}
+            className="flex justify-center items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 rounded-full transition duration-150"
           >
-            Sign up
+            {loading && <Loader2 className="animate-spin w-4 h-4" />}
+            Sign Up
           </button>
         </form>
 
-        {error && <p className="text-red-500 mt-2">{error}</p>}
-        {message && <p className="text-green-500 mt-2">{message}</p>}
+        {/* Messages */}
+        {error && <p className="text-red-400 text-sm mt-3 text-center">{error}</p>}
+        {message && <p className="text-green-300 text-sm mt-3 text-center">{message}</p>}
 
-        <p className="mt-6">
-          Already have an account?{' '}
-          <a href={`/auth/customer/login?next=${encodeURIComponent(nextUrl)}`} className="text-indigo-400 hover:underline">
+        <p className="mt-6 text-sm text-center text-gray-300">
+          Already have an account?{" "}
+          <a
+            href={`/auth/customer/login?next=${encodeURIComponent(nextUrl)}`}
+            className="text-indigo-300 hover:underline font-medium"
+          >
             Log in
           </a>
         </p>
-      </div>
-
-      {/* Right section: image with overlaid text */}
-      <div className="relative w-full md:w-1/2 h-64 md:h-auto">
-        <img
-          src="/images/regphoto.png"
-          alt="Reg Photo"
-          className="object-cover w-full h-full"
-        />
-        <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center p-4">
-          <h2 className="text-white text-xl md:text-2xl lg:text-3xl font-semibold text-center">
-            Your next party, <br className="hidden md:block" />
-            just a click away.
-          </h2>
-        </div>
       </div>
     </div>
   );
