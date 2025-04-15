@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { createBrowserSupabase } from "@/lib/supabase-browser";
 
-// Importa le icone ufficiali da react-icons
+// Social icons
 import { FaInstagram } from "react-icons/fa";
 import { SiTiktok } from "react-icons/si";
 import { FaXTwitter } from "react-icons/fa6";
@@ -25,32 +25,55 @@ export default function Footer() {
   return (
     <footer className="bg-gray-900 mt-auto w-full text-white">
       <div className="max-w-screen-xl mx-auto px-6 py-10">
-        {/* Link informativi */}
+        {/* Link Sections */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-          {/* Account: visualizzato solo se l'utente è loggato */}
-          {user && (
-            <div>
-              <h3 className="font-semibold mb-2">Account</h3>
-              <ul className="space-y-1">
-                <li>
-                  <Link
-                    href="/customer/bookings"
-                    className="text-sm hover:underline"
-                  >
-                    My tickets
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/customer/settings"
-                    className="text-sm hover:underline"
-                  >
-                    Settings
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          )}
+          
+          {/* Account section (always visible) */}
+          <div>
+            <h3 className="font-semibold mb-2">Account</h3>
+            <ul className="space-y-1">
+              {user ? (
+                <>
+                  <li>
+                    <Link
+                      href="/customer/bookings"
+                      className="text-sm hover:underline"
+                    >
+                      My tickets
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/customer/settings"
+                      className="text-sm hover:underline"
+                    >
+                      Settings
+                    </Link>
+                  </li>
+                </>
+              ) : (
+                <>
+                  <li>
+                    <Link
+                      href="/auth/customer/login"
+                      className="text-sm hover:underline"
+                    >
+                      Login
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/auth/customer/signup"
+                      className="text-sm hover:underline"
+                    >
+                      Sign up
+                    </Link>
+                  </li>
+                </>
+              )}
+            </ul>
+          </div>
+
           {/* Support */}
           <div>
             <h3 className="font-semibold mb-2">Support</h3>
@@ -65,6 +88,7 @@ export default function Footer() {
               </li>
             </ul>
           </div>
+
           {/* Become a partner */}
           <div>
             <h3 className="font-semibold mb-2">Become a partner</h3>
@@ -79,6 +103,7 @@ export default function Footer() {
               </li>
             </ul>
           </div>
+
           {/* Legal */}
           <div>
             <h3 className="font-semibold mb-2">Legal</h3>
@@ -103,8 +128,9 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Sezione Social Media e Download App */}
+        {/* Social + App badges */}
         <div className="mt-10 border-t border-gray-800 pt-6 flex flex-col md:flex-row items-center justify-between">
+          
           {/* Social Icons */}
           <div className="flex space-x-4">
             <Link
@@ -133,7 +159,7 @@ export default function Footer() {
             </Link>
           </div>
 
-          {/* App Download Badges */}
+          {/* App Download Buttons */}
           <div className="flex space-x-4 mt-4 md:mt-0 items-center">
             <Link
               href="#"
