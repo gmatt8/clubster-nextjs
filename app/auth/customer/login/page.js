@@ -1,3 +1,4 @@
+// app/auth/customer/login/page.js
 'use client';
 
 import { useState } from 'react';

@@ -1,8 +1,10 @@
+// app/auth/manager/login/page.js
 "use client";
 
 import { useState } from "react";
 import { createBrowserSupabase } from "@/lib/supabase-browser";
 import { useRouter } from "next/navigation";
+import { Loader2 } from "lucide-react";
 
 export default function ManagerSignupPage() {
   const supabase = createBrowserSupabase();
@@ -12,9 +14,13 @@ export default function ManagerSignupPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   async function handleSubmit(e) {
     e.preventDefault();
+    setError("");
+    setMessage("");
+    setLoading(true);
 
     const { data, error: signupError } = await supabase.auth.signUp({
       email,
@@ -28,78 +34,88 @@ export default function ManagerSignupPage() {
 
     if (signupError) {
       setError(signupError.message);
+      setLoading(false);
       return;
     }
 
     setMessage(
-      "Signup successful! Check your email to verify your account. You will be redirected to the login page."
+      "Signup successful! Check your email to verify your account. Redirecting to login..."
     );
 
-    // Reindirizza alla pagina di login dopo 3 secondi
     setTimeout(() => {
       router.push("/auth/manager/login");
     }, 3000);
   }
 
   return (
-    <div className="min-h-screen bg-white flex flex-col items-center justify-center px-4">
-      {/* Logo in alto */}
+<div className="min-h-screen bg-gradient-to-br from-[#f5f3ff] to-[#eef2ff] flex flex-col items-center justify-center px-4">
+{/* Logo */}
       <img
         src="/images/clubster-manager-logo.png"
         alt="Clubster Manager Logo"
-        className="w-48 h-auto mb-4"
+        className="w-44 h-auto mb-4"
       />
-      {/* Sottotitolo */}
-      <h2 className="text-lg md:text-xl text-gray-700 mb-8">
-        Manage Your Events Easily and Effectively
-      </h2>
 
-      {/* Box viola */}
-      <div className="bg-[#5F4EE4] w-full max-w-sm p-8 rounded-[2rem] shadow-lg">
-        <h2 className="text-2xl font-bold text-white text-center mb-6">
-          Sign up
+      {/* Titolo + sottotitolo */}
+      <h2 className="text-2xl font-semibold text-gray-700 mb-1">
+        Create Your Manager Account
+      </h2>
+      <p className="text-sm text-gray-500 mb-8">
+        Manage your club and events with Clubster
+      </p>
+
+      {/* Card Signup */}
+      <div className="bg-[#5F4EE4] w-full max-w-sm p-8 rounded-3xl shadow-xl">
+        <h2 className="text-xl font-semibold text-white text-center mb-6">
+          Sign Up
         </h2>
+
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <input
             type="email"
             placeholder="Email address"
-            className="w-full bg-white text-gray-800 p-2 rounded-full focus:outline-none"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            className="w-full bg-white text-sm text-gray-900 px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
           />
           <input
             type="password"
             placeholder="Password"
-            className="w-full bg-white text-gray-800 p-2 rounded-full focus:outline-none"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            className="w-full bg-white text-sm text-gray-900 px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
           />
+
           <button
             type="submit"
-            className="w-full bg-[#421AC5] hover:bg-[#3A18AD] text-white p-2 rounded-full font-medium transition-colors"
+            disabled={loading}
+            className="w-full flex items-center justify-center gap-2 bg-[#421AC5] hover:bg-[#3A18AD] text-white text-sm font-semibold py-2 rounded-full transition duration-150"
           >
+            {loading && <Loader2 className="animate-spin w-4 h-4" />}
             Sign Up
           </button>
         </form>
 
-        {/* Messaggi di errore o successo */}
-        {error && <p className="text-red-200 mt-3 text-center">{error}</p>}
-        {message && <p className="text-green-200 mt-3 text-center">{message}</p>}
+        {/* Messaggi */}
+        {error && (
+          <p className="text-red-100 text-sm mt-4 text-center">{error}</p>
+        )}
+        {message && (
+          <p className="text-green-100 text-sm mt-4 text-center">{message}</p>
+        )}
 
         <p className="mt-6 text-center text-sm text-white">
           Already have an account?{" "}
-          <a href="/auth/manager/login" className="underline">
+          <a href="/auth/manager/login" className="underline font-medium">
             Log in
           </a>
         </p>
       </div>
 
       {/* Footer */}
-      <footer className="mt-8 text-sm text-gray-500">
-        © 2025 Clubster
-      </footer>
+      <footer className="mt-10 text-sm text-gray-400">© 2025 Clubster</footer>
     </div>
   );
 }

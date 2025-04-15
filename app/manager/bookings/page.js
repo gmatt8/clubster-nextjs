@@ -3,7 +3,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 import ManagerLayout from "../ManagerLayout";
-import { Download, FileText } from "lucide-react";
+import { Download, FileText, Loader2 } from "lucide-react";
 
 const PAGE_SIZE = 20;
 
@@ -123,7 +123,11 @@ export default function ManagerBookingsPage() {
 
         {/* Table */}
         {loading ? (
-          <p>Loading bookings...</p>
+  <div className="flex items-center gap-2 text-gray-600">
+    <Loader2 className="animate-spin w-5 h-5" />
+    Loading...
+  </div>
+
         ) : error ? (
           <p className="text-red-600">{error}</p>
         ) : displayedBookings.length === 0 ? (
