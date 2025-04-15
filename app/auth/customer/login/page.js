@@ -63,26 +63,21 @@ export default function CustomerLoginPage() {
   }
 
   return (
-<div className="min-h-screen w-full bg-gradient-to-b md:bg-gradient-to-br from-[#0f0c29] via-[#302b63] to-[#24243e] flex items-center justify-center px-4 py-10 overflow-hidden relative">
-{/* Animated background swirl */}
-      <div className="absolute -z-10 w-[600px] h-[600px] bg-purple-500 opacity-20 blur-[120px] animate-pulse rounded-full top-[-100px] left-[-100px]" />
-      <div className="absolute -z-10 w-[400px] h-[400px] bg-pink-500 opacity-20 blur-[120px] animate-ping rounded-full bottom-[-100px] right-[-80px]" />
+    <div className="min-h-screen w-full bg-gradient-to-b md:bg-gradient-to-br from-[#0f0c29] via-[#302b63] to-[#24243e] flex items-center justify-center px-4 py-10 overflow-hidden relative">
+      {/* Background blobs */}
+      <div className="absolute -z-10 w-[500px] h-[500px] bg-purple-500 opacity-20 blur-[100px] rounded-full top-[-60px] left-[-60px]" />
+      <div className="absolute -z-10 w-[350px] h-[350px] bg-pink-500 opacity-20 blur-[100px] rounded-full bottom-[-40px] right-[-40px]" />
 
       <div className="w-full max-w-md px-6 py-10 bg-white/5 border border-white/10 backdrop-blur-xl rounded-3xl shadow-2xl text-white">
-        {/* Logo */}
         <div className="flex justify-center mb-6">
           <img src="/images/clubster-logo.png" alt="Clubster" className="w-28 h-auto" />
         </div>
 
-        {/* Title */}
-        <h1 className="text-center text-2xl font-bold mb-2">
-          Welcome back! 🎉
-        </h1>
+        <h1 className="text-center text-2xl font-bold mb-2">Welcome back! 🎉</h1>
         <p className="text-sm text-gray-300 text-center mb-6">
           Log in to discover your next event
         </p>
 
-        {/* Form */}
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div className="relative">
             <Mail className="absolute left-3 top-2.5 w-4 h-4 text-gray-400" />
@@ -118,12 +113,8 @@ export default function CustomerLoginPage() {
           </button>
         </form>
 
-        {/* Error */}
-        {error && (
-          <p className="text-red-400 text-sm text-center mt-3">{error}</p>
-        )}
+        {error && <p className="text-red-400 text-sm mt-3 text-center">{error}</p>}
 
-        {/* Links */}
         <p className="mt-6 text-sm text-center text-gray-300">
           Don’t have an account?{" "}
           <a

@@ -47,24 +47,20 @@ export default function CustomerSignupPage() {
   }
 
   return (
-<div className="min-h-screen w-full bg-gradient-to-b md:bg-gradient-to-br from-[#0f0c29] via-[#302b63] to-[#24243e] flex items-center justify-center px-4 py-10 overflow-hidden relative">
-{/* Gradient blob behind */}
-      <div className="absolute -z-10 w-[500px] h-[500px] bg-pink-500 opacity-20 blur-[100px] rounded-full top-[-100px] left-[-100px] animate-pulse" />
-      <div className="absolute -z-10 w-[400px] h-[400px] bg-indigo-500 opacity-20 blur-[100px] rounded-full bottom-[-80px] right-[-80px] animate-ping" />
+    <div className="min-h-screen w-full bg-gradient-to-b md:bg-gradient-to-br from-[#0f0c29] via-[#302b63] to-[#24243e] flex items-center justify-center px-4 py-10 overflow-hidden relative">
+      <div className="absolute -z-10 w-[500px] h-[500px] bg-pink-500 opacity-20 blur-[100px] rounded-full top-[-60px] left-[-60px]" />
+      <div className="absolute -z-10 w-[350px] h-[350px] bg-indigo-500 opacity-20 blur-[100px] rounded-full bottom-[-40px] right-[-40px]" />
 
       <div className="w-full max-w-md px-6 py-10 bg-white/5 border border-white/10 backdrop-blur-xl rounded-3xl shadow-2xl text-white">
-        {/* Logo */}
         <div className="flex justify-center mb-6">
           <img src="/images/clubster-logo.png" alt="Clubster" className="w-28 h-auto" />
         </div>
 
-        {/* Title */}
         <h1 className="text-center text-2xl font-bold mb-2">Let’s get started 🎉</h1>
         <p className="text-sm text-gray-300 text-center mb-6">
           Create your free Clubster account
         </p>
 
-        {/* Form */}
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div className="relative">
             <Mail className="absolute left-3 top-2.5 w-4 h-4 text-gray-400" />
@@ -100,7 +96,6 @@ export default function CustomerSignupPage() {
           </button>
         </form>
 
-        {/* Messages */}
         {error && <p className="text-red-400 text-sm mt-3 text-center">{error}</p>}
         {message && <p className="text-green-300 text-sm mt-3 text-center">{message}</p>}
 
