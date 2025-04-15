@@ -63,7 +63,7 @@ export default function CustomerLoginPage() {
   }
 
   return (
-<div className="min-h-screen w-full bg-gradient-to-b md:bg-gradient-to-br from-[#0f0c29] via-[#302b63] to-[#24243e] flex items-center justify-center px-4 py-10 overflow-x-hidden">
+<div className="min-h-screen w-full bg-gradient-to-b md:bg-gradient-to-br from-[#0f0c29] via-[#302b63] to-[#24243e] flex items-center justify-center px-4 py-10 overflow-hidden relative">
 {/* Animated background swirl */}
       <div className="absolute -z-10 w-[600px] h-[600px] bg-purple-500 opacity-20 blur-[120px] animate-pulse rounded-full top-[-100px] left-[-100px]" />
       <div className="absolute -z-10 w-[400px] h-[400px] bg-pink-500 opacity-20 blur-[120px] animate-ping rounded-full bottom-[-100px] right-[-80px]" />

@@ -47,8 +47,8 @@ export default function CustomerSignupPage() {
   }
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-b md:bg-gradient-to-br from-[#0f0c29] via-[#302b63] to-[#24243e] flex items-center justify-center px-4 py-10 overflow-x-hidden">
-      {/* Gradient blob behind */}
+<div className="min-h-screen w-full bg-gradient-to-b md:bg-gradient-to-br from-[#0f0c29] via-[#302b63] to-[#24243e] flex items-center justify-center px-4 py-10 overflow-hidden relative">
+{/* Gradient blob behind */}
       <div className="absolute -z-10 w-[500px] h-[500px] bg-pink-500 opacity-20 blur-[100px] rounded-full top-[-100px] left-[-100px] animate-pulse" />
       <div className="absolute -z-10 w-[400px] h-[400px] bg-indigo-500 opacity-20 blur-[100px] rounded-full bottom-[-80px] right-[-80px] animate-ping" />
 
