@@ -34,7 +34,7 @@ export async function GET(request) {
   }
 }
 
-// POST: Crea un nuovo evento (aggiungendo il campo "image" opzionale)
+// POST: Crea un nuovo evento
 export async function POST(request) {
   try {
     const supabase = await createServerSupabase();
@@ -47,13 +47,22 @@ export async function POST(request) {
       description,
       start_date,
       end_date,
-      music_genre,
+      music_genres, // campo atteso come array
       age_restriction,
       dress_code,
       image  // campo opzionale per la foto evento
     } = payload;
     if (!club_id || !name) {
       return new Response(JSON.stringify({ error: "Missing club_id or name" }), { status: 400 });
+    }
+    // Validazione: music_genres deve essere un array e contenere al massimo 3 valori (può essere opzionale)
+    if (music_genres) {
+      if (!Array.isArray(music_genres)) {
+        return new Response(JSON.stringify({ error: "music_genres deve essere un array" }), { status: 400 });
+      }
+      if (music_genres.length > 3) {
+        return new Response(JSON.stringify({ error: "Puoi selezionare fino a 3 generi musicali" }), { status: 400 });
+      }
     }
 
     const { data, error } = await supabase
@@ -64,10 +73,10 @@ export async function POST(request) {
         description,
         start_date,
         end_date,
-        music_genre,
+        music_genres, // usiamo il nuovo campo
         age_restriction,
         dress_code,
-        image   // inserisce la foto se presente
+        image
       }])
       .select();
 
@@ -109,7 +118,7 @@ export async function DELETE(request) {
   }
 }
 
-// PUT: Aggiorna un evento esistente (gestisce il campo "image")
+// PUT: Aggiorna un evento esistente
 export async function PUT(request) {
   try {
     const supabase = await createServerSupabase();
@@ -127,14 +136,23 @@ export async function PUT(request) {
       description,
       start_date,
       end_date,
-      music_genre,
+      music_genres, // atteso come array
       age_restriction,
       dress_code,
       image   // campo opzionale per la foto evento
     } = payload;
 
-    const updateFields = { club_id, name, description, start_date, end_date, music_genre, age_restriction, dress_code };
-    if (image !== undefined) updateFields.image = image;  // aggiorna il campo "image" se fornito
+    if (music_genres) {
+      if (!Array.isArray(music_genres)) {
+        return new Response(JSON.stringify({ error: "music_genres deve essere un array" }), { status: 400 });
+      }
+      if (music_genres.length > 3) {
+        return new Response(JSON.stringify({ error: "Puoi selezionare fino a 3 generi musicali" }), { status: 400 });
+      }
+    }
+
+    const updateFields = { club_id, name, description, start_date, end_date, music_genres, age_restriction, dress_code };
+    if (image !== undefined) updateFields.image = image;
 
     const { data, error } = await supabase
       .from("events")

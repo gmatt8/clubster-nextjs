@@ -6,8 +6,20 @@ import { createBrowserSupabase } from "@/lib/supabase-browser";
 import { useRouter } from "next/navigation";
 import ManagerLayout from "../../ManagerLayout";
 import UploadEventImage from "@/components/manager/events/UploadEventImage";
-import DatePicker from "@/components/manager/events/DataTimePicker"; // Il componente calendario
-import EventHeader from "@/components/manager/events/EventHeader"; // Importa il nuovo EventHeader
+import DatePicker from "@/components/manager/events/DataTimePicker";
+import EventHeader from "@/components/manager/events/EventHeader";
+
+// Lista predefinita dei generi musicali
+const predefinedGenres = [
+  "Techno", 
+  "Pop", 
+  "Rock", 
+  "Jazz", 
+  "Hip-Hop", 
+  "EDM", 
+  "Classical", 
+  "Reggae"
+];
 
 export default function NewEventPage() {
   const supabase = useMemo(() => createBrowserSupabase(), []);
@@ -20,12 +32,11 @@ export default function NewEventPage() {
   // Campi dell'evento
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  // Campi data (formato "YYYY-MM-DD")
   const [startDate, setStartDate] = useState("");
   const [startTime, setStartTime] = useState("");
   const [endDate, setEndDate] = useState("");
   const [endTime, setEndTime] = useState("");
-  const [musicGenre, setMusicGenre] = useState("");
+  const [musicGenres, setMusicGenres] = useState([]); // Array per generi musicali
   const [ageRestriction, setAgeRestriction] = useState("");
   const [dressCode, setDressCode] = useState("");
 
@@ -34,7 +45,7 @@ export default function NewEventPage() {
     { name: "Normal", price: 0, available_tickets: 0 },
   ]);
 
-  // Stato per la foto evento (una sola immagine)
+  // Stato per la foto evento
   const [eventImage, setEventImage] = useState("");
 
   const [loading, setLoading] = useState(false);
@@ -95,10 +106,7 @@ export default function NewEventPage() {
 
   // Funzioni per la gestione delle Ticket Categories
   function handleAddCategory() {
-    setTicketCategories([
-      ...ticketCategories,
-      { name: "", price: 0, available_tickets: 0 },
-    ]);
+    setTicketCategories([...ticketCategories, { name: "", price: 0, available_tickets: 0 }]);
   }
 
   function handleRemoveCategory(index) {
@@ -111,6 +119,19 @@ export default function NewEventPage() {
     const updated = [...ticketCategories];
     updated[index][field] = value;
     setTicketCategories(updated);
+  }
+
+  // Gestione dei checkbox per Music Genres
+  function handleGenreCheckboxChange(genre, isChecked) {
+    if (isChecked) {
+      if (musicGenres.length >= 3) {
+        setError("Puoi selezionare al massimo 3 generi musicali.");
+        return;
+      }
+      setMusicGenres((prev) => [...prev, genre]);
+    } else {
+      setMusicGenres((prev) => prev.filter((g) => g !== genre));
+    }
   }
 
   async function handleSubmit(e) {
@@ -131,14 +152,19 @@ export default function NewEventPage() {
       setError("Data e ora di fine sono obbligatorie.");
       return;
     }
+    if (musicGenres.length === 0) {
+      setError("Seleziona almeno un genere musicale.");
+      return;
+    }
+
     const startDateTimeStr = `${startDate}T${startTime}:00`;
     const endDateTimeStr = `${endDate}T${endTime}:00`;
     const startDateObj = new Date(startDateTimeStr);
+    const endDateObj = new Date(endDateTimeStr);
     if (isNaN(startDateObj.getTime())) {
       setError("Il formato della data/ora d'inizio non è valido.");
       return;
     }
-    const endDateObj = new Date(endDateTimeStr);
     if (isNaN(endDateObj.getTime())) {
       setError("Il formato della data/ora di fine non è valido.");
       return;
@@ -162,7 +188,7 @@ export default function NewEventPage() {
           description,
           start_date: startDateISO,
           end_date: endDateISO,
-          music_genre: musicGenre,
+          music_genres: musicGenres, // inviamo l'array
           age_restriction: ageRestriction,
           dress_code: dressCode,
           image: eventImage,
@@ -208,7 +234,6 @@ export default function NewEventPage() {
   return (
     <ManagerLayout>
       <div className="px-6 py-8 max-w-screen-xl mx-auto">
-        {/* Inserisci il nuovo EventHeader */}
         <EventHeader title="Create New Event" />
 
         {error && <p className="text-red-600 mb-4">{error}</p>}
@@ -243,7 +268,7 @@ export default function NewEventPage() {
               />
             </div>
 
-            {/* Sezione Data & Orari */}
+            {/* Data e Orari */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -297,19 +322,30 @@ export default function NewEventPage() {
               </div>
             </div>
 
-            {/* Altri campi */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Music Genre
-                </label>
-                <input
-                  type="text"
-                  value={musicGenre}
-                  onChange={(e) => setMusicGenre(e.target.value)}
-                  className="w-full border border-gray-300 rounded px-3 py-2"
-                />
+            {/* Campo per Music Genre: gruppo di checkbox */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Music Genre (seleziona 1-3)
+              </label>
+              <div className="flex flex-wrap gap-4">
+                {predefinedGenres.map((genre) => {
+                  const isSelected = musicGenres.includes(genre);
+                  return (
+                    <label key={genre} className="inline-flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        checked={isSelected}
+                        onChange={(e) => handleGenreCheckboxChange(genre, e.target.checked)}
+                        className="h-4 w-4 text-purple-600 border-gray-300 rounded"
+                      />
+                      <span>{genre}</span>
+                    </label>
+                  );
+                })}
               </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Age Restriction
@@ -336,13 +372,12 @@ export default function NewEventPage() {
               </div>
             </div>
 
-            {/* Upload immagine evento */}
             <div>
               <h3 className="text-lg font-semibold text-gray-800 mb-1">
                 Upload Event Image (optional)
               </h3>
               <UploadEventImage
-                eventId="new" // ID temporaneo per caricamento
+                eventId="new" // ID temporaneo per il caricamento
                 currentImage={eventImage}
                 managerId={managerId}
                 onUploadComplete={(uploadedUrl) => setEventImage(uploadedUrl)}
@@ -354,10 +389,7 @@ export default function NewEventPage() {
           <div className="bg-white rounded-lg shadow p-6 space-y-4">
             <h2 className="text-lg font-semibold text-gray-800">Ticket Categories</h2>
             {ticketCategories.map((cat, index) => (
-              <div
-                key={index}
-                className="border border-gray-300 rounded p-4 space-y-2"
-              >
+              <div key={index} className="border border-gray-300 rounded p-4 space-y-2">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Category Name
@@ -365,9 +397,7 @@ export default function NewEventPage() {
                   <input
                     type="text"
                     value={cat.name}
-                    onChange={(e) =>
-                      handleCategoryChange(index, "name", e.target.value)
-                    }
+                    onChange={(e) => handleCategoryChange(index, "name", e.target.value)}
                     className="w-full border border-gray-300 rounded px-3 py-2"
                   />
                 </div>
@@ -378,9 +408,7 @@ export default function NewEventPage() {
                   <input
                     type="number"
                     value={cat.price}
-                    onChange={(e) =>
-                      handleCategoryChange(index, "price", e.target.value)
-                    }
+                    onChange={(e) => handleCategoryChange(index, "price", e.target.value)}
                     className="w-full border border-gray-300 rounded px-3 py-2"
                   />
                 </div>
@@ -417,7 +445,6 @@ export default function NewEventPage() {
             </button>
           </div>
 
-          {/* Pulsante finale per creare l'evento */}
           <div className="flex justify-end">
             <button
               type="submit"
