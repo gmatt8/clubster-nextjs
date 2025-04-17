@@ -1,4 +1,4 @@
-// component/manager/layout/sidebar.js
+// components/manager/layout/sidebar.js
 "use client";
 
 import { useState } from "react";
@@ -16,116 +16,83 @@ import {
   ArrowLeftOnRectangleIcon,
 } from "@heroicons/react/24/outline";
 
+const navItems = [
+  { href: "/manager/dashboard", label: "Dashboard", icon: HomeIcon },
+  { href: "/manager/events", label: "Events", icon: CalendarDaysIcon },
+  { href: "/manager/bookings", label: "Bookings", icon: ClipboardDocumentListIcon },
+  { href: "/manager/analytics", label: "Analytics", icon: ChartBarIcon },
+  { href: "/manager/payments", label: "Payments", icon: CreditCardIcon },
+];
+
 export default function Sidebar() {
   const router = useRouter();
   const pathname = usePathname();
   const supabase = createBrowserSupabase();
 
   async function handleLogout() {
+    // ✅ Pulizia localStorage
+    localStorage.removeItem("clubName");
+  
+    // ⛔️ Logout da Supabase
     await supabase.auth.signOut();
+  
+    // 🔁 Redirect alla pagina di login
     router.push("/auth/manager/landing");
   }
-
-  // Controlla quale sezione è attiva
-  const isDashboard = pathname.startsWith("/manager/dashboard");
-  const isEvents = pathname.startsWith("/manager/events");
-  const isBookings = pathname.startsWith("/manager/bookings");
-  const isAnalytics = pathname.startsWith("/manager/analytics");
-  const isPayments = pathname.startsWith("/manager/payments");
-  const isSettings = pathname.startsWith("/manager/settings");
+  
 
   return (
-    <aside className="w-64 bg-white border-r border-gray-200 p-4 flex flex-col">
-      {/* Logo/Titolo */}
-      <div className="relative mb-8 h-20 w-full">
+    <aside className="w-64 h-screen bg-white border-r border-gray-200 flex flex-col px-4 py-6">
+      {/* Logo */}
+      <div className="mb-10 flex items-center justify-center">
         <Image
           src="/images/clubster-manager-logo.png"
           alt="Clubster Manager Logo"
-          fill
+          width={160}
+          height={40}
           className="object-contain"
           priority
         />
       </div>
 
-      {/* Menu di navigazione */}
+      {/* Nav */}
       <nav className="flex flex-col gap-1">
-        <Link
-          href="/manager/dashboard"
-          className={`p-2 rounded flex items-center space-x-2 ${
-            isDashboard
-              ? "bg-purple-50 text-purple-700"
-              : "text-gray-700 hover:bg-purple-50 hover:text-purple-700"
-          }`}
-        >
-          <HomeIcon className="h-5 w-5" />
-          <span>Dashboard</span>
-        </Link>
-        <Link
-          href="/manager/events"
-          className={`p-2 rounded flex items-center space-x-2 ${
-            isEvents
-              ? "bg-purple-50 text-purple-700"
-              : "text-gray-700 hover:bg-purple-50 hover:text-purple-700"
-          }`}
-        >
-          <CalendarDaysIcon className="h-5 w-5" />
-          <span>Events</span>
-        </Link>
-        <Link
-          href="/manager/bookings"
-          className={`p-2 rounded flex items-center space-x-2 ${
-            isBookings
-              ? "bg-purple-50 text-purple-700"
-              : "text-gray-700 hover:bg-purple-50 hover:text-purple-700"
-          }`}
-        >
-          <ClipboardDocumentListIcon className="h-5 w-5" />
-          <span>Bookings</span>
-        </Link>
-        <Link
-          href="/manager/analytics"
-          className={`p-2 rounded flex items-center space-x-2 ${
-            isAnalytics
-              ? "bg-purple-50 text-purple-700"
-              : "text-gray-700 hover:bg-purple-50 hover:text-purple-700"
-          }`}
-        >
-          <ChartBarIcon className="h-5 w-5" />
-          <span>Analytics</span>
-        </Link>
-        <Link
-          href="/manager/payments"
-          className={`p-2 rounded flex items-center space-x-2 ${
-            isPayments
-              ? "bg-purple-50 text-purple-700"
-              : "text-gray-700 hover:bg-purple-50 hover:text-purple-700"
-          }`}
-        >
-          <CreditCardIcon className="h-5 w-5" />
-          <span>Payments</span>
-        </Link>
+        {navItems.map((item) => {
+          const isActive = pathname.startsWith(item.href);
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all
+                ${isActive ? "bg-purple-100 text-purple-800" : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"}`}
+            >
+              <item.icon className="h-5 w-5" />
+              {item.label}
+            </Link>
+          );
+        })}
       </nav>
 
-      {/* Footer: Settings e Logout */}
-      <div className="mt-auto">
+      {/* Footer */}
+      <div className="mt-auto pt-6 border-t border-gray-100 flex flex-col gap-2">
         <Link
           href="/manager/settings"
-          className={`p-2 mb-2 rounded flex items-center space-x-2 ${
-            isSettings
-              ? "bg-purple-50 text-purple-700"
-              : "text-gray-700 hover:bg-purple-50 hover:text-purple-700"
+          className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+            pathname.startsWith("/manager/settings")
+              ? "bg-purple-100 text-purple-800"
+              : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
           }`}
         >
           <Cog6ToothIcon className="h-5 w-5" />
-          <span>Settings</span>
+          Settings
         </Link>
 
         <button
           onClick={handleLogout}
-          className="py-2 px-4 flex items-center space-x-2 text-red-600 hover:text-red-700"
+          className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-red-600 hover:bg-red-50 transition-all"
         >
           <ArrowLeftOnRectangleIcon className="h-5 w-5" />
-          <span>Logout</span>
+          Logout
         </button>
       </div>
     </aside>

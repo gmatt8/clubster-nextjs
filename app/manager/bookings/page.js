@@ -80,12 +80,12 @@ export default function ManagerBookingsPage() {
   return (
     <ManagerLayout>
       <div className="p-6 max-w-7xl mx-auto">
-        <h1 className="text-2xl font-bold mb-6">Bookings</h1>
+        <h1 className="text-3xl font-semibold mb-6 tracking-tight">Bookings</h1>
 
         {/* Filters */}
-        <div className="bg-white p-4 rounded-md shadow-sm border border-gray-200 mb-6 flex flex-col sm:flex-row gap-4 items-center">
+        <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 mb-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
           <input
-            className="w-full sm:w-1/3 border border-gray-300 rounded px-3 py-2 text-sm"
+            className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
             placeholder="Search by email or order ID"
             value={searchTerm}
             onChange={(e) => {
@@ -94,7 +94,7 @@ export default function ManagerBookingsPage() {
             }}
           />
           <select
-            className="w-full sm:w-1/4 border border-gray-300 rounded px-2 py-2 text-sm"
+            className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
             value={selectedEvent}
             onChange={(e) => {
               setSelectedEvent(e.target.value);
@@ -107,7 +107,7 @@ export default function ManagerBookingsPage() {
             ))}
           </select>
           <select
-            className="w-full sm:w-1/4 border border-gray-300 rounded px-2 py-2 text-sm"
+            className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
             value={sortBy}
             onChange={(e) => {
               setSortBy(e.target.value);
@@ -122,74 +122,75 @@ export default function ManagerBookingsPage() {
         </div>
 
         {/* Table */}
-        {loading ? (
-  <div className="flex items-center gap-2 text-gray-600">
-    <Loader2 className="animate-spin w-5 h-5" />
-    Loading...
-  </div>
-
-        ) : error ? (
-          <p className="text-red-600">{error}</p>
-        ) : displayedBookings.length === 0 ? (
-          <p>No bookings found.</p>
-        ) : (
-          <div className="overflow-x-auto border rounded-md shadow-sm">
-            <table className="min-w-full text-sm">
-              <thead className="bg-gray-50 text-gray-700 uppercase text-xs tracking-wider">
-                <tr>
-                  <th className="px-4 py-3 text-left">Order ID</th>
-                  <th className="px-4 py-3 text-left">Email</th>
-                  <th className="px-4 py-3 text-left">Event</th>
-                  <th className="px-4 py-3 text-left">Date</th>
-                  <th className="px-4 py-3 text-left">Status</th>
-                  <th className="px-4 py-3 text-right">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {displayedBookings.map((b) => {
-                  const dateStr = new Date(b.created_at).toLocaleDateString("en-GB", {
-                    year: "numeric",
-                    month: "short",
-                    day: "2-digit",
-                  });
-                  return (
-                    <tr key={b.id} className="border-t hover:bg-gray-50">
-                      <td className="px-4 py-3">{b.id}</td>
-                      <td className="px-4 py-3">{b.userEmail || "N/A"}</td>
-                      <td className="px-4 py-3">{b.events?.name || "N/A"}</td>
-                      <td className="px-4 py-3">{dateStr}</td>
-                      <td className="px-4 py-3">
-                        <span className={`text-xs font-medium px-2 py-1 rounded-full ${
-                          b.status === "confirmed"
-                            ? "bg-green-100 text-green-800"
-                            : b.status === "pending"
-                            ? "bg-yellow-100 text-yellow-800"
-                            : "bg-red-100 text-red-800"
-                        }`}>
-                          {b.status}
-                        </span>
-                      </td>
-                      <td className="px-4 py-3 text-right">
-                        <button
-                          onClick={() => handleDownloadTicket(b.id)}
-                          className="inline-flex items-center gap-1 bg-purple-600 text-white text-xs px-3 py-1 rounded hover:bg-purple-700 mr-2"
-                        >
-                          <Download className="w-4 h-4" /> Tickets
-                        </button>
-                        <button
-                          disabled
-                          className="inline-flex items-center gap-1 bg-gray-300 text-gray-700 text-xs px-3 py-1 rounded cursor-not-allowed"
-                        >
-                          <FileText className="w-4 h-4" /> Invoice
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        )}
+        <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+          {loading ? (
+            <div className="flex items-center gap-2 text-gray-600">
+              <Loader2 className="animate-spin w-5 h-5" />
+              Loading...
+            </div>
+          ) : error ? (
+            <p className="text-red-600">{error}</p>
+          ) : displayedBookings.length === 0 ? (
+            <p>No bookings found.</p>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="min-w-full text-sm">
+                <thead className="bg-gray-50 text-gray-700 uppercase text-xs tracking-wider">
+                  <tr>
+                    <th className="px-4 py-3 text-left">Order ID</th>
+                    <th className="px-4 py-3 text-left">Email</th>
+                    <th className="px-4 py-3 text-left">Event</th>
+                    <th className="px-4 py-3 text-left">Date</th>
+                    <th className="px-4 py-3 text-left">Status</th>
+                    <th className="px-4 py-3 text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {displayedBookings.map((b) => {
+                    const dateStr = new Date(b.created_at).toLocaleDateString("en-GB", {
+                      year: "numeric",
+                      month: "short",
+                      day: "2-digit",
+                    });
+                    return (
+                      <tr key={b.id} className="border-t hover:bg-gray-50">
+                        <td className="px-4 py-3">{b.id}</td>
+                        <td className="px-4 py-3">{b.userEmail || "N/A"}</td>
+                        <td className="px-4 py-3">{b.events?.name || "N/A"}</td>
+                        <td className="px-4 py-3">{dateStr}</td>
+                        <td className="px-4 py-3">
+                          <span className={`text-xs font-medium px-2 py-1 rounded-full ${
+                            b.status === "confirmed"
+                              ? "bg-green-100 text-green-800"
+                              : b.status === "pending"
+                              ? "bg-yellow-100 text-yellow-800"
+                              : "bg-red-100 text-red-800"
+                          }`}>
+                            {b.status}
+                          </span>
+                        </td>
+                        <td className="px-4 py-3 text-right">
+                          <button
+                            onClick={() => handleDownloadTicket(b.id)}
+                            className="inline-flex items-center gap-1 bg-purple-600 text-white text-xs px-3 py-1 rounded hover:bg-purple-700 mr-2"
+                          >
+                            <Download className="w-4 h-4" /> Tickets
+                          </button>
+                          <button
+                            disabled
+                            className="inline-flex items-center gap-1 bg-gray-300 text-gray-700 text-xs px-3 py-1 rounded cursor-not-allowed"
+                          >
+                            <FileText className="w-4 h-4" /> Invoice
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
 
         {/* Pagination */}
         {totalPages > 1 && (

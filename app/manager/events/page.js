@@ -2,11 +2,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createBrowserSupabase } from "@/lib/supabase-browser";
 import { useRouter } from "next/navigation";
+import { createBrowserSupabase } from "@/lib/supabase-browser";
 import ManagerLayout from "../ManagerLayout";
 
-// Import dei componenti
 import EventsSidebar from "@/components/manager/events/sidebar";
 import EventsCalendar from "@/components/manager/events/calendar";
 
@@ -23,7 +22,6 @@ export default function EventsPage() {
   useEffect(() => {
     async function fetchData() {
       try {
-        // 1) Recupera l'utente loggato
         const {
           data: { user },
           error: userError,
@@ -33,9 +31,9 @@ export default function EventsPage() {
           setError("Nessun utente loggato o errore nel recupero utente");
           return;
         }
+
         setManagerId(user.id);
 
-        // 2) Recupera il club associato al manager (incluso lo stato Stripe)
         const { data: clubData, error: clubError } = await supabase
           .from("clubs")
           .select("id, stripe_account_id, stripe_status")
@@ -46,17 +44,16 @@ export default function EventsPage() {
           setError("Impossibile recuperare il club del manager");
           return;
         }
+
         setClubId(clubData.id);
         setClubStripeStatus(clubData.stripe_status);
 
-        // 3) Recupera la lista degli eventi
-        const res = await fetch(`/api/event?club_id=${clubData.id}`, {
-          method: "GET",
-        });
+        const res = await fetch(`/api/event?club_id=${clubData.id}`);
         if (!res.ok) {
           const errData = await res.json();
           throw new Error(errData.error || "Errore nel recupero eventi");
         }
+
         const eventsList = await res.json();
         setEvents(eventsList.events || []);
       } catch (err) {
@@ -64,12 +61,13 @@ export default function EventsPage() {
         setError(err.message);
       }
     }
+
     fetchData();
   }, [supabase]);
 
   function goToNewEvent() {
     if (clubStripeStatus !== "active") {
-      alert("Devi collegare il tuo account Stripe per creare un nuovo evento.");
+      alert("Devi collegare Stripe per creare un evento.");
       router.push("/manager/payments");
     } else {
       router.push("/manager/events/new-event");
@@ -82,12 +80,9 @@ export default function EventsPage() {
 
   return (
     <ManagerLayout>
-      {/* Titolo della sezione "Events" */}
-      <div className="p-4">
-        <h1 className="text-2xl font-bold mb-4">Events</h1>
-      </div>
+      {/* Titolo coerente come nella Dashboard */}
+      <h1 className="text-3xl font-semibold mb-6 tracking-tight">Events</h1>
 
-      {/* Layout a colonne */}
       <div className="flex flex-col md:flex-row gap-8 h-full">
         <EventsSidebar
           events={events}
@@ -98,7 +93,7 @@ export default function EventsPage() {
       </div>
 
       {error && (
-        <div className="p-4 text-red-600 text-center">
+        <div className="mt-4 p-4 text-red-600 text-center bg-red-50 border border-red-200 rounded">
           <p>{error}</p>
         </div>
       )}

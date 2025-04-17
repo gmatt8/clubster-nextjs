@@ -10,19 +10,19 @@ export default function SupportPage() {
       <div className="px-6 py-8 max-w-screen-xl mx-auto">
         <h1 className="text-2xl font-bold mb-6">Customer Support</h1>
         <p className="text-gray-700 mb-6">
-          Benvenuto nella sezione di supporto. Qui potrai trovare risposte alle domande frequenti.
+          Welcome to the support section. Here you can find answers to frequently asked questions.
         </p>
 
-        {/* Sezione FAQ */}
+        {/* FAQ Section */}
         <section className="mb-12">
           <FAQ />
         </section>
 
-        {/* Sezione informazioni di contatto */}
+        {/* Contact Information Section */}
         <section className="border-t border-gray-300 pt-6">
-          <h2 className="text-xl font-semibold mb-2">Per ulteriori informazioni</h2>
+          <h2 className="text-xl font-semibold mb-2">For More Information</h2>
           <p className="text-gray-700">
-            Se hai bisogno di ulteriore assistenza, contattaci via email all'indirizzo:{" "}
+            If you need further assistance, contact us via email at{" "}
             <a
               href="mailto:clubsterapp@hotmail.com"
               className="text-blue-600 hover:underline"

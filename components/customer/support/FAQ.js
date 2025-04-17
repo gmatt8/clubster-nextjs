@@ -5,21 +5,21 @@ import { useState } from "react";
 
 const faqData = [
   {
-    question: "Come posso reimpostare la mia password?",
+    question: "How can I reset my password?",
     answer:
-      "Per reimpostare la password, clicca su 'Password dimenticata' nella pagina di login e segui le istruzioni inviate via email.",
+      "To reset your password, click on 'Forgot Password' on the login page and follow the instructions sent via email.",
   },
   {
-    question: "Dove posso visualizzare la mia cronologia degli acquisti?",
+    question: "Where can I view my purchase history?",
     answer:
-      "La cronologia degli acquisti è visibile all'interno della sezione 'My tickets' del tuo profilo.",
+      "Your purchase history can be viewed in the 'My tickets' section of your profile.",
   },
   {
-    question: "Come posso contattare l'assistenza?",
+    question: "How can I contact support?",
     answer:
-      "Per ulteriori informazioni o supporto, contattaci via email all'indirizzo clubsterapp@hotmail.com.",
+      "For further information or support, please contact us via email at clubsterapp@hotmail.com.",
   },
-  // Puoi aggiungere ulteriori FAQ se necessario.
+  // You can add additional FAQs if needed.
 ];
 
 export default function FAQ() {
