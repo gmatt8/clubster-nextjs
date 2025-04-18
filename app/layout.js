@@ -2,7 +2,7 @@
 import '../styles/globals.css';
 
 export const metadata = {
-  title: 'Clubster Hub – Discover the best clubs & events',
+  title: 'Clubster Hub',
   description: 'Find and book the hottest events and clubs in your city with Clubster Hub.',
   icons: {
     icon: [
