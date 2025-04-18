@@ -1,5 +1,5 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.clubsterapp.com/api/sitemap-customer
-Sitemap: https://www.clubsterapp.com/api/sitemap-manager
+Sitemap: https://www.clubsterhub.com/api/sitemap-customer
+Sitemap: https://www.clubsterhub.com/api/sitemap-manager

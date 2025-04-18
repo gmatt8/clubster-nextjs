@@ -2,7 +2,7 @@
 import { NextResponse } from "next/server";
 
 export async function GET() {
-  const baseUrl = "https://www.clubsterapp.com";
+  const baseUrl = "https://www.clubsterhub.com";
   const today = new Date().toISOString().split("T")[0];
 
   const urls = [
