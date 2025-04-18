@@ -1,5 +1,5 @@
 User-agent: *
 Allow: /
+
 Sitemap: https://www.clubsterhub.com/api/sitemap-customer
 Sitemap: https://www.clubsterhub.com/api/sitemap-manager
-Crawl-delay: 10
