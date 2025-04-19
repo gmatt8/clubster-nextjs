@@ -5,7 +5,10 @@ export const metadata = {
   title: 'Clubster Hub',
   description: 'Find and book the hottest events and clubs in your city with Clubster Hub.',
   icons: {
-    icon: [{ url: '/favicon.ico' }],
+    icon: [
+      { url: '/favicon.ico', sizes: 'any', type: 'image/x-icon' },
+      { url: '/favicon-96x96.png', type: 'image/png' }, // opzionale, se disponibile
+    ],
   },
   openGraph: {
     title: 'Clubster Hub',
@@ -33,6 +36,13 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <head>
+        {/* Fallback per favicon se metadata non viene letto dai bot */}
+        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
+        {/* Schema.org (opzionale, da aggiungere a mano se vuoi spingere al top) */}
+      </head>
       <body>{children}</body>
     </html>
   );
