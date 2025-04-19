@@ -37,11 +37,27 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        {/* Fallback per favicon se metadata non viene letto dai bot */}
+        {/* Favicon fallback */}
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
         <link rel="shortcut icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
-        {/* Schema.org (opzionale, da aggiungere a mano se vuoi spingere al top) */}
+
+        {/* Schema.org structured data */}
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `
+          {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "Clubster Hub",
+            "url": "https://www.clubsterhub.com",
+            "logo": "https://www.clubsterhub.com/images/logo.png",
+            "description": "Find and book the hottest events and clubs in your city with Clubster Hub.",
+            "sameAs": [
+              "https://www.instagram.com/clubsterhub",
+              "https://www.tiktok.com/@clubsterhub",
+              "https://twitter.com/clubsterhub"
+            ]
+          }
+        `}} />
       </head>
       <body>{children}</body>
     </html>
