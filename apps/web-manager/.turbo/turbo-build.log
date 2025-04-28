@@ -1,0 +1,88 @@
+
+
+> web-manager@0.1.0 build
+> next build
+
+[1G[0K   [1m[38;2;173;127;168m▲ Next.js 15.3.1[39m[22m
+   - Environments: .env.local
+
+ [37m[1m [22m[39m Creating an optimized production build ...
+Failed to compile.
+
+./app/globals.css.webpack[javascript/auto]!=!./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[10].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[10].use[3]!./app/globals.css
+Error: Cannot find module '/Users/mattiagori/Desktop/clubster-nextjs/node_modules/postcss/lib/postcss.js'
+    at createEsmNotFoundErr (node:internal/modules/cjs/loader:1286:15)
+    at finalizeEsmResolution (node:internal/modules/cjs/loader:1274:15)
+    at resolveExports (node:internal/modules/cjs/loader:640:14)
+    at Function._findPath (node:internal/modules/cjs/loader:748:31)
+    at Function.<anonymous> (node:internal/modules/cjs/loader:1235:27)
+    at /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/dist/server/require-hook.js:55:36
+    at Function._load (node:internal/modules/cjs/loader:1075:27)
+    at TracingChannel.traceSync (node:diagnostics_channel:315:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:218:24)
+    at Module.<anonymous> (node:internal/modules/cjs/loader:1340:12)
+
+Import trace for requested module:
+./app/globals.css.webpack[javascript/auto]!=!./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[10].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[10].use[3]!./app/globals.css
+./app/globals.css
+
+./app/globals.css
+Error: ETIMEDOUT: connection timed out, read
+    at Object.readFileSync (node:fs:441:20)
+    at getMaybeCachedSource (node:internal/modules/cjs/loader:1569:18)
+    at Object..js (node:internal/modules/cjs/loader:1650:19)
+    at Module.load (node:internal/modules/cjs/loader:1318:32)
+    at Function._load (node:internal/modules/cjs/loader:1128:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:315:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:218:24)
+    at Module.<anonymous> (node:internal/modules/cjs/loader:1340:12)
+    at mod.require (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/dist/server/require-hook.js:65:28)
+    at require (node:internal/modules/helpers:141:16)
+    at tryRunOrWebpackError (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/dist/compiled/webpack/bundle5.js:29:316142)
+    at __webpack_require_module__ (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/dist/compiled/webpack/bundle5.js:29:131548)
+    at __nested_webpack_require_161494__ (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/dist/compiled/webpack/bundle5.js:29:130983)
+    at /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/dist/compiled/webpack/bundle5.js:29:131840
+    at symbolIterator (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/dist/compiled/neo-async/async.js:1:14444)
+    at done (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/dist/compiled/neo-async/async.js:1:14824)
+    at Hook.eval [as callAsync] (eval at create (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/dist/compiled/webpack/bundle5.js:14:9224), <anonymous>:15:1)
+    at Hook.CALL_ASYNC_DELEGATE [as _callAsync] (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/dist/compiled/webpack/bundle5.js:14:6378)
+    at /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/dist/compiled/webpack/bundle5.js:29:130703
+    at symbolIterator (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/dist/compiled/neo-async/async.js:1:14402)
+-- inner error --
+Error: ETIMEDOUT: connection timed out, read
+    at Object.readFileSync (node:fs:441:20)
+    at getMaybeCachedSource (node:internal/modules/cjs/loader:1569:18)
+    at Object..js (node:internal/modules/cjs/loader:1650:19)
+    at Module.load (node:internal/modules/cjs/loader:1318:32)
+    at Function._load (node:internal/modules/cjs/loader:1128:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:315:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:218:24)
+    at Module.<anonymous> (node:internal/modules/cjs/loader:1340:12)
+    at mod.require (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/dist/server/require-hook.js:65:28)
+    at require (node:internal/modules/helpers:141:16)
+    at Object.<anonymous> (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[10].use[2]!/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[10].use[3]!/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/app/globals.css:1:7)
+    at /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/dist/compiled/webpack/bundle5.js:29:962742
+    at Hook.eval [as call] (eval at create (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/dist/compiled/webpack/bundle5.js:14:9002), <anonymous>:7:1)
+    at Hook.CALL_DELEGATE [as _call] (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/dist/compiled/webpack/bundle5.js:14:6272)
+    at /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/dist/compiled/webpack/bundle5.js:29:131581
+    at tryRunOrWebpackError (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/dist/compiled/webpack/bundle5.js:29:316096)
+    at __webpack_require_module__ (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/dist/compiled/webpack/bundle5.js:29:131548)
+    at __nested_webpack_require_161494__ (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/dist/compiled/webpack/bundle5.js:29:130983)
+    at /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/dist/compiled/webpack/bundle5.js:29:131840
+    at symbolIterator (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/dist/compiled/neo-async/async.js:1:14444)
+
+Generated code for /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[10].use[2]!/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[10].use[3]!/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/app/globals.css
+
+Import trace for requested module:
+./app/globals.css
+
+
+> Build failed because of webpack errors
+[1G[0K⠙[1G[0K[1mnpm[22m [31merror[39m Lifecycle script `build` failed with error:
+[1G[0K⠙[1G[0K[1mnpm[22m [31merror[39m [94mcode[39m [33m1[39m
+[1G[0K⠙[1G[0K[1mnpm[22m [31merror[39m [94mpath[39m /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager
+[1G[0K⠙[1G[0K[1mnpm[22m [31merror[39m [94mworkspace[39m web-manager@0.1.0
+[1G[0K⠙[1G[0K[1mnpm[22m [31merror[39m [94mlocation[39m /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager
+[1G[0K⠙[1G[0K[1mnpm[22m [31merror[39m command failed
+[1G[0K⠙[1G[0K[1mnpm[22m [31merror[39m [94mcommand[39m sh -c next build
+[1G[0K⠙[1G[0K

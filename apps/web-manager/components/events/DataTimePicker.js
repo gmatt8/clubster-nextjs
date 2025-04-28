@@ -3,8 +3,6 @@
 
 import { Popover } from "@headlessui/react";
 import { CalendarIcon } from "@heroicons/react/20/solid";
-import { DayPicker } from "react-day-picker";
-import "react-day-picker/dist/style.css";
 import { enGB } from "date-fns/locale";
 
 /**
