@@ -1,0 +1,96 @@
+// prisma/schema.prisma
+
+// Datasource: connessione al database (usa DATABASE_URL o un'altra variabile)
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Generator: genera il client Prisma
+generator client {
+  provider = "prisma-client-js"
+output = "../node_modules/.prisma/client"
+}
+
+// Modello per i club
+model Club {
+  id                String   @id @default(uuid())
+  manager_id        String?  @unique
+  name              String
+  address           String?
+  phone_number      String?
+  doc_url           String?
+  verified          Boolean  @default(false)
+  created_at        DateTime @default(now())
+  description       String?
+  capacity          Int      @default(0)
+  outdoor_area      String? // Potresti usare anche un enum per valori "available" e "not available"
+  parking           String?
+  price             String? // Anche qui un enum potrebbe essere utile ('$','$$','$$$')
+  smoking           String?
+  coat_check        String?
+  stripe_account_id String?
+  stripe_status     String? // ad es. "none", "incomplete", "active"
+  images            String[] @default([]) // campo array di stringhe per le immagini
+  lat               Float?
+  lng               Float?
+
+  // Relazione: un club può avere più eventi
+  events Event[]
+}
+
+// Modello per gli eventi
+model Event {
+  id              String    @id @default(uuid())
+  club_id         String
+  name            String
+  description     String?
+  start_date      DateTime?
+  end_date        DateTime?
+  music_genre     String?
+  age_restriction String?
+  dress_code      String?
+  image           String?
+
+  // Relazione: ogni evento appartiene a un Club
+  club     Club      @relation(fields: [club_id], references: [id])
+  // Relazione: un evento può avere più booking
+  bookings Booking[]
+}
+
+// Modello per le prenotazioni (bookings)
+model Booking {
+  id             String   @id
+  user_id        String
+  event_id       String
+  quantity       Int
+  status         String   @default("pending")
+  created_at     DateTime @default(now())
+
+  event   Event    @relation(fields: [event_id], references: [id])
+  tickets Ticket[] // Questo campo crea la relazione opposta
+}
+
+// Modello per i biglietti (tickets)
+model Ticket {
+  id         String    @id
+  booking_id String
+  qr_data    String
+  scanned    Boolean   @default(false)
+  scanned_at DateTime?
+  created_at DateTime  @default(now())
+
+  booking Booking @relation(fields: [booking_id], references: [id])
+}
+
+// Modello per le recensioni (reviews)
+model Review {
+  id         String   @id @default(uuid())
+  club_id    String
+  user_id    String
+  booking_id String
+  event_id   String
+  rating     Float
+  comment    String?
+  created_at DateTime @default(now())
+}

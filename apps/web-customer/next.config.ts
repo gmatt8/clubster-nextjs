@@ -1,8 +1,11 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: "standalone", // Essenziale per il deploy su server o Vercel
-  trailingSlash: true,  // (Opzionale) Se vuoi tutte le URL tipo `/chi-siamo/` invece di `/chi-siamo`
+  output: "standalone",
+  trailingSlash: true,
+  experimental: {
+    appDir: true, // Assicurati di attivare app directory se usi /app
+  },
 };
 
 export default nextConfig;
