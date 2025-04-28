@@ -5,9 +5,9 @@ import { useState, useEffect, useMemo } from "react";
 import { createBrowserSupabase } from "@lib/supabase-browser";
 import { useRouter, useSearchParams } from "next/navigation";
 import ManagerLayout from "../../ManagerLayout";
-import EventHeader from "@/apps/web-manager/components/events/EventHeader";
-import DatePicker from "@/apps/web-manager/components/events/DataTimePicker";
-import UploadEventImage from "@/apps/web-manager/components/events/UploadEventImage";
+import EventHeader from "@components/events/EventHeader";
+import DatePicker from "@components/events/DataTimePicker";
+import UploadEventImage from "@components/events/UploadEventImage";
 
 const predefinedGenres = [
   "Techno", 

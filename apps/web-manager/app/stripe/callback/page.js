@@ -3,7 +3,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import ManagerLayout from '@/apps/web-manager/app/ManagerLayout';
+import ManagerLayout from '../../ManagerLayout';
 
 export default function StripeCallbackPage() {
   const router = useRouter();

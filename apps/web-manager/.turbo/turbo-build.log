@@ -1,0 +1,124 @@
+
+
+> web-manager@0.1.0 build
+> next build
+
+[1G[0K   [1m[38;2;173;127;168m▲ Next.js 15.3.1[39m[22m
+   - Environments: .env.local
+
+ [37m[1m [22m[39m Creating an optimized production build ...
+ [32m[1m✓[22m[39m Compiled successfully in 1000ms
+[?25l [37m[1m [22m[39m Linting and checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m.[39m[2K[1G[?25h[31m
+Failed to compile.[39m
+[?25l [36m.[39m [2K[1G[?25h
+./app/ManagerLayout.js
+Error: Parsing error: [BABEL] /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/app/ManagerLayout.js: Requires Babel "^7.22.0", but was loaded with "7.18.0". If you are sure you have a compatible version of @babel/core, it is likely that something in your build process is loading the wrong version. Inspect the stack trace of this error to look for the first entry that doesn't mention "@babel/core" or "babel-core" to see what is calling Babel. (While processing: "/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/babel.js$3")
+
+./app/analytics/page.js
+Error: Parsing error: [BABEL] /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/app/analytics/page.js: Requires Babel "^7.22.0", but was loaded with "7.18.0". If you are sure you have a compatible version of @babel/core, it is likely that something in your build process is loading the wrong version. Inspect the stack trace of this error to look for the first entry that doesn't mention "@babel/core" or "babel-core" to see what is calling Babel. (While processing: "/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/babel.js$3")
+
+./app/bookings/page.js
+Error: Parsing error: [BABEL] /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/app/bookings/page.js: Requires Babel "^7.22.0", but was loaded with "7.18.0". If you are sure you have a compatible version of @babel/core, it is likely that something in your build process is loading the wrong version. Inspect the stack trace of this error to look for the first entry that doesn't mention "@babel/core" or "babel-core" to see what is calling Babel. (While processing: "/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/babel.js$3")
+
+./app/dashboard/page.js
+Error: Parsing error: [BABEL] /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/app/dashboard/page.js: Requires Babel "^7.22.0", but was loaded with "7.18.0". If you are sure you have a compatible version of @babel/core, it is likely that something in your build process is loading the wrong version. Inspect the stack trace of this error to look for the first entry that doesn't mention "@babel/core" or "babel-core" to see what is calling Babel. (While processing: "/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/babel.js$3")
+
+./app/events/edit-event/page.js
+Error: Parsing error: [BABEL] /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/app/events/edit-event/page.js: Requires Babel "^7.22.0", but was loaded with "7.18.0". If you are sure you have a compatible version of @babel/core, it is likely that something in your build process is loading the wrong version. Inspect the stack trace of this error to look for the first entry that doesn't mention "@babel/core" or "babel-core" to see what is calling Babel. (While processing: "/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/babel.js$3")
+
+./app/events/new-event/page.js
+Error: Parsing error: [BABEL] /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/app/events/new-event/page.js: Requires Babel "^7.22.0", but was loaded with "7.18.0". If you are sure you have a compatible version of @babel/core, it is likely that something in your build process is loading the wrong version. Inspect the stack trace of this error to look for the first entry that doesn't mention "@babel/core" or "babel-core" to see what is calling Babel. (While processing: "/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/babel.js$3")
+
+./app/events/page.js
+Error: Parsing error: [BABEL] /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/app/events/page.js: Requires Babel "^7.22.0", but was loaded with "7.18.0". If you are sure you have a compatible version of @babel/core, it is likely that something in your build process is loading the wrong version. Inspect the stack trace of this error to look for the first entry that doesn't mention "@babel/core" or "babel-core" to see what is calling Babel. (While processing: "/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/babel.js$3")
+
+./app/layout.js
+Error: Parsing error: [BABEL] /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/app/layout.js: Requires Babel "^7.22.0", but was loaded with "7.18.0". If you are sure you have a compatible version of @babel/core, it is likely that something in your build process is loading the wrong version. Inspect the stack trace of this error to look for the first entry that doesn't mention "@babel/core" or "babel-core" to see what is calling Babel. (While processing: "/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/babel.js$3")
+
+./app/login/page.js
+Error: Parsing error: [BABEL] /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/app/login/page.js: Requires Babel "^7.22.0", but was loaded with "7.18.0". If you are sure you have a compatible version of @babel/core, it is likely that something in your build process is loading the wrong version. Inspect the stack trace of this error to look for the first entry that doesn't mention "@babel/core" or "babel-core" to see what is calling Babel. (While processing: "/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/babel.js$3")
+
+./app/page.js
+Error: Parsing error: [BABEL] /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/app/page.js: Requires Babel "^7.22.0", but was loaded with "7.18.0". If you are sure you have a compatible version of @babel/core, it is likely that something in your build process is loading the wrong version. Inspect the stack trace of this error to look for the first entry that doesn't mention "@babel/core" or "babel-core" to see what is calling Babel. (While processing: "/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/babel.js$3")
+
+./app/payments/page.js
+Error: Parsing error: [BABEL] /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/app/payments/page.js: Requires Babel "^7.22.0", but was loaded with "7.18.0". If you are sure you have a compatible version of @babel/core, it is likely that something in your build process is loading the wrong version. Inspect the stack trace of this error to look for the first entry that doesn't mention "@babel/core" or "babel-core" to see what is calling Babel. (While processing: "/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/babel.js$3")
+
+./app/settings/general/page.js
+Error: Parsing error: [BABEL] /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/app/settings/general/page.js: Requires Babel "^7.22.0", but was loaded with "7.18.0". If you are sure you have a compatible version of @babel/core, it is likely that something in your build process is loading the wrong version. Inspect the stack trace of this error to look for the first entry that doesn't mention "@babel/core" or "babel-core" to see what is calling Babel. (While processing: "/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/babel.js$3")
+
+./app/settings/legal/page.js
+Error: Parsing error: [BABEL] /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/app/settings/legal/page.js: Requires Babel "^7.22.0", but was loaded with "7.18.0". If you are sure you have a compatible version of @babel/core, it is likely that something in your build process is loading the wrong version. Inspect the stack trace of this error to look for the first entry that doesn't mention "@babel/core" or "babel-core" to see what is calling Babel. (While processing: "/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/babel.js$3")
+
+./app/settings/legal/privacy-policy/page.js
+Error: Parsing error: [BABEL] /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/app/settings/legal/privacy-policy/page.js: Requires Babel "^7.22.0", but was loaded with "7.18.0". If you are sure you have a compatible version of @babel/core, it is likely that something in your build process is loading the wrong version. Inspect the stack trace of this error to look for the first entry that doesn't mention "@babel/core" or "babel-core" to see what is calling Babel. (While processing: "/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/babel.js$3")
+
+./app/settings/legal/terms-of-service/page.js
+Error: Parsing error: [BABEL] /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/app/settings/legal/terms-of-service/page.js: Requires Babel "^7.22.0", but was loaded with "7.18.0". If you are sure you have a compatible version of @babel/core, it is likely that something in your build process is loading the wrong version. Inspect the stack trace of this error to look for the first entry that doesn't mention "@babel/core" or "babel-core" to see what is calling Babel. (While processing: "/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/babel.js$3")
+
+./app/settings/login-and-security/page.js
+Error: Parsing error: [BABEL] /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/app/settings/login-and-security/page.js: Requires Babel "^7.22.0", but was loaded with "7.18.0". If you are sure you have a compatible version of @babel/core, it is likely that something in your build process is loading the wrong version. Inspect the stack trace of this error to look for the first entry that doesn't mention "@babel/core" or "babel-core" to see what is calling Babel. (While processing: "/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/babel.js$3")
+
+./app/settings/page.js
+Error: Parsing error: [BABEL] /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/app/settings/page.js: Requires Babel "^7.22.0", but was loaded with "7.18.0". If you are sure you have a compatible version of @babel/core, it is likely that something in your build process is loading the wrong version. Inspect the stack trace of this error to look for the first entry that doesn't mention "@babel/core" or "babel-core" to see what is calling Babel. (While processing: "/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/babel.js$3")
+
+./app/signup/page.js
+Error: Parsing error: [BABEL] /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/app/signup/page.js: Requires Babel "^7.22.0", but was loaded with "7.18.0". If you are sure you have a compatible version of @babel/core, it is likely that something in your build process is loading the wrong version. Inspect the stack trace of this error to look for the first entry that doesn't mention "@babel/core" or "babel-core" to see what is calling Babel. (While processing: "/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/babel.js$3")
+
+./app/stripe/callback/page.js
+Error: Parsing error: [BABEL] /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/app/stripe/callback/page.js: Requires Babel "^7.22.0", but was loaded with "7.18.0". If you are sure you have a compatible version of @babel/core, it is likely that something in your build process is loading the wrong version. Inspect the stack trace of this error to look for the first entry that doesn't mention "@babel/core" or "babel-core" to see what is calling Babel. (While processing: "/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/babel.js$3")
+
+./app/verify-club/page.js
+Error: Parsing error: [BABEL] /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/app/verify-club/page.js: Requires Babel "^7.22.0", but was loaded with "7.18.0". If you are sure you have a compatible version of @babel/core, it is likely that something in your build process is loading the wrong version. Inspect the stack trace of this error to look for the first entry that doesn't mention "@babel/core" or "babel-core" to see what is calling Babel. (While processing: "/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/babel.js$3")
+
+./components/events/DataTimePicker.js
+Error: Parsing error: [BABEL] /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/components/events/DataTimePicker.js: Requires Babel "^7.22.0", but was loaded with "7.18.0". If you are sure you have a compatible version of @babel/core, it is likely that something in your build process is loading the wrong version. Inspect the stack trace of this error to look for the first entry that doesn't mention "@babel/core" or "babel-core" to see what is calling Babel. (While processing: "/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/babel.js$3")
+
+./components/events/EventHeader.js
+Error: Parsing error: [BABEL] /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/components/events/EventHeader.js: Requires Babel "^7.22.0", but was loaded with "7.18.0". If you are sure you have a compatible version of @babel/core, it is likely that something in your build process is loading the wrong version. Inspect the stack trace of this error to look for the first entry that doesn't mention "@babel/core" or "babel-core" to see what is calling Babel. (While processing: "/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/babel.js$3")
+
+./components/events/EventImageManager.js
+Error: Parsing error: [BABEL] /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/components/events/EventImageManager.js: Requires Babel "^7.22.0", but was loaded with "7.18.0". If you are sure you have a compatible version of @babel/core, it is likely that something in your build process is loading the wrong version. Inspect the stack trace of this error to look for the first entry that doesn't mention "@babel/core" or "babel-core" to see what is calling Babel. (While processing: "/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/babel.js$3")
+
+./components/events/UploadEventImage.js
+Error: Parsing error: [BABEL] /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/components/events/UploadEventImage.js: Requires Babel "^7.22.0", but was loaded with "7.18.0". If you are sure you have a compatible version of @babel/core, it is likely that something in your build process is loading the wrong version. Inspect the stack trace of this error to look for the first entry that doesn't mention "@babel/core" or "babel-core" to see what is calling Babel. (While processing: "/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/babel.js$3")
+
+./components/events/calendar.js
+Error: Parsing error: [BABEL] /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/components/events/calendar.js: Requires Babel "^7.22.0", but was loaded with "7.18.0". If you are sure you have a compatible version of @babel/core, it is likely that something in your build process is loading the wrong version. Inspect the stack trace of this error to look for the first entry that doesn't mention "@babel/core" or "babel-core" to see what is calling Babel. (While processing: "/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/babel.js$3")
+
+./components/events/sidebar.js
+Error: Parsing error: [BABEL] /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/components/events/sidebar.js: Requires Babel "^7.22.0", but was loaded with "7.18.0". If you are sure you have a compatible version of @babel/core, it is likely that something in your build process is loading the wrong version. Inspect the stack trace of this error to look for the first entry that doesn't mention "@babel/core" or "babel-core" to see what is calling Babel. (While processing: "/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/babel.js$3")
+
+./components/layout/footer.js
+Error: Parsing error: [BABEL] /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/components/layout/footer.js: Requires Babel "^7.22.0", but was loaded with "7.18.0". If you are sure you have a compatible version of @babel/core, it is likely that something in your build process is loading the wrong version. Inspect the stack trace of this error to look for the first entry that doesn't mention "@babel/core" or "babel-core" to see what is calling Babel. (While processing: "/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/babel.js$3")
+
+./components/layout/header.js
+Error: Parsing error: [BABEL] /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/components/layout/header.js: Requires Babel "^7.22.0", but was loaded with "7.18.0". If you are sure you have a compatible version of @babel/core, it is likely that something in your build process is loading the wrong version. Inspect the stack trace of this error to look for the first entry that doesn't mention "@babel/core" or "babel-core" to see what is calling Babel. (While processing: "/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/babel.js$3")
+
+./components/layout/sidebar.js
+Error: Parsing error: [BABEL] /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/components/layout/sidebar.js: Requires Babel "^7.22.0", but was loaded with "7.18.0". If you are sure you have a compatible version of @babel/core, it is likely that something in your build process is loading the wrong version. Inspect the stack trace of this error to look for the first entry that doesn't mention "@babel/core" or "babel-core" to see what is calling Babel. (While processing: "/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/babel.js$3")
+
+./components/settings/FAQManager.js
+Error: Parsing error: [BABEL] /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/components/settings/FAQManager.js: Requires Babel "^7.22.0", but was loaded with "7.18.0". If you are sure you have a compatible version of @babel/core, it is likely that something in your build process is loading the wrong version. Inspect the stack trace of this error to look for the first entry that doesn't mention "@babel/core" or "babel-core" to see what is calling Babel. (While processing: "/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/babel.js$3")
+
+./components/settings/PhotosManager.js
+Error: Parsing error: [BABEL] /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/components/settings/PhotosManager.js: Requires Babel "^7.22.0", but was loaded with "7.18.0". If you are sure you have a compatible version of @babel/core, it is likely that something in your build process is loading the wrong version. Inspect the stack trace of this error to look for the first entry that doesn't mention "@babel/core" or "babel-core" to see what is calling Babel. (While processing: "/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/babel.js$3")
+
+./components/settings/SettingsHeader.js
+Error: Parsing error: [BABEL] /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/components/settings/SettingsHeader.js: Requires Babel "^7.22.0", but was loaded with "7.18.0". If you are sure you have a compatible version of @babel/core, it is likely that something in your build process is loading the wrong version. Inspect the stack trace of this error to look for the first entry that doesn't mention "@babel/core" or "babel-core" to see what is calling Babel. (While processing: "/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/babel.js$3")
+
+./components/settings/SortablePhoto.js
+Error: Parsing error: [BABEL] /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/components/settings/SortablePhoto.js: Requires Babel "^7.22.0", but was loaded with "7.18.0". If you are sure you have a compatible version of @babel/core, it is likely that something in your build process is loading the wrong version. Inspect the stack trace of this error to look for the first entry that doesn't mention "@babel/core" or "babel-core" to see what is calling Babel. (While processing: "/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/babel.js$3")
+
+./components/settings/UploadImages.js
+Error: Parsing error: [BABEL] /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/components/settings/UploadImages.js: Requires Babel "^7.22.0", but was loaded with "7.18.0". If you are sure you have a compatible version of @babel/core, it is likely that something in your build process is loading the wrong version. Inspect the stack trace of this error to look for the first entry that doesn't mention "@babel/core" or "babel-core" to see what is calling Babel. (While processing: "/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/babel.js$3")
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/app/api-reference/config/eslint#disabling-rules
+[?25l [36m.[39m [?25h[1G[0K⠙[1G[0K[1mnpm[22m [31merror[39m Lifecycle script `build` failed with error:
+[1G[0K⠙[1G[0K[1mnpm[22m [31merror[39m [94mcode[39m [33m1[39m
+[1G[0K⠙[1G[0K[1mnpm[22m [31merror[39m [94mpath[39m /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager
+[1G[0K⠙[1G[0K[1mnpm[22m [31merror[39m [94mworkspace[39m web-manager@0.1.0
+[1G[0K⠙[1G[0K[1mnpm[22m [31merror[39m [94mlocation[39m /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager
+[1G[0K⠙[1G[0K[1mnpm[22m [31merror[39m command failed
+[1G[0K⠙[1G[0K[1mnpm[22m [31merror[39m [94mcommand[39m sh -c next build
+[1G[0K⠙[1G[0K
