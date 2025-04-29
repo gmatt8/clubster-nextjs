@@ -8,7 +8,18 @@
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": [".next/**", "!.next/cache/**"]
+      "outputs": [".next/**", "!.next/cache/**"],
+      "env": [
+        "SUPABASE_URL",
+        "SUPABASE_ANON_KEY",
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "STRIPE_SECRET_KEY",
+        "STRIPE_CLIENT_ID",
+        "STRIPE_WEBHOOK_SECRET",
+        "DATABASE_URL",
+        "NODE_ENV",
+        "OPENAI_API_KEY"
+      ]
     },
     "lint": {
       "dependsOn": ["^lint"]
