@@ -1,4 +1,4 @@
-// app/auth/manager/login/page.js
+// apps/web-manager/app/login/page.js
 "use client";
 
 import { useState } from "react";
@@ -122,7 +122,7 @@ export default function ManagerLoginPage() {
 
         <p className="mt-6 text-center text-sm text-gray-600">
           Don’t have an account?{" "}
-          <a href="/auth/manager/signup" className="text-indigo-600 font-medium underline">
+          <a href="/signup" className="text-indigo-600 font-medium underline">
             Sign up
           </a>
         </p>

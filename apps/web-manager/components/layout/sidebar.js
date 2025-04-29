@@ -37,7 +37,7 @@ export default function Sidebar() {
     await supabase.auth.signOut();
   
     // 🔁 Redirect alla pagina di login
-    router.push("/auth/manager/landing");
+    router.push("/");
   }
   
 

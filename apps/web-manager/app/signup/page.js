@@ -1,4 +1,4 @@
-// app/auth/manager/signup/page.js
+// apps/web-manager/app/signup/page.js
 "use client";
 
 import { useState } from "react";
@@ -40,7 +40,7 @@ export default function ManagerSignupPage() {
 
     setMessage("Signup successful! Please verify your email. Redirecting...");
     setTimeout(() => {
-      router.push("/auth/manager/login");
+      router.push("/login");
     }, 3000);
   }
 
@@ -102,7 +102,7 @@ export default function ManagerSignupPage() {
 
         <p className="mt-6 text-center text-sm text-gray-600">
           Already have an account?{" "}
-          <a href="/auth/manager/login" className="text-indigo-600 font-medium underline">
+          <a href="/login" className="text-indigo-600 font-medium underline">
             Log in
           </a>
         </p>

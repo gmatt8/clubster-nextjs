@@ -6,9 +6,9 @@ export async function GET() {
   const today = new Date().toISOString().split("T")[0];
 
   const urls = [
-    '/auth/manager/landing',
-    '/auth/manager/login',
-    '/auth/manager/signup',
+    '/',
+    '/login',
+    '/signup',
   ];
 
   const xml = urls

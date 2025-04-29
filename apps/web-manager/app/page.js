@@ -40,7 +40,7 @@ export default function ManagerLandingPage() {
               A powerful platform to run bookings, track guests, and grow sales — all in one dashboard.
             </p>
             <Link
-              href="/auth/manager/signup"
+              href="/signup"
               className="inline-block px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm rounded-full shadow-md transition"
             >
               Get Started Free
@@ -181,7 +181,7 @@ export default function ManagerLandingPage() {
               Get started in minutes. No credit card required.
             </p>
             <Link
-              href="/auth/manager/signup"
+              href="/signup"
               className="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-sm rounded-full shadow transition"
             >
               Create Your Manager Account

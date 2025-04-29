@@ -17,7 +17,7 @@ export async function middleware(request) {
   if (pathname.startsWith('/manager')) {
     // Se non c'è sessione, reindirizza al login manager
     if (!session) {
-      return NextResponse.redirect(`${origin}/auth/manager/login`);
+      return NextResponse.redirect(`${origin}/login`);
     }
 
     // Se l'utente è già su /manager/verify-club,
