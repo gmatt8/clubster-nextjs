@@ -1,4 +1,4 @@
-// components/customer/home/popularEvents.js
+// apps/web-customer/components/home/popularEvents.js
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -7,38 +7,22 @@ import { useRouter } from "next/navigation";
 export default function PopularEvents() {
   const router = useRouter();
   const [events, setEvents] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
-    async function fetchPopularEvents() {
+    async function fetchEvents() {
       try {
-        const res = await fetch("/api/popular");
-        if (!res.ok) {
-          throw new Error("Errore nel recupero dei dati");
-        }
-        const data = await res.json();
-        setEvents(data.popularEvents || []);
-      } catch (err) {
-        console.error("Errore nel recuperare gli eventi popolari:", err);
-        setError(err);
-      } finally {
-        setLoading(false);
+        const res = await fetch("/api/events?random=true&limit=5");
+        const { events } = await res.json();
+        setEvents(events || []);
+      } catch (error) {
+        console.error("Errore caricando eventi:", error);
       }
     }
-    fetchPopularEvents();
+    fetchEvents();
   }, []);
 
-  if (loading) {
-    return <div className="text-center">Loading popular events...</div>;
-  }
-
-  if (error) {
-    return (
-      <div className="text-center text-red-500">
-        Errore nel caricamento degli eventi popolari.
-      </div>
-    );
+  if (events.length === 0) {
+    return <div className="text-center">No events available</div>;
   }
 
   return (
@@ -47,12 +31,8 @@ export default function PopularEvents() {
         {events.map((event) => (
           <div
             key={event.id}
-            onClick={() =>
-              router.push(
-                `/customer/club-details?club_id=${event.club_id}&event_id=${event.id}`
-              )
-            }
-            className="w-[232px] bg-white rounded-lg shadow hover:shadow-md transition-shadow cursor-pointer"
+            onClick={() => router.push(`/club-details?club_id=${event.club_id}&event_id=${event.id}`)}
+            className="w-[220px] bg-white rounded-lg shadow hover:shadow-md transition-shadow cursor-pointer"
           >
             <img
               src={event.image || "/images/no-image.jpeg"}
@@ -61,7 +41,7 @@ export default function PopularEvents() {
             />
             <div className="p-3 text-center">
               <p className="font-semibold text-sm text-gray-800">{event.name}</p>
-              <p className="text-xs text-gray-500">{event.club_name || "Unknown Club"}</p>
+              <p className="text-xs text-gray-500">{event.clubs?.name || event.club_name}</p>
             </div>
           </div>
         ))}

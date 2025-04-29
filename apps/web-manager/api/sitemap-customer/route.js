@@ -18,7 +18,7 @@ export async function GET() {
       : today;
     return `
       <url>
-        <loc>${baseUrl}/customer/club-details?club_id=${club.id}</loc>
+        <loc>${baseUrl}/club-details?club_id=${club.id}</loc>
         <lastmod>${lastmod}</lastmod>
         <priority>0.7</priority>
       </url>`;

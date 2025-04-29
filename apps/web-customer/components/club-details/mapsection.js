@@ -1,3 +1,5 @@
+// apps/web-customer/components/club-details/mapsection.js
+
 "use client";
 import { useEffect, useRef } from "react";
 

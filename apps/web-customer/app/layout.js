@@ -2,7 +2,7 @@
 import './globals.css';
 
 export const metadata = {
-  metadataBase: new URL('https://www.clubsterhub.com'), // <<< fix anche il warning SEO
+  metadataBase: new URL('https://www.clubsterhub.com'),
   title: 'Clubster Hub',
   description: 'Find and book the hottest events and clubs in your city with Clubster Hub.',
   icons: {
@@ -37,6 +37,14 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <head>
+        {/* ✅ Caricamento Google Maps API */}
+        <script
+          src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`}
+          async
+          defer
+        ></script>
+      </head>
       <body>{children}</body>
     </html>
   );

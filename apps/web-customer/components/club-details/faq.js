@@ -1,4 +1,4 @@
-// components/customer/club-details/faq.js
+// apps/web-customer/components/club-details/faq.js
 "use client";
 import { useEffect, useState } from "react";
 

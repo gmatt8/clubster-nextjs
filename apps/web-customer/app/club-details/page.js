@@ -1,3 +1,4 @@
+// apps/web-customer/app/club-details/page.js
 "use client";
 
 import { useSearchParams } from "next/navigation";

@@ -101,7 +101,7 @@ export default function AddReviewPage() {
       setSuccessMsg("Review submitted successfully!");
 
       setTimeout(() => {
-        router.push("/customer/bookings");
+        router.push("/bookings");
       }, 1500);
     } catch (err) {
       console.error(err);

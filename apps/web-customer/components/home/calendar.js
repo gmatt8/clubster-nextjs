@@ -1,4 +1,4 @@
-// /components/customer/home/calendar.js
+// apps/web-customer/components/home/calendar.js
 "use client";
 
 import { Popover } from "@headlessui/react";

@@ -4,41 +4,53 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
+const CLUB_IDS = [
+  "be8dbea9-83b8-4e91-968f-2feb465ca7de",
+  "55af6673-520e-4b24-b552-dfed62874c2b",
+];
+
 export default function PopularClubs() {
   const router = useRouter();
   const [clubs, setClubs] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
-    async function fetchPopularClubs() {
+    async function fetchClubDetails() {
       try {
-        const res = await fetch("/api/popular");
-        if (!res.ok) {
-          throw new Error("Errore nel recupero dei dati");
-        }
-        const data = await res.json();
-        setClubs(data.popularClubs || []);
-      } catch (err) {
-        console.error("Errore nel recuperare i club popolari:", err);
-        setError(err);
+        const results = await Promise.all(
+          CLUB_IDS.map(async (id) => {
+            const res = await fetch(`/api/club?club_id=${id}`);
+            const data = await res.json();
+            console.log("➡️ Fetch Club:", { id, status: res.status, ok: res.ok, data });
+            if (res.ok && data?.id) {
+              return data;
+            } else {
+              console.warn("⚠️ Club NON valido o errore:", { id, data });
+              return null;
+            }
+          })
+        );
+        console.log("✅ Results di tutti i club:", results);
+
+        const validClubs = results.filter(Boolean);
+        console.log("✅ Clubs filtrati e validi:", validClubs);
+
+        setClubs(validClubs);
+      } catch (error) {
+        console.error("Errore caricando club statici:", error);
       } finally {
         setLoading(false);
       }
     }
-    fetchPopularClubs();
+    fetchClubDetails();
   }, []);
 
   if (loading) {
     return <div className="text-center">Loading popular clubs...</div>;
   }
 
-  if (error) {
-    return (
-      <div className="text-center text-red-500">
-        Errore nel caricamento dei club popolari.
-      </div>
-    );
+  if (clubs.length === 0) {
+    return <div className="text-center">Nessun club disponibile</div>;
   }
 
   return (
@@ -47,17 +59,11 @@ export default function PopularClubs() {
         {clubs.map((club) => (
           <div
             key={club.id}
-            onClick={() =>
-              router.push(`/customer/club-details?club_id=${club.id}`)
-            }
-            className="w-[237px] bg-white rounded-lg shadow hover:shadow-md transition-shadow cursor-pointer"
+            onClick={() => router.push(`/club-details?club_id=${club.id}`)}
+            className="w-[220px] bg-white rounded-lg shadow hover:shadow-md transition-shadow cursor-pointer"
           >
             <img
-              src={
-                club.images && club.images.length > 0
-                  ? club.images[0]
-                  : "/images/no-image.jpeg"
-              }
+              src={club.images?.[0] || "/images/no-image.jpeg"}
               alt={club.name}
               className="w-full h-32 object-cover rounded-t-lg"
             />

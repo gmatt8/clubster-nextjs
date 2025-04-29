@@ -230,7 +230,7 @@ function BookingCard({ booking }) {
           <button
             onClick={() =>
               router.push(
-                `/customer/add-review?event_id=${event.id}&club_id=${event.club_id}&booking_id=${booking.id}`
+                `/add-review?event_id=${event.id}&club_id=${event.club_id}&booking_id=${booking.id}`
               )
             }
             className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600"

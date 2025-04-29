@@ -1,4 +1,4 @@
-// app/api/search/route.js
+// apps/web-customer/api/search/route.js
 import { NextResponse } from "next/server";
 import { createServerSupabase } from "@lib/supabase-server";
 

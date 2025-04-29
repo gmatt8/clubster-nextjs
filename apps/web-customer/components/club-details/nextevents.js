@@ -1,4 +1,4 @@
-// components/customer/club-details/nextevents.js
+// apps/web-customer/components/club-details/nextevents.js
 "use client";
 
 import { useState, useEffect, useMemo } from "react";

@@ -114,9 +114,9 @@ export default function CustomerHomePage() {
   // Navigazione verso i dettagli
   function goToDetails(clubId, eventId, type) {
     if (type === "club") {
-      router.push(`/customer/club-details?club_id=${clubId}`);
+      router.push(`/club-details?club_id=${clubId}`);
     } else if (type === "event") {
-      router.push(`/customer/club-details?club_id=${clubId}&event_id=${eventId}`);
+      router.push(`/club-details?club_id=${clubId}&event_id=${eventId}`);
     }
   }
 
