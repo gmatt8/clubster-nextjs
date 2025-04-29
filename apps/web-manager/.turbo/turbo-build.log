@@ -3,86 +3,79 @@
 > web-manager@0.1.0 build
 > next build
 
-[1G[0K   [1m[38;2;173;127;168m▲ Next.js 15.3.1[39m[22m
-   - Environments: .env.local
+[1G[0K- [36minfo[39m Loaded env from /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.env.local
+[?25l- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G[?25h- [33mwarn[39m Found lockfile missing swc dependencies, patching...
+[?25l- [36minfo[39m Creating an optimized production build [36m.[39mnpm error code ENOWORKSPACES
+npm error This command does not support workspaces.
+npm error A complete log of this run can be found in: /Users/mattiagori/.npm/_logs/2025-04-29T11_18_59_250Z-debug-0.log
+[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G[?25h- [33mwarn[39m Lockfile was successfully patched, please run "npm install" to ensure @next/swc dependencies are downloaded
+[?25l- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G[?25h- [36minfo[39m Creating an optimized production build  
+- [36minfo[39m Compiled successfully
+[?25l- [36minfo[39m Linting and checking validity of types [36m.[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m..[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m...[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m.[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m..[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m...[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m.[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m..[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m...[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m.[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m..[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m...[39m[2K[1G[?25h- [36minfo[39m Linting and checking validity of types  
+[?25l- [36minfo[39m Collecting page data [36m.[39m[2K[1G- [36minfo[39m Collecting page data [36m..[39m[2K[1G- [36minfo[39m Collecting page data [36m...[39m[2K[1G- [36minfo[39m Collecting page data [36m.[39m[2K[1G- [36minfo[39m Collecting page data [36m..[39m[2K[1G- [36minfo[39m Collecting page data [36m...[39m[2K[1G- [36minfo[39m Collecting page data [36m.[39m[2K[1G- [36minfo[39m Collecting page data [36m..[39m[2K[1G- [36minfo[39m Collecting page data [36m...[39m[2K[1G- [36minfo[39m Collecting page data [36m.[39m[2K[1G- [36minfo[39m Collecting page data [36m..[39m[2K[1G- [36minfo[39m Collecting page data [36m...[39m[2K[1G- [36minfo[39m Collecting page data [36m.[39m[2K[1G- [36minfo[39m Collecting page data [36m..[39m[2K[1G[?25h- [36minfo[39m Collecting page data  
+[?25l[36m[    ][39m - [36minfo[39m Generating static pages (0/20)- warn 
+metadata.metadataBase is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
+(node:22964) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+- warn 
+metadata.metadataBase is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
+(node:22960) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+- warn 
+metadata.metadataBase is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
+(node:22961) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+- warn 
+metadata.metadataBase is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
+- warn 
+metadata.metadataBase is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
+(node:22963) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+- warn 
+metadata.metadataBase is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
+(node:22959) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+- warn 
+metadata.metadataBase is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
+(node:22958) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+- warn Entire page /events/edit-event deopted into client-side rendering. https://nextjs.org/docs/messages/deopted-into-client-rendering /events/edit-event
+[2K[1G[?25h- [36minfo[39m Generating static pages (20/20)
+[?25l- [36minfo[39m Finalizing page optimization [36m.[39m[2K[1G[?25h- [36minfo[39m Finalizing page optimization  
 
- [37m[1m [22m[39m Creating an optimized production build ...
-Failed to compile.
+[4mRoute (app)[24m                                [4mSize[24m     [4mFirst Load JS[24m
+┌ ○ /                                      4.96 kB        [32m90.2 kB[39m
+├ ○ /analytics                             9.29 kB         [31m[1m242 kB[22m[39m
+├ ○ /bookings                              5.38 kB         [33m135 kB[39m
+├ ○ /dashboard                             1.98 kB         [31m[1m235 kB[22m[39m
+├ ○ /events                                4.76 kB         [33m135 kB[39m
+├ ○ /events/edit-event                     4.74 kB         [33m167 kB[39m
+├ ○ /events/new-event                      4.59 kB         [33m167 kB[39m
+├ ○ /login                                 2.31 kB         [32m121 kB[39m
+├ ○ /payments                              4.76 kB         [33m135 kB[39m
+├ ○ /settings                              3.75 kB         [33m134 kB[39m
+├ ○ /settings/general                      3.53 kB         [33m138 kB[39m
+├ ○ /settings/legal                        795 B           [33m136 kB[39m
+├ ○ /settings/legal/privacy-policy         1.07 kB         [33m136 kB[39m
+├ ○ /settings/legal/terms-of-service       1.17 kB         [33m136 kB[39m
+├ ○ /settings/login-and-security           1.23 kB         [33m136 kB[39m
+├ ○ /signup                                2.22 kB         [32m121 kB[39m
+├ ○ /stripe/callback                       3.51 kB         [33m133 kB[39m
+└ ○ /verify-club                           2.77 kB         [32m127 kB[39m
++ First Load JS shared by all              [32m78.7 kB[39m
+  ├ chunks/1dd3208c-28ae0b91a4f86921.js    50.6 kB
+  ├ chunks/575-e25ebf48e2802868.js         26.1 kB
+  ├ chunks/main-app-6ecb1b950d1bef14.js    226 B
+  └ chunks/webpack-760e2da0036e551a.js     1.81 kB
 
-./app/globals.css.webpack[javascript/auto]!=!./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[10].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[10].use[3]!./app/globals.css
-Error: Cannot find module '/Users/mattiagori/Desktop/clubster-nextjs/node_modules/postcss/lib/postcss.js'
-    at createEsmNotFoundErr (node:internal/modules/cjs/loader:1286:15)
-    at finalizeEsmResolution (node:internal/modules/cjs/loader:1274:15)
-    at resolveExports (node:internal/modules/cjs/loader:640:14)
-    at Function._findPath (node:internal/modules/cjs/loader:748:31)
-    at Function.<anonymous> (node:internal/modules/cjs/loader:1235:27)
-    at /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/dist/server/require-hook.js:55:36
-    at Function._load (node:internal/modules/cjs/loader:1075:27)
-    at TracingChannel.traceSync (node:diagnostics_channel:315:14)
-    at wrapModuleLoad (node:internal/modules/cjs/loader:218:24)
-    at Module.<anonymous> (node:internal/modules/cjs/loader:1340:12)
+[4mRoute (pages)[24m                              [4mSize[24m     [4mFirst Load JS[24m
+─ ○ /404                                   182 B            [32m76 kB[39m
++ First Load JS shared by all              [32m75.8 kB[39m
+  ├ chunks/framework-8ae47e43852bcf35.js   45.1 kB
+  ├ chunks/main-d78f7ecc02fd571e.js        28.8 kB
+  ├ chunks/pages/_app-6e23c821c1586b5d.js  197 B
+  └ chunks/webpack-760e2da0036e551a.js     1.81 kB
 
-Import trace for requested module:
-./app/globals.css.webpack[javascript/auto]!=!./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[10].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[10].use[3]!./app/globals.css
-./app/globals.css
+○  (Static)  automatically rendered as static HTML (uses no initial props)
 
-./app/globals.css
-Error: ETIMEDOUT: connection timed out, read
-    at Object.readFileSync (node:fs:441:20)
-    at getMaybeCachedSource (node:internal/modules/cjs/loader:1569:18)
-    at Object..js (node:internal/modules/cjs/loader:1650:19)
-    at Module.load (node:internal/modules/cjs/loader:1318:32)
-    at Function._load (node:internal/modules/cjs/loader:1128:12)
-    at TracingChannel.traceSync (node:diagnostics_channel:315:14)
-    at wrapModuleLoad (node:internal/modules/cjs/loader:218:24)
-    at Module.<anonymous> (node:internal/modules/cjs/loader:1340:12)
-    at mod.require (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/dist/server/require-hook.js:65:28)
-    at require (node:internal/modules/helpers:141:16)
-    at tryRunOrWebpackError (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/dist/compiled/webpack/bundle5.js:29:316142)
-    at __webpack_require_module__ (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/dist/compiled/webpack/bundle5.js:29:131548)
-    at __nested_webpack_require_161494__ (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/dist/compiled/webpack/bundle5.js:29:130983)
-    at /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/dist/compiled/webpack/bundle5.js:29:131840
-    at symbolIterator (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/dist/compiled/neo-async/async.js:1:14444)
-    at done (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/dist/compiled/neo-async/async.js:1:14824)
-    at Hook.eval [as callAsync] (eval at create (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/dist/compiled/webpack/bundle5.js:14:9224), <anonymous>:15:1)
-    at Hook.CALL_ASYNC_DELEGATE [as _callAsync] (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/dist/compiled/webpack/bundle5.js:14:6378)
-    at /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/dist/compiled/webpack/bundle5.js:29:130703
-    at symbolIterator (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/dist/compiled/neo-async/async.js:1:14402)
--- inner error --
-Error: ETIMEDOUT: connection timed out, read
-    at Object.readFileSync (node:fs:441:20)
-    at getMaybeCachedSource (node:internal/modules/cjs/loader:1569:18)
-    at Object..js (node:internal/modules/cjs/loader:1650:19)
-    at Module.load (node:internal/modules/cjs/loader:1318:32)
-    at Function._load (node:internal/modules/cjs/loader:1128:12)
-    at TracingChannel.traceSync (node:diagnostics_channel:315:14)
-    at wrapModuleLoad (node:internal/modules/cjs/loader:218:24)
-    at Module.<anonymous> (node:internal/modules/cjs/loader:1340:12)
-    at mod.require (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/dist/server/require-hook.js:65:28)
-    at require (node:internal/modules/helpers:141:16)
-    at Object.<anonymous> (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[10].use[2]!/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[10].use[3]!/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/app/globals.css:1:7)
-    at /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/dist/compiled/webpack/bundle5.js:29:962742
-    at Hook.eval [as call] (eval at create (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/dist/compiled/webpack/bundle5.js:14:9002), <anonymous>:7:1)
-    at Hook.CALL_DELEGATE [as _call] (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/dist/compiled/webpack/bundle5.js:14:6272)
-    at /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/dist/compiled/webpack/bundle5.js:29:131581
-    at tryRunOrWebpackError (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/dist/compiled/webpack/bundle5.js:29:316096)
-    at __webpack_require_module__ (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/dist/compiled/webpack/bundle5.js:29:131548)
-    at __nested_webpack_require_161494__ (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/dist/compiled/webpack/bundle5.js:29:130983)
-    at /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/dist/compiled/webpack/bundle5.js:29:131840
-    at symbolIterator (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/dist/compiled/neo-async/async.js:1:14444)
-
-Generated code for /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[10].use[2]!/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[10].use[3]!/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/app/globals.css
-
-Import trace for requested module:
-./app/globals.css
-
-
-> Build failed because of webpack errors
-[1G[0K⠙[1G[0K[1mnpm[22m [31merror[39m Lifecycle script `build` failed with error:
-[1G[0K⠙[1G[0K[1mnpm[22m [31merror[39m [94mcode[39m [33m1[39m
-[1G[0K⠙[1G[0K[1mnpm[22m [31merror[39m [94mpath[39m /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager
-[1G[0K⠙[1G[0K[1mnpm[22m [31merror[39m [94mworkspace[39m web-manager@0.1.0
-[1G[0K⠙[1G[0K[1mnpm[22m [31merror[39m [94mlocation[39m /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager
-[1G[0K⠙[1G[0K[1mnpm[22m [31merror[39m command failed
-[1G[0K⠙[1G[0K[1mnpm[22m [31merror[39m [94mcommand[39m sh -c next build
-[1G[0K⠙[1G[0K
+[?25h[1G[0K⠙[1G[0K

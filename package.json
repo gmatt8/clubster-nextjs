@@ -20,7 +20,6 @@
     "dev:app-scan": "turbo run dev --filter=app-scan"
   },
   "dependencies": {
-    "@babel/core": "^7.26.10",
     "@dnd-kit/core": "^6.3.1",
     "@dnd-kit/sortable": "^10.0.0",
     "@dnd-kit/utilities": "^3.2.2",
@@ -40,6 +39,7 @@
     "bufferutil": "^4.0.9",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "date-fns": "^4.1.0",
     "lucide-react": "^0.487.0",
     "next": "13.4.16",
     "nodemailer": "^6.10.0",
@@ -49,6 +49,7 @@
     "qrcode": "^1.5.4",
     "react": "18.2.0",
     "react-calendar": "^5.1.0",
+    "react-day-picker": "^9.6.7",
     "react-dom": "18.2.0",
     "react-icons": "^5.5.0",
     "recharts": "^2.15.2",
@@ -58,6 +59,7 @@
     "utf-8-validate": "^6.0.5"
   },
   "devDependencies": {
+    "@babel/core": "^7.26.10",
     "@eslint/eslintrc": "^3",
     "@types/next": "^8.0.7",
     "@types/node": "^20.17.31",
