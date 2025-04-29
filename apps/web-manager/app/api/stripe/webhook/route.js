@@ -4,7 +4,6 @@ import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 
 export const runtime = "nodejs";
-export const api = { bodyParser: false };
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
