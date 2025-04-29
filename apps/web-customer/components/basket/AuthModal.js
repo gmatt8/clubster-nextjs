@@ -1,6 +1,6 @@
 // apps/web-customer/components/basket/AuthModal.js
 import { useState, useEffect } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "../ui/dialog";
 import Link from "next/link";
 
 export default function AuthModal({ open, onClose }) {
@@ -14,9 +14,9 @@ export default function AuthModal({ open, onClose }) {
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Accesso richiesto</DialogTitle>
+          <DialogTitle>Login required</DialogTitle>
           <DialogDescription>
-            Devi effettuare il login per completare l’ordine.
+          You must log in to complete your order.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter className="flex justify-end gap-4">
