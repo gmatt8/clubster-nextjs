@@ -78,7 +78,7 @@ export default function EditEventPage() {
 
         // Recupera dettagli evento
         const eventRes = await fetch(
-          `/api/event?event_id=${eventId}&club_id=${clubData.id}`,
+          `/api/events?event_id=${eventId}&club_id=${clubData.id}`,
           { method: "GET", credentials: "include" }
         );
         if (!eventRes.ok) {
@@ -186,7 +186,7 @@ export default function EditEventPage() {
       const startDateISO = startDateObj.toISOString();
       const endDateISO = endDateObj.toISOString();
 
-      const updateRes = await fetch(`/api/event?event_id=${eventId}`, {
+      const updateRes = await fetch(`/api/events?event_id=${eventId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -247,7 +247,7 @@ export default function EditEventPage() {
   async function handleDelete() {
     if (!confirm("Sei sicuro di voler eliminare questo evento?")) return;
     try {
-      const res = await fetch(`/api/event?event_id=${eventId}`, {
+      const res = await fetch(`/api/events?event_id=${eventId}`, {
         method: "DELETE",
         credentials: "include",
       });

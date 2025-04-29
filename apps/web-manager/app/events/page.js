@@ -48,7 +48,7 @@ export default function EventsPage() {
         setClubId(clubData.id);
         setClubStripeStatus(clubData.stripe_status);
 
-        const res = await fetch(`/api/event?club_id=${clubData.id}`);
+        const res = await fetch(`/api/events?club_id=${clubData.id}`);
         if (!res.ok) {
           const errData = await res.json();
           throw new Error(errData.error || "Errore nel recupero eventi");

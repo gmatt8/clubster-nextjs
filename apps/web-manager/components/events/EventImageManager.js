@@ -34,7 +34,7 @@ export default function EventImageManager({ eventId, managerId, currentImage, on
     try {
       setSavingError("");
       // Aggiorna la foto dell'evento nel database tramite API
-      const response = await fetch("/api/event", {
+      const response = await fetch("/api/events", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

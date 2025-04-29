@@ -178,7 +178,7 @@ export default function NewEventPage() {
 
     try {
       // Creazione evento
-      const eventRes = await fetch("/api/event", {
+      const eventRes = await fetch("/api/events", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

@@ -24,7 +24,7 @@ export default function NextEvents({ clubId, selectedEventId }) {
     async function fetchEvents() {
       if (!clubId) return;
       try {
-        const res = await fetch(`/api/event?club_id=${clubId}&upcoming=true`);
+        const res = await fetch(`/api/events?club_id=${clubId}&upcoming=true`);
         if (!res.ok) throw new Error("Error fetching events");
         const { events: data } = await res.json();
         setEvents(data || []);

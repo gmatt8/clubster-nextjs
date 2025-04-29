@@ -45,7 +45,7 @@ export default function AddReviewPage() {
     async function fetchEvent() {
       try {
         setLoadingEvent(true);
-        const res = await fetch(`/api/event?event_id=${eventId}`);
+        const res = await fetch(`/api/events?event_id=${eventId}`);
         if (!res.ok) {
           const errData = await res.text();
           throw new Error(`Error fetching event: ${errData}`);

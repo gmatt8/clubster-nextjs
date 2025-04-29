@@ -32,7 +32,7 @@ export default function BasketPage() {
       setError("");
       try {
         // 1) Recupera i dati dell'evento
-        const eventRes = await fetch(`/api/event?event_id=${eventId}`);
+        const eventRes = await fetch(`/api/events?event_id=${eventId}`);
         if (!eventRes.ok) {
           const errText = await eventRes.text();
           throw new Error(`Error fetching event: ${errText}`);
