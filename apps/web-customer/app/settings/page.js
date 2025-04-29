@@ -1,4 +1,4 @@
-//app/customer/settings/page.js
+//apps/web-customer/app/settings/page.js
 "use client";
 
 import Link from "next/link";

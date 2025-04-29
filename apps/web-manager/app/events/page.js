@@ -68,7 +68,7 @@ export default function EventsPage() {
   function goToNewEvent() {
     if (clubStripeStatus !== "active") {
       alert("Devi collegare Stripe per creare un evento.");
-      router.push("/manager/payments");
+      router.push("/payments");
     } else {
       router.push("/events/new-event");
     }

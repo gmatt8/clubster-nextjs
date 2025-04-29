@@ -96,7 +96,7 @@ export default function NextEvents({ clubId, selectedEventId }) {
   function handleBookNow() {
     if (!selectedEvent) return;
     router.push(
-      `/customer/basket?event_id=${selectedEvent.id}&ticket_category=${selectedTicketCategory}&quantity=${quantity}`
+      `/basket?event_id=${selectedEvent.id}&ticket_category=${selectedTicketCategory}&quantity=${quantity}`
     );
   }
 

@@ -1,4 +1,4 @@
-// components/manager/layout/sidebar.js
+// apps/web-manager/components/layout/sidebar.js
 "use client";
 
 import { useState } from "react";

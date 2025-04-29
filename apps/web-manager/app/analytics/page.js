@@ -1,4 +1,4 @@
-// app/manager/analytics/page.js
+// apps/web-customer/app/analytics/page.js
 "use client";
 
 import ManagerLayout from "../ManagerLayout";

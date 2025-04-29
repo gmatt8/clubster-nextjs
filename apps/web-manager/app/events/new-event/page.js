@@ -94,7 +94,7 @@ export default function NewEventPage() {
             Per creare un nuovo evento, devi collegare il tuo account Stripe.
           </p>
           <button
-            onClick={() => router.push("/manager/payments")}
+            onClick={() => router.push("/payments")}
             className="mt-6 px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
           >
             Collegare Stripe

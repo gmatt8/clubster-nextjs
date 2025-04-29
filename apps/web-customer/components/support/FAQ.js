@@ -1,4 +1,4 @@
-// components/customer/support/FAQ.js
+// apps/web-customer/components/support/FAQ.js
 "use client";
 
 import { useState } from "react";

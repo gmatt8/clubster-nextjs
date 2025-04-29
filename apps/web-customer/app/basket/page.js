@@ -1,4 +1,4 @@
-// app/customer/basket/page.js
+// apps/web-customer/app/basket/page.js
 "use client";
 
 import { useSearchParams } from "next/navigation";

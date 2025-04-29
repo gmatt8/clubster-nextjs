@@ -20,9 +20,9 @@ export async function middleware(request) {
       return NextResponse.redirect(`${origin}/login`);
     }
 
-    // Se l'utente è già su /manager/verify-club,
+    // Se l'utente è già su /verify-club,
     // NON forzare di nuovo il check del club, così eviti il loop
-    if (pathname === '/manager/verify-club') {
+    if (pathname === '/verify-club') {
       // Lasciamo passare
       return res;
     }

@@ -1,4 +1,4 @@
-// app/manager/settings/page.js
+// apps/web-manager/app/settings/page.js
 'use client';
 
 import Link from 'next/link';

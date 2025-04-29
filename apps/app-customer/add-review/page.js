@@ -123,7 +123,7 @@ export default function AddReviewPage() {
     <CustomerLayout>
       <div className="px-6 py-8 max-w-screen-xl mx-auto">
         <h2 className="text-sm text-gray-500 mb-2">
-          <span className="cursor-pointer" onClick={() => router.push("/customer/bookings")}>
+          <span className="cursor-pointer" onClick={() => router.push("/bookings")}>
             My tickets
           </span>{" "}
           &gt; Reviews

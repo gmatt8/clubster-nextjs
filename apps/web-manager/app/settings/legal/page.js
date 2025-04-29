@@ -1,4 +1,4 @@
-// app/manager/settings/legal/page.js
+// apps/web-manager/app/settings/legal/page.js
 "use client";
 
 import Link from "next/link";

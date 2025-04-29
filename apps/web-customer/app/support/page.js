@@ -1,4 +1,4 @@
-// app/customer/support/page.js
+// apps/web-customer/app/support/page.js
 "use client";
 
 import CustomerLayout from "../CustomerLayout";

@@ -1,4 +1,4 @@
-// app/manager/settings/login-and-security/page.js
+// apps/web-manager/app/settings/login-and-security/page.js
 "use client";
 
 import { useState, useEffect, useMemo } from "react";

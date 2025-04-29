@@ -1,4 +1,4 @@
-// app/customer/home/page.js
+// apps/web-customer/app/home/page.js
 "use client";
 
 import { useState, useRef, useEffect } from "react";

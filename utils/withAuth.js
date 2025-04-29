@@ -30,7 +30,7 @@ export default function ManagerLogin() {
       await supabase.auth.signOut();
       return;
     }
-    Router.push('/manager');
+    Router.push('/');
   }
 
   return (

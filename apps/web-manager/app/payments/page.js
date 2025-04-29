@@ -1,4 +1,4 @@
-// app/manager/payments/page.js
+// apps/web-manager/app/payments/page.js
 "use client";
 
 import { useState, useEffect } from "react";

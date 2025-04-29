@@ -1,4 +1,4 @@
-// app/customer/privacy-policy/page.js
+// apps/web-customer/app/privacy-policy/page.js
 "use client";
 
 import CustomerLayout from "../CustomerLayout";

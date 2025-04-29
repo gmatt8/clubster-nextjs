@@ -1,4 +1,4 @@
-// /app/customer/checkout/success/page.js
+// /apps/web-customer/app/checkout/success/page.js
 "use client";
 
 import { useSearchParams, useRouter } from "next/navigation";
@@ -60,7 +60,7 @@ export default function CheckoutSuccessPage() {
           <p className="text-red-500">Error: {error || "Booking not found"}</p>
           <button
             className="bg-purple-600 text-white px-6 py-3 rounded hover:bg-purple-700 mt-4"
-            onClick={() => router.push("/customer/bookings")}
+            onClick={() => router.push("/bookings")}
           >
             View bookings
           </button>
@@ -134,7 +134,7 @@ export default function CheckoutSuccessPage() {
 
         <button
           className="bg-purple-600 text-white px-6 py-3 rounded hover:bg-purple-700"
-          onClick={() => router.push("/customer/bookings")}
+          onClick={() => router.push("/bookings")}
         >
           View bookings
         </button>

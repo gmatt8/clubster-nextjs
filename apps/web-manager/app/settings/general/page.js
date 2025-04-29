@@ -1,4 +1,4 @@
-// app/manager/settings/general/page.js
+// apps/web-manager/app/settings/general/page.js
 "use client";
 
 import { useEffect, useState, useRef } from "react";

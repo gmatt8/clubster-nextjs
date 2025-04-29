@@ -47,7 +47,7 @@ export default function StripeCallbackPage() {
         setStatus('Stripe account connected successfully!');
         
         // Reindirizzamento immediato:
-        router.push('/manager/payments');
+        router.push('/payments');
 
         // Oppure, se preferisci attendere qualche secondo prima di redirigere:
         // setTimeout(() => {
