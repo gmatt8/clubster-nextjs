@@ -14,7 +14,6 @@ export default function ManagerSettingsLegalPage() {
         <ManagerSettingsHeader
           breadcrumbs={[
             { label: "Settings", href: "/settings" },
-
           ]}
           title="Legal"
         />
@@ -34,17 +33,27 @@ export default function ManagerSettingsLegalPage() {
 
         {/* Sezione di navigazione verso i documenti legali */}
         <div className="flex flex-col sm:flex-row gap-4">
-          <Link href="/settings/legal/privacy-policy" className="no-underline w-full sm:w-auto">
+          <a
+            href="/privacy-policy"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="no-underline w-full sm:w-auto"
+          >
             <button className="w-full sm:w-auto bg-purple-600 text-white font-semibold py-2 px-4 rounded hover:bg-purple-700 transition">
               Privacy Policy
             </button>
-          </Link>
-          
-          <Link href="/settings/legal/terms-of-service" className="no-underline w-full sm:w-auto">
+          </a>
+
+          <a
+            href="/terms-of-service"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="no-underline w-full sm:w-auto"
+          >
             <button className="w-full sm:w-auto bg-purple-600 text-white font-semibold py-2 px-4 rounded hover:bg-purple-700 transition">
               Terms of Service
             </button>
-          </Link>
+          </a>
         </div>
       </div>
     </ManagerLayout>
