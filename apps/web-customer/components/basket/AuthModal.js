@@ -21,13 +21,13 @@ export default function AuthModal({ open, onClose }) {
         </DialogHeader>
         <DialogFooter className="flex justify-end gap-4">
           <Link 
-            href={`/auth/customer/login?next=${encodeURIComponent(currentUrl)}`} 
+            href={`/login?next=${encodeURIComponent(currentUrl)}`} 
             className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700"
           >
             LOGIN
           </Link>
           <Link 
-            href={`/auth/customer/signup?next=${encodeURIComponent(currentUrl)}`} 
+            href={`/signup?next=${encodeURIComponent(currentUrl)}`} 
             className="bg-gray-300 text-black px-4 py-2 rounded hover:bg-gray-400"
           >
             SIGNUP

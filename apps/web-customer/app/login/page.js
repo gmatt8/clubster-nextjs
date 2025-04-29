@@ -1,4 +1,4 @@
-// /app/auth/customer/login/page.js
+// /apps/web-customer/app/login/page.js
 'use client';
 
 import { useState } from 'react';
@@ -118,7 +118,7 @@ export default function CustomerLoginPage() {
         <p className="mt-6 text-sm text-center text-gray-300">
           Don’t have an account?{" "}
           <a
-            href={`/auth/customer/signup?next=${encodeURIComponent(nextUrl)}`}
+            href={`/signup?next=${encodeURIComponent(nextUrl)}`}
             className="text-indigo-300 hover:underline font-medium"
           >
             Sign up
@@ -126,7 +126,7 @@ export default function CustomerLoginPage() {
         </p>
         <p className="text-sm text-center text-gray-400 mt-2">
           Forgot your password?{" "}
-          <a href="/auth/customer/forgot-password" className="text-indigo-300 hover:underline">
+          <a href="/forgot-password" className="text-indigo-300 hover:underline">
             Reset it
           </a>
         </p>
