@@ -4,6 +4,7 @@
 import { Popover } from "@headlessui/react";
 import { CalendarIcon } from "@heroicons/react/20/solid";
 import { enGB } from "date-fns/locale";
+import { DayPicker } from "react-day-picker";
 
 /**
  * Componente DatePicker

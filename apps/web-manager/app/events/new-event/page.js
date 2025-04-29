@@ -1,4 +1,4 @@
-// app/manager/new-event/page.js
+// apps/web-manager/app/events/new-event/page.js
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
