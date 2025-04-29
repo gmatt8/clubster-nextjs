@@ -1,4 +1,4 @@
-// components/manager/layout/footer.js
+// apps/web-manager/components/layout/footer.js
 "use client";
 
 import Link from "next/link";

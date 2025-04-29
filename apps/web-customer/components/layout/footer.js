@@ -90,19 +90,22 @@ export default function Footer() {
           </div>
 
           {/* Become a partner */}
-          <div>
-            <h3 className="font-semibold mb-2">Become a partner</h3>
-            <ul className="space-y-1">
-              <li>
-                <Link
-                  href="/landing"
-                  className="text-sm hover:underline"
-                >
-                  List your club
-                </Link>
-              </li>
-            </ul>
-          </div>
+<div>
+  <h3 className="font-semibold mb-2">Become a partner</h3>
+  <ul className="space-y-1">
+    <li>
+      <a
+        href="https://www.manager.clubsterhub.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-sm hover:underline"
+      >
+        List your club
+      </a>
+    </li>
+  </ul>
+</div>
+
 
           {/* Legal */}
           <div>
