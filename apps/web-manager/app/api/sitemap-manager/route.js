@@ -1,8 +1,8 @@
-// app/api/sitemap-manager/route.js
+// apps/web-manager/app/api/sitemap-manager/route.js
 import { NextResponse } from "next/server";
 
 export async function GET() {
-  const baseUrl = "https://www.clubsterhub.com";
+  const baseUrl = "https://www.manager.clubsterhub.com";
   const today = new Date().toISOString().split("T")[0];
 
   const urls = [
