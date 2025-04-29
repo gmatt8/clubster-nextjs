@@ -26,8 +26,8 @@ export async function GET() {
 
   const staticUrls = [
     '/',
-    '/auth/customer/signup',
-    '/auth/customer/login',
+    '/signup',
+    '/login',
   ];
 
   const staticXml = staticUrls
