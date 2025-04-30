@@ -154,83 +154,85 @@ export default function NextEvents({ clubId, selectedEventId }) {
 
   return (
     <section className="mb-8">
-      <h2 className="text-xl font-semibold mb-4">Next events</h2>
-      <div className="flex flex-col md:flex-row gap-8">
-        <div>
-          <div className="flex items-center justify-between mb-2">
-            <button onClick={prevMonth} disabled={!canGoPrev} className={`text-gray-600 hover:text-gray-800 ${!canGoPrev ? "opacity-50 cursor-not-allowed" : ""}`}>
-              &#8592;
-            </button>
-            <div className="font-medium text-gray-700">{monthLabel}</div>
-            <button onClick={nextMonth} className="text-gray-600 hover:text-gray-800">
-              &#8594;
-            </button>
-          </div>
-          <div className="grid grid-cols-7 text-center text-sm text-gray-500 mb-1">
-            <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
-          </div>
-          <div className="grid grid-cols-7 text-center gap-y-2">
-            {calendarDays.map((day, index) => {
-              if (!day) return <div key={index} className="w-8 h-8"></div>;
-              const hasEv = dayHasEvents(day);
-              let cellTextColor = "text-gray-900";
-              if (currentYear === today.getFullYear() && currentMonth === today.getMonth() && day < today.getDate()) {
-                cellTextColor = "text-gray-400";
-              }
-              return (
-                <div key={index} className="flex items-center justify-center">
-                  {hasEv ? (
-                    <div onClick={() => handleDayClick(day)} className={`w-8 h-8 flex items-center justify-center rounded-full cursor-pointer ${isSelectedDay(day) ? "bg-purple-600 text-white" : "bg-gray-300 text-black"}`}>{day}</div>
-                  ) : (
-                    <div className={`w-8 h-8 flex items-center justify-center rounded-full ${cellTextColor}`}>{day}</div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {selectedEvent ? (
-          <div className="flex flex-col md:flex-row gap-6 items-start w-full md:w-2/3 border border-gray-300 rounded-lg p-4">
-            <img src={selectedEvent.image || "/images/no-image.jpeg"} alt={selectedEvent.name} className="w-full md:w-48 h-32 object-cover rounded-md" />
-            <div className="flex-1 space-y-2">
-              <p className="text-lg font-semibold">{selectedEvent.name}</p>
-              <p className="text-sm text-gray-600">
-                {new Date(selectedEvent.start_date).toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long" })} – {new Date(selectedEvent.start_date).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
-                {selectedEvent.end_date && " - " + new Date(selectedEvent.end_date).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
-              </p>
-              {ticketCategories.length === 0 ? (
-                <LoadingSpinner />
-              ) : (
-                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
-                  <select className="border border-gray-300 rounded px-2 py-1" value={selectedTicketCategory} onChange={(e) => {
-                    setSelectedTicketCategory(e.target.value);
-                    const newTC = ticketCategories.find((tc) => tc.id === e.target.value);
-                    if (newTC) {
-                      setQuantity(newTC.available_tickets > 0 ? 1 : 0);
-                    }
-                  }}>
-                    {ticketCategories.map((tc) => (
-                      <option key={tc.id} value={tc.id}>{tc.name} - €{tc.price} ({tc.available_tickets} left)</option>
-                    ))}
-                  </select>
-                  <input type="number" min="1" max={selectedTC ? selectedTC.available_tickets : 1} value={quantity} onChange={(e) => {
-                    let newQuantity = Number(e.target.value);
-                    if (selectedTC && newQuantity > selectedTC.available_tickets) {
-                      newQuantity = selectedTC.available_tickets;
-                    }
-                    setQuantity(newQuantity);
-                  }} disabled={selectedTC && selectedTC.available_tickets === 0} className="border border-gray-300 rounded w-16 px-2 py-1" />
-                  <button onClick={handleBookNow} disabled={selectedTC && selectedTC.available_tickets === 0} className={`bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 ${selectedTC && selectedTC.available_tickets === 0 ? "opacity-50 cursor-not-allowed" : ""}`}>
-                    {selectedTC && selectedTC.available_tickets === 0 ? "Sold Out" : "Book now"}
-                  </button>
-                </div>
-              )}
+      <div className="max-w-screen-xl mx-auto px-4">
+        <h2 className="text-xl font-semibold mb-4">Next events</h2>
+        <div className="grid md:grid-cols-[280px_1fr] gap-8">
+          <div>
+            <div className="flex items-center justify-between mb-2">
+              <button onClick={prevMonth} disabled={!canGoPrev} className={`text-gray-600 hover:text-gray-800 ${!canGoPrev ? "opacity-50 cursor-not-allowed" : ""}`}>
+                &#8592;
+              </button>
+              <div className="font-medium text-gray-700">{monthLabel}</div>
+              <button onClick={nextMonth} className="text-gray-600 hover:text-gray-800">
+                &#8594;
+              </button>
+            </div>
+            <div className="grid grid-cols-7 text-center text-sm text-gray-500 mb-1">
+              <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+            </div>
+            <div className="grid grid-cols-7 text-center gap-y-2">
+              {calendarDays.map((day, index) => {
+                if (!day) return <div key={index} className="w-8 h-8"></div>;
+                const hasEv = dayHasEvents(day);
+                let cellTextColor = "text-gray-900";
+                if (currentYear === today.getFullYear() && currentMonth === today.getMonth() && day < today.getDate()) {
+                  cellTextColor = "text-gray-400";
+                }
+                return (
+                  <div key={index} className="flex items-center justify-center">
+                    {hasEv ? (
+                      <div onClick={() => handleDayClick(day)} className={`w-8 h-8 flex items-center justify-center rounded-full cursor-pointer ${isSelectedDay(day) ? "bg-purple-600 text-white" : "bg-gray-300 text-black"}`}>{day}</div>
+                    ) : (
+                      <div className={`w-8 h-8 flex items-center justify-center rounded-full ${cellTextColor}`}>{day}</div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </div>
-        ) : (
-          <div className="w-full md:w-2/3 text-gray-500 flex items-center">No event selected.</div>
-        )}
+
+          {selectedEvent ? (
+            <div className="flex flex-col md:flex-row gap-6 items-start w-full border border-gray-300 rounded-lg p-4 bg-white shadow-sm">
+              <img src={selectedEvent.image || "/images/no-image.jpeg"} alt={selectedEvent.name} className="w-full md:w-48 h-32 object-cover rounded-md" />
+              <div className="flex-1 space-y-2">
+                <p className="text-lg font-semibold">{selectedEvent.name}</p>
+                <p className="text-sm text-gray-600">
+                  {new Date(selectedEvent.start_date).toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long" })} – {new Date(selectedEvent.start_date).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                  {selectedEvent.end_date && " - " + new Date(selectedEvent.end_date).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                </p>
+                {ticketCategories.length === 0 ? (
+                  <LoadingSpinner />
+                ) : (
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+                    <select className="border border-gray-300 rounded px-2 py-1" value={selectedTicketCategory} onChange={(e) => {
+                      setSelectedTicketCategory(e.target.value);
+                      const newTC = ticketCategories.find((tc) => tc.id === e.target.value);
+                      if (newTC) {
+                        setQuantity(newTC.available_tickets > 0 ? 1 : 0);
+                      }
+                    }}>
+                      {ticketCategories.map((tc) => (
+                        <option key={tc.id} value={tc.id}>{tc.name} - €{tc.price} ({tc.available_tickets} left)</option>
+                      ))}
+                    </select>
+                    <input type="number" min="1" max={selectedTC ? selectedTC.available_tickets : 1} value={quantity} onChange={(e) => {
+                      let newQuantity = Number(e.target.value);
+                      if (selectedTC && newQuantity > selectedTC.available_tickets) {
+                        newQuantity = selectedTC.available_tickets;
+                      }
+                      setQuantity(newQuantity);
+                    }} disabled={selectedTC && selectedTC.available_tickets === 0} className="border border-gray-300 rounded w-16 px-2 py-1" />
+                    <button onClick={handleBookNow} disabled={selectedTC && selectedTC.available_tickets === 0} className={`bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 ${selectedTC && selectedTC.available_tickets === 0 ? "opacity-50 cursor-not-allowed" : ""}`}>
+                      {selectedTC && selectedTC.available_tickets === 0 ? "Sold Out" : "Book now"}
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+          ) : (
+            <div className="w-full text-gray-500 flex items-center">No event selected.</div>
+          )}
+        </div>
       </div>
     </section>
   );

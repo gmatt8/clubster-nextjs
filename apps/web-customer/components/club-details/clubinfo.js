@@ -5,11 +5,10 @@ import { useState, useEffect } from "react";
 import { FiShare2 } from "react-icons/fi";
 
 export default function ClubInfo({ club }) {
-  // Stato per la media e il numero di recensioni
-  const [averageRating, setAverageRating] = useState("0.0");
-  const [reviewsCount, setReviewsCount] = useState(0);
+  const [averageRating, setAverageRating] = useState(null);
+  const [reviewsCount, setReviewsCount] = useState(null);
+  const [copied, setCopied] = useState(false);
 
-  // Recupera le recensioni per calcolare media e conteggio
   useEffect(() => {
     async function fetchReviews() {
       if (!club.id) return;
@@ -36,11 +35,9 @@ export default function ClubInfo({ club }) {
     fetchReviews();
   }, [club.id]);
 
-  // Otteniamo l'immagine principale oppure usiamo il fallback se non esiste
   const images = club.images || [];
   const clubImage = images.length > 0 ? images[0] : "/images/no-image.jpeg";
 
-  // Funzione per gestire la condivisione del link del club
   const handleShare = async () => {
     const shareData = {
       title: club.name,
@@ -51,86 +48,76 @@ export default function ClubInfo({ club }) {
     try {
       if (navigator.share) {
         await navigator.share(shareData);
-        console.log("Club shared successfully.");
       } else {
-        // Fallback: copia il link negli appunti
         await navigator.clipboard.writeText(window.location.href);
-        console.log("Link copiato negli appunti.");
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
       }
     } catch (error) {
       console.error("Error sharing the club: ", error);
-      // Nessun alert viene mostrato all'utente.
     }
   };
 
   return (
     <section className="mb-8">
-      {/* Hero con immagine di sfondo blur */}
       <div className="relative w-full h-[400px] md:h-[500px] overflow-hidden rounded-lg">
-        {clubImage ? (
+        {clubImage && (
           <>
-            {/* Immagine di sfondo blurrata */}
             <img
               src={clubImage}
               alt="Club background"
-              className="absolute inset-0 w-full h-full object-cover blur-sm scale-105"
+              className="absolute inset-0 w-full h-full object-cover blur-sm scale-110"
             />
-            {/* Overlay scuro per migliore leggibilità */}
-            <div className="absolute inset-0 bg-black bg-opacity-30" />
+            <div className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm" />
           </>
-        ) : (
-          // Caso teorico in cui clubImage sia falsy (non dovrebbe mai accadere grazie al fallback)
-          <div className="absolute inset-0 bg-gray-300 flex items-center justify-center">
-            No image
-          </div>
         )}
 
-        {/* Contenuto in sovrimpressione (hero content) */}
-        <div className="relative z-10 w-full h-full flex flex-col items-center justify-center px-6 text-white">
-          {/* Immagine non blur in primo piano, se presente */}
+        <div className="relative z-10 w-full h-full flex flex-col items-center justify-center px-6 text-white text-center">
           {clubImage && (
-            <img
-              src={clubImage}
-              alt="Club main"
-              className="w-32 h-32 md:w-48 md:h-48 object-cover rounded-full border-4 border-white shadow mb-4"
-            />
+            <div className="w-32 h-32 md:w-44 md:h-44 rounded-full border-4 border-white shadow-xl overflow-hidden mb-4">
+              <img
+                src={clubImage}
+                alt="Club"
+                className="w-full h-full object-cover"
+              />
+            </div>
           )}
 
-          {/* Nome Club e indirizzo */}
-          <h1 className="text-2xl md:text-3xl font-bold text-center">
-            {club.name}
-          </h1>
+          <h1 className="text-2xl md:text-3xl font-bold">{club.name}</h1>
           {club.address && (
-            <p className="text-sm md:text-base text-gray-100 mt-1 text-center">
-              {club.address}
-            </p>
+            <p className="text-sm md:text-base text-gray-100 mt-1">{club.address}</p>
           )}
 
-          {/* Rating + Share */}
           <div className="flex items-center gap-6 mt-4">
-            {/* Rating */}
             <div className="flex flex-col items-center">
               <div className="flex items-center gap-1 text-xl">
                 <span className="text-yellow-400">★</span>
-                <span>{averageRating}</span>
+                <span>{averageRating ?? "…"}</span>
               </div>
-              <p className="text-xs text-gray-100">{reviewsCount} reviews</p>
+              <p className="text-xs text-gray-100">
+                {reviewsCount !== null ? `${reviewsCount} reviews` : "Loading..."}
+              </p>
             </div>
 
-            {/* Icona share */}
-            <button
-              onClick={handleShare}
-              className="flex flex-col items-center text-gray-100 hover:text-white"
-              title="Share"
-            >
-              <FiShare2 size={20} />
-              <span className="text-xs mt-1">Share</span>
-            </button>
+            <div className="relative">
+              <button
+                onClick={handleShare}
+                className="flex flex-col items-center text-gray-100 hover:text-white"
+                title="Share"
+              >
+                <FiShare2 size={20} />
+                <span className="text-xs mt-1">Share</span>
+              </button>
+              {copied && (
+                <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-black text-white text-xs px-2 py-1 rounded shadow">
+                  Link copied!
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Descrizione Club (se presente) */}
       {club.description && (
         <div className="mt-6">
           <h2 className="text-lg font-semibold mb-1">Description</h2>

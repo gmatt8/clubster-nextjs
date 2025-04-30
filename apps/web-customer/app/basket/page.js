@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import CustomerLayout from "../CustomerLayout";
 import AuthModal from "@components/basket/AuthModal";
+import LoadingSpinner from "@components/common/LoadingSpinner";
 
 export default function BasketPage() {
   const searchParams = useSearchParams();
@@ -12,18 +13,15 @@ export default function BasketPage() {
   const initialTicketCategoryId = searchParams.get("ticket_category");
   const initialQuantity = Number(searchParams.get("quantity")) || 1;
 
-  // Stati per evento, ticket categories e selezione utente
   const [eventData, setEventData] = useState(null);
   const [ticketCategories, setTicketCategories] = useState([]);
   const [selectedTicketCategoryId, setSelectedTicketCategoryId] = useState(initialTicketCategoryId || "");
   const [quantity, setQuantity] = useState(initialQuantity);
 
-  // Stati di caricamento ed errori
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [showAuthModal, setShowAuthModal] = useState(false);
 
-  // Carica evento e ticket categories al mount o quando eventId cambia
   useEffect(() => {
     if (!eventId) return;
 
@@ -31,7 +29,6 @@ export default function BasketPage() {
       setLoading(true);
       setError("");
       try {
-        // 1) Recupera i dati dell'evento
         const eventRes = await fetch(`/api/events?event_id=${eventId}`);
         if (!eventRes.ok) {
           const errText = await eventRes.text();
@@ -44,7 +41,6 @@ export default function BasketPage() {
         const currentEvent = events[0];
         setEventData(currentEvent);
 
-        // 2) Recupera le ticket categories
         const catRes = await fetch(`/api/ticket-category?event_id=${eventId}`);
         if (!catRes.ok) {
           const errText = await catRes.text();
@@ -53,7 +49,6 @@ export default function BasketPage() {
         const { ticketCategories: cats } = await catRes.json();
         setTicketCategories(cats || []);
 
-        // Se la categoria inizialmente selezionata non esiste più, resettiamo
         if (initialTicketCategoryId && !cats.find((c) => c.id === initialTicketCategoryId)) {
           setSelectedTicketCategoryId(cats.length > 0 ? cats[0].id : "");
         }
@@ -68,11 +63,9 @@ export default function BasketPage() {
     fetchData();
   }, [eventId, initialTicketCategoryId]);
 
-  // Calcola la categoria selezionata e il prezzo totale
   const selectedCategory = ticketCategories.find((cat) => cat.id === selectedTicketCategoryId);
   const totalPrice = selectedCategory ? selectedCategory.price * quantity : 0;
 
-  // Funzione per gestire il checkout
   async function handleCheckout() {
     if (!selectedTicketCategoryId || quantity <= 0) {
       alert("Please select a ticket category and a valid quantity");
@@ -84,15 +77,10 @@ export default function BasketPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
-        body: JSON.stringify({
-          eventId,
-          ticketCategoryId: selectedTicketCategoryId,
-          quantity,
-        }),
+        body: JSON.stringify({ eventId, ticketCategoryId: selectedTicketCategoryId, quantity }),
       });
       if (!res.ok) {
         const errData = await res.json();
-        // Se l'errore è di autenticazione mostra il modal
         if (res.status === 401 || errData.error === "User not authenticated") {
           setShowAuthModal(true);
           return;
@@ -100,7 +88,6 @@ export default function BasketPage() {
         throw new Error(errData.error || "Checkout error");
       }
       const { url } = await res.json();
-      // Redirige all'URL di Stripe Checkout
       window.location.href = url;
     } catch (err) {
       console.error(err);
@@ -110,7 +97,6 @@ export default function BasketPage() {
     }
   }
 
-  // Se manca eventId, mostriamo un messaggio
   if (!eventId) {
     return (
       <CustomerLayout>
@@ -121,18 +107,16 @@ export default function BasketPage() {
     );
   }
 
-  // Stato di caricamento
   if (loading) {
     return (
       <CustomerLayout>
-        <div className="px-6 py-8 max-w-screen-xl mx-auto">
-          <p>Loading...</p>
+        <div className="flex items-center justify-center h-[300px]">
+          <LoadingSpinner />
         </div>
       </CustomerLayout>
     );
   }
 
-  // Visualizza errori
   if (error) {
     return (
       <CustomerLayout>
@@ -151,7 +135,7 @@ export default function BasketPage() {
         <div className="flex flex-col md:flex-row gap-6">
           {/* Colonna sinistra */}
           <div className="flex-1 border border-gray-300 p-4 rounded">
-            <h2 className="text-lg font-semibold mb-2">{eventData?.club_name || "Club Name"}</h2>
+          <h2 className="text-lg font-semibold mb-2">{eventData?.clubs?.name || "Club Name"}</h2>
             <p className="text-gray-600 mb-4">{eventData?.name || "Event name"}</p>
 
             {/* Selezione Ticket Category */}
