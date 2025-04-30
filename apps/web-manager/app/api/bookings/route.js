@@ -1,7 +1,6 @@
 // apps/web-manager/app/api/bookings/route.js
 import { createServerSupabase } from "@lib/supabase-server";
 import { NextResponse } from "next/server";
-import { Download, FileText, Loader2 } from "lucide-react";
 
 async function reverseGeocode(lat, lng) {
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
@@ -37,16 +36,20 @@ async function reverseGeocode(lat, lng) {
 
 export async function GET(request) {
   console.log("[Bookings] GET request received");
+
   try {
     const supabase = await createServerSupabase();
     const { searchParams } = new URL(request.url);
     const bookingId = searchParams.get("booking_id");
 
+    const page = parseInt(searchParams.get("page") || "1", 10);
+    const from = (page - 1) * 20;
+    const to = from + 19;
+
     const {
       data: { user },
     } = await supabase.auth.getUser();
 
-    console.log("[Bookings] Authenticated user:", user);
     if (!user) {
       return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
     }
@@ -62,7 +65,6 @@ export async function GET(request) {
     }
 
     const role = profileData.role;
-    console.log("[Bookings] User role:", role);
 
     let query = supabase
       .from("bookings")
@@ -76,7 +78,6 @@ export async function GET(request) {
           name,
           start_date,
           end_date,
-          club_id,
           clubs (
             name,
             lat,
@@ -85,14 +86,13 @@ export async function GET(request) {
           )
         )
       `)
-      .order("created_at", { ascending: false });
+      .order("created_at", { ascending: false })
+      .range(from, to);
 
     if (bookingId) {
       query = query.eq("id", bookingId);
-      console.log("[Bookings] Filtering for bookingId:", bookingId);
     } else {
       query = query.eq("status", "confirmed");
-      console.log("[Bookings] Filtering for status confirmed");
     }
 
     const { data, error } = await query;
@@ -100,23 +100,41 @@ export async function GET(request) {
 
     let bookings = data || [];
 
-    // Filtra in base al ruolo
+    // Conta il totale disponibile (per controllo frontend paginazione)
+let total = 0;
+{
+  const countQuery = supabase
+    .from("bookings")
+    .select("*", { count: "exact", head: true });
+
+  if (role === "customer") {
+    countQuery.eq("user_id", user.id);
+  } else if (role === "manager") {
+    countQuery.contains("events.clubs.manager_id", user.id);
+  }
+
+  const { count } = await countQuery.eq("status", "confirmed");
+  total = count || 0;
+}
+
+
+    // Filtro per ruolo
     if (role === "customer") {
       bookings = bookings.filter((b) => b.user_id === user.id);
     } else if (role === "manager") {
-      bookings = bookings.filter(
-        (b) => b.events?.clubs?.manager_id === user.id
-      );
+      bookings = bookings.filter((b) => b.events?.clubs?.manager_id === user.id);
     }
 
-    // Aggiungi email utente
+    // Recupero email utenti (una query sola)
+    const userIds = [...new Set(bookings.map((b) => b.user_id))];
+    const { data: profileList } = await supabase
+      .from("profiles")
+      .select("id, email")
+      .in("id", userIds);
+
+    const emailMap = Object.fromEntries((profileList || []).map((p) => [p.id, p.email]));
     for (const booking of bookings) {
-      const { data: pData } = await supabase
-        .from("profiles")
-        .select("email")
-        .eq("id", booking.user_id)
-        .single();
-      booking.userEmail = pData?.email || "N/A";
+      booking.userEmail = emailMap[booking.user_id] || "N/A";
     }
 
     // Geolocalizzazione inversa (facoltativa)
@@ -133,7 +151,6 @@ export async function GET(request) {
       );
     }
 
-    console.log("[Bookings] Final bookings returned:", bookings);
     return NextResponse.json({ bookings }, { status: 200 });
   } catch (err) {
     console.error("[Bookings] Error in GET /api/bookings:", err);

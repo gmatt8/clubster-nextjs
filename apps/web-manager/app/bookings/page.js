@@ -3,7 +3,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 import ManagerLayout from "../ManagerLayout";
-import { Download, FileText, Loader2 } from "lucide-react";
+import LoadingSpinner from "@/components/common/LoadingSpinner";
 
 const PAGE_SIZE = 20;
 
@@ -18,8 +18,9 @@ export default function ManagerBookingsPage() {
 
   useEffect(() => {
     async function fetchBookings() {
+      setLoading(true);
       try {
-        const res = await fetch("/api/bookings");
+        const res = await fetch(`/api/bookings?page=${currentPage}`);
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || "Errore");
         setBookings(data.bookings || []);
@@ -30,7 +31,7 @@ export default function ManagerBookingsPage() {
       }
     }
     fetchBookings();
-  }, []);
+  }, [currentPage]);
 
   const eventNames = useMemo(() => {
     const names = bookings.map((b) => b.events?.name).filter(Boolean);
@@ -66,13 +67,6 @@ export default function ManagerBookingsPage() {
     return temp;
   }, [bookings, searchTerm, selectedEvent, sortBy]);
 
-  const totalItems = filteredBookings.length;
-  const totalPages = Math.ceil(totalItems / PAGE_SIZE);
-  const displayedBookings = filteredBookings.slice(
-    (currentPage - 1) * PAGE_SIZE,
-    currentPage * PAGE_SIZE
-  );
-
   const handleDownloadTicket = (id) => {
     window.open(`/api/ticket?booking_id=${id}`, "_blank");
   };
@@ -90,7 +84,6 @@ export default function ManagerBookingsPage() {
             value={searchTerm}
             onChange={(e) => {
               setSearchTerm(e.target.value);
-              setCurrentPage(1);
             }}
           />
           <select
@@ -98,7 +91,6 @@ export default function ManagerBookingsPage() {
             value={selectedEvent}
             onChange={(e) => {
               setSelectedEvent(e.target.value);
-              setCurrentPage(1);
             }}
           >
             <option value="">All Events</option>
@@ -111,7 +103,6 @@ export default function ManagerBookingsPage() {
             value={sortBy}
             onChange={(e) => {
               setSortBy(e.target.value);
-              setCurrentPage(1);
             }}
           >
             <option value="date_desc">Date (Newest)</option>
@@ -124,13 +115,10 @@ export default function ManagerBookingsPage() {
         {/* Table */}
         <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
           {loading ? (
-            <div className="flex items-center gap-2 text-gray-600">
-              <Loader2 className="animate-spin w-5 h-5" />
-              Loading...
-            </div>
+            <LoadingSpinner />
           ) : error ? (
             <p className="text-red-600">{error}</p>
-          ) : displayedBookings.length === 0 ? (
+          ) : filteredBookings.length === 0 ? (
             <p>No bookings found.</p>
           ) : (
             <div className="overflow-x-auto">
@@ -146,7 +134,7 @@ export default function ManagerBookingsPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {displayedBookings.map((b) => {
+                  {filteredBookings.map((b) => {
                     const dateStr = new Date(b.created_at).toLocaleDateString("en-GB", {
                       year: "numeric",
                       month: "short",
@@ -174,7 +162,7 @@ export default function ManagerBookingsPage() {
                             onClick={() => handleDownloadTicket(b.id)}
                             className="inline-flex items-center gap-1 bg-purple-600 text-white text-xs px-3 py-1 rounded hover:bg-purple-700 mr-2"
                           >
-                            <Download className="w-4 h-4" /> Tickets
+                            Tickets
                           </button>
                         </td>
                       </tr>
@@ -186,31 +174,25 @@ export default function ManagerBookingsPage() {
           )}
         </div>
 
-        {/* Pagination */}
-        {totalPages > 1 && (
-          <div className="mt-4 flex justify-between items-center text-sm">
-            <p>
-              Showing {(currentPage - 1) * PAGE_SIZE + 1}–
-              {Math.min(currentPage * PAGE_SIZE, totalItems)} of {totalItems}
-            </p>
-            <div className="flex gap-2">
-              <button
-                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                disabled={currentPage === 1}
-                className="px-3 py-1 border rounded disabled:bg-gray-200 disabled:text-gray-400"
-              >
-                Prev
-              </button>
-              <button
-                onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
-                disabled={currentPage === totalPages}
-                className="px-3 py-1 border rounded disabled:bg-gray-200 disabled:text-gray-400"
-              >
-                Next
-              </button>
-            </div>
+        {/* Pagination (server-controlled) */}
+        <div className="mt-4 flex justify-between items-center text-sm">
+          <p>Page {currentPage}</p>
+          <div className="flex gap-2">
+            <button
+              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+              disabled={currentPage === 1}
+              className="px-3 py-1 border rounded disabled:bg-gray-200 disabled:text-gray-400"
+            >
+              Prev
+            </button>
+            <button
+              onClick={() => setCurrentPage((p) => p + 1)}
+              className="px-3 py-1 border rounded"
+            >
+              Next
+            </button>
           </div>
-        )}
+        </div>
       </div>
     </ManagerLayout>
   );

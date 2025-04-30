@@ -5,18 +5,17 @@ import { useEffect, useState, useRef } from "react";
 import { createBrowserSupabase } from "@lib/supabase-browser";
 import ManagerLayout from "../../ManagerLayout";
 import PhotosManager from "@/components/settings/PhotosManager";
-import ManagerSettingsHeader from "@/components/settings/SettingsHeader"; // Nuovo componente header
+import ManagerSettingsHeader from "@/components/settings/SettingsHeader";
 import FAQManager from "@/components/settings/FAQManager";
-
+import LoadingSpinner from "@/components/common/LoadingSpinner";
 
 export default function ManagerSettingsGeneralPage() {
   const supabase = createBrowserSupabase();
 
   const [managerId, setManagerId] = useState(null);
   const [clubId, setClubId] = useState(null);
-  const [images, setImages] = useState([]); // ci aspettiamo un array, ma limitato a 1 elemento
+  const [images, setImages] = useState([]);
 
-  // Campi del club
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
   const [lat, setLat] = useState(null);
@@ -34,11 +33,12 @@ export default function ManagerSettingsGeneralPage() {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
 
-  // Ref per Autocomplete di Google Maps
   const addressInputRef = useRef(null);
 
   useEffect(() => {
     async function fetchClubData() {
+      setLoading(true);
+
       const {
         data: { user },
         error: userError,
@@ -46,10 +46,12 @@ export default function ManagerSettingsGeneralPage() {
 
       if (userError) {
         setError("Errore nel recupero utente");
+        setLoading(false);
         return;
       }
       if (!user) {
         setError("Nessun utente loggato");
+        setLoading(false);
         return;
       }
 
@@ -63,6 +65,7 @@ export default function ManagerSettingsGeneralPage() {
 
       if (clubError) {
         setError("Errore nel recupero dati del club");
+        setLoading(false);
         return;
       }
 
@@ -78,15 +81,17 @@ export default function ManagerSettingsGeneralPage() {
         setPrice(clubData.price || "$");
         setSmoking(clubData.smoking || "not allowed");
         setCoatCheck(clubData.coat_check || "not available");
-        setImages(clubData.images || []); // qui ci aspettiamo un array, ma limitato a 1
+        setImages(clubData.images || []);
         if (clubData.lat) setLat(clubData.lat);
         if (clubData.lng) setLng(clubData.lng);
       }
+
+      setLoading(false);
     }
+
     fetchClubData();
   }, [supabase]);
 
-  // Inizializza Autocomplete di Google Maps
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (
@@ -147,7 +152,7 @@ export default function ManagerSettingsGeneralPage() {
         coat_check: coatCheck,
         lat,
         lng,
-        images, // verrà aggiornato con al massimo 1 elemento
+        images,
       }),
     });
 
@@ -165,180 +170,174 @@ export default function ManagerSettingsGeneralPage() {
   return (
     <ManagerLayout>
       <div className="px-6 py-8 max-w-screen-xl mx-auto">
-        {/* Nuovo header per una UI uniforme */}
-        <ManagerSettingsHeader 
-          title="General" 
-          backHref="/settings" 
-        />
+        <ManagerSettingsHeader title="General" backHref="/settings" />
 
-        <form onSubmit={handleSave} className="flex flex-col gap-6">
-          {/* Sezione "Informations" */}
-          <div>
-            <h2 className="text-lg font-semibold text-gray-700 mb-3">
-              Informations
-            </h2>
-            <div className="grid grid-cols-2 gap-4">
-              <div>
+        {loading ? (
+          <LoadingSpinner />
+        ) : (
+          <form onSubmit={handleSave} className="flex flex-col gap-6">
+            {/* Sezione "Informations" */}
+            <div>
+              <h2 className="text-lg font-semibold text-gray-700 mb-3">
+                Informations
+              </h2>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm text-gray-600 mb-1">
+                    Club Name
+                  </label>
+                  <input
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="block w-full border border-gray-300 rounded px-3 py-2 text-sm"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm text-gray-600 mb-1">
+                    Address
+                  </label>
+                  <input
+                    ref={addressInputRef}
+                    type="text"
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                    className="block w-full border border-gray-300 rounded px-3 py-2 text-sm"
+                  />
+                </div>
+              </div>
+              <div className="mt-4">
                 <label className="block text-sm text-gray-600 mb-1">
-                  Club Name
+                  Phone Number
                 </label>
                 <input
                   type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="block w-full border border-gray-300 rounded px-3 py-2 text-sm"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-sm text-gray-600 mb-1">
-                  Address
-                </label>
-                <input
-                  ref={addressInputRef}
-                  type="text"
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
+                  value={phoneNumber}
+                  onChange={(e) => setPhoneNumber(e.target.value)}
                   className="block w-full border border-gray-300 rounded px-3 py-2 text-sm"
                 />
               </div>
             </div>
-            <div className="mt-4">
-              <label className="block text-sm text-gray-600 mb-1">
-                Phone Number
-              </label>
-              <input
-                type="text"
-                value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
-                className="block w-full border border-gray-300 rounded px-3 py-2 text-sm"
-              />
-            </div>
-          </div>
 
-          {/* Sezione "Details" */}
-          <div>
-            <h2 className="text-lg font-semibold text-gray-700 mb-3">
-              Details
-            </h2>
-            <div className="mb-4">
-              <label className="block text-sm text-gray-600 mb-1">
-                Description
-              </label>
-              <textarea
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                className="block w-full border border-gray-300 rounded px-3 py-2 text-sm h-24"
-              />
-            </div>
-            <div className="grid grid-cols-3 gap-4">
-              <div>
+            {/* Sezione "Details" */}
+            <div>
+              <h2 className="text-lg font-semibold text-gray-700 mb-3">
+                Details
+              </h2>
+              <div className="mb-4">
                 <label className="block text-sm text-gray-600 mb-1">
-                  Capacity
+                  Description
                 </label>
-                <input
-                  type="number"
-                  value={capacity}
-                  onChange={(e) => setCapacity(e.target.value)}
-                  className="block w-full border border-gray-300 rounded px-3 py-2 text-sm"
+                <textarea
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  className="block w-full border border-gray-300 rounded px-3 py-2 text-sm h-24"
                 />
               </div>
-              <div>
-                <label className="block text-sm text-gray-600 mb-1">
-                  Outdoor Area
-                </label>
-                <select
-                  value={outdoorArea}
-                  onChange={(e) => setOutdoorArea(e.target.value)}
-                  className="block w-full border border-gray-300 rounded px-3 py-2 text-sm"
-                >
-                  <option value="available">Available</option>
-                  <option value="not available">Not available</option>
-                </select>
+              <div className="grid grid-cols-3 gap-4">
+                <div>
+                  <label className="block text-sm text-gray-600 mb-1">
+                    Capacity
+                  </label>
+                  <input
+                    type="number"
+                    value={capacity}
+                    onChange={(e) => setCapacity(e.target.value)}
+                    className="block w-full border border-gray-300 rounded px-3 py-2 text-sm"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm text-gray-600 mb-1">
+                    Outdoor Area
+                  </label>
+                  <select
+                    value={outdoorArea}
+                    onChange={(e) => setOutdoorArea(e.target.value)}
+                    className="block w-full border border-gray-300 rounded px-3 py-2 text-sm"
+                  >
+                    <option value="available">Available</option>
+                    <option value="not available">Not available</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm text-gray-600 mb-1">
+                    Parking
+                  </label>
+                  <select
+                    value={parking}
+                    onChange={(e) => setParking(e.target.value)}
+                    className="block w-full border border-gray-300 rounded px-3 py-2 text-sm"
+                  >
+                    <option value="available">Available</option>
+                    <option value="not available">Not available</option>
+                  </select>
+                </div>
               </div>
-              <div>
-                <label className="block text-sm text-gray-600 mb-1">
-                  Parking
-                </label>
-                <select
-                  value={parking}
-                  onChange={(e) => setParking(e.target.value)}
-                  className="block w-full border border-gray-300 rounded px-3 py-2 text-sm"
-                >
-                  <option value="available">Available</option>
-                  <option value="not available">Not available</option>
-                </select>
+              <div className="grid grid-cols-3 gap-4 mt-4">
+                <div>
+                  <label className="block text-sm text-gray-600 mb-1">
+                    Price
+                  </label>
+                  <select
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
+                    className="block w-full border border-gray-300 rounded px-3 py-2 text-sm"
+                  >
+                    <option value="$">$</option>
+                    <option value="$$">$$</option>
+                    <option value="$$$">$$$</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm text-gray-600 mb-1">
+                    Smoking
+                  </label>
+                  <select
+                    value={smoking}
+                    onChange={(e) => setSmoking(e.target.value)}
+                    className="block w-full border border-gray-300 rounded px-3 py-2 text-sm"
+                  >
+                    <option value="allowed">Allowed</option>
+                    <option value="not allowed">Not allowed</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm text-gray-600 mb-1">
+                    Coat Check
+                  </label>
+                  <select
+                    value={coatCheck}
+                    onChange={(e) => setCoatCheck(e.target.value)}
+                    className="block w-full border border-gray-300 rounded px-3 py-2 text-sm"
+                  >
+                    <option value="available">Available</option>
+                    <option value="not available">Not available</option>
+                  </select>
+                </div>
               </div>
             </div>
-            <div className="grid grid-cols-3 gap-4 mt-4">
-              <div>
-                <label className="block text-sm text-gray-600 mb-1">
-                  Price
-                </label>
-                <select
-                  value={price}
-                  onChange={(e) => setPrice(e.target.value)}
-                  className="block w-full border border-gray-300 rounded px-3 py-2 text-sm"
-                >
-                  <option value="$">$</option>
-                  <option value="$$">$$</option>
-                  <option value="$$$">$$$</option>
-                </select>
-              </div>
-              <div>
-                <label className="block text-sm text-gray-600 mb-1">
-                  Smoking
-                </label>
-                <select
-                  value={smoking}
-                  onChange={(e) => setSmoking(e.target.value)}
-                  className="block w-full border border-gray-300 rounded px-3 py-2 text-sm"
-                >
-                  <option value="allowed">Allowed</option>
-                  <option value="not allowed">Not allowed</option>
-                </select>
-              </div>
-              <div>
-                <label className="block text-sm text-gray-600 mb-1">
-                  Coat Check
-                </label>
-                <select
-                  value={coatCheck}
-                  onChange={(e) => setCoatCheck(e.target.value)}
-                  className="block w-full border border-gray-300 rounded px-3 py-2 text-sm"
-                >
-                  <option value="available">Available</option>
-                  <option value="not available">Not available</option>
-                </select>
-              </div>
+
+            {error && <p className="text-red-500 text-sm">{error}</p>}
+            {message && <p className="text-green-500 text-sm">{message}</p>}
+
+            <div>
+              <h2 className="text-lg font-semibold text-gray-700 mb-3">
+                Photo
+              </h2>
+              {clubId && managerId && (
+                <PhotosManager
+                  clubId={clubId}
+                  managerId={managerId}
+                  currentImages={images}
+                  onUpdate={(newImages) => setImages(newImages)}
+                />
+              )}
             </div>
-          </div>
 
-          {/* Sezione Errori e Messaggi */}
-          {error && <p className="text-red-500 text-sm">{error}</p>}
-          {message && <p className="text-green-500 text-sm">{message}</p>}
-
-          {/* Sezione "Photos" */}
-          <div>
-            <h2 className="text-lg font-semibold text-gray-700 mb-3">
-              Photo
-            </h2>
-            {clubId && managerId && (
-              <PhotosManager
-                clubId={clubId}
-                managerId={managerId}
-                currentImages={images}
-                onUpdate={(newImages) => setImages(newImages)}
-              />
-            )}
-          </div>
-
-{/* Sezione "FAQs" */}
-{clubId && (
-  <FAQManager clubId={clubId} />
-)}
-
-        </form>
+            {clubId && <FAQManager clubId={clubId} />}
+          </form>
+        )}
       </div>
     </ManagerLayout>
   );
