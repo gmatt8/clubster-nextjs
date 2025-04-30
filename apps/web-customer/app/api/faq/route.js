@@ -1,5 +1,5 @@
 // app/api/faq/route.js
-import { createServerSupabase } from "@lib/supabase-server";
+import { createServerSupabase } from "../../../../../lib/supabase-server";
 
 export async function GET(request) {
   const supabase = await createServerSupabase();

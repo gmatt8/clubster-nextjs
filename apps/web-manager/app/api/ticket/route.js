@@ -79,7 +79,7 @@ export async function GET(request) {
     const qrDataUrl = await QRCode.toDataURL(tickets[0].qr_data);
 
     // 5. Carica il template HTML
-    const templatePath = path.join(process.cwd(), "templates", "ticketTemplate.html");
+    const templatePath = path.join(process.cwd(), "..", "..", "shared", "templates", "ticketTemplate.html");
     let html = await fs.readFile(templatePath, "utf-8");
 
     // 6. Carica il logo dal file system e convertilo in base64

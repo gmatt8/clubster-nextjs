@@ -1,6 +1,6 @@
 // apps/web-customer/api/search/route.js
 import { NextResponse } from "next/server";
-import { createServerSupabase } from "@lib/supabase-server";
+import { createServerSupabase } from "../../../../../lib/supabase-server";
 
 // Funzione per il reverse geocode usando l'API di Google Maps
 async function reverseGeocode(lat, lng) {

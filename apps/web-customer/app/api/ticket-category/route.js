@@ -1,5 +1,5 @@
 // app/api/ticket-category/route.js
-import { createServerSupabase } from "@lib/supabase-server";
+import { createServerSupabase } from "../../../../../lib/supabase-server";
 
 // GET: Recupera le ticket categories per un determinato evento
 export async function GET(request) {

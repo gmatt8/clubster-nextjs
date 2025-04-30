@@ -1,5 +1,5 @@
 // apps/web-customer/app//api/sitemap-customer/route.js
-import { createServerSupabase } from "@lib/supabase-server";
+import { createServerSupabase } from "../../../../../lib/supabase-server";
 import { NextResponse } from "next/server";
 
 export async function GET() {

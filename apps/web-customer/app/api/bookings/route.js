@@ -1,5 +1,5 @@
 // /app/api/bookings/route.js
-import { createServerSupabase } from "@lib/supabase-server";
+import { createServerSupabase } from "../../../../../lib/supabase-server";
 import { NextResponse } from "next/server";
 import { Download, FileText, Loader2 } from "lucide-react";
 
