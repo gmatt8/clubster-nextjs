@@ -1,10 +1,10 @@
-// app/api/ticket/route.js
+// apps/web-manager/app/api/ticket/route.js
 import { NextResponse } from "next/server";
 import fs from "fs/promises";
 import path from "path";
 import puppeteer from "puppeteer";
 import QRCode from "qrcode";
-import { createServerSupabase } from "@lib/supabase-server";
+import { createServerSupabase } from "../../../../../lib/supabase-server";
 
 export async function GET(request) {
   try {

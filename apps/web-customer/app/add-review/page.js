@@ -1,3 +1,4 @@
+// apps/web-customer/app/add-review/page.js
 "use client";
 
 import { useSearchParams, useRouter } from "next/navigation";
@@ -77,6 +78,19 @@ export default function AddReviewPage() {
         throw new Error("User not found");
       }
       const userId = user.id;
+
+      console.log("Submitting review with:", {
+        user_id: userId,
+        club_id: clubId,
+        booking_id: bookingId,
+        event_id: eventId,
+        rating,
+        comment
+      });
+
+      if (!userId || !clubId || !bookingId || !eventId) {
+        throw new Error("Missing or invalid IDs in the request");
+      }
 
       const res = await fetch("/api/reviews", {
         method: "POST",
