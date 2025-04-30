@@ -42,7 +42,7 @@ export default function ManagerBookingsPage() {
     if (searchTerm) {
       const term = searchTerm.toLowerCase();
       temp = temp.filter((b) =>
-        (b.booking_number || "").toLowerCase().includes(term) ||
+        (b.id || "").toLowerCase().includes(term) ||
         (b.userEmail || "").toLowerCase().includes(term)
       );
     }
@@ -177,11 +177,12 @@ export default function ManagerBookingsPage() {
                             <Download className="w-4 h-4" /> Tickets
                           </button>
                           <button
-                            disabled
-                            className="inline-flex items-center gap-1 bg-gray-300 text-gray-700 text-xs px-3 py-1 rounded cursor-not-allowed"
-                          >
-                            <FileText className="w-4 h-4" /> Invoice
-                          </button>
+  onClick={() => window.open(`/api/invoice?booking_id=${b.id}`, "_blank")}
+  className="inline-flex items-center gap-1 bg-gray-300 text-gray-700 text-xs px-3 py-1 rounded hover:bg-gray-400"
+>
+  <FileText className="w-4 h-4" /> Invoice
+</button>
+
                         </td>
                       </tr>
                     );

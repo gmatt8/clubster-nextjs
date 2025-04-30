@@ -137,7 +137,7 @@ export default function Footer() {
           {/* Social Icons */}
           <div className="flex space-x-4">
             <Link
-              href="https://www.instagram.com/clubster_app"
+              href="https://www.instagram.com/clubsterhub"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-gray-400"
@@ -153,7 +153,7 @@ export default function Footer() {
               <SiTiktok className="w-6 h-6" />
             </Link>
             <Link
-              href="https://x.com/clubster_app"
+              href="https://x.com/clubsterhub"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-gray-400"

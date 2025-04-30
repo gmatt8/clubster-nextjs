@@ -4,7 +4,7 @@
 import { useState, useEffect } from "react";
 import { createBrowserSupabase } from "@lib/supabase-browser";
 import ManagerLayout from "../ManagerLayout";
-import { Loader2 } from "lucide-react";
+import { Loader2, CheckCircle } from "lucide-react";
 
 export default function ManagerPaymentsPage() {
   const [stripeStatus, setStripeStatus] = useState("loading");
@@ -63,10 +63,6 @@ export default function ManagerPaymentsPage() {
     }
   };
 
-  const handleGoToStripeDashboard = () => {
-    window.location.href = "https://dashboard.stripe.com/";
-  };
-
   const renderStripeStatus = () => {
     switch (stripeStatus) {
       case "loading":
@@ -85,12 +81,12 @@ export default function ManagerPaymentsPage() {
             </p>
             <button
               onClick={handleConnectStripe}
-              className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 text-sm"
+              className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 text-sm transition"
             >
               Collega Stripe
             </button>
             <p className="mt-4 text-xs text-gray-500">
-              Una volta completata la registrazione, tornerai automaticamente su questa pagina. Per assistenza,{" "}
+              Una volta completata la registrazione, tornerai automaticamente su questa pagina. Per assistenza, {" "}
               <a href="/support" className="text-purple-600 underline">contatta il supporto</a>.
             </p>
           </div>
@@ -104,7 +100,7 @@ export default function ManagerPaymentsPage() {
             </p>
             <button
               onClick={handleConnectStripe}
-              className="bg-yellow-600 text-white px-4 py-2 rounded hover:bg-yellow-700 text-sm"
+              className="bg-yellow-600 text-white px-4 py-2 rounded hover:bg-yellow-700 text-sm transition"
             >
               Completa configurazione
             </button>
@@ -113,14 +109,17 @@ export default function ManagerPaymentsPage() {
       case "active":
         return (
           <div className="bg-green-50 border border-green-300 p-6 rounded-2xl shadow-sm">
-            <h2 className="text-xl font-semibold text-green-800 mb-2">Stripe attivo ✅</h2>
+            <h2 className="text-xl font-semibold text-green-800 mb-3 flex items-center gap-2">
+              <CheckCircle className="w-5 h-5 text-green-700" />
+              Stripe collegato con successo
+            </h2>
             <div className="text-sm text-gray-800 mb-3">
               <p><span className="font-medium">Account ID:</span> {stripeAccountId}</p>
               <p><span className="font-medium">Status:</span> Attivo</p>
             </div>
             <button
-              onClick={handleGoToStripeDashboard}
-              className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 text-sm"
+              onClick={() => window.open("https://dashboard.stripe.com/", "_blank")}
+              className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 text-sm transition"
             >
               Vai alla Dashboard Stripe
             </button>
