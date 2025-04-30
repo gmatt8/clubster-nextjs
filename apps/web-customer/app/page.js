@@ -22,24 +22,31 @@ export default function CustomerHomePage() {
   const [searchDone, setSearchDone] = useState(false);
 
   async function handleSearch() {
-    if (!city.trim()) {
+    if (searchType === "club" && !city.trim()) {
       setErrorMsg("Inserisci una città");
       return;
     }
-
+  
+    if (searchType === "event" && !city.trim() && !date) {
+      setErrorMsg("Inserisci una città o una data");
+      return;
+    }
+  
     setLoading(true);
     setErrorMsg("");
     setSearchDone(true);
-
-    const endpoint = searchType === "event" ? "/api/events" : "/api/clubs";
+  
     const params = new URLSearchParams();
-    params.set("city", city);
+    params.set("type", searchType);
+    if (city.trim()) {
+      params.set("location", city);
+    }
     if (searchType === "event" && date) {
       params.set("date", format(date, "yyyy-MM-dd"));
     }
-
+  
     try {
-      const res = await fetch(`${endpoint}?${params.toString()}`);
+      const res = await fetch(`/api/search?${params.toString()}`);
       const data = await res.json();
       if (res.ok) {
         setResults(searchType === "event" ? data.events : data.clubs);
@@ -53,6 +60,8 @@ export default function CustomerHomePage() {
       setLoading(false);
     }
   }
+  
+  
 
   return (
     <CustomerLayout>
