@@ -4,154 +4,25 @@
 > next build
 
 [1G[0K- [36minfo[39m Loaded env from /Users/mattiagori/Desktop/clubster-nextjs/apps/web-customer/.env.local
-[?25l- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G[?25h- [36minfo[39m Creating an optimized production build  
-- [36minfo[39m Compiled successfully
-[?25l- [36minfo[39m Linting and checking validity of types [36m.[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m..[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m...[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m.[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m..[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m...[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m.[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m..[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m...[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m.[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m..[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m...[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m.[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m..[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m...[39m[2K[1G[?25h- [36minfo[39m Linting and checking validity of types  
-[?25l- [36minfo[39m Collecting page data [36m.[39m[2K[1G- [36minfo[39m Collecting page data [36m..[39m(node:23552) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:23546) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:23548) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:23547) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:23550) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:23545) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:23549) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-[2K[1G- [36minfo[39m Collecting page data [36m...[39m[2K[1G- [36minfo[39m Collecting page data [36m.[39m[2K[1G- [36minfo[39m Collecting page data [36m..[39m[2K[1G- [36minfo[39m Collecting page data [36m...[39m[2K[1G- [36minfo[39m Collecting page data [36m.[39m[2K[1G- [36minfo[39m Collecting page data [36m..[39m[2K[1G- [36minfo[39m Collecting page data [36m...[39m[2K[1G- [36minfo[39m Collecting page data [36m.[39m[2K[1G- [36minfo[39m Collecting page data [36m..[39m[2K[1G- [36minfo[39m Collecting page data [36m...[39m[2K[1G- [36minfo[39m Collecting page data [36m.[39m[2K[1G[?25h- [36minfo[39m Collecting page data  
-[?25l[36m[    ][39m - [36minfo[39m Generating static pages (0/35)[Bookings] GET request received
-[Supabase] Creating server Supabase client...
-[Bookings] Error in GET /api/bookings: DynamicServerError: Dynamic server usage: Page couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
-    at staticGenerationBailout (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-customer/.next/server/chunks/6095.js:165:21)
-    at cookies (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-customer/.next/server/chunks/9854.js:186:62)
-    at createServerSupabase (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-customer/.next/server/chunks/1674.js:21:84)
-    at GET (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-customer/.next/server/app/api/bookings/route.js:197:79)
-    at /Users/mattiagori/Desktop/clubster-nextjs/apps/web-customer/.next/server/chunks/9854.js:5758:43
-    at /Users/mattiagori/Desktop/clubster-nextjs/apps/web-customer/.next/server/chunks/9854.js:6621:36
-    at NoopContextManager.with (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-customer/.next/server/chunks/9854.js:1047:30)
-    at ContextAPI.with (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-customer/.next/server/chunks/9854.js:717:58)
-    at NoopTracer.startActiveSpan (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-customer/.next/server/chunks/9854.js:1640:34)
-    at ProxyTracer.startActiveSpan (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-customer/.next/server/chunks/9854.js:1680:36) {
-  digest: 'DYNAMIC_SERVER_USAGE'
-}
-[Supabase] Creating server Supabase client...
-Errore generico nella rotta /api/search: DynamicServerError: Dynamic server usage: Page couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
-    at staticGenerationBailout (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-customer/.next/server/chunks/6095.js:165:21)
-    at cookies (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-customer/.next/server/chunks/9854.js:186:62)
-    at createServerSupabase (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-customer/.next/server/chunks/1674.js:21:84)
-    at GET (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-customer/.next/server/app/api/search/route.js:252:79)
-    at /Users/mattiagori/Desktop/clubster-nextjs/apps/web-customer/.next/server/chunks/9854.js:5758:43
-    at /Users/mattiagori/Desktop/clubster-nextjs/apps/web-customer/.next/server/chunks/9854.js:6621:36
-    at NoopContextManager.with (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-customer/.next/server/chunks/9854.js:1047:30)
-    at ContextAPI.with (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-customer/.next/server/chunks/9854.js:717:58)
-    at NoopTracer.startActiveSpan (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-customer/.next/server/chunks/9854.js:1640:34)
-    at ProxyTracer.startActiveSpan (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-customer/.next/server/chunks/9854.js:1680:36) {
-  digest: 'DYNAMIC_SERVER_USAGE'
-}
-[Supabase] Creating server Supabase client...
-[Supabase] Creating server Supabase client...
-GET /api/club error: DynamicServerError: Dynamic server usage: Page couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
-    at staticGenerationBailout (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-customer/.next/server/chunks/6095.js:165:21)
-    at cookies (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-customer/.next/server/chunks/9854.js:186:62)
-    at createServerSupabase (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-customer/.next/server/chunks/1674.js:21:84)
-    at GET (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-customer/.next/server/app/api/club/route.js:150:79)
-    at /Users/mattiagori/Desktop/clubster-nextjs/apps/web-customer/.next/server/chunks/9854.js:5758:43
-    at /Users/mattiagori/Desktop/clubster-nextjs/apps/web-customer/.next/server/chunks/9854.js:6621:36
-    at NoopContextManager.with (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-customer/.next/server/chunks/9854.js:1047:30)
-    at ContextAPI.with (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-customer/.next/server/chunks/9854.js:717:58)
-    at NoopTracer.startActiveSpan (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-customer/.next/server/chunks/9854.js:1640:34)
-    at ProxyTracer.startActiveSpan (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-customer/.next/server/chunks/9854.js:1680:36) {
-  digest: 'DYNAMIC_SERVER_USAGE'
-}
-[Supabase] Creating server Supabase client...
-[Supabase] Creating server Supabase client...
-[Supabase] Creating server Supabase client...
-Error /api/events: DynamicServerError: Dynamic server usage: Page couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
-    at staticGenerationBailout (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-customer/.next/server/chunks/6095.js:165:21)
-    at cookies (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-customer/.next/server/chunks/9854.js:186:62)
-    at createServerSupabase (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-customer/.next/server/chunks/1674.js:21:84)
-    at GET (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-customer/.next/server/app/api/events/route.js:150:79)
-    at /Users/mattiagori/Desktop/clubster-nextjs/apps/web-customer/.next/server/chunks/9854.js:5758:43
-    at /Users/mattiagori/Desktop/clubster-nextjs/apps/web-customer/.next/server/chunks/9854.js:6621:36
-    at NoopContextManager.with (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-customer/.next/server/chunks/9854.js:1047:30)
-    at ContextAPI.with (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-customer/.next/server/chunks/9854.js:717:58)
-    at NoopTracer.startActiveSpan (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-customer/.next/server/chunks/9854.js:1640:34)
-    at ProxyTracer.startActiveSpan (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-customer/.next/server/chunks/9854.js:1680:36) {
-  digest: 'DYNAMIC_SERVER_USAGE'
-}
-- warn Entire page /login deopted into client-side rendering. https://nextjs.org/docs/messages/deopted-into-client-rendering /login
-- warn Entire page /basket deopted into client-side rendering. https://nextjs.org/docs/messages/deopted-into-client-rendering /basket
-- warn Entire page /add-review deopted into client-side rendering. https://nextjs.org/docs/messages/deopted-into-client-rendering /add-review
-- warn Entire page /club-details deopted into client-side rendering. https://nextjs.org/docs/messages/deopted-into-client-rendering /club-details
-- warn Entire page /checkout/success deopted into client-side rendering. https://nextjs.org/docs/messages/deopted-into-client-rendering /checkout/success
-Error generating PDF ticket: DynamicServerError: Dynamic server usage: Page couldn't be rendered statically because it used `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
-    at Object.staticGenerationBailout (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-customer/.next/server/chunks/6095.js:165:21)
-    at handleReqBailout (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-customer/.next/server/chunks/9854.js:5452:23)
-    at Object.get (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-customer/.next/server/chunks/9854.js:5460:13)
-    at GET (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-customer/.next/server/app/api/ticket/route.js:175:50)
-    at /Users/mattiagori/Desktop/clubster-nextjs/apps/web-customer/.next/server/chunks/9854.js:5758:43
-    at /Users/mattiagori/Desktop/clubster-nextjs/apps/web-customer/.next/server/chunks/9854.js:6621:36
-    at NoopContextManager.with (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-customer/.next/server/chunks/9854.js:1047:30)
-    at ContextAPI.with (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-customer/.next/server/chunks/9854.js:717:58)
-    at NoopTracer.startActiveSpan (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-customer/.next/server/chunks/9854.js:1640:34)
-    at ProxyTracer.startActiveSpan (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-customer/.next/server/chunks/9854.js:1680:36) {
-  digest: 'DYNAMIC_SERVER_USAGE'
-}
-[2K[1G[?25h- [36minfo[39m Generating static pages (35/35)
-[?25l- [36minfo[39m Finalizing page optimization [36m.[39m[2K[1G[?25h- [36minfo[39m Finalizing page optimization  
+[?25l- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G[?25h[31mFailed to compile.[39m
+[31m[39m
+[?25l- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G[?25h./app/api/stripe/callback/route.js
+[31m[1mModule not found[22m[39m: Can't resolve '[32m../../../../../lib/supabase-server[39m'
 
-[4mRoute (app)[24m                                [4mSize[24m     [4mFirst Load JS[24m
-┌ ○ /                                      2.82 kB         [31m[1m178 kB[22m[39m
-├ ○ /_not-found                            0 B                [32m0 B[39m
-├ ○ /add-review                            1.61 kB         [33m131 kB[39m
-├ λ /api/bookings                          0 B                [32m0 B[39m
-├ λ /api/checkout                          0 B                [32m0 B[39m
-├ λ /api/club                              0 B                [32m0 B[39m
-├ λ /api/events                            0 B                [32m0 B[39m
-├ λ /api/faq                               0 B                [32m0 B[39m
-├ λ /api/popular                           0 B                [32m0 B[39m
-├ λ /api/reviews                           0 B                [32m0 B[39m
-├ λ /api/search                            0 B                [32m0 B[39m
-├ λ /api/sitemap-customer                  0 B                [32m0 B[39m
-├ ○ /api/sitemap-manager                   0 B                [32m0 B[39m
-├ λ /api/stripe/callback                   0 B                [32m0 B[39m
-├ λ /api/stripe/connect                    0 B                [32m0 B[39m
-├ λ /api/stripe/onboarding                 0 B                [32m0 B[39m
-├ λ /api/stripe/webhook                    0 B                [32m0 B[39m
-├ λ /api/ticket                            0 B                [32m0 B[39m
-├ λ /api/ticket-category                   0 B                [32m0 B[39m
-├ λ /api/user                              0 B                [32m0 B[39m
-├ ○ /basket                                21.6 kB         [33m151 kB[39m
-├ ○ /bookings                              1.86 kB         [33m132 kB[39m
-├ ○ /checkout/cancel                       905 B          [32m79.5 kB[39m
-├ ○ /checkout/success                      1.34 kB         [33m131 kB[39m
-├ ○ /club-details                          4.53 kB         [33m134 kB[39m
-├ ○ /favicon.ico                           0 B                [32m0 B[39m
-├ ○ /home                                  2.84 kB         [31m[1m178 kB[22m[39m
-├ ○ /login                                 2.47 kB         [32m121 kB[39m
-├ ○ /privacy-policy                        1.17 kB         [33m131 kB[39m
-├ ○ /settings                              929 B           [33m131 kB[39m
-├ ○ /settings/login-and-security           1.39 kB         [33m131 kB[39m
-├ ○ /support                               1.06 kB         [33m131 kB[39m
-└ ○ /terms-of-service                      1.11 kB         [33m131 kB[39m
-+ First Load JS shared by all              [32m78.6 kB[39m
-  ├ chunks/1dd3208c-90cbacc96b1e7a2f.js    50.6 kB
-  ├ chunks/575-486998081838c4e8.js         26 kB
-  ├ chunks/main-app-fa040a4d555c3a3f.js    221 B
-  └ chunks/webpack-6ccf8f6fd2b7d1b7.js     1.81 kB
+https://nextjs.org/docs/messages/module-not-found
 
-[4mRoute (pages)[24m                              [4mSize[24m     [4mFirst Load JS[24m
-─ ○ /404                                   178 B            [32m76 kB[39m
-+ First Load JS shared by all              [32m75.8 kB[39m
-  ├ chunks/framework-fef96c9893968102.js   45.1 kB
-  ├ chunks/main-1d83699375de68cd.js        28.7 kB
-  ├ chunks/pages/_app-12a7bb3ca92362ee.js  194 B
-  └ chunks/webpack-6ccf8f6fd2b7d1b7.js     1.81 kB
+./app/api/stripe/onboarding/route.js
+[31m[1mModule not found[22m[39m: Can't resolve '[32m../../../../../lib/supabase-server[39m'
 
-λ  (Server)  server-side renders at runtime (uses [36mgetInitialProps[39m or [36mgetServerSideProps[39m)
-○  (Static)  automatically rendered as static HTML (uses no initial props)
-
-[?25h[1G[0K⠙[1G[0K
+https://nextjs.org/docs/messages/module-not-found
+[?25l- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G[?25h
+[?25l- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G[?25h
+[?25l- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G[?25h> Build failed because of webpack errors
+[?25l- [36minfo[39m Creating an optimized production build [36m.[39m[?25h[1G[0K⠙[1G[0K[1mnpm[22m [31merror[39m Lifecycle script `build` failed with error:
+[1G[0K⠙[1G[0K[1mnpm[22m [31merror[39m [94mcode[39m [33m1[39m
+[1G[0K⠙[1G[0K[1mnpm[22m [31merror[39m [94mpath[39m /Users/mattiagori/Desktop/clubster-nextjs/apps/web-customer
+[1G[0K⠙[1G[0K[1mnpm[22m [31merror[39m [94mworkspace[39m web-customer@0.1.0
+[1G[0K⠙[1G[0K[1mnpm[22m [31merror[39m [94mlocation[39m /Users/mattiagori/Desktop/clubster-nextjs/apps/web-customer
+[1G[0K⠙[1G[0K[1mnpm[22m [31merror[39m command failed
+[1G[0K⠙[1G[0K[1mnpm[22m [31merror[39m [94mcommand[39m sh -c next build
+[1G[0K⠙[1G[0K

@@ -3,7 +3,7 @@ export const runtime = 'nodejs';
 
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
-import { createServerSupabase } from "../../../../../lib/supabase-server";
+import { createServerSupabase } from "../../../../../../lib/supabase-server";
 
 export async function POST(request) {
   // Inizializza il client Supabase nel contesto della richiesta

@@ -2,7 +2,7 @@
 export const runtime = 'nodejs';
 
 import { NextResponse } from 'next/server';
-import { createServerSupabase } from "../../../../../lib/supabase-server";
+import { createServerSupabase } from "../../../../../../lib/supabase-server";
 
 export async function GET(request) {
   // Crea un client Supabase lato server che legge i cookie di auth
