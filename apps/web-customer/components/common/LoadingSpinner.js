@@ -1,3 +1,4 @@
+// apps/web-customer/components/common/LoadingSpinner.js
 export default function LoadingSpinner() {
     return (
       <div className="flex items-center justify-center h-[150px]">

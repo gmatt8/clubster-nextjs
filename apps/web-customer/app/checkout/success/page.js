@@ -4,6 +4,7 @@
 import { useSearchParams, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import CustomerLayout from "../../CustomerLayout";
+import LoadingSpinner from "@/components/common/LoadingSpinner";
 
 export default function CheckoutSuccessPage() {
   const searchParams = useSearchParams();
@@ -47,11 +48,12 @@ export default function CheckoutSuccessPage() {
     return (
       <CustomerLayout>
         <div className="px-6 py-8 max-w-screen-xl mx-auto text-center">
-          Loading order details...
+          <LoadingSpinner />
         </div>
       </CustomerLayout>
     );
   }
+  
 
   if (error || !booking) {
     return (
@@ -85,9 +87,10 @@ export default function CheckoutSuccessPage() {
     : "";
   const eventName = event ? event.name : "";
   const eventLocation =
-    event && event.clubs
-      ? `${event.clubs.club_name}, ${event.clubs.city} (${event.clubs.country})`
-      : "";
+  event && event.clubs
+    ? `${event.clubs.name || event.clubs.clubName || "Unnamed club"}, ${event.clubs.city} (${event.clubs.country})`
+    : "";
+
 
   return (
     <CustomerLayout>
@@ -119,14 +122,6 @@ export default function CheckoutSuccessPage() {
                 }
               >
                 Download tickets
-              </button>
-              <button
-                className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700"
-                onClick={() =>
-                  window.open(`/api/invoice?booking_id=${booking.id}`, "_blank")
-                }
-              >
-                Download invoice
               </button>
             </div>
           </div>
