@@ -8,6 +8,9 @@ import ManagerLayout from "../../ManagerLayout";
 import UploadEventImage from "@components/events/UploadEventImage";
 import DatePicker from "@components/events/DataTimePicker";
 import EventHeader from "@components/events/EventHeader";
+import { AlertMessage } from "@components/common/AlertMessage";
+import LoadingOverlay from "@components/common/LoadingOverlay";
+import LoadingSpinner from "@/components/common/LoadingSpinner";
 
 // Lista predefinita dei generi musicali
 const predefinedGenres = [
@@ -84,6 +87,14 @@ export default function NewEventPage() {
     }
     fetchManager();
   }, [supabase]);
+
+  if (clubStripeStatus === null) {
+    return (
+      <ManagerLayout>
+        <LoadingSpinner />
+      </ManagerLayout>
+    );
+  }  
 
   if (clubStripeStatus !== "active") {
     return (
@@ -233,11 +244,13 @@ export default function NewEventPage() {
 
   return (
     <ManagerLayout>
-      <div className="px-6 py-8 max-w-screen-xl mx-auto">
+  {loading && <LoadingOverlay />}
+  <div className="px-6 py-8 max-w-screen-xl mx-auto">
         <EventHeader title="Create New Event" />
 
-        {error && <p className="text-red-600 mb-4">{error}</p>}
-        {message && <p className="text-green-600 mb-4">{message}</p>}
+        {error && <AlertMessage type="error">{error}</AlertMessage>}
+{message && <AlertMessage type="success">{message}</AlertMessage>}
+
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-6">
           {/* BOX 1: Dettagli evento */}
