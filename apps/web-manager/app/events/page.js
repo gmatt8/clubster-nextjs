@@ -17,6 +17,7 @@ export default function EventsPage() {
   const [clubId, setClubId] = useState(null);
   const [clubStripeStatus, setClubStripeStatus] = useState(null);
   const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true); // ✅ aggiunto stato di loading
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -59,6 +60,8 @@ export default function EventsPage() {
       } catch (err) {
         console.error(err);
         setError(err.message);
+      } finally {
+        setLoading(false); // ✅ fine caricamento
       }
     }
 
@@ -80,16 +83,16 @@ export default function EventsPage() {
 
   return (
     <ManagerLayout>
-      {/* Titolo coerente come nella Dashboard */}
       <h1 className="text-3xl font-semibold mb-6 tracking-tight">Events</h1>
 
       <div className="flex flex-col md:flex-row gap-8 h-full">
         <EventsSidebar
           events={events}
+          loading={loading} // ✅ passa loading
           onNewEvent={goToNewEvent}
           onEditEvent={goToEditEvent}
         />
-        <EventsCalendar events={events} />
+        <EventsCalendar events={events} loading={loading} />
       </div>
 
       {error && (
