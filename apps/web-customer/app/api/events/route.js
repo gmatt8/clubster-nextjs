@@ -1,5 +1,4 @@
 // apps/web-customer/api/events/route.js
-// apps/web-customer/api/events/route.js
 import { createServerSupabase } from "../../../../../lib/supabase-server";
 
 export async function GET(request) {

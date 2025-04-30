@@ -11,7 +11,7 @@ export default function PopularEvents() {
   useEffect(() => {
     async function fetchEvents() {
       try {
-        const res = await fetch("/api/events?random=true&limit=5");
+        const res = await fetch("/api/events?random=true&limit=5&upcoming=true");
         const { events } = await res.json();
         setEvents(events || []);
       } catch (error) {
