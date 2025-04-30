@@ -3,6 +3,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import LoadingSpinner from "../common/LoadingSpinner";
 
 const CLUB_IDS = [
   "be8dbea9-83b8-4e91-968f-2feb465ca7de",
@@ -45,9 +46,7 @@ export default function PopularClubs() {
     fetchClubDetails();
   }, []);
 
-  if (loading) {
-    return <div className="text-center">Loading popular clubs...</div>;
-  }
+  if (loading) return <LoadingSpinner />;
 
   if (clubs.length === 0) {
     return <div className="text-center">Nessun club disponibile</div>;

@@ -1,12 +1,12 @@
 // apps/web-customer/components/home/popularEvents.js
-"use client";
-
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import LoadingSpinner from "../common/LoadingSpinner";
 
 export default function PopularEvents() {
   const router = useRouter();
   const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchEvents() {
@@ -16,10 +16,14 @@ export default function PopularEvents() {
         setEvents(events || []);
       } catch (error) {
         console.error("Errore caricando eventi:", error);
+      } finally {
+        setLoading(false);
       }
     }
     fetchEvents();
   }, []);
+
+  if (loading) return <LoadingSpinner />;
 
   if (events.length === 0) {
     return <div className="text-center">No events available</div>;
