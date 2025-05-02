@@ -60,7 +60,10 @@ export default function RootLayout({ children }) {
           }
         `}} />
       </head>
-      <body>{children}</body>
+      <body>
+  {children}
+  <Analytics />
+</body>
     </html>
   );
 }

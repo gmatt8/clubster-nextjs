@@ -46,7 +46,10 @@ export default function RootLayout({ children }) {
           defer
         ></script>
       </head>
-      <body>{children}</body>
+      <body>
+  {children}
+  <Analytics />
+</body>
     </html>
   );
 }
