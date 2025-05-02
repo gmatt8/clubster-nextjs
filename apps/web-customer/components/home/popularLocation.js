@@ -1,4 +1,5 @@
 // apps/web-customer/components/home/popularLocation.js
+"use client";
 
 import React from "react";
 
@@ -15,7 +16,7 @@ const popularDestinations = [
     name: "Milan",
     country: "Italy",
     lat: 45.4642,
-    lng: 9.1900,
+    lng: 9.19,
     address: "Milan, Italy",
     image: "/images/milan.jpg",
   },
@@ -23,7 +24,7 @@ const popularDestinations = [
     name: "Munich",
     country: "Germany",
     lat: 48.1351,
-    lng: 11.5820,
+    lng: 11.582,
     address: "Munich, Germany",
     image: "/images/munich.jpg",
   },
@@ -48,25 +49,23 @@ const popularDestinations = [
 export default function PopularLocation({ onSelect, selectedAddress }) {
   return (
     <div className="w-full overflow-x-auto pb-4">
-      <div className="flex space-x-4">
+      <div className="flex gap-4">
         {popularDestinations.map((dest) => (
           <div
             key={dest.name}
             onClick={() => onSelect(dest)}
-            className={`min-w-[180px] bg-white rounded-lg shadow hover:shadow-md transition-shadow cursor-pointer ${
-              selectedAddress === dest.address
-                ? "border-2 border-purple-600"
-                : ""
+            className={`relative min-w-[180px] h-40 rounded-xl overflow-hidden shadow-md cursor-pointer transform hover:scale-[1.03] transition ${
+              selectedAddress === dest.address ? "ring-2 ring-purple-600" : ""
             }`}
           >
             <img
               src={dest.image}
               alt={dest.name}
-              className="w-full h-32 object-cover rounded-t-lg"
+              className="w-full h-full object-cover"
             />
-            <div className="p-3 text-center">
-              <p className="font-semibold text-sm text-gray-800">{dest.name}</p>
-              <p className="text-xs text-gray-500">{dest.country}</p>
+            <div className="absolute inset-0 bg-black/40 flex flex-col justify-end p-3 text-white">
+              <p className="font-semibold text-sm">{dest.name}</p>
+              <p className="text-xs text-gray-200">{dest.country}</p>
             </div>
           </div>
         ))}

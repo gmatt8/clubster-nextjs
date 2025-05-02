@@ -11,18 +11,13 @@ export default function CustomerSettingsLoginSecurityPage() {
 
   const [userEmail, setUserEmail] = useState("");
   const [userId, setUserId] = useState(null);
-
-  // Campi per cambio password
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
-
-  // Messaggi di stato
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // Al mount, recupera l'utente loggato
   useEffect(() => {
     async function getUser() {
       const {
@@ -30,7 +25,7 @@ export default function CustomerSettingsLoginSecurityPage() {
         error: userError,
       } = await supabase.auth.getUser();
       if (userError) {
-        setError("Errore nel recupero utente");
+        setError("Unable to retrieve user");
       } else if (user) {
         setUserEmail(user.email);
         setUserId(user.id);
@@ -39,40 +34,37 @@ export default function CustomerSettingsLoginSecurityPage() {
     getUser();
   }, [supabase]);
 
-  // Funzione per cambiare la password
   async function handleChangePassword(e) {
     e.preventDefault();
     setError("");
     setMessage("");
 
     if (!currentPassword || !newPassword || !confirmNewPassword) {
-      setError("Compila tutti i campi");
+      setError("Please fill in all fields");
       return;
     }
     if (newPassword !== confirmNewPassword) {
-      setError("La nuova password e la conferma non coincidono");
+      setError("Passwords do not match");
       return;
     }
     if (!userEmail) {
-      setError("Impossibile determinare l'email utente");
+      setError("User email is missing");
       return;
     }
 
     setLoading(true);
 
     try {
-      // Verifica password attuale
-      const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
+      const { error: signInError } = await supabase.auth.signInWithPassword({
         email: userEmail,
         password: currentPassword,
       });
       if (signInError) {
-        setError("La password attuale non è corretta");
+        setError("Current password is incorrect");
         setLoading(false);
         return;
       }
 
-      // Aggiorna password
       const { error: updateError } = await supabase.auth.updateUser({
         password: newPassword,
       });
@@ -82,9 +74,12 @@ export default function CustomerSettingsLoginSecurityPage() {
         return;
       }
 
-      setMessage("Password aggiornata con successo!");
+      setMessage("Password updated successfully");
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmNewPassword("");
     } catch (err) {
-      setError("Errore sconosciuto durante il cambio password");
+      setError("Unexpected error while changing password");
     } finally {
       setLoading(false);
     }
@@ -92,15 +87,13 @@ export default function CustomerSettingsLoginSecurityPage() {
 
   return (
     <CustomerLayout>
-      <div className="px-6 py-8 max-w-screen-xl mx-auto">
+      <div className="px-6 py-12 max-w-screen-md mx-auto">
         <SettingsHeader title="Login and Security" />
 
-        {/* Contenitore del form */}
-        <div className="max-w-md bg-white rounded-lg shadow p-6">
-          <form onSubmit={handleChangePassword} className="flex flex-col space-y-4">
-            {/* Current Password */}
+        <div className="mt-6 bg-white border border-gray-200 rounded-xl shadow p-6">
+          <form onSubmit={handleChangePassword} className="space-y-5">
             <div>
-              <label className="block text-sm font-medium text-gray-700">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
                 Current Password
               </label>
               <input
@@ -108,14 +101,12 @@ export default function CustomerSettingsLoginSecurityPage() {
                 value={currentPassword}
                 onChange={(e) => setCurrentPassword(e.target.value)}
                 required
-                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2
-                           focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-purple-500"
+                className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
               />
             </div>
 
-            {/* New Password */}
             <div>
-              <label className="block text-sm font-medium text-gray-700">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
                 New Password
               </label>
               <input
@@ -123,14 +114,12 @@ export default function CustomerSettingsLoginSecurityPage() {
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
                 required
-                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2
-                           focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-purple-500"
+                className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
               />
             </div>
 
-            {/* Confirm New Password */}
             <div>
-              <label className="block text-sm font-medium text-gray-700">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
                 Confirm New Password
               </label>
               <input
@@ -138,26 +127,23 @@ export default function CustomerSettingsLoginSecurityPage() {
                 value={confirmNewPassword}
                 onChange={(e) => setConfirmNewPassword(e.target.value)}
                 required
-                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2
-                           focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-purple-500"
+                className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
               />
             </div>
 
-            {/* Pulsante di salvataggio */}
-            <button
-              type="submit"
-              disabled={loading}
-              className="inline-flex items-center justify-center rounded-md bg-purple-600
-                         px-4 py-2 text-white hover:bg-purple-700 focus:outline-none
-                         focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
-            >
-              {loading ? "Saving..." : "Save"}
-            </button>
+            <div className="text-right">
+              <button
+                type="submit"
+                disabled={loading}
+                className="bg-purple-600 text-white px-5 py-2 rounded hover:bg-purple-700 text-sm font-medium"
+              >
+                {loading ? "Saving..." : "Save Changes"}
+              </button>
+            </div>
           </form>
 
-          {/* Messaggi di errore/successo */}
-          {error && <p className="text-red-600 mt-4">{error}</p>}
-          {message && <p className="text-green-600 mt-4">{message}</p>}
+          {error && <p className="text-red-600 mt-4 text-sm">{error}</p>}
+          {message && <p className="text-green-600 mt-4 text-sm">{message}</p>}
         </div>
       </div>
     </CustomerLayout>

@@ -1,4 +1,5 @@
 // apps/web-customer/layout/Header.js
+// Enhanced Header component with modern layout
 "use client";
 
 import { useState, useRef, useEffect } from "react";
@@ -15,8 +16,6 @@ import {
 export default function Header() {
   const router = useRouter();
   const supabase = createBrowserSupabase();
-
-  // Stato per determinare se l'utente è autenticato
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -27,11 +26,9 @@ export default function Header() {
     getSession();
   }, [supabase]);
 
-  // Stato per il menu (per utente loggato)
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
 
-  // Chiude il menu se clicchi fuori
   useEffect(() => {
     function handleClickOutside(event) {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -46,102 +43,74 @@ export default function Header() {
     setMenuOpen((prev) => !prev);
   }
 
-  // Funzione aggiornata per il logout
   async function handleLogout() {
     await supabase.auth.signOut();
-    // Usa await per assicurarsi che la navigazione sia completata prima
     await router.push("/");
-    // Prova router.refresh() se usi l'app router Next.js 13; altrimenti, usa la ricarica completa:
     router.refresh();
-    // oppure, se router.refresh() non funziona:
-    // window.location.reload();
   }
 
-  // Funzione per il click sul logo
   async function handleLogoClick() {
     await router.push("/");
     router.refresh();
-    // Se router.refresh() non funziona, usa questo al suo posto:
-    // window.location.reload();
   }
 
   return (
-    <header className="w-full border-b border-gray-200 bg-white relative">
-      <div className="relative flex items-center justify-center py-8">
-        {/* Logo a sinistra */}
-        <div
-          className="absolute left-0 pl-4 cursor-pointer flex items-center"
-          onClick={handleLogoClick}
-        >
-          <img
-            src="/images/clubster-logo.png"
-            alt="Clubster Logo"
-            className="h-8 w-auto"
-          />
+    <header className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white/90 backdrop-blur-lg shadow-sm">
+      <div className="max-w-screen-xl mx-auto flex items-center justify-between px-4 py-4">
+        <div onClick={handleLogoClick} className="cursor-pointer flex items-center">
+          <img src="/images/clubster-logo.png" alt="Clubster Logo" className="h-8 w-auto" />
         </div>
 
-        {/* Zona a destra: mostra hamburger se loggato, altrimenti i bottoni Login e Signup */}
-        <div className="absolute right-0 pr-4">
-          {user ? (
-            // Utente loggato: mostra il menu hamburger
-            <div ref={menuRef}>
-              <button
-                onClick={toggleMenu}
-                className="p-2 rounded hover:bg-gray-100 focus:outline-none"
-              >
-                <Bars3Icon className="h-6 w-6 text-gray-600" />
-              </button>
-              {menuOpen && (
-                <div className="absolute right-0 top-full mt-2 w-48 bg-white border border-gray-200 rounded shadow-md z-50">
-                  <ul className="py-2 text-gray-700">
-                    <li
-                      className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center space-x-2"
-                      onClick={() =>
-                        router.push("/bookings")
-                      }
-                    >
-                      <TicketIcon className="h-5 w-5" />
-                      <span>Tickets</span>
-                    </li>
-                    <li
-                      className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center space-x-2"
-                      onClick={() =>
-                        router.push("/settings")
-                      }
-                    >
-                      <Cog6ToothIcon className="h-5 w-5" />
-                      <span>Settings</span>
-                    </li>
-                    <hr className="my-1" />
-                    <li
-                      onClick={handleLogout}
-                      className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center space-x-2 text-red-600"
-                    >
-                      <ArrowLeftOnRectangleIcon className="h-5 w-5" />
-                      <span>Log out</span>
-                    </li>
-                  </ul>
-                </div>
-              )}
-            </div>
-          ) : (
-            // Utente non loggato: mostra i bottoni Login e Signup
-            <div className="flex gap-2">
-              <Link
-                href="/login"
-                className="px-4 py-2 border border-purple-600 text-purple-600 bg-transparent rounded-full hover:bg-purple-50 transition-colors"
-              >
-                Login
-              </Link>
-              <Link
-                href="/signup"
-                className="px-4 py-2 border border-purple-600 bg-purple-600 text-white rounded-full hover:bg-purple-700 transition-colors"
-              >
-                Signup
-              </Link>
-            </div>
-          )}
-        </div>
+        {user ? (
+          <div className="relative" ref={menuRef}>
+            <button
+              onClick={toggleMenu}
+              className="p-2 rounded-full hover:bg-gray-100 focus:outline-none"
+            >
+              <Bars3Icon className="h-6 w-6 text-gray-600" />
+            </button>
+            {menuOpen && (
+              <div className="absolute right-0 top-full mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-md z-50">
+                <ul className="py-2 text-gray-700 text-sm">
+                  <li
+                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2"
+                    onClick={() => router.push("/bookings")}
+                  >
+                    <TicketIcon className="h-5 w-5" /> Tickets
+                  </li>
+                  <li
+                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2"
+                    onClick={() => router.push("/settings")}
+                  >
+                    <Cog6ToothIcon className="h-5 w-5" /> Settings
+                  </li>
+                  <hr className="my-1" />
+                  <li
+                    onClick={handleLogout}
+                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2 text-red-600"
+                  >
+                    <ArrowLeftOnRectangleIcon className="h-5 w-5" /> Log out
+                  </li>
+                </ul>
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="flex gap-3">
+            <Link
+              href="/login"
+              className="px-4 py-1.5 text-sm font-medium border border-purple-600 text-purple-600 rounded-full hover:bg-purple-50 transition"
+            >
+              Login
+            </Link>
+            <Link
+              href="/signup"
+              className="px-4 py-1.5 text-sm font-medium bg-purple-600 text-white rounded-full hover:bg-purple-700 transition"
+            >
+              Sign up
+            </Link>
+          </div>
+        )}
       </div>
     </header>
   );

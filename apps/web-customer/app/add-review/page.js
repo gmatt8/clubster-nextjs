@@ -1,4 +1,5 @@
 // apps/web-customer/app/add-review/page.js
+// Improved AddReviewPage component with enhanced layout and UX
 "use client";
 
 import { useSearchParams, useRouter } from "next/navigation";
@@ -47,14 +48,9 @@ export default function AddReviewPage() {
       try {
         setLoadingEvent(true);
         const res = await fetch(`/api/events?event_id=${eventId}`);
-        if (!res.ok) {
-          const errData = await res.text();
-          throw new Error(`Error fetching event: ${errData}`);
-        }
+        if (!res.ok) throw new Error("Failed to load event data");
         const data = await res.json();
-        if (data.events && data.events.length > 0) {
-          setEventData(data.events[0]);
-        }
+        if (data.events?.length > 0) setEventData(data.events[0]);
       } catch (err) {
         console.error(err);
         setError(err.message);
@@ -62,9 +58,7 @@ export default function AddReviewPage() {
         setLoadingEvent(false);
       }
     }
-    if (eventId) {
-      fetchEvent();
-    }
+    if (eventId) fetchEvent();
   }, [eventId]);
 
   async function handleSubmit(e) {
@@ -74,30 +68,14 @@ export default function AddReviewPage() {
 
     try {
       const { data: { user }, error: authError } = await supabase.auth.getUser();
-      if (authError || !user) {
-        throw new Error("User not found");
-      }
-      const userId = user.id;
-
-      console.log("Submitting review with:", {
-        user_id: userId,
-        club_id: clubId,
-        booking_id: bookingId,
-        event_id: eventId,
-        rating,
-        comment
-      });
-
-      if (!userId || !clubId || !bookingId || !eventId) {
-        throw new Error("Missing or invalid IDs in the request");
-      }
+      if (authError || !user) throw new Error("User not authenticated");
 
       const res = await fetch("/api/reviews", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           club_id: clubId,
-          user_id: userId,
+          user_id: user.id,
           booking_id: bookingId,
           event_id: eventId,
           rating: parseFloat(rating),
@@ -105,18 +83,13 @@ export default function AddReviewPage() {
         }),
       });
 
-      if (!res.ok) {
-        const errData = await res.json();
-        throw new Error(errData.error || "Error submitting review");
-      }
+      if (!res.ok) throw new Error("Error submitting review");
 
       setRating(5);
       setComment("");
       setSuccessMsg("Review submitted successfully!");
 
-      setTimeout(() => {
-        router.push("/bookings");
-      }, 1500);
+      setTimeout(() => router.push("/bookings"), 1500);
     } catch (err) {
       console.error(err);
       setError(err.message);
@@ -126,8 +99,8 @@ export default function AddReviewPage() {
   if (!eventId || !clubId || !bookingId) {
     return (
       <CustomerLayout>
-        <div className="px-6 py-8 max-w-screen-xl mx-auto">
-          <p>Missing event_id, club_id or booking_id</p>
+        <div className="px-6 py-8 max-w-screen-md mx-auto">
+          <p className="text-red-500">Missing event, club or booking ID</p>
         </div>
       </CustomerLayout>
     );
@@ -135,24 +108,28 @@ export default function AddReviewPage() {
 
   return (
     <CustomerLayout>
-      <div className="px-6 py-8 max-w-screen-xl mx-auto">
-        <h2 className="text-sm text-gray-500 mb-2">
-          <span className="cursor-pointer" onClick={() => router.push("/bookings")}>
-            My tickets
-          </span>{" "}
-          &gt; Reviews
-        </h2>
+      <div className="px-6 py-10 max-w-screen-md mx-auto">
+        <nav className="text-sm text-gray-500 mb-6">
+          <span
+            className="cursor-pointer hover:underline"
+            onClick={() => router.push("/bookings")}
+          >
+            My Bookings
+          </span>
+          <span className="mx-2">›</span>
+          <span className="text-gray-700 font-medium">Add review</span>
+        </nav>
 
-        <div className="border border-gray-300 p-4 rounded">
+        <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
           {loadingEvent ? (
-            <p>Loading event...</p>
+            <p>Loading event details...</p>
           ) : (
             <>
-              <div className="flex items-center justify-between mb-2">
-                <h1 className="text-xl font-bold">Add review</h1>
+              <div className="mb-4">
+                <h1 className="text-xl font-bold text-gray-900 mb-1">Leave a review</h1>
                 {eventData && (
-                  <p className="text-sm text-gray-500">
-                    {new Date(eventData.start_date).toLocaleDateString("en-GB", {
+                  <p className="text-sm text-gray-600">
+                    {eventData.name} • {new Date(eventData.start_date).toLocaleDateString("en-GB", {
                       day: "numeric",
                       month: "long",
                       year: "numeric",
@@ -160,43 +137,33 @@ export default function AddReviewPage() {
                   </p>
                 )}
               </div>
-              {eventData && (
-                <>
-                  <p className="font-semibold">
-                    {eventData.name}{" "}
-                    {eventData.music_genre ? `- ${eventData.music_genre}` : ""}
-                  </p>
-                  {eventData.club_id && (
-                    <p className="text-sm text-gray-600 mb-4">
-                      Seven Club, Lugano (Switzerland)
-                    </p>
-                  )}
-                </>
-              )}
 
-              {error && <p className="text-red-500 mb-2">{error}</p>}
-              {successMsg && <p className="text-green-500 mb-2">{successMsg}</p>}
+              {error && <p className="text-red-500 mb-2 text-sm">{error}</p>}
+              {successMsg && <p className="text-green-500 mb-2 text-sm">{successMsg}</p>}
 
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                  <label className="block mb-1 text-sm font-semibold">Rating</label>
+                  <label className="block mb-2 text-sm font-medium">Rating</label>
                   <StarRating rating={rating} onChange={setRating} />
                 </div>
                 <div>
-                  <label className="block mb-1 text-sm font-semibold">Your review</label>
+                  <label className="block mb-2 text-sm font-medium">Your review</label>
                   <textarea
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
-                    className="border border-gray-300 rounded w-full p-2"
+                    className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
                     rows={4}
+                    placeholder="Share your experience..."
                   />
                 </div>
-                <button
-                  type="submit"
-                  className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700"
-                >
-                  Submit review
-                </button>
+                <div className="text-right">
+                  <button
+                    type="submit"
+                    className="bg-purple-600 text-white px-5 py-2 rounded hover:bg-purple-700 text-sm font-medium"
+                  >
+                    Submit review
+                  </button>
+                </div>
               </form>
             </>
           )}

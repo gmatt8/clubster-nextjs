@@ -1,7 +1,11 @@
 // apps/web-customer/components/home/popularEvents.js
+"use client";
+
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import LoadingSpinner from "../common/LoadingSpinner";
+import { format } from "date-fns";
+import { enGB } from "date-fns/locale";
 
 export default function PopularEvents() {
   const router = useRouter();
@@ -15,7 +19,7 @@ export default function PopularEvents() {
         const { events } = await res.json();
         setEvents(events || []);
       } catch (error) {
-        console.error("Errore caricando eventi:", error);
+        console.error("Error loading events:", error);
       } finally {
         setLoading(false);
       }
@@ -24,31 +28,37 @@ export default function PopularEvents() {
   }, []);
 
   if (loading) return <LoadingSpinner />;
-
-  if (events.length === 0) {
-    return <div className="text-center">No events available</div>;
-  }
+  if (events.length === 0) return <div className="text-center">No events available</div>;
 
   return (
     <div className="w-full overflow-x-auto pb-4">
-      <div className="flex space-x-4">
-        {events.map((event) => (
-          <div
-            key={event.id}
-            onClick={() => router.push(`/club-details?club_id=${event.club_id}&event_id=${event.id}`)}
-            className="w-[220px] bg-white rounded-lg shadow hover:shadow-md transition-shadow cursor-pointer"
-          >
-            <img
-              src={event.image || "/images/no-image.jpeg"}
-              alt={event.name}
-              className="w-full h-32 object-cover rounded-t-lg"
-            />
-            <div className="p-3 text-center">
-              <p className="font-semibold text-sm text-gray-800">{event.name}</p>
-              <p className="text-xs text-gray-500">{event.clubs?.name || event.club_name}</p>
+      <div className="flex gap-4">
+        {events.map((event) => {
+          const dateFormatted = event.start_date
+            ? format(new Date(event.start_date), "EEE, d MMM", { locale: enGB })
+            : "";
+
+          return (
+            <div
+              key={event.id}
+              onClick={() =>
+                router.push(`/club-details?club_id=${event.club_id}&event_id=${event.id}`)
+              }
+              className="relative w-[220px] h-44 rounded-xl overflow-hidden shadow-md bg-white hover:shadow-lg hover:scale-[1.03] transition-transform duration-200 cursor-pointer"
+            >
+              <img
+                src={event.image || "/images/no-image.jpeg"}
+                alt={event.name}
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent p-3 flex flex-col justify-end text-white">
+                <p className="text-xs font-medium text-gray-200 mb-1">{dateFormatted}</p>
+                <p className="font-semibold text-sm truncate">{event.name}</p>
+                <p className="text-xs text-gray-300 truncate">{event.clubs?.name || event.club_name}</p>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

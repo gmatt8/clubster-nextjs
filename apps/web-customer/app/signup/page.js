@@ -1,5 +1,4 @@
 // apps/web-customer/app/signup/page.js
-
 'use client';
 
 import { useState } from 'react';
@@ -48,19 +47,18 @@ export default function CustomerSignupPage() {
   }
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-b md:bg-gradient-to-br from-[#0f0c29] via-[#302b63] to-[#24243e] flex items-center justify-center px-4 py-10 overflow-hidden relative">
-      {/* Background blobs */}
-      <div className="absolute -z-10 w-[500px] h-[500px] bg-purple-500 opacity-20 blur-[100px] rounded-full top-[-60px] left-[-60px]" />
-      <div className="absolute -z-10 w-[350px] h-[350px] bg-pink-500 opacity-20 blur-[100px] rounded-full bottom-[-40px] right-[-40px]" />
+    <div className="min-h-screen w-full bg-gradient-to-br from-indigo-100 via-purple-100 to-pink-100 flex items-center justify-center px-4 py-10 overflow-hidden relative">
+      <div className="absolute -z-10 w-[600px] h-[600px] bg-purple-300 opacity-30 blur-[120px] rounded-full top-[-100px] left-[-100px]" />
+      <div className="absolute -z-10 w-[400px] h-[400px] bg-pink-300 opacity-20 blur-[100px] rounded-full bottom-[-60px] right-[-60px]" />
 
-      <div className="w-full max-w-md px-6 py-10 bg-white/5 border border-white/10 backdrop-blur-xl rounded-3xl shadow-2xl text-white">
+      <div className="w-full max-w-md px-8 py-10 bg-white/80 backdrop-blur-md border border-white/30 rounded-3xl shadow-xl">
         <div className="flex justify-center mb-6">
           <img src="/images/clubster-logo.png" alt="Clubster" className="w-28 h-auto" />
         </div>
 
-        <h1 className="text-center text-2xl font-bold mb-2">Create your account</h1>
-        <p className="text-sm text-gray-300 text-center mb-6">
-          Sign up and start discovering events
+        <h1 className="text-center text-2xl font-bold text-gray-800 mb-2">Join the Party</h1>
+        <p className="text-sm text-gray-600 text-center mb-6">
+          Sign up and start discovering nightlife events
         </p>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -69,7 +67,7 @@ export default function CustomerSignupPage() {
             <input
               type="email"
               placeholder="Email address"
-              className="w-full bg-black/30 text-white pl-10 pr-3 py-2 rounded-full text-sm border border-white/10 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full bg-white text-gray-800 pl-10 pr-3 py-2 rounded-lg text-sm border border-gray-300 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -81,7 +79,7 @@ export default function CustomerSignupPage() {
             <input
               type="password"
               placeholder="Password"
-              className="w-full bg-black/30 text-white pl-10 pr-3 py-2 rounded-full text-sm border border-white/10 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full bg-white text-gray-800 pl-10 pr-3 py-2 rounded-lg text-sm border border-gray-300 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
@@ -91,21 +89,21 @@ export default function CustomerSignupPage() {
           <button
             type="submit"
             disabled={loading}
-            className="flex justify-center items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 rounded-full transition duration-150"
+            className="flex justify-center items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 rounded-lg transition duration-150"
           >
             {loading && <Loader2 className="animate-spin w-4 h-4" />}
             Sign Up
           </button>
         </form>
 
-        {error && <p className="text-red-400 text-sm mt-3 text-center">{error}</p>}
-        {message && <p className="text-green-400 text-sm mt-3 text-center">{message}</p>}
+        {error && <p className="text-red-600 text-sm mt-3 text-center">{error}</p>}
+        {message && <p className="text-green-600 text-sm mt-3 text-center">{message}</p>}
 
-        <p className="mt-6 text-sm text-center text-gray-300">
-          Already have an account?{" "}
+        <p className="mt-6 text-sm text-center text-gray-600">
+          Already have an account?{' '}
           <a
             href={`/login?next=${encodeURIComponent(nextUrl)}`}
-            className="text-indigo-300 hover:underline font-medium"
+            className="text-purple-600 hover:underline font-medium"
           >
             Log in
           </a>

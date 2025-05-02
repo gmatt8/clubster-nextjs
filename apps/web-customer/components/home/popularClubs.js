@@ -22,23 +22,13 @@ export default function PopularClubs() {
           CLUB_IDS.map(async (id) => {
             const res = await fetch(`/api/club?club_id=${id}`);
             const data = await res.json();
-            console.log("➡️ Fetch Club:", { id, status: res.status, ok: res.ok, data });
-            if (res.ok && data?.id) {
-              return data;
-            } else {
-              console.warn("⚠️ Club NON valido o errore:", { id, data });
-              return null;
-            }
+            if (res.ok && data?.id) return data;
+            return null;
           })
         );
-        console.log("✅ Results di tutti i club:", results);
-
-        const validClubs = results.filter(Boolean);
-        console.log("✅ Clubs filtrati e validi:", validClubs);
-
-        setClubs(validClubs);
+        setClubs(results.filter(Boolean));
       } catch (error) {
-        console.error("Errore caricando club statici:", error);
+        console.error("Error loading clubs:", error);
       } finally {
         setLoading(false);
       }
@@ -47,28 +37,25 @@ export default function PopularClubs() {
   }, []);
 
   if (loading) return <LoadingSpinner />;
-
-  if (clubs.length === 0) {
-    return <div className="text-center">Nessun club disponibile</div>;
-  }
+  if (clubs.length === 0) return <div className="text-center">No clubs available</div>;
 
   return (
     <div className="w-full overflow-x-auto pb-4">
-      <div className="flex space-x-4">
+      <div className="flex gap-4">
         {clubs.map((club) => (
           <div
             key={club.id}
             onClick={() => router.push(`/club-details?club_id=${club.id}`)}
-            className="w-[220px] bg-white rounded-lg shadow hover:shadow-md transition-shadow cursor-pointer"
+            className="relative w-[220px] h-40 rounded-xl overflow-hidden shadow-md bg-white hover:shadow-lg hover:scale-[1.03] transition-transform duration-200 cursor-pointer"
           >
             <img
               src={club.images?.[0] || "/images/no-image.jpeg"}
               alt={club.name}
-              className="w-full h-32 object-cover rounded-t-lg"
+              className="w-full h-full object-cover"
             />
-            <div className="p-3 text-center">
-              <p className="font-semibold text-sm text-gray-800">{club.name}</p>
-              <p className="text-xs text-gray-500">{club.address}</p>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent p-3 flex flex-col justify-end text-white">
+              <p className="font-semibold text-sm truncate">{club.name}</p>
+              <p className="text-xs text-gray-300 truncate">{club.address}</p>
             </div>
           </div>
         ))}
