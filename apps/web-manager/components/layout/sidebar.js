@@ -30,19 +30,13 @@ export default function Sidebar() {
   const supabase = createBrowserSupabase();
 
   async function handleLogout() {
-    // ✅ Pulizia localStorage
     localStorage.removeItem("clubName");
-  
-    // ⛔️ Logout da Supabase
     await supabase.auth.signOut();
-  
-    // 🔁 Redirect alla pagina di login
     router.push("/");
   }
-  
 
   return (
-    <aside className="w-64 h-screen bg-white border-r border-gray-200 flex flex-col px-4 py-6">
+    <aside className="w-64 h-screen bg-white border-r border-gray-200 flex flex-col px-4 py-6 shadow-md">
       {/* Logo */}
       <div className="mb-10 flex items-center justify-center">
         <Image
@@ -55,7 +49,8 @@ export default function Sidebar() {
         />
       </div>
 
-      {/* Nav */}
+      {/* Navigation */}
+      <div className="text-xs uppercase text-gray-400 font-semibold mb-3 px-3">Navigation</div>
       <nav className="flex flex-col gap-1">
         {navItems.map((item) => {
           const isActive = pathname.startsWith(item.href);
@@ -64,22 +59,26 @@ export default function Sidebar() {
               key={item.href}
               href={item.href}
               className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all
-                ${isActive ? "bg-purple-100 text-purple-800" : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"}`}
+                ${isActive
+                ? "bg-purple-100 text-purple-800 border-l-4 border-purple-500"
+                : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"}`}
             >
-              <item.icon className="h-5 w-5" />
+              <item.icon className={`h-5 w-5 transition-transform ${isActive ? "scale-110" : "group-hover:scale-105"}`} />
               {item.label}
             </Link>
           );
         })}
       </nav>
 
-      {/* Footer */}
+      {/* Settings & Logout */}
       <div className="mt-auto pt-6 border-t border-gray-100 flex flex-col gap-2">
+        <div className="text-xs uppercase text-gray-400 font-semibold mb-2 px-3">Account</div>
+
         <Link
           href="/settings"
           className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
             pathname.startsWith("/settings")
-              ? "bg-purple-100 text-purple-800"
+              ? "bg-purple-100 text-purple-800 border-l-4 border-purple-500"
               : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
           }`}
         >

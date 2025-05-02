@@ -1,9 +1,10 @@
 //apps/web-manager/app/page.js
 'use client';
 
-import { useState } from "react";
 import Link from "next/link";
+import { useState } from "react";
 import Footer from "@/components/layout/footer";
+import { ArrowRight } from "lucide-react";
 
 export default function ManagerLandingPage() {
   const [ticketPrice, setTicketPrice] = useState(20);
@@ -12,102 +13,97 @@ export default function ManagerLandingPage() {
 
   return (
     <>
-      <main className="w-full bg-[#f8fafc] text-gray-800">
-        {/* Header */}
-        <header className="w-full flex items-center justify-between px-6 py-4 bg-white shadow-md fixed top-0 left-0 z-50">
+      <main className="w-full bg-white text-gray-800 font-sans">
+        {/* Navbar */}
+        <header className="fixed top-0 w-full bg-white shadow-md z-50 px-6 py-4 flex justify-between items-center">
           <Link href="/">
-            <img
-              src="/images/clubster-manager-logo.png"
-              alt="Clubster Manager Logo"
-              className="w-36 h-auto"
-            />
+            <img src="/images/clubster-manager-logo.png" alt="Clubster Manager Logo" className="w-36" />
           </Link>
+          <nav className="space-x-4 hidden md:flex">
+            <a href="#features" className="text-gray-600 hover:text-gray-900 transition">Features</a>
+            <a href="#pricing" className="text-gray-600 hover:text-gray-900 transition">Pricing</a>
+            <a href="#testimonials" className="text-gray-600 hover:text-gray-900 transition">Testimonials</a>
+          </nav>
           <Link
             href="/login"
-            className="px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-full shadow transition"
+            className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-5 py-2 rounded-full shadow"
           >
             Login
           </Link>
         </header>
 
         {/* Hero */}
-        <section className="relative min-h-screen flex flex-col justify-center items-center text-center px-4 pt-32 bg-gradient-to-br from-white via-indigo-50 to-white">
-          <div className="max-w-3xl z-10">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
-              Manage your club <span className="text-indigo-600">smarter</span><br /> with Clubster Manager
+        <section className="min-h-screen flex flex-col justify-center items-center text-center px-6 pt-32 bg-gradient-to-br from-white via-indigo-50 to-white">
+          <div className="max-w-3xl animate-fade-in">
+            <h1 className="text-4xl md:text-5xl font-extrabold mb-6 leading-tight text-gray-900">
+              Your Club. <span className="text-indigo-600">Fully Booked.</span> Fully Automated.
             </h1>
             <p className="text-lg md:text-xl text-gray-600 mb-8">
-              A powerful platform to run bookings, track guests, and grow sales — all in one dashboard.
+              Launch and manage events, tickets, and guests – in minutes. All from one dashboard.
             </p>
             <Link
               href="/signup"
-              className="inline-block px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm rounded-full shadow-md transition"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm rounded-full shadow-lg transition"
             >
-              Get Started Free
+              Get Started Free <ArrowRight size={16} />
             </Link>
           </div>
         </section>
 
-        {/* Highlights */}
-        <section className="py-20">
+        {/* Features */}
+        <section id="features" className="py-20 bg-white">
           <div className="max-w-screen-xl mx-auto px-4 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">Why managers love Clubster</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">Built for Event Managers</h2>
             <p className="text-gray-600 mb-12 max-w-2xl mx-auto">
-              We help venue owners increase their efficiency, automate operations and scale events like never before.
+              Powerful tools to simplify your workflow and maximize your venue's potential.
             </p>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="p-6 bg-white border rounded-xl shadow-sm hover:shadow-md transition">
-                <h3 className="text-xl font-semibold mb-2">Real-time Booking Insights</h3>
-                <p className="text-gray-600">Understand booking patterns, peak hours, and guest flow with clarity.</p>
-              </div>
-              <div className="p-6 bg-white border rounded-xl shadow-sm hover:shadow-md transition">
-                <h3 className="text-xl font-semibold mb-2">Event Setup in Minutes</h3>
-                <p className="text-gray-600">Launch an event with tickets, tables, and guest access in under 5 minutes.</p>
-              </div>
-              <div className="p-6 bg-white border rounded-xl shadow-sm hover:shadow-md transition">
-                <h3 className="text-xl font-semibold mb-2">Revenue Tracking</h3>
-                <p className="text-gray-600">Connect Stripe. Track every euro coming in from tickets and bookings.</p>
-              </div>
+            <div className="grid md:grid-cols-3 gap-8">
+              {[
+                {
+                  title: "Real-time Booking Insights",
+                  desc: "Track bookings, guests, and peak hours live."
+                },
+                {
+                  title: "Quick Event Setup",
+                  desc: "Create events and tickets in under 5 minutes."
+                },
+                {
+                  title: "Revenue Tracking",
+                  desc: "Integrated with Stripe to follow every euro earned."
+                },
+              ].map(({ title, desc }) => (
+                <div key={title} className="p-6 border rounded-xl shadow-sm hover:shadow-lg transition">
+                  <h3 className="text-xl font-semibold mb-2">{title}</h3>
+                  <p className="text-gray-600">{desc}</p>
+                </div>
+              ))}
             </div>
           </div>
         </section>
 
-        {/* Commission Section */}
-        <section className="py-20 bg-white">
+        {/* Pricing Calculator */}
+        <section id="pricing" className="py-20 bg-gray-50">
           <div className="max-w-screen-md mx-auto px-4 text-center">
-            <h2 className="text-3xl font-bold mb-6">Transparent, Flexible Commission</h2>
+            <h2 className="text-3xl font-bold mb-6">Transparent Pricing</h2>
             <p className="text-gray-600 mb-8">
-              Clubster Manager applies a fixed{" "}
-              <span className="font-semibold text-indigo-600">5% commission</span> per ticket sold.
-              You decide whether it's paid by <span className="underline">your customer</span> or <span className="underline">your club</span>.
+              5% per ticket. You choose who pays it.
             </p>
-
-            {/* Toggle */}
             <div className="flex justify-center gap-4 mb-6">
-              <button
-                onClick={() => setPays("customer")}
-                className={`px-4 py-2 rounded-full border ${
-                  pays === "customer"
-                    ? "bg-indigo-600 text-white"
-                    : "bg-white text-gray-700 border-gray-300"
-                } transition`}
-              >
-                Customer pays
-              </button>
-              <button
-                onClick={() => setPays("club")}
-                className={`px-4 py-2 rounded-full border ${
-                  pays === "club"
-                    ? "bg-indigo-600 text-white"
-                    : "bg-white text-gray-700 border-gray-300"
-                } transition`}
-              >
-                Club pays
-              </button>
+              {['customer', 'club'].map((type) => (
+                <button
+                  key={type}
+                  onClick={() => setPays(type)}
+                  className={`px-4 py-2 rounded-full border font-medium transition ${
+                    pays === type
+                      ? 'bg-indigo-600 text-white'
+                      : 'bg-white text-gray-700 border-gray-300'
+                  }`}
+                >
+                  {type === 'customer' ? 'Customer Pays' : 'Club Pays'}
+                </button>
+              ))}
             </div>
 
-            {/* Slider */}
             <div className="w-full max-w-sm mx-auto text-left mb-6">
               <label htmlFor="ticketSlider" className="block text-sm font-medium text-gray-700 mb-2">
                 Ticket price: <span className="font-semibold text-gray-900">{ticketPrice} €</span>
@@ -123,32 +119,24 @@ export default function ManagerLandingPage() {
               />
             </div>
 
-            {/* Commission Result */}
-            <div className="text-gray-800 text-lg font-medium">
+            <div className="text-lg font-medium text-gray-800">
               {pays === "customer" ? (
                 <>
-                  The customer will pay{" "}
-                  <span className="text-indigo-600">{ticketPrice + commission}€</span>.<br />
-                  Your club earns{" "}
-                  <span className="text-green-600">{ticketPrice}€</span>.
+                  Customer pays <span className="text-indigo-600">{ticketPrice + commission}€</span><br />
+                  Club receives <span className="text-green-600">{ticketPrice}€</span>
                 </>
               ) : (
                 <>
-                  The customer pays{" "}
-                  <span className="text-indigo-600">{ticketPrice}€</span>.<br />
-                  Your club receives{" "}
-                  <span className="text-green-600">{ticketPrice - commission}€</span>.
+                  Customer pays <span className="text-indigo-600">{ticketPrice}€</span><br />
+                  Club receives <span className="text-green-600">{ticketPrice - commission}€</span>
                 </>
               )}
             </div>
 
-            {/* Contact */}
+            {/* Custom commission contact */}
             <p className="text-sm text-gray-500 mt-8">
-              Need a custom commission plan? Contact us at{" "}
-              <a
-                href="mailto:clubsterapp@hotmail.com"
-                className="text-indigo-600 underline"
-              >
+              Need a custom commission plan? Contact us at{' '}
+              <a href="mailto:clubsterapp@hotmail.com" className="text-indigo-600 underline">
                 clubsterapp@hotmail.com
               </a>
             </p>
@@ -156,40 +144,45 @@ export default function ManagerLandingPage() {
         </section>
 
         {/* Testimonials */}
-        <section className="py-20 bg-indigo-50">
+        <section id="testimonials" className="py-20 bg-white">
           <div className="max-w-screen-xl mx-auto px-4 text-center">
-            <h2 className="text-2xl md:text-3xl font-bold mb-8">Trusted by club managers across Europe</h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-white p-6 rounded-xl shadow-md text-left">
-                <p className="text-gray-700 mb-3 italic">“Before Clubster, we used spreadsheets and WhatsApp groups. Now everything is in one dashboard.”</p>
-                <p className="font-semibold text-indigo-600">Mario G. – Milan</p>
-              </div>
-              <div className="bg-white p-6 rounded-xl shadow-md text-left">
-                <p className="text-gray-700 mb-3 italic">“My staff saves hours every weekend. Guest lists, payments, tables – it’s all synced.”</p>
-                <p className="font-semibold text-indigo-600">Lucia B. – Barcelona</p>
-              </div>
+            <h2 className="text-3xl md:text-4xl font-bold mb-10">Loved by Club Managers</h2>
+            <div className="grid md:grid-cols-2 gap-8">
+              {[
+                {
+                  quote:
+                    '“Before Clubster, we used spreadsheets and WhatsApp. Now everything is in one place.”',
+                  name: 'Mario G. – Milan'
+                },
+                {
+                  quote:
+                    '“My staff saves hours each week. Guest lists, payments, tables – all synced.”',
+                  name: 'Lucia B. – Barcelona'
+                }
+              ].map(({ quote, name }) => (
+                <div key={name} className="bg-indigo-50 p-6 rounded-xl text-left shadow">
+                  <p className="italic text-gray-700 mb-3">{quote}</p>
+                  <p className="font-semibold text-indigo-700">{name}</p>
+                </div>
+              ))}
             </div>
           </div>
         </section>
 
-        {/* Final CTA */}
-        <section className="py-20 bg-white">
-          <div className="max-w-screen-xl mx-auto px-4 text-center">
-            <h2 className="text-3xl font-bold mb-4">Ready to grow your club?</h2>
-            <p className="text-gray-600 mb-8 max-w-xl mx-auto">
-              Get started in minutes. No credit card required.
-            </p>
+        {/* CTA */}
+        <section className="py-20 bg-indigo-600 text-white text-center">
+          <div className="max-w-screen-xl mx-auto px-4">
+            <h2 className="text-3xl font-bold mb-4">Start managing smarter</h2>
+            <p className="mb-8 text-lg">Create your free Clubster Manager account now.</p>
             <Link
               href="/signup"
-              className="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-sm rounded-full shadow transition"
+              className="px-6 py-3 bg-white text-indigo-600 font-semibold text-sm rounded-full shadow hover:bg-gray-100"
             >
-              Create Your Manager Account
+              Get Started
             </Link>
           </div>
         </section>
       </main>
-
       <Footer />
     </>
   );

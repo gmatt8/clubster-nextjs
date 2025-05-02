@@ -44,13 +44,8 @@ export default function ManagerSettingsGeneralPage() {
         error: userError,
       } = await supabase.auth.getUser();
 
-      if (userError) {
-        setError("Errore nel recupero utente");
-        setLoading(false);
-        return;
-      }
-      if (!user) {
-        setError("Nessun utente loggato");
+      if (userError || !user) {
+        setError("Failed to retrieve user.");
         setLoading(false);
         return;
       }
@@ -64,7 +59,7 @@ export default function ManagerSettingsGeneralPage() {
         .maybeSingle();
 
       if (clubError) {
-        setError("Errore nel recupero dati del club");
+        setError("Failed to retrieve club data.");
         setLoading(false);
         return;
       }
@@ -94,40 +89,27 @@ export default function ManagerSettingsGeneralPage() {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    if (
-      !window.google ||
-      !window.google.maps ||
-      !window.google.maps.places
-    ) {
-      console.warn("Google Maps JS non è ancora caricato");
-      return;
-    }
+    if (!window.google?.maps?.places) return;
 
     const autocomplete = new window.google.maps.places.Autocomplete(
       addressInputRef.current,
-      {
-        types: ["geocode"],
-      }
+      { types: ["geocode"] }
     );
 
     autocomplete.addListener("place_changed", () => {
       const place = autocomplete.getPlace();
       if (!place.geometry) return;
 
-      const latVal = place.geometry.location.lat();
-      const lngVal = place.geometry.location.lng();
-      setLat(latVal);
-      setLng(lngVal);
-
-      const formattedAddress = place.formatted_address || "";
-      setAddress(formattedAddress);
+      setLat(place.geometry.location.lat());
+      setLng(place.geometry.location.lng());
+      setAddress(place.formatted_address || "");
     });
   }, []);
 
   async function handleSave(e) {
     e.preventDefault();
     if (!managerId) {
-      setError("Impossibile determinare il manager ID");
+      setError("Unable to determine manager ID");
       return;
     }
 
@@ -160,171 +142,146 @@ export default function ManagerSettingsGeneralPage() {
     setLoading(false);
 
     if (!response.ok) {
-      setError(result.error || "Errore sconosciuto durante l'aggiornamento del club");
+      setError(result.error || "Failed to update club data.");
       return;
     }
 
-    setMessage("Dati aggiornati con successo!");
+    setMessage("Club data updated successfully!");
   }
 
   return (
     <ManagerLayout>
-      <div className="px-6 py-8 max-w-screen-xl mx-auto">
+      <div className="px-6 py-10 max-w-screen-lg mx-auto">
         <ManagerSettingsHeader title="General" backHref="/settings" />
 
         {loading ? (
           <LoadingSpinner />
         ) : (
-          <form onSubmit={handleSave} className="flex flex-col gap-6">
-            {/* Sezione "Informations" */}
-            <div>
-              <h2 className="text-lg font-semibold text-gray-700 mb-3">
-                Informations
-              </h2>
-              <div className="grid grid-cols-2 gap-4">
+          <form onSubmit={handleSave} className="space-y-10">
+            {/* Info */}
+            <section>
+              <h2 className="text-lg font-semibold text-gray-700 mb-4">Club Information</h2>
+              <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm text-gray-600 mb-1">
-                    Club Name
-                  </label>
+                  <label className="block text-sm text-gray-600 mb-1">Club Name</label>
                   <input
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="block w-full border border-gray-300 rounded px-3 py-2 text-sm"
+                    className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-sm text-gray-600 mb-1">
-                    Address
-                  </label>
+                  <label className="block text-sm text-gray-600 mb-1">Address</label>
                   <input
                     ref={addressInputRef}
                     type="text"
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
-                    className="block w-full border border-gray-300 rounded px-3 py-2 text-sm"
+                    className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
                   />
                 </div>
               </div>
               <div className="mt-4">
-                <label className="block text-sm text-gray-600 mb-1">
-                  Phone Number
-                </label>
+                <label className="block text-sm text-gray-600 mb-1">Phone Number</label>
                 <input
                   type="text"
                   value={phoneNumber}
                   onChange={(e) => setPhoneNumber(e.target.value)}
-                  className="block w-full border border-gray-300 rounded px-3 py-2 text-sm"
+                  className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
                 />
               </div>
-            </div>
+            </section>
 
-            {/* Sezione "Details" */}
-            <div>
-              <h2 className="text-lg font-semibold text-gray-700 mb-3">
-                Details
-              </h2>
-              <div className="mb-4">
-                <label className="block text-sm text-gray-600 mb-1">
-                  Description
-                </label>
-                <textarea
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  className="block w-full border border-gray-300 rounded px-3 py-2 text-sm h-24"
-                />
-              </div>
-              <div className="grid grid-cols-3 gap-4">
+            {/* Details */}
+            <section>
+              <h2 className="text-lg font-semibold text-gray-700 mb-4">Details</h2>
+              <div className="grid md:grid-cols-3 gap-6">
                 <div>
-                  <label className="block text-sm text-gray-600 mb-1">
-                    Capacity
-                  </label>
+                  <label className="block text-sm text-gray-600 mb-1">Description</label>
+                  <textarea
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    className="w-full border border-gray-300 rounded px-3 py-2 text-sm h-24"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm text-gray-600 mb-1">Capacity</label>
                   <input
                     type="number"
                     value={capacity}
                     onChange={(e) => setCapacity(e.target.value)}
-                    className="block w-full border border-gray-300 rounded px-3 py-2 text-sm"
+                    className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm text-gray-600 mb-1">
-                    Outdoor Area
-                  </label>
-                  <select
-                    value={outdoorArea}
-                    onChange={(e) => setOutdoorArea(e.target.value)}
-                    className="block w-full border border-gray-300 rounded px-3 py-2 text-sm"
-                  >
-                    <option value="available">Available</option>
-                    <option value="not available">Not available</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm text-gray-600 mb-1">
-                    Parking
-                  </label>
-                  <select
-                    value={parking}
-                    onChange={(e) => setParking(e.target.value)}
-                    className="block w-full border border-gray-300 rounded px-3 py-2 text-sm"
-                  >
-                    <option value="available">Available</option>
-                    <option value="not available">Not available</option>
-                  </select>
-                </div>
-              </div>
-              <div className="grid grid-cols-3 gap-4 mt-4">
-                <div>
-                  <label className="block text-sm text-gray-600 mb-1">
-                    Price
-                  </label>
+                  <label className="block text-sm text-gray-600 mb-1">Price</label>
                   <select
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
-                    className="block w-full border border-gray-300 rounded px-3 py-2 text-sm"
+                    className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
                   >
                     <option value="$">$</option>
                     <option value="$$">$$</option>
                     <option value="$$$">$$$</option>
                   </select>
                 </div>
+              </div>
+              <div className="grid md:grid-cols-3 gap-6 mt-6">
                 <div>
-                  <label className="block text-sm text-gray-600 mb-1">
-                    Smoking
-                  </label>
+                  <label className="block text-sm text-gray-600 mb-1">Outdoor Area</label>
                   <select
-                    value={smoking}
-                    onChange={(e) => setSmoking(e.target.value)}
-                    className="block w-full border border-gray-300 rounded px-3 py-2 text-sm"
-                  >
-                    <option value="allowed">Allowed</option>
-                    <option value="not allowed">Not allowed</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm text-gray-600 mb-1">
-                    Coat Check
-                  </label>
-                  <select
-                    value={coatCheck}
-                    onChange={(e) => setCoatCheck(e.target.value)}
-                    className="block w-full border border-gray-300 rounded px-3 py-2 text-sm"
+                    value={outdoorArea}
+                    onChange={(e) => setOutdoorArea(e.target.value)}
+                    className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
                   >
                     <option value="available">Available</option>
                     <option value="not available">Not available</option>
                   </select>
                 </div>
+                <div>
+                  <label className="block text-sm text-gray-600 mb-1">Parking</label>
+                  <select
+                    value={parking}
+                    onChange={(e) => setParking(e.target.value)}
+                    className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
+                  >
+                    <option value="available">Available</option>
+                    <option value="not available">Not available</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm text-gray-600 mb-1">Smoking</label>
+                  <select
+                    value={smoking}
+                    onChange={(e) => setSmoking(e.target.value)}
+                    className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
+                  >
+                    <option value="allowed">Allowed</option>
+                    <option value="not allowed">Not allowed</option>
+                  </select>
+                </div>
               </div>
-            </div>
+              <div className="mt-6">
+                <label className="block text-sm text-gray-600 mb-1">Coat Check</label>
+                <select
+                  value={coatCheck}
+                  onChange={(e) => setCoatCheck(e.target.value)}
+                  className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
+                >
+                  <option value="available">Available</option>
+                  <option value="not available">Not available</option>
+                </select>
+              </div>
+            </section>
 
             {error && <p className="text-red-500 text-sm">{error}</p>}
             {message && <p className="text-green-500 text-sm">{message}</p>}
 
-            <div>
-              <h2 className="text-lg font-semibold text-gray-700 mb-3">
-                Photo
-              </h2>
+            {/* Images */}
+            <section>
+              <h2 className="text-lg font-semibold text-gray-700 mb-4">Photos</h2>
               {clubId && managerId && (
                 <PhotosManager
                   clubId={clubId}
@@ -333,9 +290,20 @@ export default function ManagerSettingsGeneralPage() {
                   onUpdate={(newImages) => setImages(newImages)}
                 />
               )}
-            </div>
+            </section>
 
+            {/* FAQs */}
             {clubId && <FAQManager clubId={clubId} />}
+
+            <div>
+              <button
+                type="submit"
+                disabled={loading}
+                className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-md font-semibold"
+              >
+                {loading ? "Saving..." : "Save Changes"}
+              </button>
+            </div>
           </form>
         )}
       </div>

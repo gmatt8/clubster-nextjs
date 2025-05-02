@@ -79,19 +79,15 @@ export default function ManagerBookingsPage() {
         {/* Filters */}
         <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 mb-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
           <input
-            className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
+            className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
             placeholder="Search by email or order ID"
             value={searchTerm}
-            onChange={(e) => {
-              setSearchTerm(e.target.value);
-            }}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
           <select
-            className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
+            className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
             value={selectedEvent}
-            onChange={(e) => {
-              setSelectedEvent(e.target.value);
-            }}
+            onChange={(e) => setSelectedEvent(e.target.value)}
           >
             <option value="">All Events</option>
             {eventNames.map((evt) => (
@@ -99,11 +95,9 @@ export default function ManagerBookingsPage() {
             ))}
           </select>
           <select
-            className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
+            className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
             value={sortBy}
-            onChange={(e) => {
-              setSortBy(e.target.value);
-            }}
+            onChange={(e) => setSortBy(e.target.value)}
           >
             <option value="date_desc">Date (Newest)</option>
             <option value="date_asc">Date (Oldest)</option>
@@ -119,7 +113,7 @@ export default function ManagerBookingsPage() {
           ) : error ? (
             <p className="text-red-600">{error}</p>
           ) : filteredBookings.length === 0 ? (
-            <p>No bookings found.</p>
+            <p className="text-gray-500 italic">No bookings found.</p>
           ) : (
             <div className="overflow-x-auto">
               <table className="min-w-full text-sm">
@@ -142,27 +136,29 @@ export default function ManagerBookingsPage() {
                     });
                     return (
                       <tr key={b.id} className="border-t hover:bg-gray-50">
-                        <td className="px-4 py-3">{b.id}</td>
+                        <td className="px-4 py-3 font-mono text-xs text-gray-700">{b.id}</td>
                         <td className="px-4 py-3">{b.userEmail || "N/A"}</td>
                         <td className="px-4 py-3">{b.events?.name || "N/A"}</td>
-                        <td className="px-4 py-3">{dateStr}</td>
+                        <td className="px-4 py-3 text-gray-600">{dateStr}</td>
                         <td className="px-4 py-3">
-                          <span className={`text-xs font-medium px-2 py-1 rounded-full ${
-                            b.status === "confirmed"
-                              ? "bg-green-100 text-green-800"
-                              : b.status === "pending"
-                              ? "bg-yellow-100 text-yellow-800"
-                              : "bg-red-100 text-red-800"
-                          }`}>
+                          <span
+                            className={`text-xs font-medium px-2 py-1 rounded-full ${
+                              b.status === "confirmed"
+                                ? "bg-green-100 text-green-800"
+                                : b.status === "pending"
+                                ? "bg-yellow-100 text-yellow-800"
+                                : "bg-red-100 text-red-800"
+                            }`}
+                          >
                             {b.status}
                           </span>
                         </td>
                         <td className="px-4 py-3 text-right">
                           <button
                             onClick={() => handleDownloadTicket(b.id)}
-                            className="inline-flex items-center gap-1 bg-purple-600 text-white text-xs px-3 py-1 rounded hover:bg-purple-700 mr-2"
+                            className="inline-flex items-center gap-1 bg-purple-600 text-white text-xs px-3 py-1 rounded hover:bg-purple-700"
                           >
-                            Tickets
+                            Download
                           </button>
                         </td>
                       </tr>
@@ -174,20 +170,20 @@ export default function ManagerBookingsPage() {
           )}
         </div>
 
-        {/* Pagination (server-controlled) */}
-        <div className="mt-4 flex justify-between items-center text-sm">
+        {/* Pagination */}
+        <div className="mt-6 flex justify-between items-center text-sm text-gray-700">
           <p>Page {currentPage}</p>
           <div className="flex gap-2">
             <button
               onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
               disabled={currentPage === 1}
-              className="px-3 py-1 border rounded disabled:bg-gray-200 disabled:text-gray-400"
+              className="px-3 py-1 border rounded disabled:bg-gray-200 disabled:text-gray-400 hover:bg-gray-50"
             >
               Prev
             </button>
             <button
               onClick={() => setCurrentPage((p) => p + 1)}
-              className="px-3 py-1 border rounded"
+              className="px-3 py-1 border rounded hover:bg-gray-50"
             >
               Next
             </button>

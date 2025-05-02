@@ -17,7 +17,7 @@ export default function EventsPage() {
   const [clubId, setClubId] = useState(null);
   const [clubStripeStatus, setClubStripeStatus] = useState(null);
   const [events, setEvents] = useState([]);
-  const [loading, setLoading] = useState(true); // ✅ aggiunto stato di loading
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -29,7 +29,7 @@ export default function EventsPage() {
         } = await supabase.auth.getUser();
 
         if (userError || !user) {
-          setError("Nessun utente loggato o errore nel recupero utente");
+          setError("No user logged in or failed to fetch user data.");
           return;
         }
 
@@ -42,7 +42,7 @@ export default function EventsPage() {
           .single();
 
         if (clubError || !clubData) {
-          setError("Impossibile recuperare il club del manager");
+          setError("Unable to retrieve the manager's club.");
           return;
         }
 
@@ -52,7 +52,7 @@ export default function EventsPage() {
         const res = await fetch(`/api/events?club_id=${clubData.id}`);
         if (!res.ok) {
           const errData = await res.json();
-          throw new Error(errData.error || "Errore nel recupero eventi");
+          throw new Error(errData.error || "Failed to fetch events.");
         }
 
         const eventsList = await res.json();
@@ -61,7 +61,7 @@ export default function EventsPage() {
         console.error(err);
         setError(err.message);
       } finally {
-        setLoading(false); // ✅ fine caricamento
+        setLoading(false);
       }
     }
 
@@ -70,7 +70,7 @@ export default function EventsPage() {
 
   function goToNewEvent() {
     if (clubStripeStatus !== "active") {
-      alert("Devi collegare Stripe per creare un evento.");
+      alert("You must connect Stripe to create an event.");
       router.push("/payments");
     } else {
       router.push("/events/new-event");
@@ -83,23 +83,25 @@ export default function EventsPage() {
 
   return (
     <ManagerLayout>
-      <h1 className="text-3xl font-semibold mb-6 tracking-tight">Events</h1>
+      <div className="px-6 py-10 max-w-7xl mx-auto">
+        <h1 className="text-3xl font-bold mb-6 tracking-tight text-gray-900">Events</h1>
 
-      <div className="flex flex-col md:flex-row gap-8 h-full">
-        <EventsSidebar
-          events={events}
-          loading={loading} // ✅ passa loading
-          onNewEvent={goToNewEvent}
-          onEditEvent={goToEditEvent}
-        />
-        <EventsCalendar events={events} loading={loading} />
-      </div>
-
-      {error && (
-        <div className="mt-4 p-4 text-red-600 text-center bg-red-50 border border-red-200 rounded">
-          <p>{error}</p>
+        <div className="flex flex-col md:flex-row gap-8">
+          <EventsSidebar
+            events={events}
+            loading={loading}
+            onNewEvent={goToNewEvent}
+            onEditEvent={goToEditEvent}
+          />
+          <EventsCalendar events={events} loading={loading} />
         </div>
-      )}
+
+        {error && (
+          <div className="mt-6 p-4 text-red-600 text-center bg-red-50 border border-red-200 rounded">
+            <p>{error}</p>
+          </div>
+        )}
+      </div>
     </ManagerLayout>
   );
 }

@@ -50,7 +50,7 @@ export default function NewEventPage() {
           error: userError,
         } = await supabase.auth.getUser();
         if (userError || !user) {
-          setError("Errore nel recupero utente");
+          setError("Error fetching user");
           return;
         }
         setManagerId(user.id);
@@ -62,14 +62,14 @@ export default function NewEventPage() {
           .single();
 
         if (clubError || !clubData) {
-          setError("Impossibile recuperare il club del manager");
+          setError("Unable to retrieve your club");
           return;
         }
         setClubId(clubData.id);
         setClubStripeStatus(clubData.stripe_status);
       } catch (err) {
         console.error(err);
-        setError("Errore sconosciuto nel recupero manager/club");
+        setError("Unexpected error fetching manager or club");
       }
     }
     fetchManager();
@@ -105,7 +105,7 @@ export default function NewEventPage() {
 
       if (!eventRes.ok) {
         const errData = await eventRes.json();
-        throw new Error(errData.error || "Errore creazione evento");
+        throw new Error(errData.error || "Error creating event");
       }
 
       const newEvent = await eventRes.json();
@@ -126,11 +126,11 @@ export default function NewEventPage() {
 
         if (!ticketRes.ok) {
           const errTicket = await ticketRes.json();
-          throw new Error(errTicket.error || "Errore creazione ticket category");
+          throw new Error(errTicket.error || "Error creating ticket category");
         }
       }
 
-      setMessage("Evento creato con successo!");
+      setMessage("Event created successfully!");
       setTimeout(() => router.push("/events"), 2000);
     } catch (err) {
       setError(err.message);
@@ -153,13 +153,13 @@ export default function NewEventPage() {
         <div className="px-6 py-8 max-w-screen-md mx-auto text-center">
           <h1 className="text-xl font-bold mb-4">Create New Event</h1>
           <p className="text-gray-700">
-            Per creare un nuovo evento, devi collegare il tuo account Stripe.
+            To create a new event, you must first connect your Stripe account.
           </p>
           <button
             onClick={() => router.push("/payments")}
             className="mt-6 px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
           >
-            Collegare Stripe
+            Connect Stripe
           </button>
         </div>
       </ManagerLayout>
@@ -218,7 +218,7 @@ export default function NewEventPage() {
               type="button"
               onClick={() => setCurrentStep(currentStep - 1)}
               className="px-4 py-2 text-sm bg-gray-200 rounded"
-            >Indietro</button>
+            >Back</button>
           )}
           {currentStep < 3 ? (
             <button
@@ -228,17 +228,17 @@ export default function NewEventPage() {
                   setError("");
                   setCurrentStep(currentStep + 1);
                 } else {
-                  setError("Compila tutti i campi obbligatori per proseguire.");
+                  setError("Please complete all required fields to continue.");
                 }
               }}
               className="px-4 py-2 text-sm bg-purple-600 text-white rounded hover:bg-purple-700"
-            >Avanti</button>
+            >Next</button>
           ) : (
             <button
               type="button"
               onClick={handleSubmit}
               className="px-6 py-2 bg-green-600 text-white rounded hover:bg-green-700"
-            >Crea Evento</button>
+            >Create Event</button>
           )}
         </div>
       </div>

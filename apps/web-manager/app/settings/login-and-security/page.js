@@ -21,7 +21,10 @@ export default function ManagerSettingsLoginSecurityPage() {
 
   useEffect(() => {
     async function getUser() {
-      const { data: { user }, error: userError } = await supabase.auth.getUser();
+      const {
+        data: { user },
+        error: userError,
+      } = await supabase.auth.getUser();
       if (userError) {
         setError("Errore nel recupero utente");
       } else if (user) {
@@ -38,27 +41,27 @@ export default function ManagerSettingsLoginSecurityPage() {
     setMessage("");
 
     if (!currentPassword || !newPassword || !confirmNewPassword) {
-      setError("Compila tutti i campi");
+      setError("Please fill in all fields.");
       return;
     }
     if (newPassword !== confirmNewPassword) {
-      setError("La nuova password e la conferma non coincidono");
+      setError("New password and confirmation do not match.");
       return;
     }
     if (!userEmail) {
-      setError("Impossibile determinare l'email utente");
+      setError("Unable to retrieve user email.");
       return;
     }
 
     setLoading(true);
 
     try {
-      const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
+      const { error: signInError } = await supabase.auth.signInWithPassword({
         email: userEmail,
         password: currentPassword,
       });
       if (signInError) {
-        setError("La password attuale non è corretta");
+        setError("Current password is incorrect.");
         setLoading(false);
         return;
       }
@@ -70,9 +73,9 @@ export default function ManagerSettingsLoginSecurityPage() {
         return;
       }
 
-      setMessage("Password aggiornata con successo!");
+      setMessage("Password updated successfully!");
     } catch (err) {
-      setError("Errore sconosciuto durante il cambio password");
+      setError("An unexpected error occurred.");
     } finally {
       setLoading(false);
     }
@@ -80,13 +83,15 @@ export default function ManagerSettingsLoginSecurityPage() {
 
   return (
     <ManagerLayout>
-      <div className="px-6 py-8 max-w-screen-xl mx-auto">
+      <div className="px-6 py-10 max-w-2xl mx-auto">
         <ManagerSettingsHeader title="Login and Security" />
 
-        <div className="max-w-md bg-white rounded-lg shadow p-6">
-          <form onSubmit={handleChangePassword} className="flex flex-col space-y-4">
+        <div className="bg-white rounded-xl shadow-md p-8">
+          <h2 className="text-lg font-semibold text-gray-800 mb-6">Change Password</h2>
+
+          <form onSubmit={handleChangePassword} className="space-y-5">
             <div>
-              <label className="block text-sm font-medium text-gray-700">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
                 Current Password
               </label>
               <input
@@ -94,47 +99,43 @@ export default function ManagerSettingsLoginSecurityPage() {
                 value={currentPassword}
                 onChange={(e) => setCurrentPassword(e.target.value)}
                 required
-                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring focus:border-purple-500"
+                className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700">
-                New Password
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">New Password</label>
               <input
                 type="password"
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
                 required
-                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring focus:border-purple-500"
+                className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Confirm New Password
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Confirm New Password</label>
               <input
                 type="password"
                 value={confirmNewPassword}
                 onChange={(e) => setConfirmNewPassword(e.target.value)}
                 required
-                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring focus:border-purple-500"
+                className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
               />
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="inline-flex items-center justify-center rounded-md bg-purple-600 px-4 py-2 text-white hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
+              className="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-4 rounded-md transition focus:outline-none focus:ring-2 focus:ring-purple-500"
             >
-              {loading ? "Saving..." : "Save"}
+              {loading ? "Saving..." : "Save Changes"}
             </button>
           </form>
 
-          {error && <p className="text-red-600 mt-4">{error}</p>}
-          {message && <p className="text-green-600 mt-4">{message}</p>}
+          {error && <p className="text-red-600 mt-4 text-sm font-medium">{error}</p>}
+          {message && <p className="text-green-600 mt-4 text-sm font-medium">{message}</p>}
         </div>
       </div>
     </ManagerLayout>

@@ -5,126 +5,44 @@ import Link from 'next/link';
 import ManagerLayout from '../ManagerLayout';
 import { Cog6ToothIcon, LockClosedIcon, DocumentTextIcon } from '@heroicons/react/24/outline';
 
+const settingsItems = [
+  {
+    href: '/settings/general',
+    icon: Cog6ToothIcon,
+    title: 'General',
+    description: 'Manage your basic information and communication preferences',
+  },
+  {
+    href: '/settings/login-and-security',
+    icon: LockClosedIcon,
+    title: 'Login and Security',
+    description: 'Update your password and manage account security',
+  },
+  {
+    href: '/settings/legal',
+    icon: DocumentTextIcon,
+    title: 'Legal',
+    description: 'Terms of Service and Privacy Policy',
+  },
+];
+
 export default function ManagerSettingsPage() {
   return (
     <ManagerLayout>
-      <h1 style={{ fontSize: '1.5rem', marginBottom: '1.5rem' }}>Settings</h1>
-      
-      {/* Contenitore dei box */}
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-evenly', // distribuisce in modo uniforme lo spazio
-          alignItems: 'flex-start',
-          gap: '2rem',
-          flexWrap: 'wrap', // permette di andare a capo su schermi piccoli
-          padding: '1rem 0',
-        }}
-      >
-        {/* Box: General */}
-        <Link href="/settings/general" style={{ textDecoration: 'none' }}>
-          <div
-            style={{
-              width: '280px',
-              height: '160px',
-              border: '1px solid #ccc',
-              borderRadius: '8px',
-              backgroundColor: '#fff',
-              boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-              textAlign: 'center',
-              color: '#000',
-              cursor: 'pointer',
-              transition: 'transform 0.2s',
-            }}
-          >
-            <Cog6ToothIcon
-              style={{
-                width: '40px',
-                height: '40px',
-                marginBottom: '0.5rem',
-                color: '#666',
-              }}
-            />
-            <h2 style={{ marginBottom: '0.5rem' }}>General</h2>
-            <p style={{ fontSize: '0.9rem', color: '#666' }}>
-              Manage your basic information and communication preferences
-            </p>
-          </div>
-        </Link>
+      <div className="px-4 sm:px-6 lg:px-8">
+        <h1 className="text-2xl font-bold text-gray-900 mb-8">Settings</h1>
 
-        {/* Box: Login and Security */}
-        <Link href="/settings/login-and-security" style={{ textDecoration: 'none' }}>
-          <div
-            style={{
-              width: '280px',
-              height: '160px',
-              border: '1px solid #ccc',
-              borderRadius: '8px',
-              backgroundColor: '#fff',
-              boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-              textAlign: 'center',
-              color: '#000',
-              cursor: 'pointer',
-              transition: 'transform 0.2s',
-            }}
-          >
-            <LockClosedIcon
-              style={{
-                width: '40px',
-                height: '40px',
-                marginBottom: '0.5rem',
-                color: '#666',
-              }}
-            />
-            <h2 style={{ marginBottom: '0.5rem' }}>Login and Security</h2>
-            <p style={{ fontSize: '0.9rem', color: '#666' }}>
-              Update your password and manage account security
-            </p>
-          </div>
-        </Link>
-
-        {/* Box: Legal */}
-        <Link href="/settings/legal" style={{ textDecoration: 'none' }}>
-          <div
-            style={{
-              width: '280px',
-              height: '160px',
-              border: '1px solid #ccc',
-              borderRadius: '8px',
-              backgroundColor: '#fff',
-              boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-              textAlign: 'center',
-              color: '#000',
-              cursor: 'pointer',
-              transition: 'transform 0.2s',
-            }}
-          >
-            <DocumentTextIcon
-              style={{
-                width: '40px',
-                height: '40px',
-                marginBottom: '0.5rem',
-                color: '#666',
-              }}
-            />
-            <h2 style={{ marginBottom: '0.5rem' }}>Legal</h2>
-            <p style={{ fontSize: '0.9rem', color: '#666' }}>
-              Terms of Service and Privacy Policy
-            </p>
-          </div>
-        </Link>
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {settingsItems.map(({ href, icon: Icon, title, description }) => (
+            <Link key={href} href={href} className="group block">
+              <div className="p-6 h-48 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md hover:border-indigo-400 transition-all flex flex-col items-center justify-center text-center">
+                <Icon className="h-8 w-8 text-gray-500 group-hover:text-indigo-600 mb-3 transition" />
+                <h2 className="text-lg font-semibold text-gray-800 mb-1 group-hover:text-indigo-700">{title}</h2>
+                <p className="text-sm text-gray-600 group-hover:text-gray-700 max-w-xs">{description}</p>
+              </div>
+            </Link>
+          ))}
+        </div>
       </div>
     </ManagerLayout>
   );

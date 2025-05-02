@@ -1,5 +1,4 @@
 // apps/web-manager/app/terms-of-service/page.js
-
 "use client";
 
 import Link from "next/link";
@@ -27,55 +26,56 @@ export default function TermsOfServicePage() {
         </header>
 
         {/* Page Content */}
-        <section className="relative min-h-screen flex flex-col justify-center items-center text-center px-4 pt-32 bg-gradient-to-br from-white via-indigo-50 to-white">
-          <div className="max-w-screen-md mx-auto text-left px-4">
-            <h1 className="text-4xl font-bold text-gray-900 mb-8">Terms of Service</h1>
+        <section className="relative min-h-screen flex flex-col justify-center items-center px-4 pt-32 pb-20 bg-gradient-to-br from-white via-indigo-50 to-white">
+          <div className="max-w-3xl mx-auto text-left px-4">
+            <h1 className="text-4xl font-bold text-gray-900 mb-8 text-center">Terms of Service</h1>
 
-            <p className="text-gray-700 mb-6">
-              These Terms of Service govern your use of the Clubster Manager platform. By signing up or accessing the platform, you agree to these terms.
+            <p className="text-gray-700 mb-8 text-lg text-center">
+              By accessing or using the Clubster Manager platform, you agree to be bound by these Terms of Service. Please read them carefully.
             </p>
 
-            <section className="mb-6">
-              <h2 className="text-xl font-semibold mb-2">1. Account Registration</h2>
-              <p className="text-gray-700">
-                Managers must provide accurate and complete information during registration. You are responsible for maintaining the confidentiality of your login credentials.
-              </p>
-            </section>
+            <div className="space-y-6 text-base leading-7 text-gray-700">
+              <section>
+                <h2 className="text-xl font-semibold mb-2">1. Account Registration</h2>
+                <p>
+                  Users must provide accurate and up-to-date information when registering. You are responsible for safeguarding your credentials and activities under your account.
+                </p>
+              </section>
 
-            <section className="mb-6">
-              <h2 className="text-xl font-semibold mb-2">2. Use of Platform</h2>
-              <p className="text-gray-700">
-                You agree to use Clubster Manager in compliance with all applicable laws. Unauthorized use, duplication, or reverse engineering of the platform is prohibited.
-              </p>
-            </section>
+              <section>
+                <h2 className="text-xl font-semibold mb-2">2. Use of Platform</h2>
+                <p>
+                  You agree to use the platform legally and respectfully. You may not copy, modify, distribute, or exploit the platform without written permission from Clubster.
+                </p>
+              </section>
 
-            <section className="mb-6">
-              <h2 className="text-xl font-semibold mb-2">3. Payment Processing</h2>
-              <p className="text-gray-700">
-                Payments are processed via Stripe. Clubster Manager is not liable for issues arising from Stripe’s processing services.
-              </p>
-            </section>
+              <section>
+                <h2 className="text-xl font-semibold mb-2">3. Payment Processing</h2>
+                <p>
+                  All payment transactions are securely handled through Stripe. Clubster Manager is not liable for issues related to Stripe’s service.
+                </p>
+              </section>
 
-            <section className="mb-6">
-              <h2 className="text-xl font-semibold mb-2">4. Termination</h2>
-              <p className="text-gray-700">
-                Clubster Manager reserves the right to suspend or terminate accounts that violate these terms or engage in harmful activities.
-              </p>
-            </section>
+              <section>
+                <h2 className="text-xl font-semibold mb-2">4. Termination</h2>
+                <p>
+                  We reserve the right to suspend or terminate accounts for violations of these terms or any misuse of the platform.
+                </p>
+              </section>
 
-            <section className="mb-6">
-              <h2 className="text-xl font-semibold mb-2">5. Updates to Terms</h2>
-              <p className="text-gray-700">
-                Clubster may update these terms periodically. Continued use of the platform indicates your acceptance of any changes.
-              </p>
-            </section>
+              <section>
+                <h2 className="text-xl font-semibold mb-2">5. Changes to Terms</h2>
+                <p>
+                  We may update these Terms from time to time. Continued use of the platform constitutes acceptance of any changes.
+                </p>
+              </section>
+            </div>
 
-            <p className="text-sm text-gray-500">Last updated: April 2025</p>
+            <p className="text-sm text-gray-500 mt-10 text-center">Last updated: April 2025</p>
           </div>
         </section>
       </main>
 
-      {/* Footer */}
       <Footer />
     </>
   );

@@ -22,7 +22,7 @@ export default function ManagerPaymentsPage() {
         } = await supabase.auth.getUser();
 
         if (userError || !user) {
-          setError("Nessun utente loggato.");
+          setError("No user logged in.");
           setStripeStatus("none");
           return;
         }
@@ -34,7 +34,7 @@ export default function ManagerPaymentsPage() {
           .single();
 
         if (clubError) {
-          setError("Errore nel recupero dati del club.");
+          setError("Error retrieving club data.");
           setStripeStatus("none");
           return;
         }
@@ -43,7 +43,7 @@ export default function ManagerPaymentsPage() {
         setStripeAccountId(club.stripe_account_id || "");
       } catch (err) {
         console.error("Stripe fetch error:", err);
-        setError("Errore generico durante il caricamento.");
+        setError("Generic error during loading.");
         setStripeStatus("none");
       }
     }
@@ -54,12 +54,12 @@ export default function ManagerPaymentsPage() {
   const handleConnectStripe = async () => {
     try {
       const res = await fetch("/api/stripe/onboarding");
-      if (!res.ok) throw new Error("Errore nel recupero URL Stripe");
+      if (!res.ok) throw new Error("Error fetching Stripe URL");
       const { url } = await res.json();
       window.location.href = url;
     } catch (err) {
       console.error(err);
-      alert("Errore durante la connessione a Stripe");
+      alert("Error connecting to Stripe");
     }
   };
 
@@ -67,70 +67,70 @@ export default function ManagerPaymentsPage() {
     switch (stripeStatus) {
       case "loading":
         return (
-          <div className="flex items-center gap-2 text-gray-600">
+          <div className="flex items-center gap-2 text-gray-600 text-sm">
             <Loader2 className="animate-spin w-5 h-5" />
-            Caricamento...
+            Loading Stripe status...
           </div>
         );
       case "none":
         return (
-          <div className="bg-white border border-gray-100 p-6 rounded-2xl shadow-sm">
-            <h2 className="text-xl font-semibold text-gray-800 mb-2">Stripe non collegato</h2>
+          <div className="bg-white border border-gray-200 p-6 rounded-2xl shadow-sm">
+            <h2 className="text-2xl font-semibold text-gray-900 mb-3">Stripe not connected</h2>
             <p className="text-sm text-gray-600 mb-4">
-              Per ricevere pagamenti dagli utenti, collega il tuo account Stripe. Il processo è sicuro e richiede solo pochi minuti.
+              To receive payments, connect your Stripe account securely. It only takes a few minutes.
             </p>
             <button
               onClick={handleConnectStripe}
-              className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 text-sm transition"
+              className="bg-purple-600 text-white px-5 py-2 rounded-md hover:bg-purple-700 text-sm font-medium"
             >
-              Collega Stripe
+              Connect your Stripe account
             </button>
             <p className="mt-4 text-xs text-gray-500">
-              Una volta completata la registrazione, tornerai automaticamente su questa pagina. Per assistenza, {" "}
-              <a href="/support" className="text-purple-600 underline">contatta il supporto</a>.
+              After registration, you'll be redirected back here. For help, visit our{' '}
+              <a href="/support" className="text-purple-600 underline">Support</a> page.
             </p>
           </div>
         );
       case "incomplete":
         return (
-          <div className="bg-yellow-50 border border-yellow-300 p-6 rounded-2xl shadow-sm">
-            <h2 className="text-xl font-semibold text-yellow-800 mb-2">Configurazione incompleta</h2>
-            <p className="text-sm text-gray-700 mb-4">
-              Il tuo account Stripe è collegato ma deve essere completato per poter ricevere pagamenti.
+          <div className="bg-yellow-50 border border-yellow-200 p-6 rounded-2xl shadow-sm">
+            <h2 className="text-2xl font-semibold text-yellow-800 mb-3">Incomplete configuration</h2>
+            <p className="text-sm text-yellow-700 mb-4">
+              You've started setting up Stripe but haven't finished. Complete it now to receive payments.
             </p>
             <button
               onClick={handleConnectStripe}
-              className="bg-yellow-600 text-white px-4 py-2 rounded hover:bg-yellow-700 text-sm transition"
+              className="bg-yellow-600 text-white px-5 py-2 rounded-md hover:bg-yellow-700 text-sm font-medium"
             >
-              Completa configurazione
+              Complete Stripe setup
             </button>
           </div>
         );
       case "active":
         return (
-          <div className="bg-green-50 border border-green-300 p-6 rounded-2xl shadow-sm">
-            <h2 className="text-xl font-semibold text-green-800 mb-3 flex items-center gap-2">
+          <div className="bg-green-50 border border-green-200 p-6 rounded-2xl shadow-sm">
+            <h2 className="text-2xl font-semibold text-green-800 mb-4 flex items-center gap-2">
               <CheckCircle className="w-5 h-5 text-green-700" />
-              Stripe collegato con successo
+              Stripe connected
             </h2>
-            <div className="text-sm text-gray-800 mb-3">
-              <p><span className="font-medium">Account ID:</span> {stripeAccountId}</p>
-              <p><span className="font-medium">Status:</span> Attivo</p>
+            <div className="text-sm text-gray-800 mb-4 space-y-1">
+              <p><strong>Account ID:</strong> {stripeAccountId}</p>
+              <p><strong>Status:</strong> Active</p>
             </div>
             <button
               onClick={() => window.open("https://dashboard.stripe.com/", "_blank")}
-              className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 text-sm transition"
+              className="bg-purple-600 text-white px-5 py-2 rounded-md hover:bg-purple-700 text-sm font-medium"
             >
-              Vai alla Dashboard Stripe
+              Go to Stripe Dashboard
             </button>
             <p className="text-xs text-gray-500 mt-4">
-              Per modifiche al tuo account Stripe, contatta il supporto oppure gestiscile direttamente tramite la dashboard.
+              You can manage your account directly in Stripe or contact our support team for assistance.
             </p>
           </div>
         );
       default:
         return (
-          <p className="text-red-600 text-sm mt-4">Errore sconosciuto nello stato Stripe.</p>
+          <p className="text-red-600 text-sm mt-4">Unknown Stripe status error.</p>
         );
     }
   };
@@ -138,7 +138,10 @@ export default function ManagerPaymentsPage() {
   return (
     <ManagerLayout>
       <div className="max-w-3xl mx-auto px-6 py-10">
-        <h1 className="text-3xl font-semibold mb-6 tracking-tight">Stripe Payments</h1>
+        <h1 className="text-3xl font-bold mb-6 text-gray-900 tracking-tight">Payments</h1>
+        <p className="text-sm text-gray-600 mb-8">
+          Connect a Stripe account to receive automatic payouts for your events.
+        </p>
         {renderStripeStatus()}
         {error && <p className="text-red-600 text-sm mt-4">{error}</p>}
       </div>
