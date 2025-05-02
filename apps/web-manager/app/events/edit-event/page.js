@@ -8,6 +8,7 @@ import ManagerLayout from "../../ManagerLayout";
 import EventHeader from "@components/events/EventHeader";
 import DatePicker from "@components/events/DataTimePicker";
 import UploadEventImage from "@components/events/UploadEventImage";
+import LoadingSpinner from "@/components/common/LoadingSpinner";
 
 const predefinedGenres = [
   "Techno", 
@@ -163,13 +164,27 @@ export default function EditEventPage() {
 
   async function handleSubmit(e) {
     e.preventDefault();
+  
     if (!clubId) {
       setError("Nessun club associato. Impossibile aggiornare l'evento.");
       return;
     }
+    if (!name.trim()) {
+      setError("Il nome dell'evento è obbligatorio.");
+      return;
+    }
+    if (!startDate || !startTime || !endDate || !endTime) {
+      setError("Data e ora di inizio e fine sono obbligatorie.");
+      return;
+    }
+    if (musicGenres.length === 0) {
+      setError("Seleziona almeno un genere musicale.");
+      return;
+    }
+  
     setLoading(true);
     setError("");
-    setMessage("");
+    setMessage("");  
     try {
       const startDateTimeStr = `${startDate}T${startTime}:00`;
       const endDateTimeStr = `${endDate}T${endTime}:00`;
@@ -264,13 +279,18 @@ export default function EditEventPage() {
 
   return (
     <ManagerLayout>
-      <div className="px-6 py-8 max-w-screen-xl mx-auto">
-        <EventHeader title="Edit Event" />
-
-        {error && <p className="text-red-600 mb-4">{error}</p>}
-        {message && <p className="text-green-600 mb-4">{message}</p>}
-
-        <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+      {loading ? (
+  <div className="flex justify-center items-center min-h-[300px]">
+    <LoadingSpinner />
+  </div>
+) : (
+        <div className="px-6 py-8 max-w-screen-xl mx-auto">
+          <EventHeader title="Edit Event" />
+  
+          {error && <p className="text-red-600 mb-4">{error}</p>}
+          {message && <p className="text-green-600 mb-4">{message}</p>}
+  
+          <form onSubmit={handleSubmit} className="flex flex-col gap-6">
           {/* BOX 1: Dettagli evento */}
           <div className="bg-white rounded-lg shadow p-6 space-y-4">
             <h2 className="text-lg font-semibold text-gray-800">Event Details</h2>
@@ -484,8 +504,9 @@ export default function EditEventPage() {
               Elimina Evento
             </button>
           </div>
-        </form>
+          </form>
       </div>
-    </ManagerLayout>
-  );
+    )}
+  </ManagerLayout>
+);
 }
