@@ -22,10 +22,22 @@ export default function ClubInfo({ club }) {
     },
   });
 
+  // Preload images before updating slider (fix for mobile glitch)
   useEffect(() => {
-    if (instanceRef.current) {
-      instanceRef.current.update();
-    }
+    const preload = async () => {
+      await Promise.all(
+        images.map((src) => {
+          return new Promise((res) => {
+            const img = new Image();
+            img.src = src;
+            img.onload = res;
+            img.onerror = res;
+          });
+        })
+      );
+      if (instanceRef.current) instanceRef.current.update();
+    };
+    preload();
   }, [images]);
 
   useEffect(() => {
@@ -70,11 +82,11 @@ export default function ClubInfo({ club }) {
     <section className="mb-12">
       {/* Image Carousel */}
       <div className="relative w-full h-[350px] md:h-[500px] rounded-xl overflow-hidden">
-        <div ref={sliderRef} className="keen-slider h-full">
+        <div ref={sliderRef} className="keen-slider h-full overflow-hidden">
           {images.map((src, index) => (
             <div
               key={index}
-              className="keen-slider__slide flex items-center justify-center cursor-zoom-in"
+              className="keen-slider__slide w-full shrink-0 flex items-center justify-center cursor-zoom-in"
               onClick={() => setShowFullscreen(true)}
             >
               <img
@@ -179,17 +191,63 @@ export default function ClubInfo({ club }) {
           >
             <FiX />
           </button>
-          <div className="max-w-screen-xl w-full px-6">
-            <div className="keen-slider">
-              {images.map((src, index) => (
-                <div key={index} className="keen-slider__slide flex items-center justify-center">
-                  <img src={src} alt={`Fullscreen ${index}`} className="max-h-[90vh] w-auto mx-auto" />
-                </div>
-              ))}
-            </div>
-          </div>
+
+          <FullscreenSlider images={images} onClose={() => setShowFullscreen(false)} />
         </div>
       )}
     </section>
+  );
+}
+
+function FullscreenSlider({ images, onClose }) {
+  const [fullscreenRef, fullscreenInstance] = useKeenSlider({ loop: true });
+  const [current, setCurrent] = useState(0);
+
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", handleEsc);
+    return () => document.removeEventListener("keydown", handleEsc);
+  }, [onClose]);
+
+  return (
+    <div className="w-full max-w-5xl px-6">
+      <div ref={fullscreenRef} className="keen-slider overflow-hidden">
+        {images.map((src, i) => (
+          <div key={i} className="keen-slider__slide w-full shrink-0 flex items-center justify-center">
+            <img
+              src={src}
+              alt={`Fullscreen image ${i + 1}`}
+              className="max-h-[90vh] w-auto mx-auto rounded"
+            />
+          </div>
+        ))}
+      </div>
+
+      {images.length > 1 && (
+        <div className="flex justify-between mt-6 text-white">
+          <button
+            onClick={() => fullscreenInstance.current?.prev()}
+            className="text-lg bg-black/60 px-4 py-2 rounded hover:bg-black/80"
+          >
+            ❮
+          </button>
+          <button
+            onClick={() => fullscreenInstance.current?.next()}
+            className="text-lg bg-black/60 px-4 py-2 rounded hover:bg-black/80"
+          >
+            ❯
+          </button>
+        </div>
+      )}
+    </div>
   );
 }
