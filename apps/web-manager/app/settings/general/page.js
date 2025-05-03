@@ -4,7 +4,7 @@
 import { useEffect, useState, useRef } from "react";
 import { createBrowserSupabase } from "@lib/supabase-browser";
 import ManagerLayout from "../../ManagerLayout";
-import PhotosManager from "@/components/settings/PhotosManager";
+import ClubImageManager from "@/components/settings/ClubImageManager";
 import ManagerSettingsHeader from "@/components/settings/SettingsHeader";
 import FAQManager from "@/components/settings/FAQManager";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
@@ -279,11 +279,11 @@ export default function ManagerSettingsGeneralPage() {
             {error && <p className="text-red-500 text-sm">{error}</p>}
             {message && <p className="text-green-500 text-sm">{message}</p>}
 
-            {/* Images */}
+            {/* Image Manager */}
             <section>
               <h2 className="text-lg font-semibold text-gray-700 mb-4">Photos</h2>
               {clubId && managerId && (
-                <PhotosManager
+                <ClubImageManager
                   clubId={clubId}
                   managerId={managerId}
                   currentImages={images}
