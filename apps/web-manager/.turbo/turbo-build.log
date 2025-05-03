@@ -4,23 +4,53 @@
 > next build
 
 [1G[0K- [36minfo[39m Loaded env from /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.env.local
-[?25l- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G[?25h- [36minfo[39m Creating an optimized production build  
-- [36minfo[39m Compiled successfully
-[?25l- [36minfo[39m Linting and checking validity of types [36m.[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m..[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m...[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m.[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m..[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m...[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m.[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m..[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m...[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m.[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m..[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m...[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m.[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m..[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m...[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m.[39m[2K[1G[?25h- [36minfo[39m Linting and checking validity of types  
-[?25l- [36minfo[39m Collecting page data [36m.[39m[2K[1G- [36minfo[39m Collecting page data [36m..[39m(node:30978) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+[?25l- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G[?25h- [33mwarn[39m Compiled with warnings
+
+[?25l- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G[?25h./components/settings/ClubImageManager.js
+Attempted import error: 'sortableKeyboardCoordinates' is not exported from '@dnd-kit/core' (imported as 'sortableKeyboardCoordinates').
+
+Import trace for requested module:
+./components/settings/ClubImageManager.js
+./app/settings/general/page.js
+
+./components/settings/ClubImageManager.js
+Attempted import error: 'sortableKeyboardCoordinates' is not exported from '@dnd-kit/core' (imported as 'sortableKeyboardCoordinates').
+
+Import trace for requested module:
+./components/settings/ClubImageManager.js
+./app/settings/general/page.js
+[?25l- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G[?25h
+[?25l- [36minfo[39m Creating an optimized production build [36m.[39m[?25l- [36minfo[39m Linting and checking validity of types [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m...[39m[2K[1G[?25h- [36minfo[39m Linting and checking validity of types  
+[?25l- [36minfo[39m Collecting page data [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Collecting page data [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m(node:25458) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:30977) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+[2K[1G- [36minfo[39m Collecting page data [36m...[39m(node:25450) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:30982) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:25457) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:30983) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:25456) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:30979) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:25452) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:30980) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:25455) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-[2K[1G- [36minfo[39m Collecting page data [36m...[39m[2K[1G- [36minfo[39m Collecting page data [36m.[39m[2K[1G- [36minfo[39m Collecting page data [36m..[39m[2K[1G- [36minfo[39m Collecting page data [36m...[39m[2K[1G- [36minfo[39m Collecting page data [36m.[39m[2K[1G- [36minfo[39m Collecting page data [36m..[39m[2K[1G- [36minfo[39m Collecting page data [36m...[39m[2K[1G- [36minfo[39m Collecting page data [36m.[39m[2K[1G- [36minfo[39m Collecting page data [36m..[39m[2K[1G- [36minfo[39m Collecting page data [36m...[39m[2K[1G- [36minfo[39m Collecting page data [36m.[39m[2K[1G[?25h- [36minfo[39m Collecting page data  
-[?25l[36m[    ][39m - [36minfo[39m Generating static pages (0/38)[Supabase] Creating server Supabase client...
+[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m(node:25451) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[2K[1G- [36minfo[39m Collecting page data [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G[?25h- [36minfo[39m Collecting page data  
+[?25l[36m[    ][39m - [36minfo[39m Generating static pages (0/41)[Supabase] Creating server Supabase client...
+[Supabase] Creating server Supabase client...
+Analytics API error: DynamicServerError: Dynamic server usage: Page couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at staticGenerationBailout (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/6095.js:165:21)
+    at cookies (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/9854.js:186:62)
+    at createServerSupabase (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/1674.js:21:84)
+    at GET (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/app/api/analytics/route.js:153:79)
+    at /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/9854.js:5758:43
+    at /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/9854.js:6621:36
+    at NoopContextManager.with (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/9854.js:1047:30)
+    at ContextAPI.with (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/9854.js:717:58)
+    at NoopTracer.startActiveSpan (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/9854.js:1640:34)
+    at ProxyTracer.startActiveSpan (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/9854.js:1680:36) {
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
 [Bookings] GET request received
 [Supabase] Creating server Supabase client...
 [Bookings] Error in GET /api/bookings: DynamicServerError: Dynamic server usage: Page couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
@@ -36,8 +66,20 @@
     at ProxyTracer.startActiveSpan (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/9854.js:1680:36) {
   digest: 'DYNAMIC_SERVER_USAGE'
 }
-(node:30984) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
+[Supabase] Creating server Supabase client...
+[Dashboard] API error: DynamicServerError: Dynamic server usage: Page couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at staticGenerationBailout (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/6095.js:165:21)
+    at cookies (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/9854.js:186:62)
+    at createServerSupabase (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/1674.js:21:84)
+    at GET (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/app/api/dashboard/route.js:153:79)
+    at /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/9854.js:5758:43
+    at /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/9854.js:6621:36
+    at NoopContextManager.with (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/9854.js:1047:30)
+    at ContextAPI.with (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/9854.js:717:58)
+    at NoopTracer.startActiveSpan (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/9854.js:1640:34)
+    at ProxyTracer.startActiveSpan (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/9854.js:1680:36) {
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
 - warn 
 metadata.metadataBase is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
 - warn 
@@ -52,6 +94,7 @@ metadata.metadataBase is not set for resolving social open graph or twitter imag
 metadata.metadataBase is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
 - warn 
 metadata.metadataBase is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
+[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m- warn Entire page /events/detail-event deopted into client-side rendering. https://nextjs.org/docs/messages/deopted-into-client-rendering /events/detail-event
 - warn Entire page /events/edit-event deopted into client-side rendering. https://nextjs.org/docs/messages/deopted-into-client-rendering /events/edit-event
 Error generating PDF ticket: DynamicServerError: Dynamic server usage: Page couldn't be rendered statically because it used `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
     at Object.staticGenerationBailout (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/6095.js:165:21)
@@ -66,16 +109,18 @@ Error generating PDF ticket: DynamicServerError: Dynamic server usage: Page coul
     at ProxyTracer.startActiveSpan (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/9854.js:1680:36) {
   digest: 'DYNAMIC_SERVER_USAGE'
 }
-[2K[1G[?25h- [36minfo[39m Generating static pages (38/38)
-[?25l- [36minfo[39m Finalizing page optimization [36m.[39m[2K[1G[?25h- [36minfo[39m Finalizing page optimization  
-
-[4mRoute (app)[24m                                [4mSize[24m     [4mFirst Load JS[24m
-┌ ○ /                                      3.7 kB         [32m90.2 kB[39m
+[2K[1G[?25h[2K[1G[?25h- [36minfo[39m Generating static pages (41/41)
+[?25l- [36minfo[39m Creating an optimized production build [36m.[39m[?25l- [36minfo[39m Finalizing page optimization [36m.[39m[2K[1G[?25h- [36minfo[39m Finalizing page optimization  
+[2K[1G[?25h
+[?25l- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G[?25h[4mRoute (app)[24m                                [4mSize[24m     [4mFirst Load JS[24m
+┌ ○ /                                      4.37 kB        [32m90.7 kB[39m
 ├ ○ /_not-found                            0 B                [32m0 B[39m
-├ ○ /analytics                             9.28 kB         [31m[1m242 kB[22m[39m
+├ ○ /analytics                             3.93 kB         [33m134 kB[39m
+├ λ /api/analytics                         0 B                [32m0 B[39m
 ├ λ /api/bookings                          0 B                [32m0 B[39m
 ├ λ /api/checkout                          0 B                [32m0 B[39m
 ├ λ /api/club                              0 B                [32m0 B[39m
+├ λ /api/dashboard                         0 B                [32m0 B[39m
 ├ λ /api/events                            0 B                [32m0 B[39m
 ├ λ /api/faq                               0 B                [32m0 B[39m
 ├ λ /api/reviews                           0 B                [32m0 B[39m
@@ -87,40 +132,43 @@ Error generating PDF ticket: DynamicServerError: Dynamic server usage: Page coul
 ├ λ /api/ticket                            0 B                [32m0 B[39m
 ├ λ /api/ticket-category                   0 B                [32m0 B[39m
 ├ λ /api/user                              0 B                [32m0 B[39m
-├ ○ /bookings                              4.48 kB         [33m134 kB[39m
-├ ○ /dashboard                             1.97 kB         [31m[1m235 kB[22m[39m
-├ ○ /events                                5.05 kB         [33m135 kB[39m
-├ ○ /events/edit-event                     4.74 kB         [31m[1m182 kB[22m[39m
-├ ○ /events/new-event                      5 kB            [31m[1m183 kB[22m[39m
+├ ○ /bookings                              4.65 kB         [33m134 kB[39m
+├ ○ /dashboard                             4.57 kB         [33m134 kB[39m
+├ ○ /events                                5.98 kB         [33m136 kB[39m
+├ ○ /events/detail-event                   4.76 kB         [33m134 kB[39m
+├ ○ /events/edit-event                     5.2 kB          [31m[1m183 kB[22m[39m
+├ ○ /events/new-event                      5.49 kB         [31m[1m183 kB[22m[39m
 ├ ○ /favicon.ico                           0 B                [32m0 B[39m
-├ ○ /login                                 2.73 kB         [32m121 kB[39m
-├ ○ /payments                              4.87 kB         [33m135 kB[39m
-├ ○ /privacy-policy                        2.88 kB        [32m89.4 kB[39m
-├ ○ /settings                              3.73 kB         [33m134 kB[39m
-├ ○ /settings/general                      3.78 kB         [33m138 kB[39m
-├ ○ /settings/legal                        814 B           [33m136 kB[39m
-├ ○ /settings/legal/privacy-policy         1.08 kB         [33m136 kB[39m
-├ ○ /settings/legal/terms-of-service       1.17 kB         [33m136 kB[39m
-├ ○ /settings/login-and-security           1.23 kB         [33m136 kB[39m
-├ ○ /signup                                2.63 kB         [32m121 kB[39m
-├ ○ /stripe/callback                       3.5 kB          [33m133 kB[39m
-├ ○ /terms-of-service                      2.78 kB        [32m89.3 kB[39m
-└ ○ /verify-club                           3.23 kB         [32m127 kB[39m
-+ First Load JS shared by all              [32m78.7 kB[39m
-  ├ chunks/1dd3208c-28ae0b91a4f86921.js    50.6 kB
-  ├ chunks/575-e25ebf48e2802868.js         26.1 kB
-  ├ chunks/main-app-1de167840286bdec.js    226 B
-  └ chunks/webpack-84533fd3d5a274df.js     1.81 kB
+├ ○ /login                                 2.72 kB         [32m121 kB[39m
+├ ○ /payments                              5.03 kB         [33m135 kB[39m
+├ ○ /privacy-policy                        2.98 kB        [32m89.3 kB[39m
+├ ○ /settings                              3.8 kB          [33m133 kB[39m
+├ ○ /settings/general                      23.8 kB         [33m154 kB[39m
+├ ○ /settings/legal                        4.88 kB         [33m135 kB[39m
+├ ○ /settings/legal/privacy-policy         5.12 kB         [33m135 kB[39m
+├ ○ /settings/legal/terms-of-service       5.21 kB         [33m136 kB[39m
+├ ○ /settings/login-and-security           5.08 kB         [33m135 kB[39m
+├ ○ /signup                                2.62 kB         [32m121 kB[39m
+├ ○ /stripe/callback                       3.65 kB         [33m133 kB[39m
+├ ○ /terms-of-service                      2.82 kB        [32m89.1 kB[39m
+└ ○ /verify-club                           3.22 kB         [32m127 kB[39m
++ First Load JS shared by all              [32m78.5 kB[39m
+  ├ chunks/1dd3208c-8dcaf870f4685529.js    50.6 kB
+  ├ chunks/575-19c7f7ca95ef5fc1.js         26 kB
+  ├ chunks/main-app-fa040a4d555c3a3f.js    221 B
+  └ chunks/webpack-dd29873d0f840560.js     1.77 kB
 
 [4mRoute (pages)[24m                              [4mSize[24m     [4mFirst Load JS[24m
-─ ○ /404                                   182 B          [32m76.1 kB[39m
+─ ○ /404                                   178 B            [32m76 kB[39m
 + First Load JS shared by all              [32m75.9 kB[39m
-  ├ chunks/framework-8ae47e43852bcf35.js   45.1 kB
-  ├ chunks/main-847d645e8c3b0dd1.js        28.8 kB
-  ├ chunks/pages/_app-6e23c821c1586b5d.js  197 B
-  └ chunks/webpack-84533fd3d5a274df.js     1.81 kB
+  ├ chunks/framework-fef96c9893968102.js   45.1 kB
+  ├ chunks/main-3052ed7eeef3b528.js        28.8 kB
+  ├ chunks/pages/_app-3d26186c4d630485.js  194 B
+  └ chunks/webpack-dd29873d0f840560.js     1.77 kB
 
-λ  (Server)  server-side renders at runtime (uses [36mgetInitialProps[39m or [36mgetServerSideProps[39m)
+ƒ Middleware                               [32m97 kB[39m
+[?25l- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G[?25h
+[?25l- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G[?25hλ  (Server)  server-side renders at runtime (uses [36mgetInitialProps[39m or [36mgetServerSideProps[39m)
 ○  (Static)  automatically rendered as static HTML (uses no initial props)
-
-[?25h[1G[0K⠙[1G[0K
+[?25l- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G[?25h
+[?25l- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[?25h[1G[0K⠙[1G[0K

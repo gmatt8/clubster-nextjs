@@ -10,6 +10,9 @@
 !.yarn/releases
 !.yarn/versions
 
+# turborepo cache
+.turbo
+
 # testing
 /coverage
 
@@ -19,10 +22,21 @@
 
 # production
 /build
+/dist
+
+# env files
+.env.local
+.env.development
+.env.production
+.env.test
+
+# vercel
+.vercel
 
 # misc
 .DS_Store
 *.pem
+*.log
 
 # debug
 npm-debug.log*
@@ -30,12 +44,11 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
-.env.local
-
-# vercel
-.vercel
-
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# IDE/editor folders
+.vscode/
+.idea/
+*.swp
