@@ -1,4 +1,4 @@
-// components/settings/UploadImages.js
+// apps/web-manager/components/settings/UploadImages.js
 "use client";
 
 import React, { useState } from "react";
@@ -39,7 +39,7 @@ export default function UploadImages({ clubId, currentImage, managerId, onUpload
         .getPublicUrl(`clubs/${clubId}/${fileName}`);
 
       if (publicUrlData?.publicUrl) {
-        onUploadComplete([publicUrlData.publicUrl]);
+        onUploadComplete([...(Array.isArray(currentImage) ? currentImage : []), publicUrlData.publicUrl]);
       } else {
         setUploadError("Impossibile ottenere l'URL pubblico del file");
       }

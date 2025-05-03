@@ -1,3 +1,4 @@
+// apps/web-manager/components/settings/SortablePhoto.js
 "use client";
 
 import { useSortable } from "@dnd-kit/sortable";
