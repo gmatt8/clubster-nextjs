@@ -1,6 +1,5 @@
-export const dynamic = "force-dynamic";
-
 // app/api/checkout/route.js
+export const dynamic = "force-dynamic";
 import Stripe from "stripe";
 import { createServerSupabase } from "@lib/supabase-server";
 import { NextResponse } from "next/server";
