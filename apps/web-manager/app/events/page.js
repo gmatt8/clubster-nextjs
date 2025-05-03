@@ -78,7 +78,7 @@ export default function EventsPage() {
   }
 
   function goToEditEvent(eventId) {
-    router.push(`/events/edit-event?event_id=${eventId}`);
+    router.push(`/events/detail-event?event_id=${eventId}`);
   }
 
   return (
