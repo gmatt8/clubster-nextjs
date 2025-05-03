@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 // /app/api/reviews/route.js
 import { createServerSupabase } from "@lib/supabase-server";
 

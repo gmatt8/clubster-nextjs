@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 // apps/web-customer/app/api/ticket/route.js
 import { NextResponse } from "next/server";
 import fs from "fs/promises";

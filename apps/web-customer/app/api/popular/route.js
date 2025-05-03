@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 // apps/web-customer/api/popular/route.js
 import { createServerSupabase } from "../../../../../lib/supabase-server";
 

@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 // app/api/stripe/onboarding/route.js
 export const runtime = 'nodejs';
 

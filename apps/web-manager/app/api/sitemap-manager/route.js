@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 // apps/web-manager/app/api/sitemap-manager/route.js
 import { NextResponse } from "next/server";
 

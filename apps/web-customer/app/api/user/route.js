@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 // app/api/user/route.js
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';

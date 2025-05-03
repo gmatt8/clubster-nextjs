@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 // apps/web-manager/app/api/analytics/route.js
 import { createServerSupabase } from "@lib/supabase-server";
 import { NextResponse } from "next/server";
