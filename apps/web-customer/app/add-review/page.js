@@ -1,5 +1,4 @@
 // apps/web-customer/app/add-review/page.js
-// Improved AddReviewPage component with enhanced layout and UX
 "use client";
 
 import { useSearchParams, useRouter } from "next/navigation";
