@@ -70,11 +70,11 @@ export default function ClubInfo({ club }) {
     <section className="mb-12">
       {/* Image Carousel */}
       <div className="relative w-full h-[350px] md:h-[500px] rounded-xl overflow-hidden">
-        <div ref={sliderRef} className="keen-slider h-full">
+        <div ref={sliderRef} className="keen-slider h-full overflow-hidden">
           {images.map((src, index) => (
             <div
               key={index}
-              className="keen-slider__slide flex items-center justify-center cursor-zoom-in"
+              className="keen-slider__slide min-w-full flex items-center justify-center cursor-zoom-in"
               onClick={() => setShowFullscreen(true)}
             >
               <img
@@ -192,10 +192,11 @@ function FullscreenSlider({ images, onClose }) {
   const [current, setCurrent] = useState(0);
 
   useEffect(() => {
-    if (fullscreenInstance.current) {
-      fullscreenInstance.current.moveToIdx(current);
-    }
-  }, [fullscreenInstance, current]);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, []);
 
   useEffect(() => {
     const handleEsc = (e) => {
@@ -207,9 +208,9 @@ function FullscreenSlider({ images, onClose }) {
 
   return (
     <div className="w-full max-w-5xl px-6">
-      <div ref={fullscreenRef} className="keen-slider">
+      <div ref={fullscreenRef} className="keen-slider overflow-hidden">
         {images.map((src, i) => (
-          <div key={i} className="keen-slider__slide flex items-center justify-center">
+          <div key={i} className="keen-slider__slide min-w-full flex items-center justify-center">
             <img
               src={src}
               alt={`Fullscreen image ${i + 1}`}
