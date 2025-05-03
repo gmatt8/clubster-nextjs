@@ -4,6 +4,17 @@
 import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import LoadingSpinner from "../common/LoadingSpinner";
+import {
+  Music,
+  Eye,
+  Users,
+  DollarSign,
+  Shirt,
+  Sun,
+  Car,
+  Cigarette,
+  Briefcase
+} from "lucide-react";
 
 export default function NextEvents({ clubId, selectedEventId }) {
   const router = useRouter();
@@ -13,6 +24,7 @@ export default function NextEvents({ clubId, selectedEventId }) {
   const [selectedTicketCategory, setSelectedTicketCategory] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(true);
+  const [clubData, setClubData] = useState(null);
 
   const today = new Date();
   const [currentYear, setCurrentYear] = useState(today.getFullYear());
@@ -33,6 +45,21 @@ export default function NextEvents({ clubId, selectedEventId }) {
       }
     }
     fetchEvents();
+  }, [clubId]);
+
+  useEffect(() => {
+    async function fetchClubData() {
+      if (!clubId) return;
+      try {
+        const res = await fetch(`/api/club?club_id=${clubId}`);
+        if (!res.ok) throw new Error("Error fetching club data");
+        const data = await res.json();
+        setClubData(data);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    fetchClubData();
   }, [clubId]);
 
   const eventMap = useMemo(() => {
@@ -130,6 +157,44 @@ export default function NextEvents({ clubId, selectedEventId }) {
   function handleDayClick(day) {
     const dateKey = formatDate(currentYear, currentMonth, day);
     setSelectedEvent(eventMap[dateKey]?.[0] || null);
+  }
+
+  function renderInfoIcons(event, club) {
+    if (!event || !club) return null;
+
+    const features = [];
+
+    if (event.music_genres?.length) {
+      event.music_genres.forEach((genre) => features.push({ label: genre, Icon: Music }));
+    }
+    if (event.age_restriction) {
+      features.push({ label: `+${event.age_restriction} years old`, Icon: Eye });
+    }
+    if (event.dress_code) {
+      features.push({ label: event.dress_code, Icon: Shirt });
+    }
+    if (club.capacity) {
+      features.push({ label: `${club.capacity} people`, Icon: Users });
+    }
+    if (club.price) {
+      const label = club.price === "$" ? "Low cost" : club.price === "$$" ? "Medium cost" : "High cost";
+      features.push({ label, Icon: DollarSign });
+    }
+    if (club.outdoor_area === "available") features.push({ label: "Outdoor Area", Icon: Sun });
+    if (club.parking === "available") features.push({ label: "Parking", Icon: Car });
+    if (club.smoking === "allowed") features.push({ label: "Smoking allowed", Icon: Cigarette });
+    if (club.coat_check === "available") features.push({ label: "Coat check", Icon: Briefcase });
+
+    return (
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 mt-10 justify-center">
+        {features.map(({ label, Icon }, i) => (
+          <div key={i} className="flex items-center gap-3 text-sm text-gray-700">
+            <Icon className="w-5 h-5" />
+            <span>{label}</span>
+          </div>
+        ))}
+      </div>
+    );
   }
 
   const daysInMonth = getDaysInMonth(currentYear, currentMonth);
@@ -233,6 +298,7 @@ export default function NextEvents({ clubId, selectedEventId }) {
             <div className="w-full text-gray-500 flex items-center">No event selected.</div>
           )}
         </div>
+        {renderInfoIcons(selectedEvent, clubData)}
       </div>
     </section>
   );
