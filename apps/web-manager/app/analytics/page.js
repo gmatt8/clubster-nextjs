@@ -1,8 +1,10 @@
 // apps/web-customer/app/analytics/page.js
+// apps/web-customer/app/analytics/page.js
 "use client";
 
 import { useEffect, useState } from "react";
 import ManagerLayout from "../ManagerLayout";
+import LoadingSpinner from "@/components/common/LoadingSpinner";
 
 export default function ManagerAnalyticsPage() {
   const [loading, setLoading] = useState(true);
@@ -32,7 +34,9 @@ export default function ManagerAnalyticsPage() {
         </h1>
 
         {loading || !analytics ? (
-          <p className="text-gray-500">Loading...</p>
+          <div className="flex justify-center items-center min-h-[200px]">
+            <LoadingSpinner />
+          </div>
         ) : (
           <>
             {/* KPIs */}

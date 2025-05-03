@@ -1,9 +1,12 @@
+// apps/web-manager/app/events/detail-event/page.js
+
 "use client";
 
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import ManagerLayout from "../../ManagerLayout";
 import { createBrowserSupabase } from "@lib/supabase-browser";
+import LoadingSpinner from "@/components/common/LoadingSpinner";
 
 export default function EventDetailPage() {
   const router = useRouter();
@@ -25,11 +28,9 @@ export default function EventDetailPage() {
 
     async function fetchData() {
       try {
-        // 1. Event details
         const { data: eventData, error: eventError } = await supabase
           .from("events")
-          .select(
-            `
+          .select(`
             id,
             name,
             description,
@@ -40,16 +41,13 @@ export default function EventDetailPage() {
             dress_code,
             image,
             clubs ( name )
-          `
-          )
+          `)
           .eq("id", eventId)
           .single();
 
         if (eventError) throw eventError;
-
         setEvent(eventData);
 
-        // 2. Bookings for event
         const { data: bookings, error: bookingsError } = await supabase
           .from("bookings")
           .select("quantity")
@@ -60,7 +58,6 @@ export default function EventDetailPage() {
 
         const sold = bookings.reduce((sum, b) => sum + b.quantity, 0);
 
-        // 3. Capacity from ticket categories
         const { data: categories, error: catError } = await supabase
           .from("ticket_categories")
           .select("available_tickets, price")
@@ -70,7 +67,6 @@ export default function EventDetailPage() {
 
         const remaining = categories.reduce((sum, cat) => sum + (cat.available_tickets || 0), 0);
         const capacity = remaining + sold;
-        
         const revenue = categories.reduce((sum, cat) => sum + ((cat.price || 0) * sold), 0);
 
         setTicketStats({ sold, capacity, revenue });
@@ -110,10 +106,9 @@ export default function EventDetailPage() {
   };
 
   const status = getEventStatus();
-  const occupancy =
-    ticketStats.capacity > 0
-      ? Math.round((ticketStats.sold / ticketStats.capacity) * 100)
-      : 0;
+  const occupancy = ticketStats.capacity > 0
+    ? Math.round((ticketStats.sold / ticketStats.capacity) * 100)
+    : 0;
 
   return (
     <ManagerLayout>
@@ -122,9 +117,7 @@ export default function EventDetailPage() {
           <h1 className="text-3xl font-bold text-gray-900">Event details</h1>
           {event && (
             <button
-              onClick={() =>
-                router.push(`/events/edit-event?event_id=${event.id}`)
-              }
+              onClick={() => router.push(`/events/edit-event?event_id=${event.id}`)}
               className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition text-sm font-medium"
             >
               Edit event
@@ -133,7 +126,9 @@ export default function EventDetailPage() {
         </div>
 
         {loading ? (
-          <p className="text-gray-500">Loading event...</p>
+          <div className="flex justify-center items-center min-h-[200px]">
+            <LoadingSpinner />
+          </div>
         ) : !event ? (
           <p className="text-red-600">Event not found.</p>
         ) : (

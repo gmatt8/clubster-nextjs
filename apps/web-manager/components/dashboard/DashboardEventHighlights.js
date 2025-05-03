@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createBrowserSupabase } from "@lib/supabase-browser";
+import LoadingSpinner from "@/components/common/LoadingSpinner";
 
 export default function DashboardEventHighlights() {
   const [events, setEvents] = useState([]);
@@ -43,7 +44,15 @@ export default function DashboardEventHighlights() {
     .sort((a, b) => new Date(a.start_date) - new Date(b.start_date))
     .slice(0, 3);
 
-  if (loading || upcomingEvents.length === 0) return null;
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-[120px] mt-10">
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
+  if (upcomingEvents.length === 0) return null;
 
   return (
     <div className="mt-10">

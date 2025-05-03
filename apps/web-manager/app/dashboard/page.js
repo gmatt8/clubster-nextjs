@@ -1,9 +1,11 @@
 // apps/web-manager/app/dashboard/page.js
+// apps/web-manager/app/dashboard/page.js
 "use client";
 
 import { useEffect, useState } from "react";
 import ManagerLayout from "../ManagerLayout";
 import DashboardEventHighlights from "@/components/dashboard/DashboardEventHighlights";
+import LoadingSpinner from "@/components/common/LoadingSpinner";
 
 const rangeOptions = [
   { label: "Today", value: "today" },
@@ -71,19 +73,23 @@ export default function ManagerDashboardPage() {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-          {statsToDisplay.map((stat) => (
-            <div
-              key={stat.label}
-              className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition"
-            >
-              <div className="text-sm text-gray-500 mb-1">{stat.label}</div>
-              <div className="text-2xl font-bold text-gray-900">
-                {loading ? "..." : stat.value}
+        {loading ? (
+          <div className="flex justify-center items-center min-h-[200px] mb-6">
+            <LoadingSpinner />
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+            {statsToDisplay.map((stat) => (
+              <div
+                key={stat.label}
+                className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition"
+              >
+                <div className="text-sm text-gray-500 mb-1">{stat.label}</div>
+                <div className="text-2xl font-bold text-gray-900">{stat.value}</div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
 
         {/* Upcoming events section */}
         <DashboardEventHighlights />
