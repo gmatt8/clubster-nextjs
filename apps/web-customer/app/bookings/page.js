@@ -100,24 +100,11 @@ export default function MyBookingsPage() {
 
 function BookingCard({ booking }) {
   const router = useRouter();
-  const supabase = createClientComponentClient();
   const event = booking.events;
   const now = new Date();
   const eventEnd = new Date(event?.end_date || event?.start_date);
   const isPast = now > eventEnd;
-
-  const [reviewed, setReviewed] = useState(false);
-
-  useEffect(() => {
-    async function checkReview() {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
-      const res = await fetch(`/api/reviews?booking_id=${booking.id}&user_id=${user.id}`);
-      const data = await res.json();
-      if (res.ok && data.reviews?.length > 0) setReviewed(true);
-    }
-    if (isPast) checkReview();
-  }, [isPast, booking.id, supabase]);
+  const reviewed = booking.reviewed;
 
   const start = new Date(event.start_date);
   const eventDate = `${start.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })} • ${start.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`;
@@ -154,7 +141,9 @@ function BookingCard({ booking }) {
         </button>
         {isPast && !reviewed && (
           <button
-            onClick={() => router.push(`/add-review?event_id=${event.id}&club_id=${event.club_id}&booking_id=${booking.id}`)}
+            onClick={() =>
+              router.push(`/add-review?event_id=${event.id}&club_id=${event.club_id}&booking_id=${booking.id}`)
+            }
             className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600"
           >
             Add review
