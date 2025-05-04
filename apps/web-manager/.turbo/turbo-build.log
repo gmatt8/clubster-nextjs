@@ -4,7 +4,7 @@
 > next build
 
 [1G[0K- [36minfo[39m Loaded env from /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.env.local
-[?25l- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G[?25h- [33mwarn[39m Compiled with warnings
+[?25l- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G[?25h- [33mwarn[39m Compiled with warnings
 
 [?25l- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G[?25h./components/settings/ClubImageManager.js
 Attempted import error: 'sortableKeyboardCoordinates' is not exported from '@dnd-kit/core' (imported as 'sortableKeyboardCoordinates').
@@ -21,66 +21,22 @@ Import trace for requested module:
 ./app/settings/general/page.js
 [?25l- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G[?25h
 [?25l- [36minfo[39m Creating an optimized production build [36m.[39m[?25l- [36minfo[39m Linting and checking validity of types [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G- [36minfo[39m Linting and checking validity of types [36m...[39m[2K[1G[?25h- [36minfo[39m Linting and checking validity of types  
-[?25l- [36minfo[39m Collecting page data [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Collecting page data [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m(node:25458) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+[?25l- [36minfo[39m Collecting page data [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G- [36minfo[39m Collecting page data [36m..[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m(node:49074) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-[2K[1G- [36minfo[39m Collecting page data [36m...[39m(node:25450) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:49075) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:25457) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:49070) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:25456) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:49076) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:25452) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:49072) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:25455) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:49071) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m(node:25451) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:49069) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-[2K[1G- [36minfo[39m Collecting page data [36m.[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G[?25h- [36minfo[39m Collecting page data  
-[?25l[36m[    ][39m - [36minfo[39m Generating static pages (0/41)[Supabase] Creating server Supabase client...
-[Supabase] Creating server Supabase client...
-Analytics API error: DynamicServerError: Dynamic server usage: Page couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
-    at staticGenerationBailout (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/6095.js:165:21)
-    at cookies (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/9854.js:186:62)
-    at createServerSupabase (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/1674.js:21:84)
-    at GET (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/app/api/analytics/route.js:153:79)
-    at /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/9854.js:5758:43
-    at /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/9854.js:6621:36
-    at NoopContextManager.with (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/9854.js:1047:30)
-    at ContextAPI.with (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/9854.js:717:58)
-    at NoopTracer.startActiveSpan (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/9854.js:1640:34)
-    at ProxyTracer.startActiveSpan (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/9854.js:1680:36) {
-  digest: 'DYNAMIC_SERVER_USAGE'
-}
-[Bookings] GET request received
-[Supabase] Creating server Supabase client...
-[Bookings] Error in GET /api/bookings: DynamicServerError: Dynamic server usage: Page couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
-    at staticGenerationBailout (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/6095.js:165:21)
-    at cookies (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/9854.js:186:62)
-    at createServerSupabase (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/1674.js:21:84)
-    at GET (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/app/api/bookings/route.js:194:79)
-    at /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/9854.js:5758:43
-    at /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/9854.js:6621:36
-    at NoopContextManager.with (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/9854.js:1047:30)
-    at ContextAPI.with (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/9854.js:717:58)
-    at NoopTracer.startActiveSpan (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/9854.js:1640:34)
-    at ProxyTracer.startActiveSpan (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/9854.js:1680:36) {
-  digest: 'DYNAMIC_SERVER_USAGE'
-}
-[Supabase] Creating server Supabase client...
-[Dashboard] API error: DynamicServerError: Dynamic server usage: Page couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
-    at staticGenerationBailout (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/6095.js:165:21)
-    at cookies (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/9854.js:186:62)
-    at createServerSupabase (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/1674.js:21:84)
-    at GET (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/app/api/dashboard/route.js:153:79)
-    at /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/9854.js:5758:43
-    at /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/9854.js:6621:36
-    at NoopContextManager.with (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/9854.js:1047:30)
-    at ContextAPI.with (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/9854.js:717:58)
-    at NoopTracer.startActiveSpan (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/9854.js:1640:34)
-    at ProxyTracer.startActiveSpan (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/9854.js:1680:36) {
-  digest: 'DYNAMIC_SERVER_USAGE'
-}
-- warn 
+[2K[1G- [36minfo[39m Collecting page data [36m...[39m[2K[1G- [36minfo[39m Creating an optimized production build [36m...[39m[2K[1G[?25h- [36minfo[39m Collecting page data  
+[?25l[36m[    ][39m - [36minfo[39m Generating static pages (0/25)- warn 
 metadata.metadataBase is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
 - warn 
 metadata.metadataBase is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
@@ -88,28 +44,15 @@ metadata.metadataBase is not set for resolving social open graph or twitter imag
 metadata.metadataBase is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
 - warn 
 metadata.metadataBase is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
-- warn 
+[2K[1G- [36minfo[39m Creating an optimized production build [36m.[39m- warn 
 metadata.metadataBase is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
 - warn 
 metadata.metadataBase is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
 - warn 
 metadata.metadataBase is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
-[2K[1G- [36minfo[39m Creating an optimized production build [36m..[39m- warn Entire page /events/detail-event deopted into client-side rendering. https://nextjs.org/docs/messages/deopted-into-client-rendering /events/detail-event
+- warn Entire page /events/detail-event deopted into client-side rendering. https://nextjs.org/docs/messages/deopted-into-client-rendering /events/detail-event
 - warn Entire page /events/edit-event deopted into client-side rendering. https://nextjs.org/docs/messages/deopted-into-client-rendering /events/edit-event
-Error generating PDF ticket: DynamicServerError: Dynamic server usage: Page couldn't be rendered statically because it used `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
-    at Object.staticGenerationBailout (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/6095.js:165:21)
-    at handleReqBailout (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/9854.js:5452:23)
-    at Object.get (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/9854.js:5460:13)
-    at GET (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/app/api/ticket/route.js:175:50)
-    at /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/9854.js:5758:43
-    at /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/9854.js:6621:36
-    at NoopContextManager.with (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/9854.js:1047:30)
-    at ContextAPI.with (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/9854.js:717:58)
-    at NoopTracer.startActiveSpan (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/9854.js:1640:34)
-    at ProxyTracer.startActiveSpan (/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.next/server/chunks/9854.js:1680:36) {
-  digest: 'DYNAMIC_SERVER_USAGE'
-}
-[2K[1G[?25h[2K[1G[?25h- [36minfo[39m Generating static pages (41/41)
+[2K[1G[?25h[2K[1G[?25h- [36minfo[39m Generating static pages (25/25)
 [?25l- [36minfo[39m Creating an optimized production build [36m.[39m[?25l- [36minfo[39m Finalizing page optimization [36m.[39m[2K[1G[?25h- [36minfo[39m Finalizing page optimization  
 [2K[1G[?25h
 [?25l- [36minfo[39m Creating an optimized production build [36m.[39m[2K[1G[?25h[4mRoute (app)[24m                                [4mSize[24m     [4mFirst Load JS[24m
@@ -124,7 +67,7 @@ Error generating PDF ticket: DynamicServerError: Dynamic server usage: Page coul
 ├ λ /api/events                            0 B                [32m0 B[39m
 ├ λ /api/faq                               0 B                [32m0 B[39m
 ├ λ /api/reviews                           0 B                [32m0 B[39m
-├ ○ /api/sitemap-manager                   0 B                [32m0 B[39m
+├ λ /api/sitemap-manager                   0 B                [32m0 B[39m
 ├ λ /api/stripe/callback                   0 B                [32m0 B[39m
 ├ λ /api/stripe/connect                    0 B                [32m0 B[39m
 ├ λ /api/stripe/onboarding                 0 B                [32m0 B[39m
