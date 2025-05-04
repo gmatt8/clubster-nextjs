@@ -12,7 +12,7 @@ import {
   DragOverlay,
   KeyboardSensor,
   sortableKeyboardCoordinates,
-} from "@dnd-kit/core";
+} from "@dnd-kit/sortable";
 import {
   arrayMove,
   SortableContext,
