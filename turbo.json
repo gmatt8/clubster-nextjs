@@ -1,17 +1,28 @@
 {
-    "$schema": "https://turborepo.org/schema.json",
-    "tasks": {
-      "dev": {
-        "dependsOn": ["^dev"],
-        "outputs": []
-      },
-      "build": {
-        "dependsOn": ["^build"],
-        "outputs": [".next/**", "dist/**"]
-      },
-      "lint": {
-        "outputs": []
-      }
+  "$schema": "https://turborepo.org/schema.json",
+  "globalEnv": [
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY",
+    "STRIPE_SECRET_KEY",
+    "STRIPE_CLIENT_ID",
+    "STRIPE_WEBHOOK_SECRET",
+    "DATABASE_URL",
+    "NODE_ENV",
+    "OPENAI_API_KEY",
+    "NEXT_PUBLIC_BASE_URL"
+  ],
+  "tasks": {
+    "dev": {
+      "dependsOn": ["^dev"],
+      "outputs": []
+    },
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": [".next/**", "dist/**"]
+    },
+    "lint": {
+      "outputs": []
     }
   }
-  
+}
