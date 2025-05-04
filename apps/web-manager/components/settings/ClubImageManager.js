@@ -3,6 +3,7 @@
 
 import { useState } from "react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+
 import {
   DndContext,
   closestCenter,
@@ -11,13 +12,15 @@ import {
   useSensors,
   DragOverlay,
   KeyboardSensor,
+} from "@dnd-kit/core";
+
+import {
+  SortableContext,
+  arrayMove,
+  verticalListSortingStrategy,
   sortableKeyboardCoordinates,
 } from "@dnd-kit/sortable";
-import {
-  arrayMove,
-  SortableContext,
-  verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
+
 import SortablePhoto from "./SortablePhoto";
 
 export default function ClubImageManager({ clubId, managerId, currentImages, onUpdate }) {
@@ -84,7 +87,6 @@ export default function ClubImageManager({ clubId, managerId, currentImages, onU
 
   const handleDragEnd = (event) => {
     const { active, over } = event;
-
     if (!active || !over || active.id === over.id) {
       setActiveId(null);
       return;
@@ -106,7 +108,6 @@ export default function ClubImageManager({ clubId, managerId, currentImages, onU
 
   return (
     <div className="space-y-4">
-      {/* Upload section */}
       <div className="flex flex-col sm:flex-row items-center gap-4">
         <label
           htmlFor="file-input"
@@ -130,7 +131,6 @@ export default function ClubImageManager({ clubId, managerId, currentImages, onU
         </button>
       </div>
 
-      {/* Drag & drop grid */}
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
