@@ -1,4 +1,4 @@
-// apps/web-customer/app/page.js
+// /apps/web-customer/app/page.js
 "use client";
 
 import { useState } from "react";
