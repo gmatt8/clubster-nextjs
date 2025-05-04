@@ -1,3 +1,4 @@
+// apps/app-scan/index.ts
 import { registerRootComponent } from 'expo';
 
 import App from './App';
