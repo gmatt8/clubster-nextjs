@@ -176,7 +176,7 @@ export default function CustomerHomePage() {
           >
             {results.length === 0 ? (
               <div className="text-center text-gray-500 text-lg mt-12">
-                😕 Nessun risultato trovato. Prova a cambiare città o data.
+                No results found. Try changing the city or date.
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
