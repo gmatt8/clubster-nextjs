@@ -1,11 +1,14 @@
+// app/api/stripe/connect/route.js
 export const dynamic = "force-dynamic";
 
-// app/api/stripe/connect/route.js
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-
 export async function POST(request) {
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+    apiVersion: '2022-11-15',
+  });
+
   // genera link di onboarding
+  return NextResponse.json({ ok: true });
 }
