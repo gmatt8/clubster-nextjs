@@ -1,0 +1,61 @@
+
+
+> web-manager@0.1.0 dev
+> next dev
+
+[1G[0K- [36minfo[39m Loaded env from /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.env.local
+- [32mready[39m started server on [::]:3000, url: http://localhost:3000
+npm error code ENOWORKSPACES
+npm error This command does not support workspaces.
+npm error A complete log of this run can be found in: /Users/mattiagori/.npm/_logs/2025-05-04T09_21_41_911Z-debug-0.log
+- [35mevent[39m compiled client and server successfully in 116 ms (20 modules)
+- [36mwait[39m compiling...
+- [35mevent[39m compiled client and server successfully in 82 ms (20 modules)
+- [36minfo[39m Loaded env from /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.env.local
+- [36minfo[39m Loaded env from /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.env.local
+- [36mwait[39m compiling /middleware (client and server)...
+- [35mevent[39m compiled successfully in 296 ms (194 modules)
+ [AuthApiError: Invalid Refresh Token: Refresh Token Not Found] {
+  __isAuthError: true,
+  name: 'AuthApiError',
+  status: 400,
+  code: 'refresh_token_not_found'
+}
+ [AuthApiError: Invalid Refresh Token: Refresh Token Not Found] {
+  __isAuthError: true,
+  name: 'AuthApiError',
+  status: 400,
+  code: 'refresh_token_not_found'
+}
+- [36mwait[39m compiling /login/page (client and server)...
+- [35mevent[39m compiled client and server successfully in 2.4s (785 modules)
+- [33mwarn[39m 
+metadata.metadataBase is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
+(node:51025) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ [AuthApiError: Request rate limit reached] {
+  __isAuthError: true,
+  name: 'AuthApiError',
+  status: 429,
+  code: 'over_request_rate_limit'
+}
+- [36mwait[39m compiling /page (client and server)...
+- [35mevent[39m compiled client and server successfully in 2s (1552 modules)
+- [36mwait[39m compiling /_error (client and server)...
+- [36mwait[39m compiling /not-found (client and server)...
+- [35mevent[39m compiled client and server successfully in 361 ms (1677 modules)
+- [36mwait[39m compiling /signup/page (client and server)...
+- [35mevent[39m compiled client and server successfully in 306 ms (1688 modules)
+- [36mwait[39m compiling...
+- [35mevent[39m compiled client and server successfully in 314 ms (1688 modules)
+[1mnull[22m
+[1mnull[22m
+- [36mwait[39m compiling /_error (client and server)...
+- [36mwait[39m compiling /not-found (client and server)...
+- [35mevent[39m compiled client and server successfully in 206 ms (1679 modules)
+- [36mwait[39m compiling...
+- [35mevent[39m compiled client and server successfully in 526 ms (1693 modules)
+- [36mwait[39m compiling /terms-of-service/page (client and server)...
+- [35mevent[39m compiled client and server successfully in 492 ms (1699 modules)
+[?25h
+[1G[0K⠙[1G[0K
