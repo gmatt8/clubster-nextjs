@@ -1,6 +1,7 @@
-export const dynamic = "force-dynamic";
 
 // apps/web-customer/app/api/stripe/webhook/route.js
+export const dynamic = "force-dynamic";
+
 import Stripe from "stripe";
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
@@ -180,7 +181,8 @@ export async function POST(request) {
         id: ticketId,
         booking_id: bookingId,
         qr_data: qrData,
-      });
+        event_id: eventId, // 👈 AGGIUNGI QUESTO
+    });
     }
     console.log("[Webhook] Tickets to insert:", ticketsToInsert);
     const { data: ticketsData, error: ticketsError } = await supabaseAdmin
