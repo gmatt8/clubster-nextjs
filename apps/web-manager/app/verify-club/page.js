@@ -1,3 +1,5 @@
+// apps/web-manager/app/verify-club/page.js
+
 "use client";
 import { useState, useEffect, useRef } from "react";
 import { createBrowserSupabase } from "@lib/supabase-browser";

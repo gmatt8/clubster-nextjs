@@ -58,7 +58,24 @@ export default function ManagerLoginPage() {
         return;
       }
 
-      router.push("/dashboard");
+      // Verifica se il manager ha già un club
+      const { data: club, error: clubError } = await supabase
+        .from("clubs")
+        .select("id")
+        .eq("manager_id", user.id)
+        .single();
+
+      if (clubError && clubError.code !== 'PGRST116') {
+        setError("Errore durante la verifica del club.");
+        setLoading(false);
+        return;
+      }
+
+      if (!club) {
+        router.push("/verify-club");
+      } else {
+        router.push("/dashboard");
+      }
     } catch (err) {
       setError(err.message || "An error occurred.");
       setLoading(false);
