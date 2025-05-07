@@ -1,5 +1,3 @@
-//apps/web-customer/tsconfig.json
-
 {
   "compilerOptions": {
     "target": "ES2017",

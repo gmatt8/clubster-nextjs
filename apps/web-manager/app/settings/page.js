@@ -24,16 +24,16 @@ const settingsItems = [
     description: 'Update your password and manage account security',
   },
   {
-    href: '/settings/legal',
-    icon: DocumentTextIcon,
-    title: 'Legal',
-    description: 'Terms of Service and Privacy Policy',
-  },
-  {
     href: '/settings/scan-access',
     icon: KeyIcon,
     title: 'Scan Access',
     description: 'Generate and manage access codes for ticket scanning',
+  },
+  {
+    href: '/settings/legal',
+    icon: DocumentTextIcon,
+    title: 'Legal',
+    description: 'Terms of Service and Privacy Policy',
   },
 ];
 
