@@ -1,6 +1,7 @@
-export const dynamic = "force-dynamic";
 
 // app/api/event/route.js
+export const dynamic = "force-dynamic";
+
 import { createServerSupabase } from "@lib/supabase-server";
 
 // GET: Recupera tutti gli eventi (filtrati per club_id, event_id e upcoming)

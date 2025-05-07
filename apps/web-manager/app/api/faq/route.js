@@ -1,6 +1,8 @@
-export const dynamic = "force-dynamic";
+
 
 // app/api/faq/route.js
+
+export const dynamic = "force-dynamic";
 import { createServerSupabase } from "@lib/supabase-server";
 
 export async function GET(request) {

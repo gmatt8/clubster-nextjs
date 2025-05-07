@@ -3,7 +3,12 @@
 
 import Link from 'next/link';
 import ManagerLayout from '../ManagerLayout';
-import { Cog6ToothIcon, LockClosedIcon, DocumentTextIcon } from '@heroicons/react/24/outline';
+import {
+  Cog6ToothIcon,
+  LockClosedIcon,
+  DocumentTextIcon,
+  KeyIcon,
+} from '@heroicons/react/24/outline';
 
 const settingsItems = [
   {
@@ -23,6 +28,12 @@ const settingsItems = [
     icon: DocumentTextIcon,
     title: 'Legal',
     description: 'Terms of Service and Privacy Policy',
+  },
+  {
+    href: '/settings/scan-access',
+    icon: KeyIcon,
+    title: 'Scan Access',
+    description: 'Generate and manage access codes for ticket scanning',
   },
 ];
 
