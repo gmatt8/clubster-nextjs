@@ -13,10 +13,7 @@
     "start": "turbo run start",
     "lint": "turbo run lint",
     "dev:web-customer": "turbo run dev --filter=web-customer",
-    "dev:web-manager": "turbo run dev --filter=web-manager",
-    "dev:app-customer": "turbo run dev --filter=app-customer",
-    "dev:app-manager": "turbo run dev --filter=app-manager",
-    "dev:app-scan": "turbo run dev --filter=app-scan"
+    "dev:web-manager": "turbo run dev --filter=web-manager"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
