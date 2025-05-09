@@ -6,6 +6,7 @@ import { createBrowserSupabase } from '@lib/supabase-browser';
 import { PlusIcon, TrashIcon } from '@heroicons/react/24/solid';
 import ManagerLayout from '../../ManagerLayout';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
+import ManagerSettingsHeader from '@/components/settings/SettingsHeader';
 
 export default function ScanAccessPage() {
   const [codes, setCodes] = useState([]);
@@ -116,17 +117,18 @@ export default function ScanAccessPage() {
   return (
     <ManagerLayout>
       <div className="px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-bold text-gray-900">Scan Access Codes</h1>
-          <button
-            onClick={handleCreateCode}
-            disabled={creating}
-            className="inline-flex items-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-md disabled:opacity-50"
-          >
-            <PlusIcon className="h-5 w-5 mr-2" />
-            {creating ? 'Creating...' : 'New Code'}
-          </button>
-        </div>
+      <ManagerSettingsHeader title="Scan Access Codes" />
+<div className="flex justify-end mb-6">
+  <button
+    onClick={handleCreateCode}
+    disabled={creating}
+    className="inline-flex items-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-md disabled:opacity-50"
+  >
+    <PlusIcon className="h-5 w-5 mr-2" />
+    {creating ? 'Creating...' : 'New Code'}
+  </button>
+</div>
+
 
         <div className="bg-white shadow-sm border border-gray-200 rounded-lg overflow-hidden">
           <table className="min-w-full text-sm">
