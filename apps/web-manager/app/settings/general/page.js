@@ -88,23 +88,30 @@ export default function ManagerSettingsGeneralPage() {
   }, [supabase]);
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
-    if (!window.google?.maps?.places) return;
+  if (typeof window === "undefined") return;
+  if (!window.google?.maps?.places) return;
+  if (!addressInputRef.current) return;
 
-    const autocomplete = new window.google.maps.places.Autocomplete(
-      addressInputRef.current,
-      { types: ["geocode"] }
-    );
+  const autocomplete = new window.google.maps.places.Autocomplete(
+    addressInputRef.current,
+    {
+      types: ["geocode"],
+      componentRestrictions: { country: "ch" }, // opzionale: limita alla Svizzera
+    }
+  );
 
-    autocomplete.addListener("place_changed", () => {
-      const place = autocomplete.getPlace();
-      if (!place.geometry) return;
+  autocomplete.addListener("place_changed", () => {
+    const place = autocomplete.getPlace();
+    if (!place.geometry) return;
 
-      setLat(place.geometry.location.lat());
-      setLng(place.geometry.location.lng());
-      setAddress(place.formatted_address || "");
-    });
-  }, []);
+    const latVal = place.geometry.location.lat();
+    const lngVal = place.geometry.location.lng();
+    setLat(latVal);
+    setLng(lngVal);
+    setAddress(place.formatted_address || "");
+  });
+}, []);
+
 
   async function handleSave(e) {
     e.preventDefault();

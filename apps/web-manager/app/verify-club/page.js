@@ -57,6 +57,30 @@ export default function VerifyClubPage() {
     getUser();
   }, [supabase]);
 
+  // Impedisce l'accesso a /verify-club se il manager ha già un club
+useEffect(() => {
+  async function checkIfClubExists() {
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser();
+    if (userError || !user) return;
+
+    const { data: club, error: clubError } = await supabase
+      .from("clubs")
+      .select("id")
+      .eq("manager_id", user.id)
+      .single();
+
+    if (club) {
+      router.push("/dashboard"); // se il club esiste, non può accedere qui
+    }
+  }
+
+  checkIfClubExists();
+}, [supabase, router]);
+
+
   // Inizializza Autocomplete di Google Maps
   useEffect(() => {
     if (typeof window === "undefined") return;

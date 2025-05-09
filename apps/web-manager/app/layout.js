@@ -1,6 +1,7 @@
 // apps/web-manager/app/layout.js
 import './globals.css';
-import { Analytics } from "@vercel/analytics/react"
+import Script from "next/script";
+import { Analytics } from "@vercel/analytics/react";
 
 export const metadata = {
   title: 'Clubster Manager',
@@ -8,7 +9,7 @@ export const metadata = {
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: 'any', type: 'image/x-icon' },
-      { url: '/favicon-96x96.png', type: 'image/png' }, // opzionale, se disponibile
+      { url: '/favicon-96x96.png', type: 'image/png' },
     ],
   },
   openGraph: {
@@ -38,6 +39,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
+        {/* Google Maps Places API */}
+        <Script
+          src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`}
+          strategy="beforeInteractive"
+        />
+
         {/* Favicon fallback */}
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
         <link rel="shortcut icon" href="/favicon.ico" />
@@ -61,9 +68,9 @@ export default function RootLayout({ children }) {
         `}} />
       </head>
       <body>
-  {children}
-  <Analytics />
-</body>
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }
