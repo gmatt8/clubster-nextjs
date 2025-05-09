@@ -1,0 +1,1628 @@
+
+
+> web-manager@0.1.0 dev
+> next dev
+
+[1G[0K- [36minfo[39m Loaded env from /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.env.local
+- [32mready[39m started server on [::]:3000, url: http://localhost:3000
+npm error code ENOWORKSPACES
+npm error This command does not support workspaces.
+npm error A complete log of this run can be found in: /Users/mattiagori/.npm/_logs/2025-05-09T11_56_59_570Z-debug-0.log
+- [35mevent[39m compiled client and server successfully in 152 ms (20 modules)
+- [36mwait[39m compiling...
+- [35mevent[39m compiled client and server successfully in 60 ms (20 modules)
+- [36minfo[39m Loaded env from /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.env.local
+- [36minfo[39m Loaded env from /Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/.env.local
+- [36mwait[39m compiling /middleware (client and server)...
+- [35mevent[39m compiled successfully in 279 ms (194 modules)
+- [36mwait[39m compiling /page (client and server)...
+- [35mevent[39m compiled client and server successfully in 3s (1206 modules)
+- [33mwarn[39m 
+metadata.metadataBase is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
+- [36mwait[39m compiling /_error (client and server)...
+- [36mwait[39m compiling /not-found (client and server)...
+- [35mevent[39m compiled client and server successfully in 656 ms (1331 modules)
+- [36mwait[39m compiling...
+- [35mevent[39m compiled successfully in 132 ms (742 modules)
+- [36mwait[39m compiling...
+- [35mevent[39m compiled successfully in 141 ms (742 modules)
+- [36mwait[39m compiling...
+- [35mevent[39m compiled successfully in 149 ms (742 modules)
+- [36mwait[39m compiling...
+- [35mevent[39m compiled successfully in 195 ms (742 modules)
+- [36mwait[39m compiling...
+- [35mevent[39m compiled successfully in 97 ms (742 modules)
+- [36mwait[39m compiling...
+- [35mevent[39m compiled successfully in 115 ms (742 modules)
+- [36mwait[39m compiling...
+- [35mevent[39m compiled successfully in 118 ms (742 modules)
+- [36mwait[39m compiling...
+- [35mevent[39m compiled successfully in 106 ms (742 modules)
+- [36mwait[39m compiling /login/page (client and server)...
+- [35mevent[39m compiled client and server successfully in 1120 ms (1676 modules)
+- [36mwait[39m compiling /dashboard/page (client and server)...
+- [35mevent[39m compiled client and server successfully in 253 ms (1733 modules)
+- [36mwait[39m compiling /api/dashboard/route (client and server)...
+- [36mwait[39m compiling /api/events/route (client and server)...
+- [35mevent[39m compiled successfully in 588 ms (1041 modules)
+- [35mevent[39m compiled successfully (1043 modules)
+(node:13077) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[Supabase] Creating server Supabase client...
+[Supabase] Cookies obtained: ResponseCookies {
+  _parsed: Map(1) {
+    [32m'sb-vyivavygvvzpprsfjvox-auth-token'[39m => {
+      name: [32m'sb-vyivavygvvzpprsfjvox-auth-token'[39m,
+      value: [32m'["eyJhbGciOiJIUzI1NiIsImtpZCI6InhNSC9oVDVLYVgvS3QwRlYiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3Z5aXZhdnlndnZ6cHByc2Zqdm94LnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiI1ZTdmNWRiYy1kYTJmLTQ2NzEtYjM3ZC01NzY0NDcyZGNlMmEiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzQ2Nzk2NTMyLCJpYXQiOjE3NDY3OTI5MzIsImVtYWlsIjoibUBtLmNvbSIsInBob25lIjoiIiwiYXBwX21ldGFkYXRhIjp7InByb3ZpZGVyIjoiZW1haWwiLCJwcm92aWRlcnMiOlsiZW1haWwiXX0sInVzZXJfbWV0YWRhdGEiOnsiZW1haWxfdmVyaWZpZWQiOnRydWV9LCJyb2xlIjoiYXV0aGVudGljYXRlZCIsImFhbCI6ImFhbDEiLCJhbXIiOlt7Im1ldGhvZCI6InBhc3N3b3JkIiwidGltZXN0YW1wIjoxNzQ2NzkyOTMyfV0sInNlc3Npb25faWQiOiJiODE0ZjkwYS05MzdmLTQxNTktODE1ZC1mOGMwZmMyNDQ4MWIiLCJpc19hbm9ueW1vdXMiOmZhbHNlfQ.goqRpxKLeTUFZlcD1BGdswwfXijZrBb38nKW_95mgGs","AA_OYS3KnbK1t3UUMO-vZQ",null,null,null]'[39m,
+      path: [32m'/'[39m
+    }
+  },
+  _headers: Headers {
+    [32m'set-cookie'[39m: [32m'sb-vyivavygvvzpprsfjvox-auth-token=%5B%22eyJhbGciOiJIUzI1NiIsImtpZCI6InhNSC9oVDVLYVgvS3QwRlYiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3Z5aXZhdnlndnZ6cHByc2Zqdm94LnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiI1ZTdmNWRiYy1kYTJmLTQ2NzEtYjM3ZC01NzY0NDcyZGNlMmEiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzQ2Nzk2NTMyLCJpYXQiOjE3NDY3OTI5MzIsImVtYWlsIjoibUBtLmNvbSIsInBob25lIjoiIiwiYXBwX21ldGFkYXRhIjp7InByb3ZpZGVyIjoiZW1haWwiLCJwcm92aWRlcnMiOlsiZW1haWwiXX0sInVzZXJfbWV0YWRhdGEiOnsiZW1haWxfdmVyaWZpZWQiOnRydWV9LCJyb2xlIjoiYXV0aGVudGljYXRlZCIsImFhbCI6ImFhbDEiLCJhbXIiOlt7Im1ldGhvZCI6InBhc3N3b3JkIiwidGltZXN0YW1wIjoxNzQ2NzkyOTMyfV0sInNlc3Npb25faWQiOiJiODE0ZjkwYS05MzdmLTQxNTktODE1ZC1mOGMwZmMyNDQ4MWIiLCJpc19hbm9ueW1vdXMiOmZhbHNlfQ.goqRpxKLeTUFZlcD1BGdswwfXijZrBb38nKW_95mgGs%22%2C%22AA_OYS3KnbK1t3UUMO-vZQ%22%2Cnull%2Cnull%2Cnull%5D; Path=/'[39m
+  }
+}
+[Supabase] Client created: SupabaseClient {
+  supabaseUrl: [32m'https://vyivavygvvzpprsfjvox.supabase.co'[39m,
+  supabaseKey: [32m'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m,
+  realtimeUrl: [32m'wss://vyivavygvvzpprsfjvox.supabase.co/realtime/v1'[39m,
+  authUrl: [32m'https://vyivavygvvzpprsfjvox.supabase.co/auth/v1'[39m,
+  storageUrl: [32m'https://vyivavygvvzpprsfjvox.supabase.co/storage/v1'[39m,
+  functionsUrl: [32m'https://vyivavygvvzpprsfjvox.supabase.co/functions/v1'[39m,
+  storageKey: [32m'sb-vyivavygvvzpprsfjvox-auth-token'[39m,
+  headers: { [32m'X-Client-Info'[39m: [32m'@supabase/auth-helpers-nextjs@0.10.0'[39m },
+  auth: SupabaseAuthClient {
+    memoryStorage: [1mnull[22m,
+    stateChangeEmitters: Map(1) { [32m'b56bab27-edf0-4288-9228-bc5ce741caa6'[39m => [36m[Object][39m },
+    autoRefreshTicker: [1mnull[22m,
+    visibilityChangedCallback: [1mnull[22m,
+    refreshingDeferred: [1mnull[22m,
+    initializePromise: Promise {
+      [36m<pending>[39m,
+      [[32mSymbol(async_id_symbol)[39m]: [33m53832[39m,
+      [[32mSymbol(trigger_async_id_symbol)[39m]: [33m53820[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [36m[Object][39m,
+      [[32mSymbol(kResourceStore)[39m]: [36m[Object][39m,
+      [[32mSymbol(kResourceStore)[39m]: [36m[Object][39m
+    },
+    detectSessionInUrl: [33mfalse[39m,
+    hasCustomAuthorizationHeader: [33mfalse[39m,
+    suppressGetSessionWarning: [33mfalse[39m,
+    lockAcquired: [33mtrue[39m,
+    pendingInLock: [ [36m[Promise][39m ],
+    broadcastChannel: [1mnull[22m,
+    logger: [36m[Function: log][39m,
+    instanceID: [33m0[39m,
+    logDebugMessages: [33mfalse[39m,
+    persistSession: [33mtrue[39m,
+    storageKey: [32m'sb-vyivavygvvzpprsfjvox-auth-token'[39m,
+    autoRefreshToken: [33mfalse[39m,
+    admin: GoTrueAdminApi {
+      url: [32m'https://vyivavygvvzpprsfjvox.supabase.co/auth/v1'[39m,
+      headers: [36m[Object][39m,
+      fetch: [36m[Function (anonymous)][39m,
+      mfa: [36m[Object][39m
+    },
+    url: [32m'https://vyivavygvvzpprsfjvox.supabase.co/auth/v1'[39m,
+    headers: {
+      Authorization: [32m'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m,
+      apikey: [32m'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m,
+      [32m'X-Client-Info'[39m: [32m'@supabase/auth-helpers-nextjs@0.10.0'[39m
+    },
+    fetch: [36m[Function (anonymous)][39m,
+    lock: [36m[AsyncFunction: lockNoOp][39m,
+    flowType: [32m'pkce'[39m,
+    jwks: { keys: [] },
+    jwks_cached_at: [33m-9007199254740991[39m,
+    mfa: {
+      verify: [36m[Function: bound _verify] AsyncFunction[39m,
+      enroll: [36m[Function: bound _enroll] AsyncFunction[39m,
+      unenroll: [36m[Function: bound _unenroll] AsyncFunction[39m,
+      challenge: [36m[Function: bound _challenge] AsyncFunction[39m,
+      listFactors: [36m[Function: bound _listFactors] AsyncFunction[39m,
+      challengeAndVerify: [36m[Function: bound _challengeAndVerify] AsyncFunction[39m,
+      getAuthenticatorAssuranceLevel: [36m[Function: bound _getAuthenticatorAssuranceLevel] AsyncFunction[39m
+    },
+    storage: NextRouteHandlerAuthStorageAdapter {
+      cookieOptions: [36m[Object][39m,
+      context: [36m[Object][39m
+    }
+  },
+  fetch: [36m[Function (anonymous)][39m,
+  realtime: RealtimeClient {
+    accessTokenValue: [32m'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m,
+    apiKey: [32m'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m,
+    channels: [],
+    endPoint: [32m'wss://vyivavygvvzpprsfjvox.supabase.co/realtime/v1/websocket'[39m,
+    httpEndpoint: [32m'https://vyivavygvvzpprsfjvox.supabase.co/realtime/v1'[39m,
+    headers: { [32m'X-Client-Info'[39m: [32m'@supabase/auth-helpers-nextjs@0.10.0'[39m },
+    params: {
+      apikey: [32m'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m
+    },
+    timeout: [33m10000[39m,
+    heartbeatIntervalMs: [33m30000[39m,
+    heartbeatTimer: [90mundefined[39m,
+    pendingHeartbeatRef: [1mnull[22m,
+    ref: [33m0[39m,
+    logger: [36m[Function: noop][39m,
+    conn: [1mnull[22m,
+    sendBuffer: [],
+    serializer: Serializer { HEADER_LENGTH: [33m1[39m },
+    stateChangeCallbacks: { open: [], close: [], error: [], message: [] },
+    accessToken: [36m[Function: bound _getAccessToken][39m,
+    _resolveFetch: [36m[Function (anonymous)][39m,
+    transport: [1mnull[22m,
+    reconnectAfterMs: [36m[Function (anonymous)][39m,
+    encode: [36m[Function (anonymous)][39m,
+    decode: [36m[Function: bound decode][39m,
+    reconnectTimer: Timer {
+      callback: [36m[AsyncFunction (anonymous)][39m,
+      timerCalc: [36m[Function (anonymous)][39m,
+      timer: [90mundefined[39m,
+      tries: [33m0[39m
+    },
+    fetch: [36m[Function (anonymous)][39m
+  },
+  rest: PostgrestClient {
+    url: [32m'https://vyivavygvvzpprsfjvox.supabase.co/rest/v1'[39m,
+    headers: { [32m'X-Client-Info'[39m: [32m'@supabase/auth-helpers-nextjs@0.10.0'[39m },
+    schemaName: [32m'public'[39m,
+    fetch: [36m[Function (anonymous)][39m
+  }
+}
+(node:16275) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[Supabase] Creating server Supabase client...
+[Supabase] Cookies obtained: ResponseCookies {
+  _parsed: Map(1) {
+    [32m'sb-vyivavygvvzpprsfjvox-auth-token'[39m => {
+      name: [32m'sb-vyivavygvvzpprsfjvox-auth-token'[39m,
+      value: [32m'["eyJhbGciOiJIUzI1NiIsImtpZCI6InhNSC9oVDVLYVgvS3QwRlYiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3Z5aXZhdnlndnZ6cHByc2Zqdm94LnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiI1ZTdmNWRiYy1kYTJmLTQ2NzEtYjM3ZC01NzY0NDcyZGNlMmEiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzQ2Nzk2NTMyLCJpYXQiOjE3NDY3OTI5MzIsImVtYWlsIjoibUBtLmNvbSIsInBob25lIjoiIiwiYXBwX21ldGFkYXRhIjp7InByb3ZpZGVyIjoiZW1haWwiLCJwcm92aWRlcnMiOlsiZW1haWwiXX0sInVzZXJfbWV0YWRhdGEiOnsiZW1haWxfdmVyaWZpZWQiOnRydWV9LCJyb2xlIjoiYXV0aGVudGljYXRlZCIsImFhbCI6ImFhbDEiLCJhbXIiOlt7Im1ldGhvZCI6InBhc3N3b3JkIiwidGltZXN0YW1wIjoxNzQ2NzkyOTMyfV0sInNlc3Npb25faWQiOiJiODE0ZjkwYS05MzdmLTQxNTktODE1ZC1mOGMwZmMyNDQ4MWIiLCJpc19hbm9ueW1vdXMiOmZhbHNlfQ.goqRpxKLeTUFZlcD1BGdswwfXijZrBb38nKW_95mgGs","AA_OYS3KnbK1t3UUMO-vZQ",null,null,null]'[39m,
+      path: [32m'/'[39m
+    }
+  },
+  _headers: Headers {
+    [32m'set-cookie'[39m: [32m'sb-vyivavygvvzpprsfjvox-auth-token=%5B%22eyJhbGciOiJIUzI1NiIsImtpZCI6InhNSC9oVDVLYVgvS3QwRlYiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3Z5aXZhdnlndnZ6cHByc2Zqdm94LnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiI1ZTdmNWRiYy1kYTJmLTQ2NzEtYjM3ZC01NzY0NDcyZGNlMmEiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzQ2Nzk2NTMyLCJpYXQiOjE3NDY3OTI5MzIsImVtYWlsIjoibUBtLmNvbSIsInBob25lIjoiIiwiYXBwX21ldGFkYXRhIjp7InByb3ZpZGVyIjoiZW1haWwiLCJwcm92aWRlcnMiOlsiZW1haWwiXX0sInVzZXJfbWV0YWRhdGEiOnsiZW1haWxfdmVyaWZpZWQiOnRydWV9LCJyb2xlIjoiYXV0aGVudGljYXRlZCIsImFhbCI6ImFhbDEiLCJhbXIiOlt7Im1ldGhvZCI6InBhc3N3b3JkIiwidGltZXN0YW1wIjoxNzQ2NzkyOTMyfV0sInNlc3Npb25faWQiOiJiODE0ZjkwYS05MzdmLTQxNTktODE1ZC1mOGMwZmMyNDQ4MWIiLCJpc19hbm9ueW1vdXMiOmZhbHNlfQ.goqRpxKLeTUFZlcD1BGdswwfXijZrBb38nKW_95mgGs%22%2C%22AA_OYS3KnbK1t3UUMO-vZQ%22%2Cnull%2Cnull%2Cnull%5D; Path=/'[39m
+  }
+}
+[Supabase] Client created: SupabaseClient {
+  supabaseUrl: [32m'https://vyivavygvvzpprsfjvox.supabase.co'[39m,
+  supabaseKey: [32m'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m,
+  realtimeUrl: [32m'wss://vyivavygvvzpprsfjvox.supabase.co/realtime/v1'[39m,
+  authUrl: [32m'https://vyivavygvvzpprsfjvox.supabase.co/auth/v1'[39m,
+  storageUrl: [32m'https://vyivavygvvzpprsfjvox.supabase.co/storage/v1'[39m,
+  functionsUrl: [32m'https://vyivavygvvzpprsfjvox.supabase.co/functions/v1'[39m,
+  storageKey: [32m'sb-vyivavygvvzpprsfjvox-auth-token'[39m,
+  headers: { [32m'X-Client-Info'[39m: [32m'@supabase/auth-helpers-nextjs@0.10.0'[39m },
+  auth: SupabaseAuthClient {
+    memoryStorage: [1mnull[22m,
+    stateChangeEmitters: Map(1) { [32m'0703c800-1d9b-49d8-9aa2-6253a321d506'[39m => [36m[Object][39m },
+    autoRefreshTicker: [1mnull[22m,
+    visibilityChangedCallback: [1mnull[22m,
+    refreshingDeferred: [1mnull[22m,
+    initializePromise: Promise {
+      [36m<pending>[39m,
+      [[32mSymbol(async_id_symbol)[39m]: [33m53988[39m,
+      [[32mSymbol(trigger_async_id_symbol)[39m]: [33m53976[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [36m[Object][39m,
+      [[32mSymbol(kResourceStore)[39m]: [36m[Object][39m,
+      [[32mSymbol(kResourceStore)[39m]: [36m[Object][39m
+    },
+    detectSessionInUrl: [33mfalse[39m,
+    hasCustomAuthorizationHeader: [33mfalse[39m,
+    suppressGetSessionWarning: [33mfalse[39m,
+    lockAcquired: [33mtrue[39m,
+    pendingInLock: [ [36m[Promise][39m ],
+    broadcastChannel: [1mnull[22m,
+    logger: [36m[Function: log][39m,
+    instanceID: [33m1[39m,
+    logDebugMessages: [33mfalse[39m,
+    persistSession: [33mtrue[39m,
+    storageKey: [32m'sb-vyivavygvvzpprsfjvox-auth-token'[39m,
+    autoRefreshToken: [33mfalse[39m,
+    admin: GoTrueAdminApi {
+      url: [32m'https://vyivavygvvzpprsfjvox.supabase.co/auth/v1'[39m,
+      headers: [36m[Object][39m,
+      fetch: [36m[Function (anonymous)][39m,
+      mfa: [36m[Object][39m
+    },
+    url: [32m'https://vyivavygvvzpprsfjvox.supabase.co/auth/v1'[39m,
+    headers: {
+      Authorization: [32m'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m,
+      apikey: [32m'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m,
+      [32m'X-Client-Info'[39m: [32m'@supabase/auth-helpers-nextjs@0.10.0'[39m
+    },
+    fetch: [36m[Function (anonymous)][39m,
+    lock: [36m[AsyncFunction: lockNoOp][39m,
+    flowType: [32m'pkce'[39m,
+    jwks: { keys: [] },
+    jwks_cached_at: [33m-9007199254740991[39m,
+    mfa: {
+      verify: [36m[Function: bound _verify] AsyncFunction[39m,
+      enroll: [36m[Function: bound _enroll] AsyncFunction[39m,
+      unenroll: [36m[Function: bound _unenroll] AsyncFunction[39m,
+      challenge: [36m[Function: bound _challenge] AsyncFunction[39m,
+      listFactors: [36m[Function: bound _listFactors] AsyncFunction[39m,
+      challengeAndVerify: [36m[Function: bound _challengeAndVerify] AsyncFunction[39m,
+      getAuthenticatorAssuranceLevel: [36m[Function: bound _getAuthenticatorAssuranceLevel] AsyncFunction[39m
+    },
+    storage: NextRouteHandlerAuthStorageAdapter {
+      cookieOptions: [36m[Object][39m,
+      context: [36m[Object][39m
+    }
+  },
+  fetch: [36m[Function (anonymous)][39m,
+  realtime: RealtimeClient {
+    accessTokenValue: [32m'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m,
+    apiKey: [32m'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m,
+    channels: [],
+    endPoint: [32m'wss://vyivavygvvzpprsfjvox.supabase.co/realtime/v1/websocket'[39m,
+    httpEndpoint: [32m'https://vyivavygvvzpprsfjvox.supabase.co/realtime/v1'[39m,
+    headers: { [32m'X-Client-Info'[39m: [32m'@supabase/auth-helpers-nextjs@0.10.0'[39m },
+    params: {
+      apikey: [32m'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m
+    },
+    timeout: [33m10000[39m,
+    heartbeatIntervalMs: [33m30000[39m,
+    heartbeatTimer: [90mundefined[39m,
+    pendingHeartbeatRef: [1mnull[22m,
+    ref: [33m0[39m,
+    logger: [36m[Function: noop][39m,
+    conn: [1mnull[22m,
+    sendBuffer: [],
+    serializer: Serializer { HEADER_LENGTH: [33m1[39m },
+    stateChangeCallbacks: { open: [], close: [], error: [], message: [] },
+    accessToken: [36m[Function: bound _getAccessToken][39m,
+    _resolveFetch: [36m[Function (anonymous)][39m,
+    transport: [1mnull[22m,
+    reconnectAfterMs: [36m[Function (anonymous)][39m,
+    encode: [36m[Function (anonymous)][39m,
+    decode: [36m[Function: bound decode][39m,
+    reconnectTimer: Timer {
+      callback: [36m[AsyncFunction (anonymous)][39m,
+      timerCalc: [36m[Function (anonymous)][39m,
+      timer: [90mundefined[39m,
+      tries: [33m0[39m
+    },
+    fetch: [36m[Function (anonymous)][39m
+  },
+  rest: PostgrestClient {
+    url: [32m'https://vyivavygvvzpprsfjvox.supabase.co/rest/v1'[39m,
+    headers: { [32m'X-Client-Info'[39m: [32m'@supabase/auth-helpers-nextjs@0.10.0'[39m },
+    schemaName: [32m'public'[39m,
+    fetch: [36m[Function (anonymous)][39m
+  }
+}
+(node:16276) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+- [36mwait[39m compiling /payments/page (client and server)...
+- [35mevent[39m compiled client and server successfully in 205 ms (1967 modules)
+- [36mwait[39m compiling...
+- [35mevent[39m compiled client and server successfully in 199 ms (1759 modules)
+- [36mwait[39m compiling...
+- [35mevent[39m compiled client and server successfully in 195 ms (1759 modules)
+- [36mwait[39m compiling /not-found (client and server)...
+- [35mevent[39m compiled successfully in 543 ms (831 modules)
+- [36mwait[39m compiling...
+- [35mevent[39m compiled successfully in 185 ms (931 modules)
+- [36mwait[39m compiling...
+- [35mevent[39m compiled successfully in 204 ms (931 modules)
+- [36mwait[39m compiling...
+- [35mevent[39m compiled client and server successfully in 831 ms (1939 modules)
+- [36mwait[39m compiling...
+- [35mevent[39m compiled successfully in 131 ms (931 modules)
+- [36mwait[39m compiling...
+- [35mevent[39m compiled successfully in 153 ms (931 modules)
+- [36mwait[39m compiling...
+- [35mevent[39m compiled client and server successfully in 274 ms (1759 modules)
+- [36mwait[39m compiling /api/stripe/account-info/route (client and server)...
+- [35mevent[39m compiled successfully in 844 ms (1242 modules)
+[Supabase] Creating server Supabase client...
+[Supabase] Cookies obtained: ResponseCookies {
+  _parsed: Map(1) {
+    [32m'sb-vyivavygvvzpprsfjvox-auth-token'[39m => {
+      name: [32m'sb-vyivavygvvzpprsfjvox-auth-token'[39m,
+      value: [32m'["eyJhbGciOiJIUzI1NiIsImtpZCI6InhNSC9oVDVLYVgvS3QwRlYiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3Z5aXZhdnlndnZ6cHByc2Zqdm94LnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiI1ZTdmNWRiYy1kYTJmLTQ2NzEtYjM3ZC01NzY0NDcyZGNlMmEiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzQ2Nzk2NTMyLCJpYXQiOjE3NDY3OTI5MzIsImVtYWlsIjoibUBtLmNvbSIsInBob25lIjoiIiwiYXBwX21ldGFkYXRhIjp7InByb3ZpZGVyIjoiZW1haWwiLCJwcm92aWRlcnMiOlsiZW1haWwiXX0sInVzZXJfbWV0YWRhdGEiOnsiZW1haWxfdmVyaWZpZWQiOnRydWV9LCJyb2xlIjoiYXV0aGVudGljYXRlZCIsImFhbCI6ImFhbDEiLCJhbXIiOlt7Im1ldGhvZCI6InBhc3N3b3JkIiwidGltZXN0YW1wIjoxNzQ2NzkyOTMyfV0sInNlc3Npb25faWQiOiJiODE0ZjkwYS05MzdmLTQxNTktODE1ZC1mOGMwZmMyNDQ4MWIiLCJpc19hbm9ueW1vdXMiOmZhbHNlfQ.goqRpxKLeTUFZlcD1BGdswwfXijZrBb38nKW_95mgGs","AA_OYS3KnbK1t3UUMO-vZQ",null,null,null]'[39m,
+      path: [32m'/'[39m
+    }
+  },
+  _headers: Headers {
+    [32m'set-cookie'[39m: [32m'sb-vyivavygvvzpprsfjvox-auth-token=%5B%22eyJhbGciOiJIUzI1NiIsImtpZCI6InhNSC9oVDVLYVgvS3QwRlYiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3Z5aXZhdnlndnZ6cHByc2Zqdm94LnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiI1ZTdmNWRiYy1kYTJmLTQ2NzEtYjM3ZC01NzY0NDcyZGNlMmEiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzQ2Nzk2NTMyLCJpYXQiOjE3NDY3OTI5MzIsImVtYWlsIjoibUBtLmNvbSIsInBob25lIjoiIiwiYXBwX21ldGFkYXRhIjp7InByb3ZpZGVyIjoiZW1haWwiLCJwcm92aWRlcnMiOlsiZW1haWwiXX0sInVzZXJfbWV0YWRhdGEiOnsiZW1haWxfdmVyaWZpZWQiOnRydWV9LCJyb2xlIjoiYXV0aGVudGljYXRlZCIsImFhbCI6ImFhbDEiLCJhbXIiOlt7Im1ldGhvZCI6InBhc3N3b3JkIiwidGltZXN0YW1wIjoxNzQ2NzkyOTMyfV0sInNlc3Npb25faWQiOiJiODE0ZjkwYS05MzdmLTQxNTktODE1ZC1mOGMwZmMyNDQ4MWIiLCJpc19hbm9ueW1vdXMiOmZhbHNlfQ.goqRpxKLeTUFZlcD1BGdswwfXijZrBb38nKW_95mgGs%22%2C%22AA_OYS3KnbK1t3UUMO-vZQ%22%2Cnull%2Cnull%2Cnull%5D; Path=/'[39m
+  }
+}
+[Supabase] Client created: SupabaseClient {
+  supabaseUrl: [32m'https://vyivavygvvzpprsfjvox.supabase.co'[39m,
+  supabaseKey: [32m'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m,
+  realtimeUrl: [32m'wss://vyivavygvvzpprsfjvox.supabase.co/realtime/v1'[39m,
+  authUrl: [32m'https://vyivavygvvzpprsfjvox.supabase.co/auth/v1'[39m,
+  storageUrl: [32m'https://vyivavygvvzpprsfjvox.supabase.co/storage/v1'[39m,
+  functionsUrl: [32m'https://vyivavygvvzpprsfjvox.supabase.co/functions/v1'[39m,
+  storageKey: [32m'sb-vyivavygvvzpprsfjvox-auth-token'[39m,
+  headers: { [32m'X-Client-Info'[39m: [32m'@supabase/auth-helpers-nextjs@0.10.0'[39m },
+  auth: SupabaseAuthClient {
+    memoryStorage: [1mnull[22m,
+    stateChangeEmitters: Map(1) { [32m'bd16b142-2373-4856-aa26-74c5528fb095'[39m => [36m[Object][39m },
+    autoRefreshTicker: [1mnull[22m,
+    visibilityChangedCallback: [1mnull[22m,
+    refreshingDeferred: [1mnull[22m,
+    initializePromise: Promise {
+      [36m<pending>[39m,
+      [[32mSymbol(async_id_symbol)[39m]: [33m91369[39m,
+      [[32mSymbol(trigger_async_id_symbol)[39m]: [33m91357[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [36m[Object][39m,
+      [[32mSymbol(kResourceStore)[39m]: [36m[Object][39m,
+      [[32mSymbol(kResourceStore)[39m]: [36m[Object][39m
+    },
+    detectSessionInUrl: [33mfalse[39m,
+    hasCustomAuthorizationHeader: [33mfalse[39m,
+    suppressGetSessionWarning: [33mfalse[39m,
+    lockAcquired: [33mtrue[39m,
+    pendingInLock: [ [36m[Promise][39m ],
+    broadcastChannel: [1mnull[22m,
+    logger: [36m[Function: log][39m,
+    instanceID: [33m0[39m,
+    logDebugMessages: [33mfalse[39m,
+    persistSession: [33mtrue[39m,
+    storageKey: [32m'sb-vyivavygvvzpprsfjvox-auth-token'[39m,
+    autoRefreshToken: [33mfalse[39m,
+    admin: GoTrueAdminApi {
+      url: [32m'https://vyivavygvvzpprsfjvox.supabase.co/auth/v1'[39m,
+      headers: [36m[Object][39m,
+      fetch: [36m[Function (anonymous)][39m,
+      mfa: [36m[Object][39m
+    },
+    url: [32m'https://vyivavygvvzpprsfjvox.supabase.co/auth/v1'[39m,
+    headers: {
+      Authorization: [32m'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m,
+      apikey: [32m'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m,
+      [32m'X-Client-Info'[39m: [32m'@supabase/auth-helpers-nextjs@0.10.0'[39m
+    },
+    fetch: [36m[Function (anonymous)][39m,
+    lock: [36m[AsyncFunction: lockNoOp][39m,
+    flowType: [32m'pkce'[39m,
+    jwks: { keys: [] },
+    jwks_cached_at: [33m-9007199254740991[39m,
+    mfa: {
+      verify: [36m[Function: bound _verify] AsyncFunction[39m,
+      enroll: [36m[Function: bound _enroll] AsyncFunction[39m,
+      unenroll: [36m[Function: bound _unenroll] AsyncFunction[39m,
+      challenge: [36m[Function: bound _challenge] AsyncFunction[39m,
+      listFactors: [36m[Function: bound _listFactors] AsyncFunction[39m,
+      challengeAndVerify: [36m[Function: bound _challengeAndVerify] AsyncFunction[39m,
+      getAuthenticatorAssuranceLevel: [36m[Function: bound _getAuthenticatorAssuranceLevel] AsyncFunction[39m
+    },
+    storage: NextRouteHandlerAuthStorageAdapter {
+      cookieOptions: [36m[Object][39m,
+      context: [36m[Object][39m
+    }
+  },
+  fetch: [36m[Function (anonymous)][39m,
+  realtime: RealtimeClient {
+    accessTokenValue: [32m'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m,
+    apiKey: [32m'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m,
+    channels: [],
+    endPoint: [32m'wss://vyivavygvvzpprsfjvox.supabase.co/realtime/v1/websocket'[39m,
+    httpEndpoint: [32m'https://vyivavygvvzpprsfjvox.supabase.co/realtime/v1'[39m,
+    headers: { [32m'X-Client-Info'[39m: [32m'@supabase/auth-helpers-nextjs@0.10.0'[39m },
+    params: {
+      apikey: [32m'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m
+    },
+    timeout: [33m10000[39m,
+    heartbeatIntervalMs: [33m30000[39m,
+    heartbeatTimer: [90mundefined[39m,
+    pendingHeartbeatRef: [1mnull[22m,
+    ref: [33m0[39m,
+    logger: [36m[Function: noop][39m,
+    conn: [1mnull[22m,
+    sendBuffer: [],
+    serializer: Serializer { HEADER_LENGTH: [33m1[39m },
+    stateChangeCallbacks: { open: [], close: [], error: [], message: [] },
+    accessToken: [36m[Function: bound _getAccessToken][39m,
+    _resolveFetch: [36m[Function (anonymous)][39m,
+    transport: [1mnull[22m,
+    reconnectAfterMs: [36m[Function (anonymous)][39m,
+    encode: [36m[Function (anonymous)][39m,
+    decode: [36m[Function: bound decode][39m,
+    reconnectTimer: Timer {
+      callback: [36m[AsyncFunction (anonymous)][39m,
+      timerCalc: [36m[Function (anonymous)][39m,
+      timer: [90mundefined[39m,
+      tries: [33m0[39m
+    },
+    fetch: [36m[Function (anonymous)][39m
+  },
+  rest: PostgrestClient {
+    url: [32m'https://vyivavygvvzpprsfjvox.supabase.co/rest/v1'[39m,
+    headers: { [32m'X-Client-Info'[39m: [32m'@supabase/auth-helpers-nextjs@0.10.0'[39m },
+    schemaName: [32m'public'[39m,
+    fetch: [36m[Function (anonymous)][39m
+  }
+}
+(node:16926) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+- [36mwait[39m compiling...
+- [35mevent[39m compiled client and server successfully in 307 ms (1759 modules)
+- [36mwait[39m compiling...
+- [35mevent[39m compiled client and server successfully in 189 ms (1759 modules)
+- [36mwait[39m compiling /api/stripe/account-info/route (client and server)...
+- [35mevent[39m compiled successfully in 64 ms (1242 modules)
+[Supabase] Creating server Supabase client...
+[Supabase] Cookies obtained: ResponseCookies {
+  _parsed: Map(1) {
+    [32m'sb-vyivavygvvzpprsfjvox-auth-token'[39m => {
+      name: [32m'sb-vyivavygvvzpprsfjvox-auth-token'[39m,
+      value: [32m'["eyJhbGciOiJIUzI1NiIsImtpZCI6InhNSC9oVDVLYVgvS3QwRlYiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3Z5aXZhdnlndnZ6cHByc2Zqdm94LnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiI1ZTdmNWRiYy1kYTJmLTQ2NzEtYjM3ZC01NzY0NDcyZGNlMmEiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzQ2Nzk2NTMyLCJpYXQiOjE3NDY3OTI5MzIsImVtYWlsIjoibUBtLmNvbSIsInBob25lIjoiIiwiYXBwX21ldGFkYXRhIjp7InByb3ZpZGVyIjoiZW1haWwiLCJwcm92aWRlcnMiOlsiZW1haWwiXX0sInVzZXJfbWV0YWRhdGEiOnsiZW1haWxfdmVyaWZpZWQiOnRydWV9LCJyb2xlIjoiYXV0aGVudGljYXRlZCIsImFhbCI6ImFhbDEiLCJhbXIiOlt7Im1ldGhvZCI6InBhc3N3b3JkIiwidGltZXN0YW1wIjoxNzQ2NzkyOTMyfV0sInNlc3Npb25faWQiOiJiODE0ZjkwYS05MzdmLTQxNTktODE1ZC1mOGMwZmMyNDQ4MWIiLCJpc19hbm9ueW1vdXMiOmZhbHNlfQ.goqRpxKLeTUFZlcD1BGdswwfXijZrBb38nKW_95mgGs","AA_OYS3KnbK1t3UUMO-vZQ",null,null,null]'[39m,
+      path: [32m'/'[39m
+    }
+  },
+  _headers: Headers {
+    [32m'set-cookie'[39m: [32m'sb-vyivavygvvzpprsfjvox-auth-token=%5B%22eyJhbGciOiJIUzI1NiIsImtpZCI6InhNSC9oVDVLYVgvS3QwRlYiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3Z5aXZhdnlndnZ6cHByc2Zqdm94LnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiI1ZTdmNWRiYy1kYTJmLTQ2NzEtYjM3ZC01NzY0NDcyZGNlMmEiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzQ2Nzk2NTMyLCJpYXQiOjE3NDY3OTI5MzIsImVtYWlsIjoibUBtLmNvbSIsInBob25lIjoiIiwiYXBwX21ldGFkYXRhIjp7InByb3ZpZGVyIjoiZW1haWwiLCJwcm92aWRlcnMiOlsiZW1haWwiXX0sInVzZXJfbWV0YWRhdGEiOnsiZW1haWxfdmVyaWZpZWQiOnRydWV9LCJyb2xlIjoiYXV0aGVudGljYXRlZCIsImFhbCI6ImFhbDEiLCJhbXIiOlt7Im1ldGhvZCI6InBhc3N3b3JkIiwidGltZXN0YW1wIjoxNzQ2NzkyOTMyfV0sInNlc3Npb25faWQiOiJiODE0ZjkwYS05MzdmLTQxNTktODE1ZC1mOGMwZmMyNDQ4MWIiLCJpc19hbm9ueW1vdXMiOmZhbHNlfQ.goqRpxKLeTUFZlcD1BGdswwfXijZrBb38nKW_95mgGs%22%2C%22AA_OYS3KnbK1t3UUMO-vZQ%22%2Cnull%2Cnull%2Cnull%5D; Path=/'[39m
+  }
+}
+[Supabase] Client created: SupabaseClient {
+  supabaseUrl: [32m'https://vyivavygvvzpprsfjvox.supabase.co'[39m,
+  supabaseKey: [32m'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m,
+  realtimeUrl: [32m'wss://vyivavygvvzpprsfjvox.supabase.co/realtime/v1'[39m,
+  authUrl: [32m'https://vyivavygvvzpprsfjvox.supabase.co/auth/v1'[39m,
+  storageUrl: [32m'https://vyivavygvvzpprsfjvox.supabase.co/storage/v1'[39m,
+  functionsUrl: [32m'https://vyivavygvvzpprsfjvox.supabase.co/functions/v1'[39m,
+  storageKey: [32m'sb-vyivavygvvzpprsfjvox-auth-token'[39m,
+  headers: { [32m'X-Client-Info'[39m: [32m'@supabase/auth-helpers-nextjs@0.10.0'[39m },
+  auth: SupabaseAuthClient {
+    memoryStorage: [1mnull[22m,
+    stateChangeEmitters: Map(1) { [32m'59c31437-ed26-4b15-ba50-38a67810122b'[39m => [36m[Object][39m },
+    autoRefreshTicker: [1mnull[22m,
+    visibilityChangedCallback: [1mnull[22m,
+    refreshingDeferred: [1mnull[22m,
+    initializePromise: Promise {
+      [36m<pending>[39m,
+      [[32mSymbol(async_id_symbol)[39m]: [33m99873[39m,
+      [[32mSymbol(trigger_async_id_symbol)[39m]: [33m99859[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [36m[Object][39m,
+      [[32mSymbol(kResourceStore)[39m]: [36m[Object][39m,
+      [[32mSymbol(kResourceStore)[39m]: [36m[Object][39m
+    },
+    detectSessionInUrl: [33mfalse[39m,
+    hasCustomAuthorizationHeader: [33mfalse[39m,
+    suppressGetSessionWarning: [33mfalse[39m,
+    lockAcquired: [33mtrue[39m,
+    pendingInLock: [ [36m[Promise][39m ],
+    broadcastChannel: [1mnull[22m,
+    logger: [36m[Function: log][39m,
+    instanceID: [33m0[39m,
+    logDebugMessages: [33mfalse[39m,
+    persistSession: [33mtrue[39m,
+    storageKey: [32m'sb-vyivavygvvzpprsfjvox-auth-token'[39m,
+    autoRefreshToken: [33mfalse[39m,
+    admin: GoTrueAdminApi {
+      url: [32m'https://vyivavygvvzpprsfjvox.supabase.co/auth/v1'[39m,
+      headers: [36m[Object][39m,
+      fetch: [36m[Function (anonymous)][39m,
+      mfa: [36m[Object][39m
+    },
+    url: [32m'https://vyivavygvvzpprsfjvox.supabase.co/auth/v1'[39m,
+    headers: {
+      Authorization: [32m'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m,
+      apikey: [32m'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m,
+      [32m'X-Client-Info'[39m: [32m'@supabase/auth-helpers-nextjs@0.10.0'[39m
+    },
+    fetch: [36m[Function (anonymous)][39m,
+    lock: [36m[AsyncFunction: lockNoOp][39m,
+    flowType: [32m'pkce'[39m,
+    jwks: { keys: [] },
+    jwks_cached_at: [33m-9007199254740991[39m,
+    mfa: {
+      verify: [36m[Function: bound _verify] AsyncFunction[39m,
+      enroll: [36m[Function: bound _enroll] AsyncFunction[39m,
+      unenroll: [36m[Function: bound _unenroll] AsyncFunction[39m,
+      challenge: [36m[Function: bound _challenge] AsyncFunction[39m,
+      listFactors: [36m[Function: bound _listFactors] AsyncFunction[39m,
+      challengeAndVerify: [36m[Function: bound _challengeAndVerify] AsyncFunction[39m,
+      getAuthenticatorAssuranceLevel: [36m[Function: bound _getAuthenticatorAssuranceLevel] AsyncFunction[39m
+    },
+    storage: NextRouteHandlerAuthStorageAdapter {
+      cookieOptions: [36m[Object][39m,
+      context: [36m[Object][39m
+    }
+  },
+  fetch: [36m[Function (anonymous)][39m,
+  realtime: RealtimeClient {
+    accessTokenValue: [32m'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m,
+    apiKey: [32m'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m,
+    channels: [],
+    endPoint: [32m'wss://vyivavygvvzpprsfjvox.supabase.co/realtime/v1/websocket'[39m,
+    httpEndpoint: [32m'https://vyivavygvvzpprsfjvox.supabase.co/realtime/v1'[39m,
+    headers: { [32m'X-Client-Info'[39m: [32m'@supabase/auth-helpers-nextjs@0.10.0'[39m },
+    params: {
+      apikey: [32m'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m
+    },
+    timeout: [33m10000[39m,
+    heartbeatIntervalMs: [33m30000[39m,
+    heartbeatTimer: [90mundefined[39m,
+    pendingHeartbeatRef: [1mnull[22m,
+    ref: [33m0[39m,
+    logger: [36m[Function: noop][39m,
+    conn: [1mnull[22m,
+    sendBuffer: [],
+    serializer: Serializer { HEADER_LENGTH: [33m1[39m },
+    stateChangeCallbacks: { open: [], close: [], error: [], message: [] },
+    accessToken: [36m[Function: bound _getAccessToken][39m,
+    _resolveFetch: [36m[Function (anonymous)][39m,
+    transport: [1mnull[22m,
+    reconnectAfterMs: [36m[Function (anonymous)][39m,
+    encode: [36m[Function (anonymous)][39m,
+    decode: [36m[Function: bound decode][39m,
+    reconnectTimer: Timer {
+      callback: [36m[AsyncFunction (anonymous)][39m,
+      timerCalc: [36m[Function (anonymous)][39m,
+      timer: [90mundefined[39m,
+      tries: [33m0[39m
+    },
+    fetch: [36m[Function (anonymous)][39m
+  },
+  rest: PostgrestClient {
+    url: [32m'https://vyivavygvvzpprsfjvox.supabase.co/rest/v1'[39m,
+    headers: { [32m'X-Client-Info'[39m: [32m'@supabase/auth-helpers-nextjs@0.10.0'[39m },
+    schemaName: [32m'public'[39m,
+    fetch: [36m[Function (anonymous)][39m
+  }
+}
+(node:17240) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+- [36mwait[39m compiling...
+- [35mevent[39m compiled client and server successfully in 236 ms (2173 modules)
+[Supabase] Creating server Supabase client...
+[Supabase] Cookies obtained: ResponseCookies {
+  _parsed: Map(1) {
+    [32m'sb-vyivavygvvzpprsfjvox-auth-token'[39m => {
+      name: [32m'sb-vyivavygvvzpprsfjvox-auth-token'[39m,
+      value: [32m'["eyJhbGciOiJIUzI1NiIsImtpZCI6InhNSC9oVDVLYVgvS3QwRlYiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3Z5aXZhdnlndnZ6cHByc2Zqdm94LnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiI1ZTdmNWRiYy1kYTJmLTQ2NzEtYjM3ZC01NzY0NDcyZGNlMmEiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzQ2Nzk2NTMyLCJpYXQiOjE3NDY3OTI5MzIsImVtYWlsIjoibUBtLmNvbSIsInBob25lIjoiIiwiYXBwX21ldGFkYXRhIjp7InByb3ZpZGVyIjoiZW1haWwiLCJwcm92aWRlcnMiOlsiZW1haWwiXX0sInVzZXJfbWV0YWRhdGEiOnsiZW1haWxfdmVyaWZpZWQiOnRydWV9LCJyb2xlIjoiYXV0aGVudGljYXRlZCIsImFhbCI6ImFhbDEiLCJhbXIiOlt7Im1ldGhvZCI6InBhc3N3b3JkIiwidGltZXN0YW1wIjoxNzQ2NzkyOTMyfV0sInNlc3Npb25faWQiOiJiODE0ZjkwYS05MzdmLTQxNTktODE1ZC1mOGMwZmMyNDQ4MWIiLCJpc19hbm9ueW1vdXMiOmZhbHNlfQ.goqRpxKLeTUFZlcD1BGdswwfXijZrBb38nKW_95mgGs","AA_OYS3KnbK1t3UUMO-vZQ",null,null,null]'[39m,
+      path: [32m'/'[39m
+    }
+  },
+  _headers: Headers {
+    [32m'set-cookie'[39m: [32m'sb-vyivavygvvzpprsfjvox-auth-token=%5B%22eyJhbGciOiJIUzI1NiIsImtpZCI6InhNSC9oVDVLYVgvS3QwRlYiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3Z5aXZhdnlndnZ6cHByc2Zqdm94LnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiI1ZTdmNWRiYy1kYTJmLTQ2NzEtYjM3ZC01NzY0NDcyZGNlMmEiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzQ2Nzk2NTMyLCJpYXQiOjE3NDY3OTI5MzIsImVtYWlsIjoibUBtLmNvbSIsInBob25lIjoiIiwiYXBwX21ldGFkYXRhIjp7InByb3ZpZGVyIjoiZW1haWwiLCJwcm92aWRlcnMiOlsiZW1haWwiXX0sInVzZXJfbWV0YWRhdGEiOnsiZW1haWxfdmVyaWZpZWQiOnRydWV9LCJyb2xlIjoiYXV0aGVudGljYXRlZCIsImFhbCI6ImFhbDEiLCJhbXIiOlt7Im1ldGhvZCI6InBhc3N3b3JkIiwidGltZXN0YW1wIjoxNzQ2NzkyOTMyfV0sInNlc3Npb25faWQiOiJiODE0ZjkwYS05MzdmLTQxNTktODE1ZC1mOGMwZmMyNDQ4MWIiLCJpc19hbm9ueW1vdXMiOmZhbHNlfQ.goqRpxKLeTUFZlcD1BGdswwfXijZrBb38nKW_95mgGs%22%2C%22AA_OYS3KnbK1t3UUMO-vZQ%22%2Cnull%2Cnull%2Cnull%5D; Path=/'[39m
+  }
+}
+[Supabase] Client created: SupabaseClient {
+  supabaseUrl: [32m'https://vyivavygvvzpprsfjvox.supabase.co'[39m,
+  supabaseKey: [32m'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m,
+  realtimeUrl: [32m'wss://vyivavygvvzpprsfjvox.supabase.co/realtime/v1'[39m,
+  authUrl: [32m'https://vyivavygvvzpprsfjvox.supabase.co/auth/v1'[39m,
+  storageUrl: [32m'https://vyivavygvvzpprsfjvox.supabase.co/storage/v1'[39m,
+  functionsUrl: [32m'https://vyivavygvvzpprsfjvox.supabase.co/functions/v1'[39m,
+  storageKey: [32m'sb-vyivavygvvzpprsfjvox-auth-token'[39m,
+  headers: { [32m'X-Client-Info'[39m: [32m'@supabase/auth-helpers-nextjs@0.10.0'[39m },
+  auth: SupabaseAuthClient {
+    memoryStorage: [1mnull[22m,
+    stateChangeEmitters: Map(1) { [32m'0f59c81b-cf72-45c9-b78e-baa4e3eb9ae8'[39m => [36m[Object][39m },
+    autoRefreshTicker: [1mnull[22m,
+    visibilityChangedCallback: [1mnull[22m,
+    refreshingDeferred: [1mnull[22m,
+    initializePromise: Promise {
+      [36m<pending>[39m,
+      [[32mSymbol(async_id_symbol)[39m]: [33m105342[39m,
+      [[32mSymbol(trigger_async_id_symbol)[39m]: [33m105328[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [36m[Object][39m,
+      [[32mSymbol(kResourceStore)[39m]: [36m[Object][39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [36m[Object][39m
+    },
+    detectSessionInUrl: [33mfalse[39m,
+    hasCustomAuthorizationHeader: [33mfalse[39m,
+    suppressGetSessionWarning: [33mfalse[39m,
+    lockAcquired: [33mtrue[39m,
+    pendingInLock: [ [36m[Promise][39m ],
+    broadcastChannel: [1mnull[22m,
+    logger: [36m[Function: log][39m,
+    instanceID: [33m0[39m,
+    logDebugMessages: [33mfalse[39m,
+    persistSession: [33mtrue[39m,
+    storageKey: [32m'sb-vyivavygvvzpprsfjvox-auth-token'[39m,
+    autoRefreshToken: [33mfalse[39m,
+    admin: GoTrueAdminApi {
+      url: [32m'https://vyivavygvvzpprsfjvox.supabase.co/auth/v1'[39m,
+      headers: [36m[Object][39m,
+      fetch: [36m[Function (anonymous)][39m,
+      mfa: [36m[Object][39m
+    },
+    url: [32m'https://vyivavygvvzpprsfjvox.supabase.co/auth/v1'[39m,
+    headers: {
+      Authorization: [32m'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m,
+      apikey: [32m'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m,
+      [32m'X-Client-Info'[39m: [32m'@supabase/auth-helpers-nextjs@0.10.0'[39m
+    },
+    fetch: [36m[Function (anonymous)][39m,
+    lock: [36m[AsyncFunction: lockNoOp][39m,
+    flowType: [32m'pkce'[39m,
+    jwks: { keys: [] },
+    jwks_cached_at: [33m-9007199254740991[39m,
+    mfa: {
+      verify: [36m[Function: bound _verify] AsyncFunction[39m,
+      enroll: [36m[Function: bound _enroll] AsyncFunction[39m,
+      unenroll: [36m[Function: bound _unenroll] AsyncFunction[39m,
+      challenge: [36m[Function: bound _challenge] AsyncFunction[39m,
+      listFactors: [36m[Function: bound _listFactors] AsyncFunction[39m,
+      challengeAndVerify: [36m[Function: bound _challengeAndVerify] AsyncFunction[39m,
+      getAuthenticatorAssuranceLevel: [36m[Function: bound _getAuthenticatorAssuranceLevel] AsyncFunction[39m
+    },
+    storage: NextRouteHandlerAuthStorageAdapter {
+      cookieOptions: [36m[Object][39m,
+      context: [36m[Object][39m
+    }
+  },
+  fetch: [36m[Function (anonymous)][39m,
+  realtime: RealtimeClient {
+    accessTokenValue: [32m'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m,
+    apiKey: [32m'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m,
+    channels: [],
+    endPoint: [32m'wss://vyivavygvvzpprsfjvox.supabase.co/realtime/v1/websocket'[39m,
+    httpEndpoint: [32m'https://vyivavygvvzpprsfjvox.supabase.co/realtime/v1'[39m,
+    headers: { [32m'X-Client-Info'[39m: [32m'@supabase/auth-helpers-nextjs@0.10.0'[39m },
+    params: {
+      apikey: [32m'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m
+    },
+    timeout: [33m10000[39m,
+    heartbeatIntervalMs: [33m30000[39m,
+    heartbeatTimer: [90mundefined[39m,
+    pendingHeartbeatRef: [1mnull[22m,
+    ref: [33m0[39m,
+    logger: [36m[Function: noop][39m,
+    conn: [1mnull[22m,
+    sendBuffer: [],
+    serializer: Serializer { HEADER_LENGTH: [33m1[39m },
+    stateChangeCallbacks: { open: [], close: [], error: [], message: [] },
+    accessToken: [36m[Function: bound _getAccessToken][39m,
+    _resolveFetch: [36m[Function (anonymous)][39m,
+    transport: [1mnull[22m,
+    reconnectAfterMs: [36m[Function (anonymous)][39m,
+    encode: [36m[Function (anonymous)][39m,
+    decode: [36m[Function: bound decode][39m,
+    reconnectTimer: Timer {
+      callback: [36m[AsyncFunction (anonymous)][39m,
+      timerCalc: [36m[Function (anonymous)][39m,
+      timer: [90mundefined[39m,
+      tries: [33m0[39m
+    },
+    fetch: [36m[Function (anonymous)][39m
+  },
+  rest: PostgrestClient {
+    url: [32m'https://vyivavygvvzpprsfjvox.supabase.co/rest/v1'[39m,
+    headers: { [32m'X-Client-Info'[39m: [32m'@supabase/auth-helpers-nextjs@0.10.0'[39m },
+    schemaName: [32m'public'[39m,
+    fetch: [36m[Function (anonymous)][39m
+  }
+}
+(node:17446) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+- [36mwait[39m compiling...
+- [35mevent[39m compiled client and server successfully in 300 ms (2173 modules)
+[Supabase] Creating server Supabase client...
+[Supabase] Cookies obtained: ResponseCookies {
+  _parsed: Map(1) {
+    [32m'sb-vyivavygvvzpprsfjvox-auth-token'[39m => {
+      name: [32m'sb-vyivavygvvzpprsfjvox-auth-token'[39m,
+      value: [32m'["eyJhbGciOiJIUzI1NiIsImtpZCI6InhNSC9oVDVLYVgvS3QwRlYiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3Z5aXZhdnlndnZ6cHByc2Zqdm94LnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiI1ZTdmNWRiYy1kYTJmLTQ2NzEtYjM3ZC01NzY0NDcyZGNlMmEiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzQ2Nzk2NTMyLCJpYXQiOjE3NDY3OTI5MzIsImVtYWlsIjoibUBtLmNvbSIsInBob25lIjoiIiwiYXBwX21ldGFkYXRhIjp7InByb3ZpZGVyIjoiZW1haWwiLCJwcm92aWRlcnMiOlsiZW1haWwiXX0sInVzZXJfbWV0YWRhdGEiOnsiZW1haWxfdmVyaWZpZWQiOnRydWV9LCJyb2xlIjoiYXV0aGVudGljYXRlZCIsImFhbCI6ImFhbDEiLCJhbXIiOlt7Im1ldGhvZCI6InBhc3N3b3JkIiwidGltZXN0YW1wIjoxNzQ2NzkyOTMyfV0sInNlc3Npb25faWQiOiJiODE0ZjkwYS05MzdmLTQxNTktODE1ZC1mOGMwZmMyNDQ4MWIiLCJpc19hbm9ueW1vdXMiOmZhbHNlfQ.goqRpxKLeTUFZlcD1BGdswwfXijZrBb38nKW_95mgGs","AA_OYS3KnbK1t3UUMO-vZQ",null,null,null]'[39m,
+      path: [32m'/'[39m
+    }
+  },
+  _headers: Headers {
+    [32m'set-cookie'[39m: [32m'sb-vyivavygvvzpprsfjvox-auth-token=%5B%22eyJhbGciOiJIUzI1NiIsImtpZCI6InhNSC9oVDVLYVgvS3QwRlYiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3Z5aXZhdnlndnZ6cHByc2Zqdm94LnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiI1ZTdmNWRiYy1kYTJmLTQ2NzEtYjM3ZC01NzY0NDcyZGNlMmEiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzQ2Nzk2NTMyLCJpYXQiOjE3NDY3OTI5MzIsImVtYWlsIjoibUBtLmNvbSIsInBob25lIjoiIiwiYXBwX21ldGFkYXRhIjp7InByb3ZpZGVyIjoiZW1haWwiLCJwcm92aWRlcnMiOlsiZW1haWwiXX0sInVzZXJfbWV0YWRhdGEiOnsiZW1haWxfdmVyaWZpZWQiOnRydWV9LCJyb2xlIjoiYXV0aGVudGljYXRlZCIsImFhbCI6ImFhbDEiLCJhbXIiOlt7Im1ldGhvZCI6InBhc3N3b3JkIiwidGltZXN0YW1wIjoxNzQ2NzkyOTMyfV0sInNlc3Npb25faWQiOiJiODE0ZjkwYS05MzdmLTQxNTktODE1ZC1mOGMwZmMyNDQ4MWIiLCJpc19hbm9ueW1vdXMiOmZhbHNlfQ.goqRpxKLeTUFZlcD1BGdswwfXijZrBb38nKW_95mgGs%22%2C%22AA_OYS3KnbK1t3UUMO-vZQ%22%2Cnull%2Cnull%2Cnull%5D; Path=/'[39m
+  }
+}
+[Supabase] Client created: SupabaseClient {
+  supabaseUrl: [32m'https://vyivavygvvzpprsfjvox.supabase.co'[39m,
+  supabaseKey: [32m'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m,
+  realtimeUrl: [32m'wss://vyivavygvvzpprsfjvox.supabase.co/realtime/v1'[39m,
+  authUrl: [32m'https://vyivavygvvzpprsfjvox.supabase.co/auth/v1'[39m,
+  storageUrl: [32m'https://vyivavygvvzpprsfjvox.supabase.co/storage/v1'[39m,
+  functionsUrl: [32m'https://vyivavygvvzpprsfjvox.supabase.co/functions/v1'[39m,
+  storageKey: [32m'sb-vyivavygvvzpprsfjvox-auth-token'[39m,
+  headers: { [32m'X-Client-Info'[39m: [32m'@supabase/auth-helpers-nextjs@0.10.0'[39m },
+  auth: SupabaseAuthClient {
+    memoryStorage: [1mnull[22m,
+    stateChangeEmitters: Map(1) { [32m'7e56cf2c-1173-44c3-8152-9995e2facc2b'[39m => [36m[Object][39m },
+    autoRefreshTicker: [1mnull[22m,
+    visibilityChangedCallback: [1mnull[22m,
+    refreshingDeferred: [1mnull[22m,
+    initializePromise: Promise {
+      [36m<pending>[39m,
+      [[32mSymbol(async_id_symbol)[39m]: [33m110906[39m,
+      [[32mSymbol(trigger_async_id_symbol)[39m]: [33m110892[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [36m[Object][39m,
+      [[32mSymbol(kResourceStore)[39m]: [36m[Object][39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [36m[Object][39m
+    },
+    detectSessionInUrl: [33mfalse[39m,
+    hasCustomAuthorizationHeader: [33mfalse[39m,
+    suppressGetSessionWarning: [33mfalse[39m,
+    lockAcquired: [33mtrue[39m,
+    pendingInLock: [ [36m[Promise][39m ],
+    broadcastChannel: [1mnull[22m,
+    logger: [36m[Function: log][39m,
+    instanceID: [33m0[39m,
+    logDebugMessages: [33mfalse[39m,
+    persistSession: [33mtrue[39m,
+    storageKey: [32m'sb-vyivavygvvzpprsfjvox-auth-token'[39m,
+    autoRefreshToken: [33mfalse[39m,
+    admin: GoTrueAdminApi {
+      url: [32m'https://vyivavygvvzpprsfjvox.supabase.co/auth/v1'[39m,
+      headers: [36m[Object][39m,
+      fetch: [36m[Function (anonymous)][39m,
+      mfa: [36m[Object][39m
+    },
+    url: [32m'https://vyivavygvvzpprsfjvox.supabase.co/auth/v1'[39m,
+    headers: {
+      Authorization: [32m'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m,
+      apikey: [32m'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m,
+      [32m'X-Client-Info'[39m: [32m'@supabase/auth-helpers-nextjs@0.10.0'[39m
+    },
+    fetch: [36m[Function (anonymous)][39m,
+    lock: [36m[AsyncFunction: lockNoOp][39m,
+    flowType: [32m'pkce'[39m,
+    jwks: { keys: [] },
+    jwks_cached_at: [33m-9007199254740991[39m,
+    mfa: {
+      verify: [36m[Function: bound _verify] AsyncFunction[39m,
+      enroll: [36m[Function: bound _enroll] AsyncFunction[39m,
+      unenroll: [36m[Function: bound _unenroll] AsyncFunction[39m,
+      challenge: [36m[Function: bound _challenge] AsyncFunction[39m,
+      listFactors: [36m[Function: bound _listFactors] AsyncFunction[39m,
+      challengeAndVerify: [36m[Function: bound _challengeAndVerify] AsyncFunction[39m,
+      getAuthenticatorAssuranceLevel: [36m[Function: bound _getAuthenticatorAssuranceLevel] AsyncFunction[39m
+    },
+    storage: NextRouteHandlerAuthStorageAdapter {
+      cookieOptions: [36m[Object][39m,
+      context: [36m[Object][39m
+    }
+  },
+  fetch: [36m[Function (anonymous)][39m,
+  realtime: RealtimeClient {
+    accessTokenValue: [32m'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m,
+    apiKey: [32m'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m,
+    channels: [],
+    endPoint: [32m'wss://vyivavygvvzpprsfjvox.supabase.co/realtime/v1/websocket'[39m,
+    httpEndpoint: [32m'https://vyivavygvvzpprsfjvox.supabase.co/realtime/v1'[39m,
+    headers: { [32m'X-Client-Info'[39m: [32m'@supabase/auth-helpers-nextjs@0.10.0'[39m },
+    params: {
+      apikey: [32m'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m
+    },
+    timeout: [33m10000[39m,
+    heartbeatIntervalMs: [33m30000[39m,
+    heartbeatTimer: [90mundefined[39m,
+    pendingHeartbeatRef: [1mnull[22m,
+    ref: [33m0[39m,
+    logger: [36m[Function: noop][39m,
+    conn: [1mnull[22m,
+    sendBuffer: [],
+    serializer: Serializer { HEADER_LENGTH: [33m1[39m },
+    stateChangeCallbacks: { open: [], close: [], error: [], message: [] },
+    accessToken: [36m[Function: bound _getAccessToken][39m,
+    _resolveFetch: [36m[Function (anonymous)][39m,
+    transport: [1mnull[22m,
+    reconnectAfterMs: [36m[Function (anonymous)][39m,
+    encode: [36m[Function (anonymous)][39m,
+    decode: [36m[Function: bound decode][39m,
+    reconnectTimer: Timer {
+      callback: [36m[AsyncFunction (anonymous)][39m,
+      timerCalc: [36m[Function (anonymous)][39m,
+      timer: [90mundefined[39m,
+      tries: [33m0[39m
+    },
+    fetch: [36m[Function (anonymous)][39m
+  },
+  rest: PostgrestClient {
+    url: [32m'https://vyivavygvvzpprsfjvox.supabase.co/rest/v1'[39m,
+    headers: { [32m'X-Client-Info'[39m: [32m'@supabase/auth-helpers-nextjs@0.10.0'[39m },
+    schemaName: [32m'public'[39m,
+    fetch: [36m[Function (anonymous)][39m
+  }
+}
+(node:17484) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+- [36mwait[39m compiling...
+- [35mevent[39m compiled client and server successfully in 206 ms (2173 modules)
+[Supabase] Creating server Supabase client...
+[Supabase] Cookies obtained: ResponseCookies {
+  _parsed: Map(1) {
+    [32m'sb-vyivavygvvzpprsfjvox-auth-token'[39m => {
+      name: [32m'sb-vyivavygvvzpprsfjvox-auth-token'[39m,
+      value: [32m'["eyJhbGciOiJIUzI1NiIsImtpZCI6InhNSC9oVDVLYVgvS3QwRlYiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3Z5aXZhdnlndnZ6cHByc2Zqdm94LnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiI1ZTdmNWRiYy1kYTJmLTQ2NzEtYjM3ZC01NzY0NDcyZGNlMmEiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzQ2Nzk2NTMyLCJpYXQiOjE3NDY3OTI5MzIsImVtYWlsIjoibUBtLmNvbSIsInBob25lIjoiIiwiYXBwX21ldGFkYXRhIjp7InByb3ZpZGVyIjoiZW1haWwiLCJwcm92aWRlcnMiOlsiZW1haWwiXX0sInVzZXJfbWV0YWRhdGEiOnsiZW1haWxfdmVyaWZpZWQiOnRydWV9LCJyb2xlIjoiYXV0aGVudGljYXRlZCIsImFhbCI6ImFhbDEiLCJhbXIiOlt7Im1ldGhvZCI6InBhc3N3b3JkIiwidGltZXN0YW1wIjoxNzQ2NzkyOTMyfV0sInNlc3Npb25faWQiOiJiODE0ZjkwYS05MzdmLTQxNTktODE1ZC1mOGMwZmMyNDQ4MWIiLCJpc19hbm9ueW1vdXMiOmZhbHNlfQ.goqRpxKLeTUFZlcD1BGdswwfXijZrBb38nKW_95mgGs","AA_OYS3KnbK1t3UUMO-vZQ",null,null,null]'[39m,
+      path: [32m'/'[39m
+    }
+  },
+  _headers: Headers {
+    [32m'set-cookie'[39m: [32m'sb-vyivavygvvzpprsfjvox-auth-token=%5B%22eyJhbGciOiJIUzI1NiIsImtpZCI6InhNSC9oVDVLYVgvS3QwRlYiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3Z5aXZhdnlndnZ6cHByc2Zqdm94LnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiI1ZTdmNWRiYy1kYTJmLTQ2NzEtYjM3ZC01NzY0NDcyZGNlMmEiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzQ2Nzk2NTMyLCJpYXQiOjE3NDY3OTI5MzIsImVtYWlsIjoibUBtLmNvbSIsInBob25lIjoiIiwiYXBwX21ldGFkYXRhIjp7InByb3ZpZGVyIjoiZW1haWwiLCJwcm92aWRlcnMiOlsiZW1haWwiXX0sInVzZXJfbWV0YWRhdGEiOnsiZW1haWxfdmVyaWZpZWQiOnRydWV9LCJyb2xlIjoiYXV0aGVudGljYXRlZCIsImFhbCI6ImFhbDEiLCJhbXIiOlt7Im1ldGhvZCI6InBhc3N3b3JkIiwidGltZXN0YW1wIjoxNzQ2NzkyOTMyfV0sInNlc3Npb25faWQiOiJiODE0ZjkwYS05MzdmLTQxNTktODE1ZC1mOGMwZmMyNDQ4MWIiLCJpc19hbm9ueW1vdXMiOmZhbHNlfQ.goqRpxKLeTUFZlcD1BGdswwfXijZrBb38nKW_95mgGs%22%2C%22AA_OYS3KnbK1t3UUMO-vZQ%22%2Cnull%2Cnull%2Cnull%5D; Path=/'[39m
+  }
+}
+[Supabase] Client created: SupabaseClient {
+  supabaseUrl: [32m'https://vyivavygvvzpprsfjvox.supabase.co'[39m,
+  supabaseKey: [32m'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m,
+  realtimeUrl: [32m'wss://vyivavygvvzpprsfjvox.supabase.co/realtime/v1'[39m,
+  authUrl: [32m'https://vyivavygvvzpprsfjvox.supabase.co/auth/v1'[39m,
+  storageUrl: [32m'https://vyivavygvvzpprsfjvox.supabase.co/storage/v1'[39m,
+  functionsUrl: [32m'https://vyivavygvvzpprsfjvox.supabase.co/functions/v1'[39m,
+  storageKey: [32m'sb-vyivavygvvzpprsfjvox-auth-token'[39m,
+  headers: { [32m'X-Client-Info'[39m: [32m'@supabase/auth-helpers-nextjs@0.10.0'[39m },
+  auth: SupabaseAuthClient {
+    memoryStorage: [1mnull[22m,
+    stateChangeEmitters: Map(1) { [32m'5828728b-0e45-4969-9b98-6123dde38963'[39m => [36m[Object][39m },
+    autoRefreshTicker: [1mnull[22m,
+    visibilityChangedCallback: [1mnull[22m,
+    refreshingDeferred: [1mnull[22m,
+    initializePromise: Promise {
+      [36m<pending>[39m,
+      [[32mSymbol(async_id_symbol)[39m]: [33m116348[39m,
+      [[32mSymbol(trigger_async_id_symbol)[39m]: [33m116334[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [36m[Object][39m,
+      [[32mSymbol(kResourceStore)[39m]: [36m[Object][39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [36m[Object][39m
+    },
+    detectSessionInUrl: [33mfalse[39m,
+    hasCustomAuthorizationHeader: [33mfalse[39m,
+    suppressGetSessionWarning: [33mfalse[39m,
+    lockAcquired: [33mtrue[39m,
+    pendingInLock: [ [36m[Promise][39m ],
+    broadcastChannel: [1mnull[22m,
+    logger: [36m[Function: log][39m,
+    instanceID: [33m0[39m,
+    logDebugMessages: [33mfalse[39m,
+    persistSession: [33mtrue[39m,
+    storageKey: [32m'sb-vyivavygvvzpprsfjvox-auth-token'[39m,
+    autoRefreshToken: [33mfalse[39m,
+    admin: GoTrueAdminApi {
+      url: [32m'https://vyivavygvvzpprsfjvox.supabase.co/auth/v1'[39m,
+      headers: [36m[Object][39m,
+      fetch: [36m[Function (anonymous)][39m,
+      mfa: [36m[Object][39m
+    },
+    url: [32m'https://vyivavygvvzpprsfjvox.supabase.co/auth/v1'[39m,
+    headers: {
+      Authorization: [32m'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m,
+      apikey: [32m'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m,
+      [32m'X-Client-Info'[39m: [32m'@supabase/auth-helpers-nextjs@0.10.0'[39m
+    },
+    fetch: [36m[Function (anonymous)][39m,
+    lock: [36m[AsyncFunction: lockNoOp][39m,
+    flowType: [32m'pkce'[39m,
+    jwks: { keys: [] },
+    jwks_cached_at: [33m-9007199254740991[39m,
+    mfa: {
+      verify: [36m[Function: bound _verify] AsyncFunction[39m,
+      enroll: [36m[Function: bound _enroll] AsyncFunction[39m,
+      unenroll: [36m[Function: bound _unenroll] AsyncFunction[39m,
+      challenge: [36m[Function: bound _challenge] AsyncFunction[39m,
+      listFactors: [36m[Function: bound _listFactors] AsyncFunction[39m,
+      challengeAndVerify: [36m[Function: bound _challengeAndVerify] AsyncFunction[39m,
+      getAuthenticatorAssuranceLevel: [36m[Function: bound _getAuthenticatorAssuranceLevel] AsyncFunction[39m
+    },
+    storage: NextRouteHandlerAuthStorageAdapter {
+      cookieOptions: [36m[Object][39m,
+      context: [36m[Object][39m
+    }
+  },
+  fetch: [36m[Function (anonymous)][39m,
+  realtime: RealtimeClient {
+    accessTokenValue: [32m'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m,
+    apiKey: [32m'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m,
+    channels: [],
+    endPoint: [32m'wss://vyivavygvvzpprsfjvox.supabase.co/realtime/v1/websocket'[39m,
+    httpEndpoint: [32m'https://vyivavygvvzpprsfjvox.supabase.co/realtime/v1'[39m,
+    headers: { [32m'X-Client-Info'[39m: [32m'@supabase/auth-helpers-nextjs@0.10.0'[39m },
+    params: {
+      apikey: [32m'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m
+    },
+    timeout: [33m10000[39m,
+    heartbeatIntervalMs: [33m30000[39m,
+    heartbeatTimer: [90mundefined[39m,
+    pendingHeartbeatRef: [1mnull[22m,
+    ref: [33m0[39m,
+    logger: [36m[Function: noop][39m,
+    conn: [1mnull[22m,
+    sendBuffer: [],
+    serializer: Serializer { HEADER_LENGTH: [33m1[39m },
+    stateChangeCallbacks: { open: [], close: [], error: [], message: [] },
+    accessToken: [36m[Function: bound _getAccessToken][39m,
+    _resolveFetch: [36m[Function (anonymous)][39m,
+    transport: [1mnull[22m,
+    reconnectAfterMs: [36m[Function (anonymous)][39m,
+    encode: [36m[Function (anonymous)][39m,
+    decode: [36m[Function: bound decode][39m,
+    reconnectTimer: Timer {
+      callback: [36m[AsyncFunction (anonymous)][39m,
+      timerCalc: [36m[Function (anonymous)][39m,
+      timer: [90mundefined[39m,
+      tries: [33m0[39m
+    },
+    fetch: [36m[Function (anonymous)][39m
+  },
+  rest: PostgrestClient {
+    url: [32m'https://vyivavygvvzpprsfjvox.supabase.co/rest/v1'[39m,
+    headers: { [32m'X-Client-Info'[39m: [32m'@supabase/auth-helpers-nextjs@0.10.0'[39m },
+    schemaName: [32m'public'[39m,
+    fetch: [36m[Function (anonymous)][39m
+  }
+}
+(node:17501) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[Supabase] Creating server Supabase client...
+[Supabase] Cookies obtained: ResponseCookies {
+  _parsed: Map(1) {
+    [32m'sb-vyivavygvvzpprsfjvox-auth-token'[39m => {
+      name: [32m'sb-vyivavygvvzpprsfjvox-auth-token'[39m,
+      value: [32m'["eyJhbGciOiJIUzI1NiIsImtpZCI6InhNSC9oVDVLYVgvS3QwRlYiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3Z5aXZhdnlndnZ6cHByc2Zqdm94LnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiI1ZTdmNWRiYy1kYTJmLTQ2NzEtYjM3ZC01NzY0NDcyZGNlMmEiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzQ2Nzk2NTMyLCJpYXQiOjE3NDY3OTI5MzIsImVtYWlsIjoibUBtLmNvbSIsInBob25lIjoiIiwiYXBwX21ldGFkYXRhIjp7InByb3ZpZGVyIjoiZW1haWwiLCJwcm92aWRlcnMiOlsiZW1haWwiXX0sInVzZXJfbWV0YWRhdGEiOnsiZW1haWxfdmVyaWZpZWQiOnRydWV9LCJyb2xlIjoiYXV0aGVudGljYXRlZCIsImFhbCI6ImFhbDEiLCJhbXIiOlt7Im1ldGhvZCI6InBhc3N3b3JkIiwidGltZXN0YW1wIjoxNzQ2NzkyOTMyfV0sInNlc3Npb25faWQiOiJiODE0ZjkwYS05MzdmLTQxNTktODE1ZC1mOGMwZmMyNDQ4MWIiLCJpc19hbm9ueW1vdXMiOmZhbHNlfQ.goqRpxKLeTUFZlcD1BGdswwfXijZrBb38nKW_95mgGs","AA_OYS3KnbK1t3UUMO-vZQ",null,null,null]'[39m,
+      path: [32m'/'[39m
+    }
+  },
+  _headers: Headers {
+    [32m'set-cookie'[39m: [32m'sb-vyivavygvvzpprsfjvox-auth-token=%5B%22eyJhbGciOiJIUzI1NiIsImtpZCI6InhNSC9oVDVLYVgvS3QwRlYiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3Z5aXZhdnlndnZ6cHByc2Zqdm94LnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiI1ZTdmNWRiYy1kYTJmLTQ2NzEtYjM3ZC01NzY0NDcyZGNlMmEiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzQ2Nzk2NTMyLCJpYXQiOjE3NDY3OTI5MzIsImVtYWlsIjoibUBtLmNvbSIsInBob25lIjoiIiwiYXBwX21ldGFkYXRhIjp7InByb3ZpZGVyIjoiZW1haWwiLCJwcm92aWRlcnMiOlsiZW1haWwiXX0sInVzZXJfbWV0YWRhdGEiOnsiZW1haWxfdmVyaWZpZWQiOnRydWV9LCJyb2xlIjoiYXV0aGVudGljYXRlZCIsImFhbCI6ImFhbDEiLCJhbXIiOlt7Im1ldGhvZCI6InBhc3N3b3JkIiwidGltZXN0YW1wIjoxNzQ2NzkyOTMyfV0sInNlc3Npb25faWQiOiJiODE0ZjkwYS05MzdmLTQxNTktODE1ZC1mOGMwZmMyNDQ4MWIiLCJpc19hbm9ueW1vdXMiOmZhbHNlfQ.goqRpxKLeTUFZlcD1BGdswwfXijZrBb38nKW_95mgGs%22%2C%22AA_OYS3KnbK1t3UUMO-vZQ%22%2Cnull%2Cnull%2Cnull%5D; Path=/'[39m
+  }
+}
+[Supabase] Client created: SupabaseClient {
+  supabaseUrl: [32m'https://vyivavygvvzpprsfjvox.supabase.co'[39m,
+  supabaseKey: [32m'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m,
+  realtimeUrl: [32m'wss://vyivavygvvzpprsfjvox.supabase.co/realtime/v1'[39m,
+  authUrl: [32m'https://vyivavygvvzpprsfjvox.supabase.co/auth/v1'[39m,
+  storageUrl: [32m'https://vyivavygvvzpprsfjvox.supabase.co/storage/v1'[39m,
+  functionsUrl: [32m'https://vyivavygvvzpprsfjvox.supabase.co/functions/v1'[39m,
+  storageKey: [32m'sb-vyivavygvvzpprsfjvox-auth-token'[39m,
+  headers: { [32m'X-Client-Info'[39m: [32m'@supabase/auth-helpers-nextjs@0.10.0'[39m },
+  auth: SupabaseAuthClient {
+    memoryStorage: [1mnull[22m,
+    stateChangeEmitters: Map(1) { [32m'589b732a-3869-4bbb-ba1f-1f40357c73bd'[39m => [36m[Object][39m },
+    autoRefreshTicker: [1mnull[22m,
+    visibilityChangedCallback: [1mnull[22m,
+    refreshingDeferred: [1mnull[22m,
+    initializePromise: Promise {
+      [36m<pending>[39m,
+      [[32mSymbol(async_id_symbol)[39m]: [33m122413[39m,
+      [[32mSymbol(trigger_async_id_symbol)[39m]: [33m122399[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [36m[Object][39m,
+      [[32mSymbol(kResourceStore)[39m]: [36m[Object][39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [36m[Object][39m
+    },
+    detectSessionInUrl: [33mfalse[39m,
+    hasCustomAuthorizationHeader: [33mfalse[39m,
+    suppressGetSessionWarning: [33mfalse[39m,
+    lockAcquired: [33mtrue[39m,
+    pendingInLock: [ [36m[Promise][39m ],
+    broadcastChannel: [1mnull[22m,
+    logger: [36m[Function: log][39m,
+    instanceID: [33m1[39m,
+    logDebugMessages: [33mfalse[39m,
+    persistSession: [33mtrue[39m,
+    storageKey: [32m'sb-vyivavygvvzpprsfjvox-auth-token'[39m,
+    autoRefreshToken: [33mfalse[39m,
+    admin: GoTrueAdminApi {
+      url: [32m'https://vyivavygvvzpprsfjvox.supabase.co/auth/v1'[39m,
+      headers: [36m[Object][39m,
+      fetch: [36m[Function (anonymous)][39m,
+      mfa: [36m[Object][39m
+    },
+    url: [32m'https://vyivavygvvzpprsfjvox.supabase.co/auth/v1'[39m,
+    headers: {
+      Authorization: [32m'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m,
+      apikey: [32m'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m,
+      [32m'X-Client-Info'[39m: [32m'@supabase/auth-helpers-nextjs@0.10.0'[39m
+    },
+    fetch: [36m[Function (anonymous)][39m,
+    lock: [36m[AsyncFunction: lockNoOp][39m,
+    flowType: [32m'pkce'[39m,
+    jwks: { keys: [] },
+    jwks_cached_at: [33m-9007199254740991[39m,
+    mfa: {
+      verify: [36m[Function: bound _verify] AsyncFunction[39m,
+      enroll: [36m[Function: bound _enroll] AsyncFunction[39m,
+      unenroll: [36m[Function: bound _unenroll] AsyncFunction[39m,
+      challenge: [36m[Function: bound _challenge] AsyncFunction[39m,
+      listFactors: [36m[Function: bound _listFactors] AsyncFunction[39m,
+      challengeAndVerify: [36m[Function: bound _challengeAndVerify] AsyncFunction[39m,
+      getAuthenticatorAssuranceLevel: [36m[Function: bound _getAuthenticatorAssuranceLevel] AsyncFunction[39m
+    },
+    storage: NextRouteHandlerAuthStorageAdapter {
+      cookieOptions: [36m[Object][39m,
+      context: [36m[Object][39m
+    }
+  },
+  fetch: [36m[Function (anonymous)][39m,
+  realtime: RealtimeClient {
+    accessTokenValue: [32m'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m,
+    apiKey: [32m'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m,
+    channels: [],
+    endPoint: [32m'wss://vyivavygvvzpprsfjvox.supabase.co/realtime/v1/websocket'[39m,
+    httpEndpoint: [32m'https://vyivavygvvzpprsfjvox.supabase.co/realtime/v1'[39m,
+    headers: { [32m'X-Client-Info'[39m: [32m'@supabase/auth-helpers-nextjs@0.10.0'[39m },
+    params: {
+      apikey: [32m'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m
+    },
+    timeout: [33m10000[39m,
+    heartbeatIntervalMs: [33m30000[39m,
+    heartbeatTimer: [90mundefined[39m,
+    pendingHeartbeatRef: [1mnull[22m,
+    ref: [33m0[39m,
+    logger: [36m[Function: noop][39m,
+    conn: [1mnull[22m,
+    sendBuffer: [],
+    serializer: Serializer { HEADER_LENGTH: [33m1[39m },
+    stateChangeCallbacks: { open: [], close: [], error: [], message: [] },
+    accessToken: [36m[Function: bound _getAccessToken][39m,
+    _resolveFetch: [36m[Function (anonymous)][39m,
+    transport: [1mnull[22m,
+    reconnectAfterMs: [36m[Function (anonymous)][39m,
+    encode: [36m[Function (anonymous)][39m,
+    decode: [36m[Function: bound decode][39m,
+    reconnectTimer: Timer {
+      callback: [36m[AsyncFunction (anonymous)][39m,
+      timerCalc: [36m[Function (anonymous)][39m,
+      timer: [90mundefined[39m,
+      tries: [33m0[39m
+    },
+    fetch: [36m[Function (anonymous)][39m
+  },
+  rest: PostgrestClient {
+    url: [32m'https://vyivavygvvzpprsfjvox.supabase.co/rest/v1'[39m,
+    headers: { [32m'X-Client-Info'[39m: [32m'@supabase/auth-helpers-nextjs@0.10.0'[39m },
+    schemaName: [32m'public'[39m,
+    fetch: [36m[Function (anonymous)][39m
+  }
+}
+(node:17504) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[Supabase] Creating server Supabase client...
+[Supabase] Cookies obtained: ResponseCookies {
+  _parsed: Map(1) {
+    [32m'sb-vyivavygvvzpprsfjvox-auth-token'[39m => {
+      name: [32m'sb-vyivavygvvzpprsfjvox-auth-token'[39m,
+      value: [32m'["eyJhbGciOiJIUzI1NiIsImtpZCI6InhNSC9oVDVLYVgvS3QwRlYiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3Z5aXZhdnlndnZ6cHByc2Zqdm94LnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiI1ZTdmNWRiYy1kYTJmLTQ2NzEtYjM3ZC01NzY0NDcyZGNlMmEiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzQ2Nzk2NTMyLCJpYXQiOjE3NDY3OTI5MzIsImVtYWlsIjoibUBtLmNvbSIsInBob25lIjoiIiwiYXBwX21ldGFkYXRhIjp7InByb3ZpZGVyIjoiZW1haWwiLCJwcm92aWRlcnMiOlsiZW1haWwiXX0sInVzZXJfbWV0YWRhdGEiOnsiZW1haWxfdmVyaWZpZWQiOnRydWV9LCJyb2xlIjoiYXV0aGVudGljYXRlZCIsImFhbCI6ImFhbDEiLCJhbXIiOlt7Im1ldGhvZCI6InBhc3N3b3JkIiwidGltZXN0YW1wIjoxNzQ2NzkyOTMyfV0sInNlc3Npb25faWQiOiJiODE0ZjkwYS05MzdmLTQxNTktODE1ZC1mOGMwZmMyNDQ4MWIiLCJpc19hbm9ueW1vdXMiOmZhbHNlfQ.goqRpxKLeTUFZlcD1BGdswwfXijZrBb38nKW_95mgGs","AA_OYS3KnbK1t3UUMO-vZQ",null,null,null]'[39m,
+      path: [32m'/'[39m
+    }
+  },
+  _headers: Headers {
+    [32m'set-cookie'[39m: [32m'sb-vyivavygvvzpprsfjvox-auth-token=%5B%22eyJhbGciOiJIUzI1NiIsImtpZCI6InhNSC9oVDVLYVgvS3QwRlYiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3Z5aXZhdnlndnZ6cHByc2Zqdm94LnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiI1ZTdmNWRiYy1kYTJmLTQ2NzEtYjM3ZC01NzY0NDcyZGNlMmEiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzQ2Nzk2NTMyLCJpYXQiOjE3NDY3OTI5MzIsImVtYWlsIjoibUBtLmNvbSIsInBob25lIjoiIiwiYXBwX21ldGFkYXRhIjp7InByb3ZpZGVyIjoiZW1haWwiLCJwcm92aWRlcnMiOlsiZW1haWwiXX0sInVzZXJfbWV0YWRhdGEiOnsiZW1haWxfdmVyaWZpZWQiOnRydWV9LCJyb2xlIjoiYXV0aGVudGljYXRlZCIsImFhbCI6ImFhbDEiLCJhbXIiOlt7Im1ldGhvZCI6InBhc3N3b3JkIiwidGltZXN0YW1wIjoxNzQ2NzkyOTMyfV0sInNlc3Npb25faWQiOiJiODE0ZjkwYS05MzdmLTQxNTktODE1ZC1mOGMwZmMyNDQ4MWIiLCJpc19hbm9ueW1vdXMiOmZhbHNlfQ.goqRpxKLeTUFZlcD1BGdswwfXijZrBb38nKW_95mgGs%22%2C%22AA_OYS3KnbK1t3UUMO-vZQ%22%2Cnull%2Cnull%2Cnull%5D; Path=/'[39m
+  }
+}
+[Supabase] Client created: SupabaseClient {
+  supabaseUrl: [32m'https://vyivavygvvzpprsfjvox.supabase.co'[39m,
+  supabaseKey: [32m'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m,
+  realtimeUrl: [32m'wss://vyivavygvvzpprsfjvox.supabase.co/realtime/v1'[39m,
+  authUrl: [32m'https://vyivavygvvzpprsfjvox.supabase.co/auth/v1'[39m,
+  storageUrl: [32m'https://vyivavygvvzpprsfjvox.supabase.co/storage/v1'[39m,
+  functionsUrl: [32m'https://vyivavygvvzpprsfjvox.supabase.co/functions/v1'[39m,
+  storageKey: [32m'sb-vyivavygvvzpprsfjvox-auth-token'[39m,
+  headers: { [32m'X-Client-Info'[39m: [32m'@supabase/auth-helpers-nextjs@0.10.0'[39m },
+  auth: SupabaseAuthClient {
+    memoryStorage: [1mnull[22m,
+    stateChangeEmitters: Map(1) { [32m'6c88a2da-853a-4f25-9cdd-8dbbd9d5ac6c'[39m => [36m[Object][39m },
+    autoRefreshTicker: [1mnull[22m,
+    visibilityChangedCallback: [1mnull[22m,
+    refreshingDeferred: [1mnull[22m,
+    initializePromise: Promise {
+      [36m<pending>[39m,
+      [[32mSymbol(async_id_symbol)[39m]: [33m128407[39m,
+      [[32mSymbol(trigger_async_id_symbol)[39m]: [33m128393[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [36m[Object][39m,
+      [[32mSymbol(kResourceStore)[39m]: [36m[Object][39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [36m[Object][39m
+    },
+    detectSessionInUrl: [33mfalse[39m,
+    hasCustomAuthorizationHeader: [33mfalse[39m,
+    suppressGetSessionWarning: [33mfalse[39m,
+    lockAcquired: [33mtrue[39m,
+    pendingInLock: [ [36m[Promise][39m ],
+    broadcastChannel: [1mnull[22m,
+    logger: [36m[Function: log][39m,
+    instanceID: [33m2[39m,
+    logDebugMessages: [33mfalse[39m,
+    persistSession: [33mtrue[39m,
+    storageKey: [32m'sb-vyivavygvvzpprsfjvox-auth-token'[39m,
+    autoRefreshToken: [33mfalse[39m,
+    admin: GoTrueAdminApi {
+      url: [32m'https://vyivavygvvzpprsfjvox.supabase.co/auth/v1'[39m,
+      headers: [36m[Object][39m,
+      fetch: [36m[Function (anonymous)][39m,
+      mfa: [36m[Object][39m
+    },
+    url: [32m'https://vyivavygvvzpprsfjvox.supabase.co/auth/v1'[39m,
+    headers: {
+      Authorization: [32m'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m,
+      apikey: [32m'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m,
+      [32m'X-Client-Info'[39m: [32m'@supabase/auth-helpers-nextjs@0.10.0'[39m
+    },
+    fetch: [36m[Function (anonymous)][39m,
+    lock: [36m[AsyncFunction: lockNoOp][39m,
+    flowType: [32m'pkce'[39m,
+    jwks: { keys: [] },
+    jwks_cached_at: [33m-9007199254740991[39m,
+    mfa: {
+      verify: [36m[Function: bound _verify] AsyncFunction[39m,
+      enroll: [36m[Function: bound _enroll] AsyncFunction[39m,
+      unenroll: [36m[Function: bound _unenroll] AsyncFunction[39m,
+      challenge: [36m[Function: bound _challenge] AsyncFunction[39m,
+      listFactors: [36m[Function: bound _listFactors] AsyncFunction[39m,
+      challengeAndVerify: [36m[Function: bound _challengeAndVerify] AsyncFunction[39m,
+      getAuthenticatorAssuranceLevel: [36m[Function: bound _getAuthenticatorAssuranceLevel] AsyncFunction[39m
+    },
+    storage: NextRouteHandlerAuthStorageAdapter {
+      cookieOptions: [36m[Object][39m,
+      context: [36m[Object][39m
+    }
+  },
+  fetch: [36m[Function (anonymous)][39m,
+  realtime: RealtimeClient {
+    accessTokenValue: [32m'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m,
+    apiKey: [32m'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m,
+    channels: [],
+    endPoint: [32m'wss://vyivavygvvzpprsfjvox.supabase.co/realtime/v1/websocket'[39m,
+    httpEndpoint: [32m'https://vyivavygvvzpprsfjvox.supabase.co/realtime/v1'[39m,
+    headers: { [32m'X-Client-Info'[39m: [32m'@supabase/auth-helpers-nextjs@0.10.0'[39m },
+    params: {
+      apikey: [32m'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m
+    },
+    timeout: [33m10000[39m,
+    heartbeatIntervalMs: [33m30000[39m,
+    heartbeatTimer: [90mundefined[39m,
+    pendingHeartbeatRef: [1mnull[22m,
+    ref: [33m0[39m,
+    logger: [36m[Function: noop][39m,
+    conn: [1mnull[22m,
+    sendBuffer: [],
+    serializer: Serializer { HEADER_LENGTH: [33m1[39m },
+    stateChangeCallbacks: { open: [], close: [], error: [], message: [] },
+    accessToken: [36m[Function: bound _getAccessToken][39m,
+    _resolveFetch: [36m[Function (anonymous)][39m,
+    transport: [1mnull[22m,
+    reconnectAfterMs: [36m[Function (anonymous)][39m,
+    encode: [36m[Function (anonymous)][39m,
+    decode: [36m[Function: bound decode][39m,
+    reconnectTimer: Timer {
+      callback: [36m[AsyncFunction (anonymous)][39m,
+      timerCalc: [36m[Function (anonymous)][39m,
+      timer: [90mundefined[39m,
+      tries: [33m0[39m
+    },
+    fetch: [36m[Function (anonymous)][39m
+  },
+  rest: PostgrestClient {
+    url: [32m'https://vyivavygvvzpprsfjvox.supabase.co/rest/v1'[39m,
+    headers: { [32m'X-Client-Info'[39m: [32m'@supabase/auth-helpers-nextjs@0.10.0'[39m },
+    schemaName: [32m'public'[39m,
+    fetch: [36m[Function (anonymous)][39m
+  }
+}
+(node:17508) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+- [36mwait[39m compiling...
+- [35mevent[39m compiled client and server successfully in 303 ms (2173 modules)
+- [36mwait[39m compiling...
+- [35mevent[39m compiled client and server successfully in 178 ms (2173 modules)
+[Supabase] Creating server Supabase client...
+[Supabase] Cookies obtained: ResponseCookies {
+  _parsed: Map(1) {
+    [32m'sb-vyivavygvvzpprsfjvox-auth-token'[39m => {
+      name: [32m'sb-vyivavygvvzpprsfjvox-auth-token'[39m,
+      value: [32m'["eyJhbGciOiJIUzI1NiIsImtpZCI6InhNSC9oVDVLYVgvS3QwRlYiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3Z5aXZhdnlndnZ6cHByc2Zqdm94LnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiI1ZTdmNWRiYy1kYTJmLTQ2NzEtYjM3ZC01NzY0NDcyZGNlMmEiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzQ2Nzk2NTMyLCJpYXQiOjE3NDY3OTI5MzIsImVtYWlsIjoibUBtLmNvbSIsInBob25lIjoiIiwiYXBwX21ldGFkYXRhIjp7InByb3ZpZGVyIjoiZW1haWwiLCJwcm92aWRlcnMiOlsiZW1haWwiXX0sInVzZXJfbWV0YWRhdGEiOnsiZW1haWxfdmVyaWZpZWQiOnRydWV9LCJyb2xlIjoiYXV0aGVudGljYXRlZCIsImFhbCI6ImFhbDEiLCJhbXIiOlt7Im1ldGhvZCI6InBhc3N3b3JkIiwidGltZXN0YW1wIjoxNzQ2NzkyOTMyfV0sInNlc3Npb25faWQiOiJiODE0ZjkwYS05MzdmLTQxNTktODE1ZC1mOGMwZmMyNDQ4MWIiLCJpc19hbm9ueW1vdXMiOmZhbHNlfQ.goqRpxKLeTUFZlcD1BGdswwfXijZrBb38nKW_95mgGs","AA_OYS3KnbK1t3UUMO-vZQ",null,null,null]'[39m,
+      path: [32m'/'[39m
+    }
+  },
+  _headers: Headers {
+    [32m'set-cookie'[39m: [32m'sb-vyivavygvvzpprsfjvox-auth-token=%5B%22eyJhbGciOiJIUzI1NiIsImtpZCI6InhNSC9oVDVLYVgvS3QwRlYiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3Z5aXZhdnlndnZ6cHByc2Zqdm94LnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiI1ZTdmNWRiYy1kYTJmLTQ2NzEtYjM3ZC01NzY0NDcyZGNlMmEiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzQ2Nzk2NTMyLCJpYXQiOjE3NDY3OTI5MzIsImVtYWlsIjoibUBtLmNvbSIsInBob25lIjoiIiwiYXBwX21ldGFkYXRhIjp7InByb3ZpZGVyIjoiZW1haWwiLCJwcm92aWRlcnMiOlsiZW1haWwiXX0sInVzZXJfbWV0YWRhdGEiOnsiZW1haWxfdmVyaWZpZWQiOnRydWV9LCJyb2xlIjoiYXV0aGVudGljYXRlZCIsImFhbCI6ImFhbDEiLCJhbXIiOlt7Im1ldGhvZCI6InBhc3N3b3JkIiwidGltZXN0YW1wIjoxNzQ2NzkyOTMyfV0sInNlc3Npb25faWQiOiJiODE0ZjkwYS05MzdmLTQxNTktODE1ZC1mOGMwZmMyNDQ4MWIiLCJpc19hbm9ueW1vdXMiOmZhbHNlfQ.goqRpxKLeTUFZlcD1BGdswwfXijZrBb38nKW_95mgGs%22%2C%22AA_OYS3KnbK1t3UUMO-vZQ%22%2Cnull%2Cnull%2Cnull%5D; Path=/'[39m
+  }
+}
+[Supabase] Client created: SupabaseClient {
+  supabaseUrl: [32m'https://vyivavygvvzpprsfjvox.supabase.co'[39m,
+  supabaseKey: [32m'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m,
+  realtimeUrl: [32m'wss://vyivavygvvzpprsfjvox.supabase.co/realtime/v1'[39m,
+  authUrl: [32m'https://vyivavygvvzpprsfjvox.supabase.co/auth/v1'[39m,
+  storageUrl: [32m'https://vyivavygvvzpprsfjvox.supabase.co/storage/v1'[39m,
+  functionsUrl: [32m'https://vyivavygvvzpprsfjvox.supabase.co/functions/v1'[39m,
+  storageKey: [32m'sb-vyivavygvvzpprsfjvox-auth-token'[39m,
+  headers: { [32m'X-Client-Info'[39m: [32m'@supabase/auth-helpers-nextjs@0.10.0'[39m },
+  auth: SupabaseAuthClient {
+    memoryStorage: [1mnull[22m,
+    stateChangeEmitters: Map(1) { [32m'8163c524-e2d8-4c7a-bf6e-08a03b25a432'[39m => [36m[Object][39m },
+    autoRefreshTicker: [1mnull[22m,
+    visibilityChangedCallback: [1mnull[22m,
+    refreshingDeferred: [1mnull[22m,
+    initializePromise: Promise {
+      [36m<pending>[39m,
+      [[32mSymbol(async_id_symbol)[39m]: [33m136782[39m,
+      [[32mSymbol(trigger_async_id_symbol)[39m]: [33m136768[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kResourceStore)[39m]: [90mundefined[39m,
+      [[32mSymbol(kRes

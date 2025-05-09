@@ -9,6 +9,9 @@ import { Loader2, CheckCircle } from "lucide-react";
 export default function ManagerPaymentsPage() {
   const [stripeStatus, setStripeStatus] = useState("loading");
   const [stripeAccountId, setStripeAccountId] = useState("");
+  const [commissionPercent, setCommissionPercent] = useState(null);
+  const [businessName, setBusinessName] = useState(null);
+  const [stripeEmail, setStripeEmail] = useState(null);
   const [error, setError] = useState("");
 
   const supabase = createBrowserSupabase();
@@ -29,11 +32,11 @@ export default function ManagerPaymentsPage() {
 
         const { data: club, error: clubError } = await supabase
           .from("clubs")
-          .select("stripe_status, stripe_account_id")
+          .select("stripe_status, stripe_account_id, commission_percent")
           .eq("manager_id", user.id)
           .single();
 
-        if (clubError) {
+        if (clubError || !club) {
           setError("Error retrieving club data.");
           setStripeStatus("none");
           return;
@@ -41,6 +44,16 @@ export default function ManagerPaymentsPage() {
 
         setStripeStatus(club.stripe_status || "none");
         setStripeAccountId(club.stripe_account_id || "");
+        setCommissionPercent(club.commission_percent ?? 5);
+
+        if (club.stripe_status === "active") {
+          const res = await fetch("/api/stripe/account-info");
+          if (res.ok) {
+            const info = await res.json();
+            setBusinessName(info.business_name || info.individual_name);
+            setStripeEmail(info.email);
+          }
+        }
       } catch (err) {
         console.error("Stripe fetch error:", err);
         setError("Generic error during loading.");
@@ -114,8 +127,10 @@ export default function ManagerPaymentsPage() {
               Stripe connected
             </h2>
             <div className="text-sm text-gray-800 mb-4 space-y-1">
-              <p><strong>Account ID:</strong> {stripeAccountId}</p>
+              {businessName && <p><strong>Business:</strong> {businessName}</p>}
+              {stripeEmail && <p><strong>Email:</strong> {stripeEmail}</p>}
               <p><strong>Status:</strong> Active</p>
+              <p><strong>Commission rate:</strong> {commissionPercent}%</p>
             </div>
             <button
               onClick={() => window.open("https://dashboard.stripe.com/", "_blank")}
@@ -124,7 +139,10 @@ export default function ManagerPaymentsPage() {
               Go to Stripe Dashboard
             </button>
             <p className="text-xs text-gray-500 mt-4">
-              You can manage your account directly in Stripe or contact our support team for assistance.
+            For a better commission rate or to change your connected Stripe account, contact us at{" "}
+              <a href="mailto:clubsterapp@hotmail.com" className="underline text-purple-700">
+                clubsterapp@hotmail.com
+              </a>.
             </p>
           </div>
         );
@@ -140,7 +158,7 @@ export default function ManagerPaymentsPage() {
       <div className="max-w-3xl mx-auto px-6 py-10">
         <h1 className="text-3xl font-bold mb-6 text-gray-900 tracking-tight">Payments</h1>
         <p className="text-sm text-gray-600 mb-8">
-          Connect a Stripe account to receive automatic payouts for your events.
+          Connect your Stripe account to receive automatic payouts for your events.
         </p>
         {renderStripeStatus()}
         {error && <p className="text-red-600 text-sm mt-4">{error}</p>}
