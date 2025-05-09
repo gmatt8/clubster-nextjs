@@ -82,8 +82,25 @@ export default function NewEventPage() {
 
     const startDateTimeStr = `${startDate}T${startTime}:00`;
     const endDateTimeStr = `${endDate}T${endTime}:00`;
-    const startDateISO = new Date(startDateTimeStr).toISOString();
-    const endDateISO = new Date(endDateTimeStr).toISOString();
+    
+    const startDateObj = new Date(startDateTimeStr);
+    const endDateObj = new Date(endDateTimeStr);
+    
+    if (isNaN(startDateObj.getTime()) || isNaN(endDateObj.getTime())) {
+      setError("Il formato della data o dell'ora non è valido.");
+      setLoading(false);
+      return;
+    }
+    
+    if (startDateObj >= endDateObj) {
+      setError("La data e ora di inizio devono essere prima di quella di fine.");
+      setLoading(false);
+      return;
+    }
+    
+    const startDateISO = startDateObj.toISOString();
+    const endDateISO = endDateObj.toISOString();
+    
 
     try {
       const eventRes = await fetch("/api/events", {
@@ -195,10 +212,29 @@ export default function NewEventPage() {
       return name.trim() && musicGenres.length > 0;
     }
     if (currentStep === 2) {
-      return startDate && startTime && endDate && endTime;
+      if (!startDate || !startTime || !endDate || !endTime) return false;
+  
+      const startDateTimeStr = `${startDate}T${startTime}:00`;
+      const endDateTimeStr = `${endDate}T${endTime}:00`;
+  
+      const start = new Date(startDateTimeStr);
+      const end = new Date(endDateTimeStr);
+  
+      if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+        setError("Formato non valido per data o ora.");
+        return false;
+      }
+  
+      if (start >= end) {
+        setError("La data/ora di inizio deve essere prima di quella di fine.");
+        return false;
+      }
+  
+      return true;
     }
     return true;
   }
+  
 
   return (
     <ManagerLayout>
@@ -221,25 +257,34 @@ export default function NewEventPage() {
             >Back</button>
           )}
           {currentStep < 3 ? (
-            <button
-              type="button"
-              onClick={() => {
-                if (canProceedToNextStep()) {
-                  setError("");
-                  setCurrentStep(currentStep + 1);
-                } else {
-                  setError("Please complete all required fields to continue.");
-                }
-              }}
-              className="px-4 py-2 text-sm bg-purple-600 text-white rounded hover:bg-purple-700"
-            >Next</button>
-          ) : (
-            <button
-              type="button"
-              onClick={handleSubmit}
-              className="px-6 py-2 bg-green-600 text-white rounded hover:bg-green-700"
-            >Create Event</button>
-          )}
+  <button
+    type="button"
+    onClick={() => {
+      const valid = canProceedToNextStep();
+      if (valid) {
+        setError("");
+        setCurrentStep(currentStep + 1);
+      } else {
+        // Solo se nessun messaggio d’errore è stato già impostato
+        if (!error) {
+          setError("Please complete all required fields to continue.");
+        }
+      }
+    }}
+    className="px-4 py-2 text-sm bg-purple-600 text-white rounded hover:bg-purple-700"
+  >
+    Next
+  </button>
+) : (
+  <button
+    type="button"
+    onClick={handleSubmit}
+    className="px-6 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+  >
+    Create Event
+  </button>
+)}
+
         </div>
       </div>
     </ManagerLayout>
