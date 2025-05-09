@@ -1,5 +1,4 @@
 // apps/web-customer/app/components/events/calendar.js
-// Updated EventsCalendar.js with clickable individual event badges
 "use client";
 
 import { useState, useMemo } from "react";

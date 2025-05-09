@@ -9,6 +9,8 @@ import EventHeader from "@components/events/EventHeader";
 import DatePicker from "@components/events/DataTimePicker";
 import UploadEventImage from "@components/events/UploadEventImage";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
+import TimeSelect from "@components/events/TimeSelect";
+
 
 const predefinedGenres = [
   "Techno", 
@@ -336,12 +338,7 @@ export default function EditEventPage() {
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Start Time
                 </label>
-                <input
-                  type="time"
-                  value={startTime}
-                  onChange={(e) => setStartTime(e.target.value)}
-                  className="w-full border border-gray-300 rounded px-3 py-2"
-                />
+                <TimeSelect value={startTime} onChange={setStartTime} />
               </div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -362,12 +359,7 @@ export default function EditEventPage() {
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   End Time
                 </label>
-                <input
-                  type="time"
-                  value={endTime}
-                  onChange={(e) => setEndTime(e.target.value)}
-                  className="w-full border border-gray-300 rounded px-3 py-2"
-                />
+                <TimeSelect value={endTime} onChange={setEndTime} />
               </div>
             </div>
 
