@@ -1,4 +1,4 @@
-// components/settings/SettingsHeader.js
+// apps/web-manager/components/settings/SettingsHeader.js
 "use client";
 
 import Link from "next/link";

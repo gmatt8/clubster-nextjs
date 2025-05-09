@@ -88,29 +88,38 @@ export default function ManagerSettingsGeneralPage() {
   }, [supabase]);
 
   useEffect(() => {
-  if (typeof window === "undefined") return;
-  if (!window.google?.maps?.places) return;
-  if (!addressInputRef.current) return;
-
-  const autocomplete = new window.google.maps.places.Autocomplete(
-    addressInputRef.current,
-    {
-      types: ["geocode"],
-      componentRestrictions: { country: "ch" }, // opzionale: limita alla Svizzera
-    }
-  );
-
-  autocomplete.addListener("place_changed", () => {
-    const place = autocomplete.getPlace();
-    if (!place.geometry) return;
-
-    const latVal = place.geometry.location.lat();
-    const lngVal = place.geometry.location.lng();
-    setLat(latVal);
-    setLng(lngVal);
-    setAddress(place.formatted_address || "");
-  });
-}, []);
+    if (
+      typeof window === "undefined" ||
+      !window.google?.maps?.places ||
+      !addressInputRef.current
+    ) return;
+  
+    const autocomplete = new window.google.maps.places.Autocomplete(
+      addressInputRef.current,
+      {
+        types: ["geocode"],
+        componentRestrictions: { country: "ch" }, // opzionale: limita alla Svizzera
+      }
+    );
+  
+    autocomplete.addListener("place_changed", () => {
+      const place = autocomplete.getPlace();
+      if (!place.geometry) return;
+  
+      const latVal = place.geometry.location.lat();
+      const lngVal = place.geometry.location.lng();
+      setLat(latVal);
+      setLng(lngVal);
+      setAddress(place.formatted_address || "");
+    });
+  
+    // Cleanup listener on unmount
+    return () => {
+      window.google.maps.event.clearInstanceListeners(autocomplete);
+    };
+  }, [addressInputRef.current]);
+  
+  
 
 
   async function handleSave(e) {

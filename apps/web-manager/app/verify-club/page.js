@@ -82,33 +82,40 @@ useEffect(() => {
 
 
   // Inizializza Autocomplete di Google Maps
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    if (!window.google || !window.google.maps || !window.google.maps.places) {
-      console.warn("Google Maps JS non è ancora caricato");
-      return;
+  // Inizializza Autocomplete di Google Maps
+useEffect(() => {
+  if (
+    typeof window === "undefined" ||
+    !window.google?.maps?.places ||
+    !addressInputRef.current
+  ) return;
+
+  const autocomplete = new window.google.maps.places.Autocomplete(
+    addressInputRef.current,
+    {
+      types: ["geocode"],
+      componentRestrictions: { country: "ch" }, // opzionale
     }
+  );
 
-    const autocomplete = new window.google.maps.places.Autocomplete(
-      addressInputRef.current,
-      {
-        types: ["geocode"],
-      }
-    );
+  autocomplete.addListener("place_changed", () => {
+    const place = autocomplete.getPlace();
+    if (!place.geometry) return;
 
-    autocomplete.addListener("place_changed", () => {
-      const place = autocomplete.getPlace();
-      if (!place.geometry) return;
+    const latVal = place.geometry.location.lat();
+    const lngVal = place.geometry.location.lng();
+    setLat(latVal);
+    setLng(lngVal);
 
-      const latVal = place.geometry.location.lat();
-      const lngVal = place.geometry.location.lng();
-      setLat(latVal);
-      setLng(lngVal);
+    const formattedAddress = place.formatted_address || "";
+    setAddress(formattedAddress);
+  });
 
-      const formattedAddress = place.formatted_address || "";
-      setAddress(formattedAddress);
-    });
-  }, []);
+  return () => {
+    window.google.maps.event.clearInstanceListeners(autocomplete);
+  };
+}, [addressInputRef.current]);
+
 
   // Verifica se il form è compilato
   const isFormValid = () => {
