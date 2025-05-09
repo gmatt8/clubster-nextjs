@@ -45,40 +45,45 @@ export async function POST(request) {
     }
 
     const { data: clubData, error: clubError } = await supabase
-      .from("clubs")
-      .select("stripe_account_id")
-      .eq("id", eventData.club_id)
-      .single();
-    if (clubError || !clubData) {
-      return NextResponse.json({ error: "Club not found or not linked to Stripe" }, { status: 400 });
-    }
+  .from("clubs")
+  .select("stripe_account_id, commission_percent")
+  .eq("id", eventData.club_id)
+  .single();
 
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) {
-      return NextResponse.json({ error: "User not authenticated" }, { status: 401 });
-    }
+if (clubError || !clubData || !clubData.stripe_account_id) {
+  return NextResponse.json({ error: "Club not found or not linked to Stripe" }, { status: 400 });
+}
 
-    const bookingId = generateCustomBookingId();
-    const { data: bookingData, error: bookingError } = await supabase
-      .from("bookings")
-      .insert([
-        {
-          id: bookingId,
-          user_id: user.id,
-          event_id: eventId,
-          quantity,
-          status: "pending",
-        },
-      ])
-      .select()
-      .single();
-    if (bookingError || !bookingData) {
-      return NextResponse.json({ error: "Error creating booking" }, { status: 400 });
-    }
+const { data: { user } } = await supabase.auth.getUser();
+if (!user) {
+  return NextResponse.json({ error: "User not authenticated" }, { status: 401 });
+}
 
-    const unitPrice = Math.round(ticketCat.price * 100);
-    const totalPrice = unitPrice * quantity;
-    const applicationFeeAmount = Math.round(totalPrice * 0.05);
+const bookingId = generateCustomBookingId();
+const { data: bookingData, error: bookingError } = await supabase
+  .from("bookings")
+  .insert([
+    {
+      id: bookingId,
+      user_id: user.id,
+      event_id: eventId,
+      quantity,
+      status: "pending",
+    },
+  ])
+  .select()
+  .single();
+if (bookingError || !bookingData) {
+  return NextResponse.json({ error: "Error creating booking" }, { status: 400 });
+}
+
+// Prezzi e fee dinamica
+const unitPrice = Math.round(ticketCat.price * 100); // in centesimi
+const totalPrice = unitPrice * quantity;
+
+const commissionRate = clubData.commission_percent ?? 5; // fallback a 5% se nullo
+const applicationFeeAmount = Math.round(totalPrice * commissionRate / 100);
+
 
     const session = await stripe.checkout.sessions.create(
       {

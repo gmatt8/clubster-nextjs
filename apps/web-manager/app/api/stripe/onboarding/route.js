@@ -1,6 +1,7 @@
-export const dynamic = "force-dynamic";
 
 // app/api/stripe/onboarding/route.js
+export const dynamic = "force-dynamic";
+
 export const runtime = 'nodejs';
 
 import { NextResponse } from 'next/server';
