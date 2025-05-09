@@ -93,9 +93,7 @@ useEffect(() => {
   const autocomplete = new window.google.maps.places.Autocomplete(
     addressInputRef.current,
     {
-      types: ["geocode"],
-      componentRestrictions: { country: "ch" }, // opzionale
-    }
+      types: ["geocode"],    }
   );
 
   autocomplete.addListener("place_changed", () => {
@@ -341,35 +339,33 @@ useEffect(() => {
               />
             </div>
           </div>
+          <div className="relative w-full">
+  <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">+</span>
+  <input
+    type="text"
+    value={phoneNumber}
+    onChange={(e) => {
+      const onlyNumbers = e.target.value.replace(/\D/g, "");
+      setPhoneNumber(onlyNumbers);
+    }}
+    required
+    placeholder="41 76 123 45 67"
+    className="pl-6 w-full border border-gray-300 rounded px-3 py-2"
+  />
+</div>
 
-          {/* Phone number */}
-          <div style={{ display: "flex", flexDirection: "column", marginBottom: "1rem" }}>
-            <label style={{ marginBottom: "0.3rem" }}>
-              Phone number <span style={{ color: "red" }}>*</span>
-            </label>
-            <input
-              type="text"
-              value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
-              style={{
-                padding: "0.5rem",
-                borderRadius: "4px",
-                border: "1px solid #ccc",
-              }}
-              required
-            />
-          </div>
 
           {/* Titolo per Upload Document */}
           <h3
-            style={{
-              margin: "2rem 0 0.5rem 0",
-              textAlign: "left",
-              fontWeight: "bold",
-            }}
-          >
-            Club Ownership Verification
-          </h3>
+  style={{
+    margin: "2rem 0 0.5rem 0",
+    textAlign: "left",
+    fontWeight: "bold",
+  }}
+>
+  Club Ownership Verification <span style={{ color: "red" }}>*</span>
+</h3>
+
           <p
             style={{
               margin: "0 auto 1.5rem auto",
@@ -456,14 +452,15 @@ useEffect(() => {
 
           {/* Titolo per Checkboxes */}
           <h3
-            style={{
-              margin: "2rem 0 1rem 0",
-              textAlign: "left",
-              fontWeight: "bold",
-            }}
-          >
-            Licenses and Authorizations
-          </h3>
+  style={{
+    margin: "2rem 0 1rem 0",
+    textAlign: "left",
+    fontWeight: "bold",
+  }}
+>
+  Licenses and Authorizations <span style={{ color: "red" }}>*</span>
+</h3>
+
           <div
             style={{
               display: "flex",

@@ -97,9 +97,7 @@ export default function ManagerSettingsGeneralPage() {
     const autocomplete = new window.google.maps.places.Autocomplete(
       addressInputRef.current,
       {
-        types: ["geocode"],
-        componentRestrictions: { country: "ch" }, // opzionale: limita alla Svizzera
-      }
+        types: ["geocode"],      }
     );
   
     autocomplete.addListener("place_changed", () => {

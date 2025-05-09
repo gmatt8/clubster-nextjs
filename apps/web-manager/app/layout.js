@@ -41,9 +41,10 @@ export default function RootLayout({ children }) {
       <head>
         {/* Google Maps Places API */}
         <Script
-          src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`}
-          strategy="beforeInteractive"
-        />
+  src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places&language=en`}
+  strategy="beforeInteractive"
+/>
+
 
         {/* Favicon fallback */}
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />

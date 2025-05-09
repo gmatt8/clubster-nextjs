@@ -2204,4 +2204,497 @@ metadata.metadataBase is not set for resolving social open graph or twitter imag
     url: [32m'https://vyivavygvvzpprsfjvox.supabase.co/auth/v1'[39m,
     headers: {
       Authorization: [32m'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m,
-      apikey: [32m'eyJhbGciO
+      apikey: [32m'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m,
+      [32m'X-Client-Info'[39m: [32m'@supabase/auth-helpers-nextjs@0.10.0'[39m
+    },
+    fetch: [36m[Function (anonymous)][39m,
+    lock: [36m[AsyncFunction: lockNoOp][39m,
+    flowType: [32m'pkce'[39m,
+    jwks: { keys: [] },
+    jwks_cached_at: [33m-9007199254740991[39m,
+    mfa: {
+      verify: [36m[Function: bound _verify] AsyncFunction[39m,
+      enroll: [36m[Function: bound _enroll] AsyncFunction[39m,
+      unenroll: [36m[Function: bound _unenroll] AsyncFunction[39m,
+      challenge: [36m[Function: bound _challenge] AsyncFunction[39m,
+      listFactors: [36m[Function: bound _listFactors] AsyncFunction[39m,
+      challengeAndVerify: [36m[Function: bound _challengeAndVerify] AsyncFunction[39m,
+      getAuthenticatorAssuranceLevel: [36m[Function: bound _getAuthenticatorAssuranceLevel] AsyncFunction[39m
+    },
+    storage: NextRouteHandlerAuthStorageAdapter {
+      cookieOptions: [36m[Object][39m,
+      context: [36m[Object][39m
+    }
+  },
+  fetch: [36m[Function (anonymous)][39m,
+  realtime: RealtimeClient {
+    accessTokenValue: [32m'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m,
+    apiKey: [32m'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m,
+    channels: [],
+    endPoint: [32m'wss://vyivavygvvzpprsfjvox.supabase.co/realtime/v1/websocket'[39m,
+    httpEndpoint: [32m'https://vyivavygvvzpprsfjvox.supabase.co/realtime/v1'[39m,
+    headers: { [32m'X-Client-Info'[39m: [32m'@supabase/auth-helpers-nextjs@0.10.0'[39m },
+    params: {
+      apikey: [32m'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aXZhdnlndnZ6cHByc2Zqdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY4OTgsImV4cCI6MjA1ODEyMjg5OH0.R69THpiHNA-sIeI74MmFcIUunIjBy_YvbyoA2FZOB7k'[39m
+    },
+    timeout: [33m10000[39m,
+    heartbeatIntervalMs: [33m30000[39m,
+    heartbeatTimer: [90mundefined[39m,
+    pendingHeartbeatRef: [1mnull[22m,
+    ref: [33m0[39m,
+    logger: [36m[Function: noop][39m,
+    conn: [1mnull[22m,
+    sendBuffer: [],
+    serializer: Serializer { HEADER_LENGTH: [33m1[39m },
+    stateChangeCallbacks: { open: [], close: [], error: [], message: [] },
+    accessToken: [36m[Function: bound _getAccessToken][39m,
+    _resolveFetch: [36m[Function (anonymous)][39m,
+    transport: [1mnull[22m,
+    reconnectAfterMs: [36m[Function (anonymous)][39m,
+    encode: [36m[Function (anonymous)][39m,
+    decode: [36m[Function: bound decode][39m,
+    reconnectTimer: Timer {
+      callback: [36m[AsyncFunction (anonymous)][39m,
+      timerCalc: [36m[Function (anonymous)][39m,
+      timer: [90mundefined[39m,
+      tries: [33m0[39m
+    },
+    fetch: [36m[Function (anonymous)][39m
+  },
+  rest: PostgrestClient {
+    url: [32m'https://vyivavygvvzpprsfjvox.supabase.co/rest/v1'[39m,
+    headers: { [32m'X-Client-Info'[39m: [32m'@supabase/auth-helpers-nextjs@0.10.0'[39m },
+    schemaName: [32m'public'[39m,
+    fetch: [36m[Function (anonymous)][39m
+  }
+}
+(node:23154) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+- [36mwait[39m compiling...
+- [35mevent[39m compiled successfully in 100 ms (836 modules)
+- [36mwait[39m compiling...
+- [35mevent[39m compiled client and server successfully in 161 ms (2055 modules)
+- [36mwait[39m compiling /verify-club/page (client and server)...
+- [35mevent[39m compiled client and server successfully in 602 ms (1664 modules)
+- [36mwait[39m compiling...
+- [35mevent[39m compiled client and server successfully in 402 ms (1653 modules)
+- [36mwait[39m compiling /terms-of-service/page (client and server)...
+- [35mevent[39m compiled client and server successfully in 387 ms (1659 modules)
+- [36mwait[39m compiling /privacy-policy/page (client and server)...
+- [35mevent[39m compiled client and server successfully in 255 ms (1665 modules)
+- [36mwait[39m compiling...
+- [35mevent[39m compiled client and server successfully in 277 ms (1657 modules)
+- [36mwait[39m compiling...
+- [35mevent[39m compiled client and server successfully in 200 ms (1657 modules)
+- [36mwait[39m compiling...
+- [35mevent[39m compiled client and server successfully in 241 ms (1657 modules)
+- [36mwait[39m compiling...
+- [35mevent[39m compiled client and server successfully in 399 ms (1657 modules)
+- [36mwait[39m compiling...
+- [35mevent[39m compiled client and server successfully in 289 ms (1657 modules)
+- [36mwait[39m compiling...
+- [35mevent[39m compiled client and server successfully in 281 ms (1657 modules)
+- [36mwait[39m compiling...
+- [31merror[39m ./app/verify-club/page.js
+Error: 
+  [31mx[0m Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+     ,-[[36;1;4m/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/app/verify-club/page.js[0m:429:1]
+ [2m429[0m |                 onChange={handleFileChange}
+ [2m430[0m |               />
+ [2m431[0m |             </div>
+ [2m432[0m |           )}
+     : [31;1m           ^[0m
+ [2m433[0m | 
+ [2m434[0m |           {/* Se c'è un docUrl, mostriamo il nome file + X per rimuoverlo */}
+ [2m435[0m |           {docUrl && (
+     `----
+
+  [31mx[0m Expression expected
+     ,-[[36;1;4m/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/app/verify-club/page.js[0m:570:1]
+ [2m570[0m |             </button>
+ [2m571[0m |           </div>
+ [2m572[0m |         </form>
+ [2m573[0m |       </div>
+     : [31;1m      ^[0m
+ [2m574[0m |     </div>
+ [2m575[0m |   );
+ [2m576[0m | }
+     `----
+
+  [31mx[0m Unterminated regexp literal
+     ,-[[36;1;4m/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/app/verify-club/page.js[0m:570:1]
+ [2m570[0m |             </button>
+ [2m571[0m |           </div>
+ [2m572[0m |         </form>
+ [2m573[0m |       </div>
+     : [31;1m       ^^^^^[0m
+ [2m574[0m |     </div>
+ [2m575[0m |   );
+ [2m576[0m | }
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./app/verify-club/page.js
+- [36mwait[39m compiling /_error (client and server)...
+- [31merror[39m ./app/verify-club/page.js
+Error: 
+  [31mx[0m Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+     ,-[[36;1;4m/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/app/verify-club/page.js[0m:429:1]
+ [2m429[0m |                 onChange={handleFileChange}
+ [2m430[0m |               />
+ [2m431[0m |             </div>
+ [2m432[0m |           )}
+     : [31;1m           ^[0m
+ [2m433[0m | 
+ [2m434[0m |           {/* Se c'è un docUrl, mostriamo il nome file + X per rimuoverlo */}
+ [2m435[0m |           {docUrl && (
+     `----
+
+  [31mx[0m Expression expected
+     ,-[[36;1;4m/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/app/verify-club/page.js[0m:570:1]
+ [2m570[0m |             </button>
+ [2m571[0m |           </div>
+ [2m572[0m |         </form>
+ [2m573[0m |       </div>
+     : [31;1m      ^[0m
+ [2m574[0m |     </div>
+ [2m575[0m |   );
+ [2m576[0m | }
+     `----
+
+  [31mx[0m Unterminated regexp literal
+     ,-[[36;1;4m/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/app/verify-club/page.js[0m:570:1]
+ [2m570[0m |             </button>
+ [2m571[0m |           </div>
+ [2m572[0m |         </form>
+ [2m573[0m |       </div>
+     : [31;1m       ^^^^^[0m
+ [2m574[0m |     </div>
+ [2m575[0m |   );
+ [2m576[0m | }
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./app/verify-club/page.js
+- [36mwait[39m compiling...
+- [36mwait[39m compiling /not-found (client and server)...
+- [31merror[39m ./app/verify-club/page.js
+Error: 
+  [31mx[0m Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+     ,-[[36;1;4m/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/app/verify-club/page.js[0m:429:1]
+ [2m429[0m |                 onChange={handleFileChange}
+ [2m430[0m |               />
+ [2m431[0m |             </div>
+ [2m432[0m |           )}
+     : [31;1m           ^[0m
+ [2m433[0m |           
+ [2m434[0m | 
+ [2m435[0m |           {/* Se c'è un docUrl, mostriamo il nome file + X per rimuoverlo */}
+     `----
+
+  [31mx[0m Expression expected
+     ,-[[36;1;4m/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/app/verify-club/page.js[0m:571:1]
+ [2m571[0m |             </button>
+ [2m572[0m |           </div>
+ [2m573[0m |         </form>
+ [2m574[0m |       </div>
+     : [31;1m      ^[0m
+ [2m575[0m |     </div>
+ [2m576[0m |   );
+ [2m577[0m | }
+     `----
+
+  [31mx[0m Unterminated regexp literal
+     ,-[[36;1;4m/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/app/verify-club/page.js[0m:571:1]
+ [2m571[0m |             </button>
+ [2m572[0m |           </div>
+ [2m573[0m |         </form>
+ [2m574[0m |       </div>
+     : [31;1m       ^^^^^[0m
+ [2m575[0m |     </div>
+ [2m576[0m |   );
+ [2m577[0m | }
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./app/verify-club/page.js
+- [33mwarn[39m Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+- [36mwait[39m compiling...
+- [31merror[39m ./app/verify-club/page.js
+Error: 
+  [31mx[0m Expression expected
+     ,-[[36;1;4m/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/app/verify-club/page.js[0m:574:1]
+ [2m574[0m |             </button>
+ [2m575[0m |           </div>
+ [2m576[0m |         </form>
+ [2m577[0m |       </div>
+     : [31;1m      ^[0m
+ [2m578[0m |     </div>
+ [2m579[0m |   );
+ [2m580[0m | }
+     `----
+
+  [31mx[0m Unterminated regexp literal
+     ,-[[36;1;4m/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/app/verify-club/page.js[0m:574:1]
+ [2m574[0m |             </button>
+ [2m575[0m |           </div>
+ [2m576[0m |         </form>
+ [2m577[0m |       </div>
+     : [31;1m       ^^^^^[0m
+ [2m578[0m |     </div>
+ [2m579[0m |   );
+ [2m580[0m | }
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./app/verify-club/page.js
+- [36mwait[39m compiling...
+- [31merror[39m ./app/verify-club/page.js
+Error: 
+  [31mx[0m Expected corresponding JSX closing tag for <>
+     ,-[[36;1;4m/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/app/verify-club/page.js[0m:572:1]
+ [2m572[0m |               {loading ? "Saving..." : "Next"}
+ [2m573[0m |             </button>
+ [2m574[0m |           </div>
+ [2m575[0m |         </form>
+     : [31;1m        ^^^^^^^[0m
+ [2m576[0m |       </div>
+ [2m577[0m |     </div>
+ [2m578[0m |   );
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./app/verify-club/page.js
+- [36mwait[39m compiling...
+- [35mevent[39m compiled client and server successfully in 431 ms (1796 modules)
+- [35mevent[39m compiled client and server successfully (1782 modules)
+- [33mwarn[39m Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+- [36mwait[39m compiling...
+- [35mevent[39m compiled client and server successfully in 238 ms (1796 modules)
+- [36mwait[39m compiling...
+- [35mevent[39m compiled client and server successfully in 325 ms (1791 modules)
+- [36mwait[39m compiling...
+- [31merror[39m ./app/verify-club/page.js
+Error: 
+  [31mx[0m Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+     ,-[[36;1;4m/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/app/verify-club/page.js[0m:429:1]
+ [2m429[0m |                 onChange={handleFileChange}
+ [2m430[0m |               />
+ [2m431[0m |             </div>
+ [2m432[0m |           )}
+     : [31;1m           ^[0m
+ [2m433[0m |           
+ [2m434[0m | 
+ [2m435[0m |           {/* Se c'è un docUrl, mostriamo il nome file + X per rimuoverlo */}
+     `----
+
+  [31mx[0m Expression expected
+     ,-[[36;1;4m/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/app/verify-club/page.js[0m:571:1]
+ [2m571[0m |             </button>
+ [2m572[0m |           </div>
+ [2m573[0m |         </form>
+ [2m574[0m |       </div>
+     : [31;1m      ^[0m
+ [2m575[0m |     </div>
+ [2m576[0m |   );
+ [2m577[0m | }
+     `----
+
+  [31mx[0m Unterminated regexp literal
+     ,-[[36;1;4m/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/app/verify-club/page.js[0m:571:1]
+ [2m571[0m |             </button>
+ [2m572[0m |           </div>
+ [2m573[0m |         </form>
+ [2m574[0m |       </div>
+     : [31;1m       ^^^^^[0m
+ [2m575[0m |     </div>
+ [2m576[0m |   );
+ [2m577[0m | }
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./app/verify-club/page.js
+- [36mwait[39m compiling /_error (client and server)...
+- [31merror[39m ./app/verify-club/page.js
+Error: 
+  [31mx[0m Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+     ,-[[36;1;4m/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/app/verify-club/page.js[0m:429:1]
+ [2m429[0m |                 onChange={handleFileChange}
+ [2m430[0m |               />
+ [2m431[0m |             </div>
+ [2m432[0m |           )}
+     : [31;1m           ^[0m
+ [2m433[0m |           
+ [2m434[0m | 
+ [2m435[0m |           {/* Se c'è un docUrl, mostriamo il nome file + X per rimuoverlo */}
+     `----
+
+  [31mx[0m Expression expected
+     ,-[[36;1;4m/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/app/verify-club/page.js[0m:571:1]
+ [2m571[0m |             </button>
+ [2m572[0m |           </div>
+ [2m573[0m |         </form>
+ [2m574[0m |       </div>
+     : [31;1m      ^[0m
+ [2m575[0m |     </div>
+ [2m576[0m |   );
+ [2m577[0m | }
+     `----
+
+  [31mx[0m Unterminated regexp literal
+     ,-[[36;1;4m/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/app/verify-club/page.js[0m:571:1]
+ [2m571[0m |             </button>
+ [2m572[0m |           </div>
+ [2m573[0m |         </form>
+ [2m574[0m |       </div>
+     : [31;1m       ^^^^^[0m
+ [2m575[0m |     </div>
+ [2m576[0m |   );
+ [2m577[0m | }
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./app/verify-club/page.js
+- [36mwait[39m compiling /not-found (client and server)...
+- [33mwarn[39m Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+[1mnull[22m
+[1mnull[22m
+- [31merror[39m ./app/verify-club/page.js
+Error: 
+  [31mx[0m Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+     ,-[[36;1;4m/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/app/verify-club/page.js[0m:429:1]
+ [2m429[0m |                 onChange={handleFileChange}
+ [2m430[0m |               />
+ [2m431[0m |             </div>
+ [2m432[0m |           )}
+     : [31;1m           ^[0m
+ [2m433[0m |           
+ [2m434[0m | 
+ [2m435[0m |           {/* Se c'è un docUrl, mostriamo il nome file + X per rimuoverlo */}
+     `----
+
+  [31mx[0m Expression expected
+     ,-[[36;1;4m/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/app/verify-club/page.js[0m:571:1]
+ [2m571[0m |             </button>
+ [2m572[0m |           </div>
+ [2m573[0m |         </form>
+ [2m574[0m |       </div>
+     : [31;1m      ^[0m
+ [2m575[0m |     </div>
+ [2m576[0m |   );
+ [2m577[0m | }
+     `----
+
+  [31mx[0m Unterminated regexp literal
+     ,-[[36;1;4m/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/app/verify-club/page.js[0m:571:1]
+ [2m571[0m |             </button>
+ [2m572[0m |           </div>
+ [2m573[0m |         </form>
+ [2m574[0m |       </div>
+     : [31;1m       ^^^^^[0m
+ [2m575[0m |     </div>
+ [2m576[0m |   );
+ [2m577[0m | }
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./app/verify-club/page.js
+- [36mwait[39m compiling...
+- [31merror[39m ./app/verify-club/page.js
+Error: 
+  [31mx[0m Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+     ,-[[36;1;4m/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/app/verify-club/page.js[0m:429:1]
+ [2m429[0m |                 onChange={handleFileChange}
+ [2m430[0m |               />
+ [2m431[0m |             </div>
+ [2m432[0m |           )}
+     : [31;1m           ^[0m
+ [2m433[0m | 
+ [2m434[0m |           {/* Se c'è un docUrl, mostriamo il nome file + X per rimuoverlo */}
+ [2m435[0m |           {docUrl && (
+     `----
+
+  [31mx[0m Expression expected
+     ,-[[36;1;4m/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/app/verify-club/page.js[0m:570:1]
+ [2m570[0m |             </button>
+ [2m571[0m |           </div>
+ [2m572[0m |         </form>
+ [2m573[0m |       </div>
+     : [31;1m      ^[0m
+ [2m574[0m |     </div>
+ [2m575[0m |   );
+ [2m576[0m | }
+     `----
+
+  [31mx[0m Unterminated regexp literal
+     ,-[[36;1;4m/Users/mattiagori/Desktop/clubster-nextjs/apps/web-manager/app/verify-club/page.js[0m:570:1]
+ [2m570[0m |             </button>
+ [2m571[0m |           </div>
+ [2m572[0m |         </form>
+ [2m573[0m |       </div>
+     : [31;1m       ^^^^^[0m
+ [2m574[0m |     </div>
+ [2m575[0m |   );
+ [2m576[0m | }
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./app/verify-club/page.js
+- [33mwarn[39m Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+- [36mwait[39m compiling...
+- [35mevent[39m compiled client and server successfully in 273 ms (1796 modules)
+- [33mwarn[39m Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+[1mnull[22m
+[1mnull[22m
+- [35mevent[39m compiled client and server successfully (1782 modules)
+- [36mwait[39m compiling...
+- [35mevent[39m compiled client and server successfully in 211 ms (1796 modules)
+- [36mwait[39m compiling...
+- [35mevent[39m compiled client and server successfully in 759 ms (1791 modules)
+- [36mwait[39m compiling /login/page (client and server)...
+- [35mevent[39m compiled client and server successfully in 423 ms (1802 modules)
+- [36mwait[39m compiling...
+- [35mevent[39m compiled client and server successfully in 3.2s (1797 modules)
+- [36mwait[39m compiling...
+- [35mevent[39m compiled client and server successfully in 162 ms (1797 modules)
+- [36mwait[39m compiling...
+- [35mevent[39m compiled client and server successfully in 313 ms (1797 modules)
+- [36mwait[39m compiling...
+- [35mevent[39m compiled client and server successfully in 242 ms (1797 modules)
+- [36mwait[39m compiling...
+- [35mevent[39m compiled client and server successfully in 206 ms (1797 modules)
+- [36mwait[39m compiling...
+- [35mevent[39m compiled client and server successfully in 188 ms (1797 modules)
+- [36mwait[39m compiling...
+- [35mevent[39m compiled client and server successfully in 207 ms (1797 modules)
+- [36mwait[39m compiling...
+- [35mevent[39m compiled client and server successfully in 167 ms (1797 modules)
+[?25h
+[1G[0K⠙[1G[0K
