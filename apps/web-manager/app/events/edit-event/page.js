@@ -189,19 +189,26 @@ export default function EditEventPage() {
     setMessage("");  
     try {
       const startDateTimeStr = `${startDate}T${startTime}:00`;
-      const endDateTimeStr = `${endDate}T${endTime}:00`;
-      const startDateObj = new Date(startDateTimeStr);
-      const endDateObj = new Date(endDateTimeStr);
-      if (isNaN(startDateObj.getTime())) {
-        setError("Il formato della data/ora d'inizio non è valido.");
-        return;
-      }
-      if (isNaN(endDateObj.getTime())) {
-        setError("Il formato della data/ora di fine non è valido.");
-        return;
-      }
-      const startDateISO = startDateObj.toISOString();
-      const endDateISO = endDateObj.toISOString();
+const endDateTimeStr = `${endDate}T${endTime}:00`;
+
+const startDateObj = new Date(startDateTimeStr);
+const endDateObj = new Date(endDateTimeStr);
+
+if (isNaN(startDateObj.getTime()) || isNaN(endDateObj.getTime())) {
+  setError("Il formato della data o dell'ora non è valido.");
+  setLoading(false);
+  return;
+}
+
+if (startDateObj >= endDateObj) {
+  setError("La data e ora di inizio devono essere prima di quella di fine.");
+  setLoading(false);
+  return;
+}
+
+const startDateISO = startDateObj.toISOString();
+const endDateISO = endDateObj.toISOString();
+
 
       const updateRes = await fetch(`/api/events?event_id=${eventId}`, {
         method: "PUT",
